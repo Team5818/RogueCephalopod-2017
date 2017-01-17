@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team5818.robot.commands.ExampleCommand;
+import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +25,9 @@ public class Robot extends IterativeRobot {
 
     Command autonomousCommand;
     SendableChooser chooser;
+    
+    DriveTrainSide left;
+    DriveTrainSide right;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -97,6 +101,8 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putNumber("L enc: ", left.getSidePosition());
+        SmartDashboard.putNumber("R enc: ", right.getSidePosition());
     }
     
     /**
