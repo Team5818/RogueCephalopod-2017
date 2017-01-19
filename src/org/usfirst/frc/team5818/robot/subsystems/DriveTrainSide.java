@@ -8,10 +8,8 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
-
 import com.ctre.CANTalon;
-import com.ctre.CANTalon.FeedbackDevice;
+import org.usfirst.frc.team5818.robot.constants.BotConstants;
 
 public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	public enum Side {
@@ -38,8 +36,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 			motorNoEnc = new CANTalon(RobotMap.R_TALON);
 			motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
 		}
-		motorEnc.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		motorEnc.setEncPosition(0);
+		
 		velController = new PIDController(KP, KI, KD, KF, this, this);
 		distController = new PIDController(KP, KI, KD, this, this);
 
