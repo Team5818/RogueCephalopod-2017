@@ -22,10 +22,15 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	public PIDController distController;
 	public PIDController velController;
 
-	public double KP = 1.0; // NEEDS TUNING
-	public double KI = 1.0;
-	public double KD = 1.0;
-	public double KF = 1.0;
+	public double VEL_KP = 1.0; // NEEDS TUNING
+	public double VEL_KI = 1.0; // NEEDS TUNING
+	public double VEL_KD = 1.0; // NEEDS TUNING
+	public double VEL_KF = 1.0; // NEEDS TUNING
+	
+	public double DIST_KP = 1.0; // NEEDS TUNING
+	public double DIST_KI = 1.0; // NEEDS TUNING
+	public double DIST_KD = 1.0; // NEEDS TUNING
+	
 	public PIDSourceType pidType = PIDSourceType.kDisplacement;
 	
 	public DriveTrainSide(Side side) {
@@ -37,8 +42,8 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 			motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
 		}
 		
-		velController = new PIDController(KP, KI, KD, KF, this, this);
-		distController = new PIDController(KP, KI, KD, this, this);
+		velController = new PIDController(VEL_KP, VEL_KI, VEL_KD, VEL_KF, this, this);
+		distController = new PIDController(DIST_KP, DIST_KI, DIST_KD, this, this);
 
 	}
 	public void setPower(double numIn) {
@@ -63,9 +68,6 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 		}
 	}
 
-	public void initDefaultCommand() {
-		
-	}
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
 		pidType = pidSource;
@@ -73,5 +75,32 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	@Override
 	public PIDSourceType getPIDSourceType() {
 		return pidType;
+	}
+	
+	public void driveDistance(double dist){
+		PIDSourceType pidType = PIDSourceType.kDisplacement;
+		velController.disable();
+		distController.disable();
+		resetEnc();
+		distController.setSetpoint(dist);
+		distController.enable();
+	}
+	
+	public void driveVelocity(double dist){
+		PIDSourceType pidType = PIDSourceType.kRate;
+		velController.disable();
+		distController.disable();
+		resetEnc();
+		velController.setSetpoint(dist);
+		velController.enable();
+	}
+
+
+	public void resetEnc(){
+		motorEnc.setEncPosition(0);
+	}
+	
+	public void initDefaultCommand() {
+		
 	}
 }
