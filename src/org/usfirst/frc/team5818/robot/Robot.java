@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team5818.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -39,6 +40,8 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+        left = new DriveTrainSide(DriveTrainSide.Side.LEFT);
+        right = new DriveTrainSide(DriveTrainSide.Side.RIGHT);
     }
 	
 	/**
@@ -101,8 +104,8 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("L enc: ", left.getSidePosition());
-        SmartDashboard.putNumber("R enc: ", right.getSidePosition());
+        DriverStation.reportError("L: " + left.getSidePosition(), false);
+        DriverStation.reportError("R: " + right.getSidePosition(), false);
     }
     
     /**
