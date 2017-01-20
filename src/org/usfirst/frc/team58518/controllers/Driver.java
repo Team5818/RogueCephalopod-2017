@@ -17,7 +17,7 @@ public class Driver {
 	
 	
 	public enum DriveMode{
-		POWER, VELOCITY
+		POWER, VELOCITY, STOPPED
 	}
 	
 	public DriveMode mode;
@@ -39,8 +39,14 @@ public class Driver {
 		    Vector2d arcadeVector = ArcadeDriveCalculator.INSTANCE.compute(driveVector);
 		    train.setPowerLeftRight(arcadeVector);
 		}
+		else if(mode == DriveMode.VELOCITY){
+			Vector2d arcadeVector = ArcadeDriveCalculator.INSTANCE.compute(driveVector);
+			Vector2d velVector = new Vector2d(arcadeVector.getX()*BotConstants.ROBOT_MAX_VELOCITY,
+					arcadeVector.getY()*BotConstants.ROBOT_MAX_VELOCITY);
+			train.setVelocityLeftRight(velVector);
+		}
 		else{
-		    train.brake();
+			train.brake();
 		}
 	}	
 	
