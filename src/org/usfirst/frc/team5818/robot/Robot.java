@@ -6,8 +6,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team5818.robot.commands.ExampleCommand;
+import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team58518.controllers.Driver;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,11 +24,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	public DriveTrain driveTrain;
+	public Driver driver;
 	public static OI oi;
+	public static Robot runningrobot;
 
     Command autonomousCommand;
     SendableChooser<Command> chooser;
-    
     DriveTrainSide left;
     DriveTrainSide right;
 
@@ -34,6 +39,9 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	runningrobot = this;
+    	driveTrain = new DriveTrain();
+    	driver = new Driver();
 		oi = new OI();
         chooser = new SendableChooser<>();
         chooser.addDefault("Default Auto", new ExampleCommand());
@@ -100,9 +108,9 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	printSmartDash();
+    	driver.teleopPeriodic();
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("L enc: ", left.getSidePosition());
-        SmartDashboard.putNumber("R enc: ", right.getSidePosition());
     }
     
     /**
@@ -110,5 +118,12 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+    }
+    
+    public void printSmartDash(){
+    	SmartDashboard.putNumber("Left Pos:", driveTrain.getLeftSide().getSidePosition());
+    	SmartDashboard.putNumber("Right Pos:", driveTrain.getRightSide().getSidePosition());
+    	SmartDashboard.putNumber("Left Vel:", driveTrain.getLeftSide().getSideVelocity());
+    	SmartDashboard.putNumber("Right Vel:", driveTrain.getRightSide().getSideVelocity());
     }
 }

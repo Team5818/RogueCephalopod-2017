@@ -6,5 +6,6 @@ public class BotConstants {
 	// JS Numbers
 	public static final int JS_FW_BACK = 0;
 	public static final int JS_TURN = 1;
-	
+	public static final double ENC_SCALE = 1.0;
+	public static final double ROBOT_MAX_VELOCITY = 500;
 }

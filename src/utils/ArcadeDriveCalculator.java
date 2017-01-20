@@ -18,6 +18,7 @@ public enum ArcadeDriveCalculator implements DriveCalculator {
 
     private static double forwardMult = 1;
     private static double forwardPower = 1;
+    private static double deadband = .2;
 
     @Override
     public Vector2d compute(Vector2d leftAndRight) {
@@ -28,8 +29,8 @@ public enum ArcadeDriveCalculator implements DriveCalculator {
     }
 
     public Vector2d computeDefault(Vector2d in) {
-        double rotateValue = -in.getX();
-        double moveValue = in.getY();
+        double rotateValue = handleDeadband(-in.getX());
+        double moveValue = handleDeadband(in.getY());
         double leftMotorSpeed;
         double rightMotorSpeed;
         if (moveValue > 0.0) {
@@ -54,9 +55,9 @@ public enum ArcadeDriveCalculator implements DriveCalculator {
 
     public Vector2d computeTurnsDifferent(Vector2d in) {
         double rotateValue = Math.signum(-in.getX())
-                * Math.pow(Math.abs(in.getX()), turnPower) * turnMult; // Less
+                * Math.pow(Math.abs(handleDeadband(in.getX())), turnPower) * turnMult; // Less
         double moveValue = Math.signum(-in.getY())
-                * Math.pow(Math.abs(in.getY()), forwardPower) * forwardMult; // Less
+                * Math.pow(Math.abs(handleDeadband(in.getY())), forwardPower) * forwardMult; // Less
 
         double leftMotorSpeed;
         double rightMotorSpeed;
@@ -83,5 +84,12 @@ public enum ArcadeDriveCalculator implements DriveCalculator {
     public int getJoystickMode(int mode) {
         return joystickMode;
     }
+    
+	public double handleDeadband(double in){
+		if(Math.abs(in) > deadband){
+			return in;
+		}
+		return 0.0;
+	}
 
 }

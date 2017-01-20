@@ -40,6 +40,9 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 		} else {
 			motorNoEnc = new CANTalon(RobotMap.R_TALON);
 			motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
+			motorNoEnc.setInverted(true);
+			motorEnc.setInverted(true);
+
 		}
 		
 		velController = new PIDController(VEL_KP, VEL_KI, VEL_KD, VEL_KF, this, this);
@@ -47,13 +50,19 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 
 	}
 	public void setPower(double numIn) {
+		velController.disable();
+		distController.disable();
 		motorNoEnc.set(numIn * BotConstants.POWER_MULTIPLIER);
 		motorEnc.set(numIn * BotConstants.POWER_MULTIPLIER);
 	}
 
-	public int getSidePosition() {
-		return motorEnc.getEncPosition();
+	public double getSidePosition() {
+		return motorEnc.getEncPosition() * BotConstants.ENC_SCALE;
 	}
+	
+	public double getSideVelocity(){
+		return motorEnc.getEncVelocity() * BotConstants.ENC_SCALE;
+	} 
 
 	@Override
 	public void pidWrite(double val) {
@@ -78,7 +87,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	}
 	
 	public void driveDistance(double dist){
-		PIDSourceType pidType = PIDSourceType.kDisplacement;
+		pidType = PIDSourceType.kDisplacement;
 		velController.disable();
 		distController.disable();
 		resetEnc();
@@ -87,7 +96,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	}
 	
 	public void driveVelocity(double dist){
-		PIDSourceType pidType = PIDSourceType.kRate;
+		pidType = PIDSourceType.kRate;
 		velController.disable();
 		distController.disable();
 		resetEnc();
