@@ -43,6 +43,14 @@ public class Vector2d {
     public String toString() {
         return String.format("(%s, %s)", x, y);
     }
+    
+    public Vector2d scale(double x, double y){
+    	return new Vector2d(getX()*x, getY()*y);
+    }
+    
+    public Vector2d scale(double scale){
+    	return scale(scale,scale);
+    }
     // TODO: more vector math!
 
 }
