@@ -3,7 +3,9 @@ package org.usfirst.frc.team1717.robot.subsystems;
 import utils.Vector2d;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrainSide;
 
-public class DriveTrain {
+import edu.wpi.first.wpilibj.command.Subsystem;
+
+public class DriveTrain extends Subsystem {
 	public DriveTrainSide left;
 	public DriveTrainSide right;
 		
@@ -56,6 +58,27 @@ public class DriveTrain {
 	public void setCoastMode() {
 		left.setCoastMode();
 		right.setCoastMode();
+	}
+	
+	public void setPowerStraight(double numIn) {
+		left.setPower(numIn);
+		right.setPower(numIn);
+	}
+	
+	public double getAvgSidePosition() {
+		return (left.getSidePosition() + right.getSidePosition()) / 2;
+	}
+	
+	public void stop() {
+		left.setBrakeMode();
+		right.setBrakeMode();
+		this.setPowerLeftRight(0, 0);
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -108,22 +108,14 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	public void resetEnc(){
 		motorEnc.setEncPosition(0);
 	}
-	public void setPowerForDistance(double inches, double power) {
-		// power is 0-1, make inches negative to go backwards
-		this.resetEnc();
-		double encSign = inches < 0 ? -1.0 : 1.0;
-		motorNoEnc.enableBrakeMode(false);
-		motorEnc.enableBrakeMode(false);
-		motorEnc.set(power * encSign);
-		motorNoEnc.set(power * encSign);
-		if (Math.abs(this.getSidePosition()) >= Math.abs(inches)) {
-			motorNoEnc.set(0);
-			motorEnc.set(0);
-		}
-	}
 	public void setCoastMode() {
 		motorNoEnc.enableBrakeMode(false);
 		motorEnc.enableBrakeMode(false);
+	}
+	
+	public void setBrakeMode() {
+		motorEnc.enableBrakeMode(true);
+		motorNoEnc.enableBrakeMode(true);
 	}
 	
 	public void initDefaultCommand() {

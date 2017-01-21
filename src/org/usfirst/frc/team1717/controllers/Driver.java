@@ -1,10 +1,12 @@
 package org.usfirst.frc.team1717.controllers;
 
 import org.usfirst.frc.team1717.robot.Robot;
+import org.usfirst.frc.team1717.robot.commands.DrivePowerDistance;
 import org.usfirst.frc.team1717.robot.constants.BotConstants;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import utils.ArcadeDriveCalculator;
 import utils.DriveCalculator;
 import utils.RadiusDriveCalculator;
@@ -34,6 +36,8 @@ public class Driver {
 	public Driver() {
 		JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
+		JoystickButton driveBut = new JoystickButton(JS_FW_BACK, 1);
+		driveBut.whenPressed(new DrivePowerDistance(0.5, 72));
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;
 		cMode = ControlMode.ARCADE;
