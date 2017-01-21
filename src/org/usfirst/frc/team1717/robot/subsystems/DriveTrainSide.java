@@ -52,21 +52,21 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	public void setPower(double numIn) {
 		velController.disable();
 		distController.disable();
-		motorNoEnc.set(numIn * BotConstants.POWER_MULTIPLIER);
-		motorEnc.set(numIn * BotConstants.POWER_MULTIPLIER);
+		motorNoEnc.set(numIn * BotConstants.MAX_POWER);
+		motorEnc.set(numIn * BotConstants.MAX_POWER);
 	}
 
 	public double getSidePosition() {
-		return motorEnc.getEncPosition() * BotConstants.ENC_SCALE;
+		return motorEnc.getEncPosition() / BotConstants.TICS_PER_INCH;
 	}
 	
 	public double getSideVelocity(){
-		return motorEnc.getEncVelocity() * BotConstants.ENC_SCALE;
+		return motorEnc.getEncVelocity() / BotConstants.TICS_PER_INCH;
 	} 
 
 	@Override
 	public void pidWrite(double val) {
-		motorEnc.set(val * BotConstants.POWER_MULTIPLIER);
+		motorEnc.set(val * BotConstants.MAX_POWER);
 	}
 	@Override
 	public double pidGet() {
@@ -107,6 +107,23 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 
 	public void resetEnc(){
 		motorEnc.setEncPosition(0);
+	}
+	public void setPowerForDistance(double inches, double power) {
+		// power is 0-1, make inches negative to go backwards
+		this.resetEnc();
+		double encSign = inches < 0 ? -1.0 : 1.0;
+		motorNoEnc.enableBrakeMode(false);
+		motorEnc.enableBrakeMode(false);
+		motorEnc.set(power * encSign);
+		motorNoEnc.set(power * encSign);
+		if (Math.abs(this.getSidePosition()) >= Math.abs(inches)) {
+			motorNoEnc.set(0);
+			motorEnc.set(0);
+		}
+	}
+	public void setCoastMode() {
+		motorNoEnc.enableBrakeMode(false);
+		motorEnc.enableBrakeMode(false);
 	}
 	
 	public void initDefaultCommand() {

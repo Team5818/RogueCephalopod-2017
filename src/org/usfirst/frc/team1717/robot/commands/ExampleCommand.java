@@ -1,9 +1,10 @@
 
 package org.usfirst.frc.team1717.robot.commands;
 
-import org.usfirst.frc.team1717.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc.team1717.robot.Robot;
+import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
 
 /**
  *
@@ -16,7 +17,10 @@ public class ExampleCommand extends Command {
     }
 
     // Called just before this Command runs the first time
+    private DriveTrain dt = Robot.runningrobot.driveTrain;
     protected void initialize() {
+    	dt.resetEncs();
+    	dt.setCoastMode();
     }
 
     // Called repeatedly when this Command is scheduled to run

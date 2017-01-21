@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1717.robot.subsystems;
 
 import utils.Vector2d;
+import org.usfirst.frc.team1717.robot.subsystems.DriveTrainSide;
 
 public class DriveTrain {
 	public DriveTrainSide left;
@@ -47,5 +48,14 @@ public class DriveTrain {
 		return right;
 	}
 	
+	public void resetEncs() {
+		left.resetEnc();
+		right.resetEnc();
+	}
+	
+	public void setCoastMode() {
+		left.setCoastMode();
+		right.setCoastMode();
+	}
 	
 }

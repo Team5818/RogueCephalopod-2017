@@ -5,12 +5,12 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
-import org.usfirst.frc.team1717.controllers.Driver;
 import org.usfirst.frc.team1717.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1717.robot.constants.BotConstants;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team1717.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1717.controllers.Driver;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -103,6 +103,8 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        driveTrain.getLeftSide().resetEnc();
+        driveTrain.getRightSide().resetEnc();
     }
 
     /**
@@ -122,9 +124,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void printSmartDash(){
-    	SmartDashboard.putNumber("Left Pos:", driveTrain.getLeftSide().getSidePosition());
-    	SmartDashboard.putNumber("Right Pos:", driveTrain.getRightSide().getSidePosition());
-    	SmartDashboard.putNumber("Left Vel:", driveTrain.getLeftSide().getSideVelocity());
-    	SmartDashboard.putNumber("Right Vel:", driveTrain.getRightSide().getSideVelocity());
+    	SmartDashboard.putNumber("Left in:", driveTrain.getLeftSide().getSidePosition());
+    	SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
     }
 }
