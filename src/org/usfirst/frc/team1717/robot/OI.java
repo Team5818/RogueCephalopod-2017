@@ -1,4 +1,6 @@
-package org.usfirst.frc.team5818.robot;
+package org.usfirst.frc.team1717.robot;
+
+import org.usfirst.frc.team1717.robot.commands.ExampleCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator

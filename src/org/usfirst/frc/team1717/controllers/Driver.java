@@ -1,10 +1,10 @@
-package org.usfirst.frc.team5818.controllers;
+package org.usfirst.frc.team1717.controllers;
 
-import org.usfirst.frc.team5818.robot.Robot;
-import org.usfirst.frc.team5818.robot.commands.SwitchControlMode;
-import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
-import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1717.robot.Robot;
+import org.usfirst.frc.team1717.robot.commands.SwitchControlMode;
+import org.usfirst.frc.team1717.robot.commands.SwitchDriveMode;
+import org.usfirst.frc.team1717.robot.constants.BotConstants;
+import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

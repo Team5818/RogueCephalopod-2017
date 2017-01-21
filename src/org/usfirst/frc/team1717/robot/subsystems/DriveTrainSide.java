@@ -1,6 +1,4 @@
-package org.usfirst.frc.team5818.robot.subsystems;
-
-import org.usfirst.frc.team5818.robot.RobotMap;
+package org.usfirst.frc.team1717.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -9,7 +7,9 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import com.ctre.CANTalon;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
+
+import org.usfirst.frc.team1717.robot.RobotMap;
+import org.usfirst.frc.team1717.robot.constants.BotConstants;
 
 public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	public enum Side {
