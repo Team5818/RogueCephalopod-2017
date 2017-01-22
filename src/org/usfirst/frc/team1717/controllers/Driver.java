@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1717.controllers;
 
 import org.usfirst.frc.team1717.robot.Robot;
+import org.usfirst.frc.team1717.robot.commands.DriveForwardBack;
 import org.usfirst.frc.team1717.robot.commands.DrivePowerDistance;
 import org.usfirst.frc.team1717.robot.constants.BotConstants;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
@@ -37,7 +38,11 @@ public class Driver {
 		JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
 		JoystickButton driveBut = new JoystickButton(JS_FW_BACK, 1);
-		driveBut.whenPressed(new DrivePowerDistance(0.5, 72));
+		driveBut.whenPressed(new DrivePowerDistance(1.0, 72, 1.0));
+		JoystickButton driveBackwardsBut = new JoystickButton(JS_FW_BACK, 2);
+		driveBackwardsBut.whenPressed(new DrivePowerDistance(-1.0, 72, 1.0));
+		JoystickButton driveFBBut = new JoystickButton(JS_FW_BACK, 3);
+		driveFBBut.whenPressed(new DriveForwardBack(0.5, 36, 1.0));
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;
 		cMode = ControlMode.ARCADE;

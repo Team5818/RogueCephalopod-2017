@@ -5,6 +5,9 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
+import org.usfirst.frc.team1717.robot.commands.DriveForwardBack;
+import org.usfirst.frc.team1717.robot.commands.DrivePowerDistance;
 import org.usfirst.frc.team1717.robot.constants.BotConstants;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrainSide;
@@ -44,7 +47,7 @@ public class Robot extends IterativeRobot {
     	driver = new Driver();
 		oi = new OI();
         chooser = new SendableChooser<>();
-//        chooser.addObject("My Auto", new MyAutoCommand());
+        chooser.addObject("My Auto", new DriveForwardBack(1.0, 72, 1.0));
         SmartDashboard.putData("Auto mode", chooser);
     }
 	
