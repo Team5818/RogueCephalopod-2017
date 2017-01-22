@@ -8,8 +8,9 @@ public class DriveForwardBack extends CommandGroup {
 	private DrivePowerDistance driveBackward;
 	
 	public DriveForwardBack(double power, double inches, double timeout) {
-		driveForward = new DrivePowerDistance(power, inches, timeout);
-		driveBackward = new DrivePowerDistance(-power, inches, timeout);
+		setTimeout(timeout);
+		driveForward = new DrivePowerDistance(power, inches, timeout/2);
+		driveBackward = new DrivePowerDistance(-power, inches, timeout/2);
 		this.addSequential(driveForward);
 		this.addSequential(driveBackward);
 	}

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team1717.robot.commands.DriveForwardBack;
+import org.usfirst.frc.team1717.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team1717.robot.commands.DrivePIDDistance;
 import org.usfirst.frc.team1717.robot.commands.DrivePowerDistance;
 import org.usfirst.frc.team1717.robot.constants.BotConstants;
@@ -48,7 +49,8 @@ public class Robot extends IterativeRobot {
     	driver = new Driver();
 		oi = new OI();
         chooser = new SendableChooser<>();
-        chooser.addObject("My Auto", new DrivePIDDistance(72));
+        chooser.addObject("Drive Forward", new DrivePIDDistance(72));
+        chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
         SmartDashboard.putData("Auto mode", chooser);
     }
 	
