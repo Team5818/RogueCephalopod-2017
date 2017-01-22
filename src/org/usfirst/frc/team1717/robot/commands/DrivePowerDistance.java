@@ -27,7 +27,6 @@ public class DrivePowerDistance extends Command {
     private double startPos;
     
     protected void initialize() {
-    	dt.resetEncs();
     	// dt.setCoastMode();
     	setTimeout(timeout);
     	startPos = Math.abs(dt.getAvgSidePosition());

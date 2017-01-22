@@ -3,6 +3,7 @@ package org.usfirst.frc.team1717.robot.subsystems;
 import utils.Vector2d;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrainSide;
 
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrain extends Subsystem {
@@ -42,6 +43,11 @@ public class DriveTrain extends Subsystem {
 		right.driveDistance(dist);
 	}
 	
+	public void setPIDSourceType(PIDSourceType type) {
+		left.setPIDSourceType(type);
+		right.setPIDSourceType(type);
+	}
+	
 	public DriveTrainSide getLeftSide(){
 		return left;
 	}
@@ -60,6 +66,11 @@ public class DriveTrain extends Subsystem {
 		right.setCoastMode();
 	}
 	
+	public void setBrakeMode() {
+		left.setBrakeMode();
+		right.setBrakeMode();
+	}
+
 	public void setPowerStraight(double numIn) {
 		left.setPower(numIn);
 		right.setPower(numIn);

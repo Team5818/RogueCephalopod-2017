@@ -29,15 +29,19 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 		if (side == Side.LEFT) {
 			motorNoEnc = new CANTalon(RobotMap.L_TALON);
 			motorEnc = new CANTalon(RobotMap.L_TALON_ENC);
-			velController = new PIDController(BotConstants.L_VEL_KP, BotConstants.L_VEL_KI, BotConstants.L_VEL_KD, BotConstants.L_VEL_KF, this, this);
-			distController = new PIDController(BotConstants.L_DIST_KP, BotConstants.L_DIST_KI, BotConstants.L_DIST_KD, this, this);
+			velController = new PIDController(BotConstants.L_VEL_KP, BotConstants.L_VEL_KI,
+					BotConstants.L_VEL_KD, BotConstants.L_VEL_KF, this, this);
+			distController = new PIDController(BotConstants.L_DIST_KP, BotConstants.L_DIST_KI,
+					BotConstants.L_DIST_KD, this, this);
 		} else {
 			motorNoEnc = new CANTalon(RobotMap.R_TALON);
 			motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
 			motorNoEnc.setInverted(true);
 			motorEnc.setInverted(true);
-			velController = new PIDController(BotConstants.R_VEL_KP, BotConstants.R_VEL_KI, BotConstants.R_VEL_KD, BotConstants.R_VEL_KF, this, this);
-			distController = new PIDController(BotConstants.R_DIST_KP, BotConstants.R_DIST_KI, BotConstants.R_DIST_KD, this, this);
+			velController = new PIDController(BotConstants.R_VEL_KP, BotConstants.R_VEL_KI,
+					BotConstants.R_VEL_KD, BotConstants.R_VEL_KF, this, this);
+			distController = new PIDController(BotConstants.R_DIST_KP, BotConstants.R_DIST_KI,
+					BotConstants.R_DIST_KD, this, this);
 
 		}
 
@@ -60,6 +64,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	@Override
 	public void pidWrite(double val) {
 		motorEnc.set(val * BotConstants.MAX_POWER);
+		motorNoEnc.set(val * BotConstants.MAX_POWER);
 	}
 	@Override
 	public double pidGet() {
