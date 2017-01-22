@@ -24,11 +24,6 @@ public class DriveTrain extends Subsystem {
 		setPowerLeftRight(vec2.getX(), vec2.getY());
 	}
 	
-	public void brake(){
-		left.setPower(0.0);
-		right.setPower(0.0);
-	}
-	
 	public void setVelocityLeftRight(double lvel, double rvel){
 		left.driveVelocity(lvel);
 		right.driveVelocity(rvel);

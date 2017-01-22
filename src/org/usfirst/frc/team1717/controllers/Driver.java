@@ -65,7 +65,7 @@ public class Driver {
             	train.setVelocityLeftRight(controlVector.scale(BotConstants.ROBOT_MAX_VELOCITY));
             	break;
             default:
-            	train.brake();
+            	train.stop();
             	break;
         }
 	}

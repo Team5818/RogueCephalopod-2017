@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
     	driver = new Driver();
 		oi = new OI();
         chooser = new SendableChooser<>();
-        chooser.addObject("My Auto", new DrivePIDDistance(36));
+        chooser.addObject("My Auto", new DrivePIDDistance(72));
         SmartDashboard.putData("Auto mode", chooser);
     }
 	
@@ -97,6 +97,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        printSmartDash();
     }
 
     public void teleopInit() {

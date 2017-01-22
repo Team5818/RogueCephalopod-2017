@@ -1,10 +1,12 @@
 package org.usfirst.frc.team1717.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import utils.BetterPIDController;
 
 import com.ctre.CANTalon;
 
@@ -19,32 +21,36 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	private CANTalon motorNoEnc;
 	private CANTalon motorEnc;
 	
-	public PIDController distController;
-	public PIDController velController;
+	public BetterPIDController distController;
+	public BetterPIDController velController;
 
 	
 	public PIDSourceType pidType = PIDSourceType.kDisplacement;
 	
+	private Side side;
+	
 	public DriveTrainSide(Side side) {
+		this.side = side;
 		if (side == Side.LEFT) {
 			motorNoEnc = new CANTalon(RobotMap.L_TALON);
 			motorEnc = new CANTalon(RobotMap.L_TALON_ENC);
-			velController = new PIDController(BotConstants.L_VEL_KP, BotConstants.L_VEL_KI,
+			velController = new BetterPIDController(BotConstants.L_VEL_KP, BotConstants.L_VEL_KI,
 					BotConstants.L_VEL_KD, BotConstants.L_VEL_KF, this, this);
-			distController = new PIDController(BotConstants.L_DIST_KP, BotConstants.L_DIST_KI,
+			distController = new BetterPIDController(BotConstants.L_DIST_KP, BotConstants.L_DIST_KI,
 					BotConstants.L_DIST_KD, this, this);
 		} else {
 			motorNoEnc = new CANTalon(RobotMap.R_TALON);
 			motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
 			motorNoEnc.setInverted(true);
 			motorEnc.setInverted(true);
-			velController = new PIDController(BotConstants.R_VEL_KP, BotConstants.R_VEL_KI,
+			velController = new BetterPIDController(BotConstants.R_VEL_KP, BotConstants.R_VEL_KI,
 					BotConstants.R_VEL_KD, BotConstants.R_VEL_KF, this, this);
-			distController = new PIDController(BotConstants.R_DIST_KP, BotConstants.R_DIST_KI,
+			distController = new BetterPIDController(BotConstants.R_DIST_KP, BotConstants.R_DIST_KI,
 					BotConstants.R_DIST_KD, this, this);
 
 		}
-
+        distController.setAbsoluteTolerance(1);
+		
 	}
 	public void setPower(double numIn) {
 		velController.disable();
@@ -54,7 +60,11 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	}
 
 	public double getSidePosition() {
-		return motorEnc.getEncPosition() / BotConstants.TICS_PER_INCH;
+		if (side == Side.LEFT) {
+			return -1 * motorEnc.getEncPosition() / BotConstants.TICS_PER_INCH;
+		} else { 
+			return motorEnc.getEncPosition() / BotConstants.TICS_PER_INCH;
+		}
 	}
 	
 	public double getSideVelocity(){
@@ -69,7 +79,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	@Override
 	public double pidGet() {
 		if (pidType == PIDSourceType.kDisplacement) {
-			return motorEnc.getEncPosition();
+			return getSidePosition();
 		} else {
 			return motorEnc.getEncVelocity();
 		}
@@ -102,6 +112,13 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 		velController.enable();
 	}
 
+	public BetterPIDController getVelController(){
+		return velController;
+	}
+	
+	public BetterPIDController getDistController(){
+		return distController;
+	}
 
 	public void resetEnc(){
 		motorEnc.setEncPosition(0);
