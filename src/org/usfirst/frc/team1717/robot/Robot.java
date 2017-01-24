@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team1717.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -14,6 +15,7 @@ import org.usfirst.frc.team1717.robot.constants.BotConstants;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team1717.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1717.robot.subsystems.VisionTracker;
 import org.usfirst.frc.team1717.controllers.Driver;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -32,6 +34,7 @@ public class Robot extends IterativeRobot {
 	public DriveTrain driveTrain;
 	public Driver driver;
 	public static OI oi;
+	public static VisionTracker track;
 	public static Robot runningrobot;
 
     Command autonomousCommand;
@@ -48,6 +51,7 @@ public class Robot extends IterativeRobot {
     	driveTrain = new DriveTrain();
     	driver = new Driver();
 		oi = new OI();
+		track = new VisionTracker();
         chooser = new SendableChooser<>();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
@@ -110,6 +114,7 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) autonomousCommand.cancel();
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
+        track.start();
     }
 
     /**
@@ -131,5 +136,6 @@ public class Robot extends IterativeRobot {
     public void printSmartDash(){
     	SmartDashboard.putNumber("Left in:", driveTrain.getLeftSide().getSidePosition());
     	SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
+    	SmartDashboard.putNumber("Gear X:", track.getCurrentOutput());
     }
 }
