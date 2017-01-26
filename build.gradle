@@ -1,0 +1,73 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name "gradle plugins"
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            name "central snapshots"
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+
+    dependencies {
+        classpath group: 'com.techshroom', name: 'Aversion', version: '3.0.0'
+    }
+}
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'aversion-util'
+
+util {
+    javaVersion = '1.8'
+}
+idea.project.languageLevel = util.javaVersion
+
+repositories {
+    mavenCentral()
+    maven {
+        name "central snapshots"
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+    maven {
+        name "local files"
+        url "libs"
+    }
+}
+
+dependencies {
+    compile group: 'edu.wpi', name: 'wpilib', version: 'NONE'
+    compile group: 'edu.wpi', name: 'networktables', version: 'NONE'
+
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+// Add eclipse FRC nature
+eclipse.project.file.beforeMerged { proj ->
+    proj.natures.add('edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature')
+}
+// Load our formatting details
+def formattingProperties = new Properties();
+file('.eclipse_formatter.jdt').withReader { reader ->
+    formattingProperties.load(reader)
+}
+// Add the formatter
+eclipse.jdt.file.withProperties { props ->
+    props.putAll(formattingProperties);
+}
+
+sourceSets.main.java.srcDirs = ['src']
+sourceSets.main.resources.srcDirs = ['src']
+
+configure([compileJava, compileTestJava]) {
+    options.compilerArgs += ['-Xlint:all', '-Xlint:-path']
+    options.deprecation = true
+    options.encoding = 'UTF-8'
+    options.incremental = true
+    options.fork = true
+}
+
+ext.teamNumber = 5818
+apply from: 'ant-replacement.gradle', to: project
