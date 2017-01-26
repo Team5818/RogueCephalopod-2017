@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1717.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -118,6 +116,10 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	
 	public BetterPIDController getDistController(){
 		return distController;
+	}
+	
+	public void setMaxPower(double max){
+		distController.setInputRange(-max, max);
 	}
 
 	public void resetEnc(){

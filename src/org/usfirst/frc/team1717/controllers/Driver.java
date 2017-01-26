@@ -3,6 +3,7 @@ package org.usfirst.frc.team1717.controllers;
 import org.usfirst.frc.team1717.robot.Robot;
 import org.usfirst.frc.team1717.robot.commands.DriveForwardBack;
 import org.usfirst.frc.team1717.robot.commands.DrivePowerDistance;
+import org.usfirst.frc.team1717.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team1717.robot.constants.BotConstants;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
 
@@ -43,6 +44,8 @@ public class Driver {
 		driveBackwardsBut.whenPressed(new DrivePowerDistance(-1.0, 72, 1.0));
 		JoystickButton driveFBBut = new JoystickButton(JS_FW_BACK, 3);
 		driveFBBut.whenPressed(new DriveForwardBack(0.5, 36, 1.0));
+		JoystickButton killPi = new JoystickButton(JS_FW_BACK, 4);
+		killPi.whenPressed(new ShutDownRPi());
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;
 		cMode = ControlMode.ARCADE;

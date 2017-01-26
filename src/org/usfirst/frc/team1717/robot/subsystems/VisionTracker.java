@@ -1,8 +1,5 @@
 package org.usfirst.frc.team1717.robot.subsystems;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
@@ -20,6 +17,10 @@ public class VisionTracker extends Subsystem implements Runnable{
 		rasPi = new SerialPort(9600, port);
 		rasPi.setReadBufferSize(1);
 		rasPi.setTimeout(.1);
+	}
+	
+	public SerialPort getRasPi(){
+		return rasPi;
 	}
 	
 	public void start(){

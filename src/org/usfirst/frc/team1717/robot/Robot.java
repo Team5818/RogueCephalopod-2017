@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 	public DriveTrain driveTrain;
 	public Driver driver;
 	public static OI oi;
-	public static VisionTracker track;
+	public VisionTracker track;
 	public static Robot runningrobot;
 
     Command autonomousCommand;
@@ -49,9 +49,9 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	runningrobot = this;
     	driveTrain = new DriveTrain();
+		track = new VisionTracker();
     	driver = new Driver();
 		oi = new OI();
-		track = new VisionTracker();
         chooser = new SendableChooser<>();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
