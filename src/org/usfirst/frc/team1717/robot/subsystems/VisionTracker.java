@@ -19,6 +19,7 @@ public class VisionTracker extends Subsystem implements Runnable{
 		port = Port.kMXP;
 		rasPi = new SerialPort(9600, port);
 		rasPi.setReadBufferSize(1);
+		rasPi.setTimeout(.1);
 	}
 	
 	public void start(){
@@ -30,13 +31,13 @@ public class VisionTracker extends Subsystem implements Runnable{
 		String output = "";
 		try{
         	output += (char)(rasPi.read(1)[0] & 0xFF);
-        	DriverStation.reportError(output, false);
 		}
 		catch(Exception e){
+			DriverStation.reportError("could not receive", false);
             return;
 		}
         if(output.equals("\n")){
-        	DriverStation.reportError(charBuffer + "\n", false);
+        	//DriverStation.reportError(charBuffer + "\n", false);
         	if(charBuffer.length() == 4){
         	    currentCoord = Integer.parseInt(charBuffer);
         	}
