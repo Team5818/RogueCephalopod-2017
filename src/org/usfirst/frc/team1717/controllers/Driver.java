@@ -21,6 +21,7 @@ public class Driver {
 	Joystick JS_TURN;
 	DriveTrain train;
 	double deadband = .2;
+	public static final int BUT_QUICK_TURN = 2;
 	
 	
 	public enum DriveMode{
@@ -28,7 +29,7 @@ public class Driver {
 	}
 	
 	public enum ControlMode{
-		ARCADE, TANK, RADIUS, QUICK_RADIUS
+		ARCADE, TANK, RADIUS
 	}
 	
 	public DriveMode dMode;
@@ -38,12 +39,6 @@ public class Driver {
 	public Driver() {
 		JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
-		JoystickButton driveBut = new JoystickButton(JS_FW_BACK, 1);
-		driveBut.whenPressed(new DrivePowerDistance(1.0, 72, 1.0));
-		JoystickButton driveBackwardsBut = new JoystickButton(JS_FW_BACK, 2);
-		driveBackwardsBut.whenPressed(new DrivePowerDistance(-1.0, 72, 1.0));
-		JoystickButton driveFBBut = new JoystickButton(JS_FW_BACK, 3);
-		driveFBBut.whenPressed(new DriveForwardBack(0.5, 36, 1.0));
 		JoystickButton killPi = new JoystickButton(JS_FW_BACK, 4);
 		killPi.whenPressed(new ShutDownRPi());
 		train = Robot.runningrobot.driveTrain;
@@ -60,6 +55,7 @@ public class Driver {
 	public void drive(){
 		Vector2d driveVector = Vectors.fromJoystick(JS_FW_BACK, JS_TURN, true);
 		Vector2d controlVector = driveCalc.compute(driveVector);
+		RadiusDriveCalculator.INSTANCE.setQuick(JS_TURN.getRawButton(BUT_QUICK_TURN));
         switch(dMode){
             case POWER:
             	train.setPowerLeftRight(controlVector);
@@ -85,9 +81,6 @@ public class Driver {
 		    	driveCalc = RadiusDriveCalculator.INSTANCE;
 		    	((RadiusDriveCalculator) driveCalc).setQuick(false);
 		    	break;
-		    case QUICK_RADIUS:
-		    	driveCalc = RadiusDriveCalculator.INSTANCE;
-		    	((RadiusDriveCalculator) driveCalc).setQuick(true);
 		    default:
 		    	driveCalc = ArcadeDriveCalculator.INSTANCE;
 		}
