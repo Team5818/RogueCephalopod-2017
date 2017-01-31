@@ -1,0 +1,228 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            name "gradle plugins"
+            url "http://dl.bintray.com/gradle/gradle-plugins"
+        }
+    }
+    dependencies {
+        classpath 'com.squareup.okhttp3:okhttp:3.5.0'
+        classpath 'org.hidetake:gradle-ssh-plugin:2.7.2'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}
+apply plugin: org.hidetake.gradle.ssh.plugin.SshPlugin
+apply plugin: com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
+
+// === Build properties === //
+ext {
+    currentVersion = 'current'
+    wpilib = System.getProperty('user.home') + "/wpilib/java/${currentVersion}"
+    wpilibAntDir = "${wpilib}/ant"
+    wpiUser = 'lvuser'
+    wpiUserHome = "/home/${wpiUser}"
+    robotPackage = "org.usfirst.frc.team${project.teamNumber}.robot"
+    robotClass = "${robotPackage}.Robot"
+    taskGroup = "RoboRIO"
+}
+// === End B properties === //
+
+jar {
+    manifest {
+        attributes(
+            "Main-Class": 'edu.wpi.first.wpilibj.RobotBase',
+            "Robot-Class": project.robotClass,
+            "Class-Path": '.'
+        )
+    }
+}
+
+// isReachable test
+boolean isReachable(String addr, int openPort, int timeOutMillis) {
+    try {
+        new Socket().withCloseable { soc ->
+            soc.connect(new InetSocketAddress(addr, openPort), timeOutMillis);
+        }
+        return true;
+    } catch (IOException ex) {
+        return false;
+    }
+}
+
+boolean canReachSSH(String addr) {
+    return isReachable(addr, 22, 100);
+}
+
+if (!project.hasProperty('teamNumber')) {
+    println "No team number provided."
+    throw new AssertionError("No team number.");
+}
+
+List<String> getStaticIps() {
+    if (project.hasProperty("staticIP")) {
+        if (project.staticIP in List) {
+            return project.staticIP
+        }
+        return [project.staticIP]
+    }
+    // Try each of these -- it's cheap
+    def possibleIps = ["2", "30", "91"]
+    int top = project.teamNumber / 100
+    int lower = project.teamNumber % 100
+    return possibleIps.collect { lowBit -> "10.${top}.${lower}.${lowBit}" }
+}
+
+class RobotIp {
+    String ip
+    String description
+}
+
+boolean tryRobotIp(RobotIp ip) {
+    print "Trying to reach robot via ${ip.ip} (${ip.description})... "
+    if (!canReachSSH(ip.ip)) {
+        println "Failed to reach robot via ${ip.description}."
+        return false
+    }
+    println "Found robot via ${ip.description}."
+    return true
+}
+
+task initializeRobotIP() {
+    group taskGroup
+    description 'Discovers the robot\'s IP or fails'
+}
+initializeRobotIP.doLast {
+    def ips = [
+        new RobotIp(ip: "roboRIO-${project.teamNumber}-FRC.local", description: "FRC.local DNS"),
+        new RobotIp(ip: "roboRIO-${project.teamNumber}-FRC.lan", description: "FRC.lan DNS"),
+        new RobotIp(ip: "172.22.11.2", description: "USB Connection"),
+
+    ] + (getStaticIps().indexed().collect { num, ip ->
+        new RobotIp(ip: ip, description: "Static IP #$num")
+    })
+    def ipStack = new ArrayDeque(ips)
+
+    String robotIP = ""
+    while (!ipStack.isEmpty()) {
+        def ip = ipStack.pop()
+        if (tryRobotIp(ip)) {
+            robotIP = ip.ip
+            break
+        }
+    }
+    if (robotIP.isEmpty()) {
+        println "Unable to reach the robot."
+        throw new AssertionError("Unable to reach the robot.")
+    }
+    project.ext.robotIP = robotIP;
+    project.remotes.create('robot') {
+        host = robotIP
+        user = project.wpiUser
+        password = ''
+        knownHosts = allowAnyHosts
+    }
+}
+// It's best to compile first.
+initializeRobotIP.shouldRunAfter jar
+initializeRobotIP.shouldRunAfter shadowJar
+
+import okhttp3.*;
+task checkSysProps(dependsOn: [initializeRobotIP]) {
+    group taskGroup
+    description 'Checks the roboRIO image version.'
+}
+checkSysProps.doLast {
+    def XML = MediaType.parse("text/xml; charset=utf-16le");
+    def client = new OkHttpClient();
+    def body = new FormBody.Builder()
+                .add('Function', 'GetPropertiesOfItem')
+                .add('Plugins', 'nisyscfg')
+                .add('Items', 'system')
+                .build();
+    Request request = new Request.Builder()
+        .url("http://${project.robotIP}/nisysapi/server")
+        .post(body)
+        .build();
+    Response response = client.newCall(request).execute();
+    def hexemell = response.body().string();
+    def roboRioImageMatch = hexemell =~ /FRC_roboRIO_[0-9]+_v([0-9]+)/
+    if (!roboRioImageMatch) {
+        throw new IllegalStateException("Image version not found.");
+    }
+    def roboRioYearMatch = hexemell =~ /FRC_roboRIO_([0-9]+)_v/
+    if (!roboRioYearMatch) {
+        throw new IllegalStateException("Year not found.");
+    }
+    def allowedImage = '8'
+    def image = roboRioImageMatch.group(1)
+    if (!allowedImage.contains(image)) {
+        throw new IllegalStateException("roboRIO Image does not match plugin, allowed image version: ${allowedImage}");
+    }
+    def allowedYear = '2017'
+    def year = roboRioYearMatch.group(1)
+    if (!allowedYear.contains(year)) {
+        throw new IllegalStateException("roboRIO Year does not match plugin, allowed year: ${allowedYear}");
+    }
+    println 'roboRIO image version validated'
+}
+
+task checkJRE(dependsOn: [initializeRobotIP]) {
+    group taskGroup
+    description 'Checks the JRE of the roboRIO'
+}
+checkJRE.doLast {
+    ssh.run {
+        session(remotes.robot) {
+            execute 'test -d /usr/local/frc/JRE'
+        }
+    }
+    println 'Found JRE.'
+}
+
+task checkRoboRIO(dependsOn: [checkSysProps, checkJRE]) {
+    group taskGroup
+    // Just a splitter for the sub-tasks.
+    description 'Checks that the roboRIO is what we expect.'
+}
+
+void defineDeployTask(Object project, boolean debug) {
+    def task = project.tasks.create(name: 'deploy' + (debug ? 'Debug' : ''),
+                         dependsOn: [shadowJar, checkRoboRIO]) {
+        group taskGroup
+        description "Deploys the jar to the robot. ${debug ? 'Waits' : 'Does not wait'} for a debugger."
+        ext.jarFile = project.shadowJar.archivePath
+        ext.commandFile = "${project.wpilibAntDir}/robot${debug ? 'Debug' : ''}Command"
+        inputs.file jarFile
+        inputs.file commandFile
+        if (debug) {
+            ext.frcDebugFile = "${project.wpilibAntDir}/frcdebug"
+            inputs.file frcDebugFile
+        }
+    }
+    task.doLast {
+        ssh.run {
+            session(remotes.robot) {
+                println "Copying jar"
+                put from: jarFile, into: "${project.wpiUserHome}/FRCUserProgram.jar"
+                execute 'killall -q netconsole-host', ignoreError: true
+                put from: commandFile, into: project.wpiUserHome
+                if (debug) {
+                    println "Setting debug flag"
+                    put from: frcDebugFile, into: '/tmp/frcdebug'
+                    execute 'chown lvuser:ni /tmp/frcdebug'
+                }
+                println "Starting program"
+                execute '. /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r', ignoreError: true
+                if (!debug) {
+                    execute 'sync'
+                }
+            }
+        }
+    }
+}
+defineDeployTask(project, false)
+defineDeployTask(project, true)
