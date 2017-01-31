@@ -62,6 +62,8 @@ if (!project.hasProperty('teamNumber')) {
     throw new AssertionError("No team number.");
 }
 
+ext.teamNumberInt = project.property('teamNumber') as Integer
+
 List<String> getStaticIps() {
     if (project.hasProperty("staticIP")) {
         if (project.staticIP in List) {
@@ -70,9 +72,9 @@ List<String> getStaticIps() {
         return [project.staticIP]
     }
     // Try each of these -- it's cheap
-    def possibleIps = ["2", "30", "91"]
-    int top = project.teamNumber / 100
-    int lower = project.teamNumber % 100
+    def possibleIps = [2, 30, 91]
+    int top = teamNumberInt / 100
+    int lower = teamNumberInt % 100
     return possibleIps.collect { lowBit -> "10.${top}.${lower}.${lowBit}" }
 }
 
@@ -97,8 +99,8 @@ task initializeRobotIP() {
 }
 initializeRobotIP.doLast {
     def ips = [
-        new RobotIp(ip: "roboRIO-${project.teamNumber}-FRC.local", description: "FRC.local DNS"),
-        new RobotIp(ip: "roboRIO-${project.teamNumber}-FRC.lan", description: "FRC.lan DNS"),
+        new RobotIp(ip: "roboRIO-${teamNumberInt}-FRC.local", description: "FRC.local DNS"),
+        new RobotIp(ip: "roboRIO-${teamNumberInt}-FRC.lan", description: "FRC.lan DNS"),
         new RobotIp(ip: "172.22.11.2", description: "USB Connection"),
 
     ] + (getStaticIps().indexed().collect { num, ip ->
@@ -118,10 +120,16 @@ initializeRobotIP.doLast {
         println "Unable to reach the robot."
         throw new AssertionError("Unable to reach the robot.")
     }
-    project.ext.robotIP = robotIP;
+    project.ext.robotIP = robotIP
     project.remotes.create('robot') {
         host = robotIP
         user = project.wpiUser
+        password = ''
+        knownHosts = allowAnyHosts
+    }
+    project.remotes.create('robotAdmin') {
+        host = robotIP
+        user = 'admin'
         password = ''
         knownHosts = allowAnyHosts
     }
@@ -196,8 +204,11 @@ void defineDeployTask(Object project, boolean debug) {
         description "Deploys the jar to the robot. ${debug ? 'Waits' : 'Does not wait'} for a debugger."
         ext.jarFile = project.shadowJar.archivePath
         ext.commandFile = "${project.wpilibAntDir}/robot${debug ? 'Debug' : ''}Command"
+        ext.natives = files(fileTree("libs/native").files)
+        ext.nativesTarget = "/usr/local/frc/lib"
         inputs.file jarFile
         inputs.file commandFile
+        inputs.dir natives
         if (debug) {
             ext.frcDebugFile = "${project.wpilibAntDir}/frcdebug"
             inputs.file frcDebugFile
@@ -205,6 +216,10 @@ void defineDeployTask(Object project, boolean debug) {
     }
     task.doLast {
         ssh.run {
+            session(remotes.robotAdmin) {
+                println "Copying natives"
+                put from: natives, into: nativesTarget
+            }
             session(remotes.robot) {
                 println "Copying jar"
                 put from: jarFile, into: "${project.wpiUserHome}/FRCUserProgram.jar"
