@@ -1,4 +1,4 @@
-package utils;
+package org.usfirst.frc.team1717.robot.utils;
 
 /**
  * A simple 2D vector class.

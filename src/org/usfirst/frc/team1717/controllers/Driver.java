@@ -6,15 +6,15 @@ import org.usfirst.frc.team1717.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team1717.robot.commands.SwitchFeed;
 import org.usfirst.frc.team1717.robot.constants.BotConstants;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1717.robot.utils.ArcadeDriveCalculator;
+import org.usfirst.frc.team1717.robot.utils.DriveCalculator;
+import org.usfirst.frc.team1717.robot.utils.RadiusDriveCalculator;
+import org.usfirst.frc.team1717.robot.utils.TankDriveCalculator;
+import org.usfirst.frc.team1717.robot.utils.Vector2d;
+import org.usfirst.frc.team1717.robot.utils.Vectors;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import utils.ArcadeDriveCalculator;
-import utils.DriveCalculator;
-import utils.RadiusDriveCalculator;
-import utils.TankDriveCalculator;
-import utils.Vector2d;
-import utils.Vectors;
 
 public class Driver {
 	Joystick JS_FW_BACK;

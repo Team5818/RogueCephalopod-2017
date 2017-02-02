@@ -1,5 +1,5 @@
 /* Copyright (c) FIRST 2008-2012. All Rights Reserved. */
-package utils;
+package org.usfirst.frc.team1717.robot.utils;
 
 import java.util.ArrayDeque;
 import java.util.Queue;

@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1717.robot.subsystems;
 
-import utils.Vector2d;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrainSide;
+import org.usfirst.frc.team1717.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;

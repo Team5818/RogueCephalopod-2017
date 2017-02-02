@@ -3,8 +3,9 @@ package org.usfirst.frc.team1717.robot.commands;
 import org.usfirst.frc.team1717.robot.Robot;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrainSide;
+import org.usfirst.frc.team1717.robot.utils.LinearLookupTable;
+
 import edu.wpi.first.wpilibj.command.Command;
-import utils.LinearLookupTable;
 
 public class DriveDistanceProfile extends Command {
 
