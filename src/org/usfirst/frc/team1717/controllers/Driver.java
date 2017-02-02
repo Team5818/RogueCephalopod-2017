@@ -1,9 +1,9 @@
 package org.usfirst.frc.team1717.controllers;
 
 import org.usfirst.frc.team1717.robot.Robot;
-import org.usfirst.frc.team1717.robot.commands.DriveForwardBack;
-import org.usfirst.frc.team1717.robot.commands.DrivePowerDistance;
 import org.usfirst.frc.team1717.robot.commands.ShutDownRPi;
+import org.usfirst.frc.team1717.robot.commands.SwitchDriveMode;
+import org.usfirst.frc.team1717.robot.commands.SwitchFeed;
 import org.usfirst.frc.team1717.robot.constants.BotConstants;
 import org.usfirst.frc.team1717.robot.subsystems.DriveTrain;
 
@@ -25,7 +25,7 @@ public class Driver {
 	
 	
 	public enum DriveMode{
-		POWER, VELOCITY, STOPPED
+		POWER, VELOCITY, 
 	}
 	
 	public enum ControlMode{
@@ -39,8 +39,16 @@ public class Driver {
 	public Driver() {
 		JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
+		
 		JoystickButton killPi = new JoystickButton(JS_FW_BACK, 4);
 		killPi.whenPressed(new ShutDownRPi());
+		
+		JoystickButton switchCam = new JoystickButton(JS_FW_BACK, 5);
+		switchCam.whenPressed(new SwitchFeed());
+		
+		JoystickButton switchDrive = new JoystickButton(JS_FW_BACK, 6);
+		switchDrive.whenPressed(new SwitchDriveMode());
+		
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;
 		cMode = ControlMode.ARCADE;

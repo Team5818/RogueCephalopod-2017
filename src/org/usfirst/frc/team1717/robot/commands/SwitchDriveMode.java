@@ -6,31 +6,28 @@ import org.usfirst.frc.team1717.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SwitchDriveMode extends Command{
-
-	@Override
-	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+	
+	Driver driver;
+	private boolean isDone = false;
+	
+	public SwitchDriveMode(){
+		driver = Robot.runningrobot.driver;
 	}
 	
-//	Driver driver;
-//	Driver.DriveMode targetMode;
-//	private boolean isDone = false;
-//	
-//	public SwitchDriveMode(Driver.DriveMode mode){
-//		driver = Robot.runningrobot.driver;
-//		targetMode = mode;
-//	}
-//	
-//	@Override
-//	protected void initialize(){
-//		driver.dMode = targetMode;
-//		isDone = true;
-//	}
-//	
-//	@Override
-//	protected boolean isFinished() {
-//		return isDone;
-//	}
+	@Override
+	protected void initialize(){
+		if(driver.dMode.equals(Driver.DriveMode.POWER)){
+			driver.dMode = Driver.DriveMode.VELOCITY;
+		}
+		else if(driver.dMode.equals(Driver.DriveMode.VELOCITY)){
+			driver.dMode = Driver.DriveMode.POWER;
+		}
+		isDone = true;
+	}
+	
+	@Override
+	protected boolean isFinished() {
+		return isDone;
+	}
 
 }
