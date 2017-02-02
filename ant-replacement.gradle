@@ -25,7 +25,7 @@ ext {
     wpilibAntDir = "${wpilib}/ant"
     wpiUser = 'lvuser'
     wpiUserHome = "/home/${wpiUser}"
-    robotPackage = "org.usfirst.frc.team${project.teamNumber}.robot"
+    robotPackage = "org.usfirst.frc.team${project.packageNumber}.robot"
     robotClass = "${robotPackage}.Robot"
     taskGroup = "RoboRIO"
 }

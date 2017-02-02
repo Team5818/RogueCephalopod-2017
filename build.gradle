@@ -72,5 +72,6 @@ configure([compileJava, compileTestJava]) {
     options.fork = true
 }
 
-ext.teamNumber = project.findProperty('teamNumber') ?: '5818'
+ext.packageNumber = '5818'
+ext.teamNumber = project.findProperty('teamNumber') ?: packageNumber
 apply from: 'ant-replacement.gradle', to: project
