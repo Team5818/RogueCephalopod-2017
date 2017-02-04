@@ -1,13 +1,18 @@
 
 package org.usfirst.frc.team5818.robot;
 
+import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
+import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
+import org.usfirst.frc.team5818.robot.controllers.Driver;
+import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
+import org.usfirst.frc.team5818.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team5818.robot.commands.ExampleCommand;
-import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
-import org.usfirst.frc.team5818.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,11 +26,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static OI oi;
+	public DriveTrain driveTrain;
+	public Driver driver;
+	public VisionTracker track;
+	public static Robot runningrobot;
 
     Command autonomousCommand;
     SendableChooser<Command> chooser;
-    
     DriveTrainSide left;
     DriveTrainSide right;
 
@@ -34,10 +41,13 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-		oi = new OI();
+    	runningrobot = this;
+    	driveTrain = new DriveTrain();
+		track = new VisionTracker();
+    	driver = new Driver();
         chooser = new SendableChooser<>();
-        chooser.addDefault("Default Auto", new ExampleCommand());
-//        chooser.addObject("My Auto", new MyAutoCommand());
+        chooser.addObject("Drive Forward", new DrivePIDDistance(72));
+        chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
         SmartDashboard.putData("Auto mode", chooser);
     }
 	
@@ -86,6 +96,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        printSmartDash();
     }
 
     public void teleopInit() {
@@ -94,15 +105,18 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        driveTrain.getLeftSide().resetEnc();
+        driveTrain.getRightSide().resetEnc();
+        track.start();
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	printSmartDash();
+    	driver.teleopPeriodic();
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("L enc: ", left.getSidePosition());
-        SmartDashboard.putNumber("R enc: ", right.getSidePosition());
     }
     
     /**
@@ -110,5 +124,14 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+    }
+    
+    public void printSmartDash(){
+    	SmartDashboard.putNumber("Left in:", driveTrain.getLeftSide().getSidePosition());
+    	SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
+    	SmartDashboard.putNumber("Gear X:", track.getCurrentX());
+    	SmartDashboard.putNumber("Gear Y:", track.getCurrentY());
+    	SmartDashboard.putNumber("Gear R:", track.getCurrentR());
+
     }
 }
