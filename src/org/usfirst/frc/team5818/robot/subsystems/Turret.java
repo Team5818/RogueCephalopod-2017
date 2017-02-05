@@ -34,8 +34,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 		angController  = new BetterPIDController(kP,kI, kD, this, this);
 		pot = new AnalogInput(BotConstants.TURRET_POT);
 		angController.setAbsoluteTolerance(0.3);
-		centerOffSet = 1281;
-		potScale = 90.0/(2721-1179);
+		centerOffSet = 992;
+		potScale = 90.0/(2557-992);
 	}
 	
 	public void setPower(double x) {
