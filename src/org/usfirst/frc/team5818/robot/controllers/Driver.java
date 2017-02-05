@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class Driver {
 	Joystick JS_FW_BACK;
 	Joystick JS_TURN;
+	Joystick JS_TURRET;
 	DriveTrain train;
 	double deadband = .2;
 	public static final int BUT_QUICK_TURN = 2;
@@ -39,6 +40,7 @@ public class Driver {
 	public Driver() {
 		JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
+		JS_TURRET = new Joystick(BotConstants.JS_TURRET);
 		
 		JoystickButton killPi = new JoystickButton(JS_FW_BACK, 4);
 		killPi.whenPressed(new ShutDownRPi());
@@ -57,6 +59,7 @@ public class Driver {
 	
 	public void teleopPeriodic(){
 		handleCalc();
+		controlTurret();
 		drive();
 	}
 	
@@ -75,6 +78,10 @@ public class Driver {
             	train.stop();
             	break;
         }
+	}
+	
+	public void controlTurret(){
+		Robot.runningrobot.turret.setPower(JS_TURRET.getX()*.7);
 	}
 	
 	public void handleCalc(){
