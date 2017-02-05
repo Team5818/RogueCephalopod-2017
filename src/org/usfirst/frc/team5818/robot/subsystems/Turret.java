@@ -24,13 +24,14 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 	
 	public int centerOffSet;
 	public double potScale;
-	public static final double kP = 0.0;
-	public static final double kI = 0.0;
+	public static final double kP = 0.011;
+	public static final double kI = 0.0005;
 	public static final double kD = 0.0;
 
 	
 	public Turret() {
 		motor = new CANTalon(RobotMap.TURR_MOTOR); //Turret motor number not set
+		motor.setInverted(true);
 		angController  = new BetterPIDController(kP,kI, kD, this, this);
 		pot = new AnalogInput(BotConstants.TURRET_POT);
 		angController.setAbsoluteTolerance(0.3);
@@ -84,8 +85,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 	
 	@Override
 	public void pidWrite(double x) {
-		if(getAng() > 90){
-			if(x > 0){
+		if(getAng() > 120){
+			if(x < 0){
 				motor.set(x);
 			}
 		    else{
@@ -93,7 +94,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 		    }
 		}
 		else if(getAng() < -45){
-			if(x < 0){
+			if(x > 0){
 				motor.set(x);
 			}
 			else{

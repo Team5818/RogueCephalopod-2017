@@ -46,8 +46,8 @@ public class Robot extends IterativeRobot {
     	runningrobot = this;
     	driveTrain = new DriveTrain();
 		track = new VisionTracker();
-    	driver = new Driver();
     	turret = new Turret();
+    	driver = new Driver();
         chooser = new SendableChooser<>();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));

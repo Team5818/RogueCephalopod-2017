@@ -12,9 +12,9 @@ public class AimTurret extends Command{
 	private Turret turr;
 	private VisionTracker track; 
 	private double degreesOff;
-	public static final double DEGREES_TOLERANCE = 5;
+	public static final double DEGREES_TOLERANCE = 2;
 	
-	public void AimTurret(double ang){
+	public AimTurret(){
 		turr = Robot.runningrobot.turret;
 		track = Robot.runningrobot.track;
 	}

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.controllers;
 
 import org.usfirst.frc.team5818.robot.Robot;
+import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.SwitchFeed;
@@ -51,6 +52,13 @@ public class Driver {
 		JoystickButton switchDrive = new JoystickButton(JS_FW_BACK, 6);
 		switchDrive.whenPressed(new SwitchDriveMode());
 		
+		JoystickButton turret90 = new JoystickButton(JS_TURRET,1);
+		turret90.whenPressed(new SetTurretAngle(90.0));
+		
+		JoystickButton turretZero = new JoystickButton(JS_TURRET,3);
+		turretZero.whenPressed(new SetTurretAngle(0.0));
+
+		
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;
 		cMode = ControlMode.ARCADE;
@@ -81,7 +89,7 @@ public class Driver {
 	}
 	
 	public void controlTurret(){
-		Robot.runningrobot.turret.setPower(JS_TURRET.getX()*.7);
+		//Robot.runningrobot.turret.setPower(JS_TURRET.getX()*.7);
 	}
 	
 	public void handleCalc(){
