@@ -40,7 +40,9 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 	
 	public void setPower(double x) {
 		angController.disable();
-		motor.set(x * BotConstants.MAX_POWER);
+		if(getAng() < 90 || getAng() > -45){
+			motor.set(x * BotConstants.MAX_POWER);
+		}
 	}
 	
 	public void setAng(double ang) {
@@ -84,7 +86,9 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 	
 	@Override
 	public void pidWrite(double x) {
-		motor.set(x);
+		if(getAng() < 90 || getAng() > -45){
+			motor.set(x);
+		}
 	}
 
 	@Override
