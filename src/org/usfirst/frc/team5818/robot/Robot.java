@@ -5,7 +5,6 @@ import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.CollectorActuator;
-import org.usfirst.frc.team5818.robot.subsystems.CollectorArmSide;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.ExampleSubsystem;
@@ -41,9 +40,6 @@ public class Robot extends IterativeRobot {
     DriveTrainSide left;
     DriveTrainSide right;
     
-    public CollectorArmSide collectorRight;
-	public CollectorArmSide collectorLeft;
-	
 
     /**
      * This function is run when the robot is first started up and should be
