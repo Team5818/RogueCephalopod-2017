@@ -17,5 +17,5 @@ public class RobotMap {
 	public static final int R_TALON_ENC = 1;
 	public static final int L_TALON = 3;
 	public static final int L_TALON_ENC = 4;
-	
+	public static final int TURR_MOTOR = 5;
 }
