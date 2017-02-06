@@ -53,9 +53,8 @@ public class Robot extends IterativeRobot {
     	runningrobot = this;
     	driveTrain = new DriveTrain();
 		track = new VisionTracker();
-    	driver = new Driver();
     	turret = new Turret();
-    	collector = new CollectorActuator();
+    	driver = new Driver();
         chooser = new SendableChooser<>();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
@@ -143,6 +142,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Gear X:", track.getCurrentX());
     	SmartDashboard.putNumber("Gear Y:", track.getCurrentY());
     	SmartDashboard.putNumber("Gear R:", track.getCurrentR());
-
+    	SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
+    	SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
     }
 }

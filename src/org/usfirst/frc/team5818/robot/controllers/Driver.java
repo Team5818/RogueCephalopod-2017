@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.controllers;
 
 import org.usfirst.frc.team5818.robot.Robot;
+import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.SwitchFeed;
@@ -8,6 +9,7 @@ import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
+import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.TankDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
@@ -19,8 +21,17 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class Driver {
 	Joystick JS_FW_BACK;
 	Joystick JS_TURN;
+	Joystick JS_TURRET;
 	DriveTrain train;
-	double deadband = .2;
+	public static double  JOYSTICK_DEADBAND = .2;
+	
+	public boolean driving = true;
+	public boolean was_driving;
+
+	public boolean turreting = true;
+	public boolean was_turreting;
+
+	
 	public static final int BUT_QUICK_TURN = 2;
 	
 	
@@ -39,6 +50,7 @@ public class Driver {
 	public Driver() {
 		JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
+		JS_TURRET = new Joystick(BotConstants.JS_TURRET);
 		
 		JoystickButton killPi = new JoystickButton(JS_FW_BACK, 4);
 		killPi.whenPressed(new ShutDownRPi());
@@ -49,6 +61,13 @@ public class Driver {
 		JoystickButton switchDrive = new JoystickButton(JS_FW_BACK, 6);
 		switchDrive.whenPressed(new SwitchDriveMode());
 		
+		JoystickButton turret90 = new JoystickButton(JS_TURRET,1);
+		turret90.whenPressed(new SetTurretAngle(90.0));
+		
+		JoystickButton turretZero = new JoystickButton(JS_TURRET,3);
+		turretZero.whenPressed(new SetTurretAngle(0.0));
+
+		
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;
 		cMode = ControlMode.ARCADE;
@@ -56,7 +75,9 @@ public class Driver {
 	}
 	
 	public void teleopPeriodic(){
+		handleDeadbands();
 		handleCalc();
+		controlTurret();
 		drive();
 	}
 	
@@ -77,6 +98,16 @@ public class Driver {
         }
 	}
 	
+	public void controlTurret(){
+		if(turreting){
+			Robot.runningrobot.turret.setPower(JS_TURRET.getX()*.7);
+		}
+		else if(!turreting && was_turreting){
+			Robot.runningrobot.turret.setPower(0.0);
+		}
+		
+	}
+	
 	public void handleCalc(){
 		switch(cMode){
 		    case ARCADE:
@@ -92,5 +123,12 @@ public class Driver {
 		    default:
 		    	driveCalc = ArcadeDriveCalculator.INSTANCE;
 		}
+	}
+	
+	public void handleDeadbands(){
+		was_driving = driving;
+		driving = MathUtil.deadband(JS_FW_BACK, JOYSTICK_DEADBAND) || MathUtil.deadband(JS_TURN, JOYSTICK_DEADBAND);
+		was_turreting = turreting;
+		turreting = MathUtil.deadband(JS_TURRET, JOYSTICK_DEADBAND);
 	}
 }
