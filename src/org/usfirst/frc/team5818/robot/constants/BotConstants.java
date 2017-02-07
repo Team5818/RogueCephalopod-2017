@@ -28,12 +28,4 @@ public class BotConstants {
 	public static final double R_DIST_KP = 0.005; // NEEDS TUNING
 	public static final double R_DIST_KI = 0.0001; // NEEDS TUNING
 	public static final double R_DIST_KD = 0.0; // NEEDS TUNING
-	
-	public static final double CAMERA_FOV = 60.0;
-	
-	public static final int TURRET_POT = 0;
-	
-	public static final double R_COL_KP = 0.0;
-	public static final double R_COL_KI = 0.0;
-	public static final double R_COL_KD = 0.0;
 }
