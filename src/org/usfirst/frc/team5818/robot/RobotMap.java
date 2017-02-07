@@ -20,4 +20,6 @@ public class RobotMap {
 	public static final int TURR_MOTOR = 5;
 	public static final int ARM_TALON_L = 6;
 	public static final int ARM_TALON_R = 7;
+	public static final int TOP_COLLECTOR_ROLLER = 8;
+	public static final int BOT_COLLECTOR_ROLLER = 9;
 }
