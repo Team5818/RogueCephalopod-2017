@@ -4,8 +4,7 @@ package org.usfirst.frc.team5818.robot;
 import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
-import org.usfirst.frc.team5818.robot.subsystems.CollectorActuator;
-import org.usfirst.frc.team5818.robot.subsystems.CollectorArmSide;
+import org.usfirst.frc.team5818.robot.subsystems.Collector;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.ExampleSubsystem;
@@ -31,7 +30,7 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public DriveTrain driveTrain;
 	public Driver driver;
-	public CollectorActuator collector;
+	public Collector collector;
 	public VisionTracker track;
 	public Turret turret;
 	public static Robot runningrobot;
@@ -40,10 +39,6 @@ public class Robot extends IterativeRobot {
     SendableChooser<Command> chooser;
     DriveTrainSide left;
     DriveTrainSide right;
-    
-    public CollectorArmSide collectorRight;
-	public CollectorArmSide collectorLeft;
-	
 
     /**
      * This function is run when the robot is first started up and should be
@@ -53,9 +48,8 @@ public class Robot extends IterativeRobot {
     	runningrobot = this;
     	driveTrain = new DriveTrain();
 		track = new VisionTracker();
-    	driver = new Driver();
     	turret = new Turret();
-    	collector = new CollectorActuator();
+    	collector = new Collector();
         chooser = new SendableChooser<>();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
@@ -143,6 +137,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Gear X:", track.getCurrentX());
     	SmartDashboard.putNumber("Gear Y:", track.getCurrentY());
     	SmartDashboard.putNumber("Gear R:", track.getCurrentR());
-
+    	SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
+    	SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
     }
 }

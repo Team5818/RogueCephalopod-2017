@@ -6,6 +6,8 @@ public class BotConstants {
 	// JS Numbers
 	public static final int JS_FW_BACK = 0;
 	public static final int JS_TURN = 1;
+	public static final int JS_TURRET = 2;
+	
 	public static final double TICS_PER_INCH = 44.815;
 	public static final double ROBOT_MAX_VELOCITY = 500;
 	
@@ -27,11 +29,6 @@ public class BotConstants {
 	public static final double R_DIST_KI = 0.0001; // NEEDS TUNING
 	public static final double R_DIST_KD = 0.0; // NEEDS TUNING
 	
-	//Collector Arm PID constants
-	public static final double L_COL_KP = 0.0;
-	public static final double L_COL_KI = 0.0;
-	public static final double L_COL_KD = 0.0;
-	public static final double R_COL_KP = 0.0;
-	public static final double R_COL_KI = 0.0;
-	public static final double R_COL_KD = 0.0;
+	public static final int TURRET_POT = 0;
+	public static final int CAMERA_FOV = 60;
 }

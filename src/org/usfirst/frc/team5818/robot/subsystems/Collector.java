@@ -12,39 +12,33 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 import com.ctre.CANTalon;
 
-public class CollectorArmSide extends Subsystem implements PIDSource, PIDOutput {
+public class Collector extends Subsystem implements PIDSource, PIDOutput {
 	
-	private CANTalon motorTal;
+	private CANTalon leftMotorTal;
+	private CANTalon rightMotorTal;
 	
 	public PIDSourceType pidType = PIDSourceType.kDisplacement;
 	public BetterPIDController anglePID;
 	
+	private static final double kP = 0.0;// tune me pls
+	private static final double kI = 0.0;
+	private static final double kD = 0.0;
+	
 	public int centerOffSet;
 	
-	public enum Side {
-		RIGHT, LEFT;
-	}
-	
-	private Side side;
-	
-	public CollectorArmSide(boolean inverted) {
-		if(inverted) {
-			motorTal = new CANTalon(RobotMap.ARM_TALON_L);
-			this.side = Side.LEFT;
-			anglePID  = new BetterPIDController(BotConstants.L_COL_KP,BotConstants.L_COL_KI, BotConstants.L_COL_KD, this, this);
-		} else {
-			motorTal = new CANTalon(RobotMap.ARM_TALON_R);
-			this.side = Side.RIGHT;
-			anglePID  = new BetterPIDController(BotConstants.R_COL_KP,BotConstants.R_COL_KI, BotConstants.R_COL_KD, this, this);
-		}
-		motorTal.setInverted(inverted);
+	public Collector() {
+		leftMotorTal = new CANTalon(RobotMap.ARM_TALON_L);
+	    leftMotorTal.setInverted(true);
+		rightMotorTal = new CANTalon(RobotMap.ARM_TALON_R);
+		anglePID  = new BetterPIDController(kP, kI, kD, this, this);
 		anglePID.setAbsoluteTolerance(0.3);
 		centerOffSet = 512;
 	}
 	
 	public void setPower(double x) {
 		anglePID.disable();
-		motorTal.set(x * BotConstants.MAX_POWER);
+		leftMotorTal.set(x * BotConstants.MAX_POWER);
+		rightMotorTal.set(x * BotConstants.MAX_POWER);
 	}
 	
 	public void setAngle(double angle) {
@@ -54,7 +48,7 @@ public class CollectorArmSide extends Subsystem implements PIDSource, PIDOutput 
 	}
 	
 	public double getAngle() {
-		double analog = motorTal.getAnalogInRaw();
+		double analog = (leftMotorTal.getAnalogInRaw() + rightMotorTal.getAnalogInRaw()) / 2;
 		return ((analog - centerOffSet) * 360)/(1024);
 	}
 	
@@ -84,7 +78,8 @@ public class CollectorArmSide extends Subsystem implements PIDSource, PIDOutput 
 	
 	@Override
 	public void pidWrite(double x) {
-		motorTal.set(x);
+		leftMotorTal.set(x);
+		rightMotorTal.set(x);
 	}
 
 	@Override
