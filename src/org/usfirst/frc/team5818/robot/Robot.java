@@ -48,7 +48,6 @@ public class Robot extends IterativeRobot {
     	runningrobot = this;
     	driveTrain = new DriveTrain();
 		track = new VisionTracker();
-    	driver = new Driver();
     	turret = new Turret();
     	collector = new Collector();
         chooser = new SendableChooser<>();
@@ -138,6 +137,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Gear X:", track.getCurrentX());
     	SmartDashboard.putNumber("Gear Y:", track.getCurrentY());
     	SmartDashboard.putNumber("Gear R:", track.getCurrentR());
-
+    	SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
+    	SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
     }
 }

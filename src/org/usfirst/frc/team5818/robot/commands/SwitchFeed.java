@@ -13,6 +13,9 @@ public class SwitchFeed extends Command{
 	private String order;
 	private static boolean gear;
 	
+	public static boolean isGear(){
+		return gear;
+	}
 	
 	public SwitchFeed(){
 		rPi = Robot.runningrobot.track.getRasPi();
