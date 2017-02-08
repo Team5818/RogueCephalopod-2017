@@ -16,7 +16,7 @@ public class AimTurret extends Command{
 	private double degreesOff;
 	public static final double DEGREES_TOLERANCE = 2;
 	
-	public static final double distFromTarget = 72; //Estimation in inches
+	public static final double distFromTarget = 36; //Estimation in inches
 	public static final double cameraOffset = 6;//Estimation in inches
 	
 	/*
