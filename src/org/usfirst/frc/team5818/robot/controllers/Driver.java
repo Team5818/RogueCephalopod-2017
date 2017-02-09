@@ -67,6 +67,7 @@ public class Driver {
 		JoystickButton turretZero = new JoystickButton(JS_TURRET,3);
 		turretZero.whenPressed(new SetTurretAngle(0.0));
 
+		JoystickButton driveStraight = new JoystickButton(JS_FW_BACK, 7);
 		
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;

@@ -27,10 +27,13 @@ public class DriveStraight extends Command {
 	}
 	
 	public void execute() {
-		Robot.runningrobot.driveTrain.left.setPower(leftPowMult);
-		Robot.runningrobot.driveTrain.right.setPower(rightPowMult);
+		Robot.runningrobot.driveTrain.left.setPower(leftPowMult * maxPow);
+		Robot.runningrobot.driveTrain.right.setPower(rightPowMult * maxPow);
 		leftVel = Robot.runningrobot.driveTrain.left.getSideVelocity();
 		rightVel = Robot.runningrobot.driveTrain.right.getSideVelocity();
+		if (leftVel == 0 || rightVel == 0) {
+		    System.out.println("zero vel on a side");
+		}
 		if (leftVel >= rightVel) {
 			if (leftVel / rightVel <= minSpeedRatio)
 				rightPowMult = leftVel / rightVel;
