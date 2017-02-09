@@ -11,7 +11,7 @@ public class SpinRobot extends Command{
 	private double targetAng;
 	public static final double DEGREES_TOLERANCE = 1;
 	
-	public SetTurretAngle(double ang){
+	public SpinRobot(double ang){
 		train = Robot.runningrobot.driveTrain;
 		targetAng = ang;
 	}

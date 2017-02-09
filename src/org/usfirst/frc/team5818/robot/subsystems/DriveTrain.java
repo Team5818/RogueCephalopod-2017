@@ -1,26 +1,29 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
+import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
-	private DriveTrainSide left;
-	private DriveTrainSide right;
+    public DriveTrainSide left;
+	public DriveTrainSide right;
 	private	ADIS16448_IMU gyro;
 	private BetterPIDController spinController;
 	
 	private static double spinP = 0.0;
-	private static double spinI = 0.0
-	private static double spinD = 0.0
+	private static double spinI = 0.0;
+	private static double spinD = 0.0;
 	
 	public DriveTrain() {
 		left = new DriveTrainSide(DriveTrainSide.Side.LEFT);
 		right = new DriveTrainSide(DriveTrainSide.Side.RIGHT);
 		gyro = new ADIS16448_IMU();
-		spinController = new BetterPIDController(spinP, spinI, spinD, this, this)
+		spinController = new BetterPIDController(spinP, spinI, spinD, this, this);
 	}
 	
 	public void setPowerLeftRight(double lpow, double rpow) {
@@ -128,9 +131,6 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
 		right.setPower(-output);
 	}
 	
-	@Override
-	public void setPIDSourceType(PIDSourceType pidSource) {}
-
 	@Override
 	public PIDSourceType getPIDSourceType() {
 		return PIDSourceType.kDisplacement;
