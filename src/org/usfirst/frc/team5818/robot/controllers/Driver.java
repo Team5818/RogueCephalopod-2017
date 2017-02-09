@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.controllers;
 
 import org.usfirst.frc.team5818.robot.Robot;
+import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
@@ -66,6 +67,9 @@ public class Driver {
 		
 		JoystickButton turretZero = new JoystickButton(JS_TURRET,3);
 		turretZero.whenPressed(new SetTurretAngle(0.0));
+		
+		JoystickButton turretAim = new JoystickButton(JS_TURRET,2);
+		turretAim.whenPressed(new AimTurret());
 
 		JoystickButton driveStraight = new JoystickButton(JS_FW_BACK, 7);
 		
