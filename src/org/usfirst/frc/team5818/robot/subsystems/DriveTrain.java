@@ -6,16 +6,25 @@ import org.usfirst.frc.team5818.robot.utils.Vector2d;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class DriveTrain extends Subsystem {
-	public DriveTrainSide left;
-	public DriveTrainSide right;
-		
+public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
+	private DriveTrainSide left;
+	private DriveTrainSide right;
+	private	ADIS16448_IMU gyro;
+	private BetterPIDController spinController;
+	
+	private static double spinP = 0.0;
+	private static double spinI = 0.0
+	private static double spinD = 0.0
+	
 	public DriveTrain() {
 		left = new DriveTrainSide(DriveTrainSide.Side.LEFT);
 		right = new DriveTrainSide(DriveTrainSide.Side.RIGHT);
+		gyro = new ADIS16448_IMU();
+		spinController = new BetterPIDController(spinP, spinI, spinD, this, this)
 	}
 	
 	public void setPowerLeftRight(double lpow, double rpow) {
+		spinController.disable();
         left.setPower(lpow);
         right.setPower(rpow);
 	}
@@ -25,6 +34,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void setVelocityLeftRight(double lvel, double rvel){
+		spinController.disable();
 		left.driveVelocity(lvel);
 		right.driveVelocity(rvel);
 	}
@@ -34,8 +44,15 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void driveDistance(double dist){
+		spinController.disable();
 		left.driveDistance(dist);
 		right.driveDistance(dist);
+	}
+	
+	public void spinAngle(double ang){
+		spinController.disable();
+		spinController.setSetpoint(ang);
+		spinController.enable();
 	}
 	
 	public void setPIDSourceType(PIDSourceType type) {
@@ -79,6 +96,10 @@ public class DriveTrain extends Subsystem {
 		return (left.getSidePosition() + right.getSidePosition()) / 2;
 	}
 	
+	public double getHeading(){
+		return gyro.getAngle();
+	}
+	
 	public void stop() {
 		left.setBrakeMode();
 		right.setBrakeMode();
@@ -86,9 +107,32 @@ public class DriveTrain extends Subsystem {
 	}
 
 	@Override
-	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
+	protected void initDefaultCommand() {}
+	
+	public BetterPIDController getSpinController(){
+		return spinController;
 	}
 	
+	public ADIS16448_IMU getGyro(){
+		return gyro;
+	}
+	
+	@Override
+	public double pidGet(){
+		return getHeading();
+	}
+
+	@Override
+	public void pidWrite(double output) {
+		left.setPower(output);
+		right.setPower(-output);
+	}
+	
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return PIDSourceType.kDisplacement;
+	}
 }
