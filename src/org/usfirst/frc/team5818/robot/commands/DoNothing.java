@@ -16,7 +16,7 @@ public class DoNothing extends Command{
     
     @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
     
     @Override
