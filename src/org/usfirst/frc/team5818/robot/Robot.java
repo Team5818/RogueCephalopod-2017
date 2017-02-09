@@ -138,6 +138,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Gear Y:", track.getCurrentY());
     	SmartDashboard.putNumber("Gear R:", track.getCurrentR());
     	SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
-    	SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
+    	SmartDashboard.putNumber("Turret Angle:", turret.getAng());
+    	SmartDashboard.putNumber("Collector Angle:", collector.getAngle());
     }
 }

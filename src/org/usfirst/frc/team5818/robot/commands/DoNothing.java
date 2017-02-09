@@ -26,7 +26,7 @@ public class DoNothing extends Command{
     
     @Override
     protected boolean isFinished() {
-        return (System.currentTimeMillis()-startTime)>= targetTime;
+        return (System.currentTimeMillis()-startTime) >= targetTime;
     }
     
     @Override
