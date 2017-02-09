@@ -10,8 +10,6 @@ public class VisionTracker extends Subsystem implements Runnable{
 	private SerialPort rasPi;
 	private Port port;
 	private int currentX = -999;
-	private int currentY = -999;
-	private int currentR = -999;
 	private String charBuffer = "";
 	
 	public VisionTracker(){
@@ -41,10 +39,9 @@ public class VisionTracker extends Subsystem implements Runnable{
 		}
         if(output.equals("\n")){
         	//DriverStation.reportError(charBuffer + "\n", false);
-        	if(charBuffer.length() == 12){
+        	if(charBuffer.length() == 4){
         	    currentX = Integer.parseInt(charBuffer.substring(0, 4));
-        	    currentY = Integer.parseInt(charBuffer.substring(4, 8));
-        	    currentR = Integer.parseInt(charBuffer.substring(8, 12));
+
         	}
     	    charBuffer = "";
         }
@@ -65,13 +62,6 @@ public class VisionTracker extends Subsystem implements Runnable{
 		return currentX;
 	}
 	
-	public int getCurrentY(){
-		return currentY;
-	}
-	
-	public int getCurrentR(){
-		return currentR;
-	}
 	
 	@Override
 	protected void initDefaultCommand() {
