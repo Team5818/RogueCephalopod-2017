@@ -10,12 +10,16 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Solenoid;
 
 import com.ctre.CANTalon;
 
 public class Turret extends Subsystem implements PIDSource, PIDOutput {
 	
 	private CANTalon motor;
+	
+	private Solenoid deploy1;
+	private Solenoid deploy2;
 	
 	private PIDSourceType pidType = PIDSourceType.kDisplacement;
 	private BetterPIDController angController;
@@ -37,6 +41,9 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 		angController.setAbsoluteTolerance(0.3);
 		centerOffSet = 992;
 		potScale = 90.0/(2557-992);
+		
+		deploy1 = new Solenoid(RobotMap.L_SOLENOID);
+		deploy2 = new Solenoid(RobotMap.R_SOLENOID);
 	}
 	
 	public void setPower(double x) {
@@ -104,6 +111,15 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 		else{
 			motor.set(x);
 		}
+	}
+	
+	//Deployer methods
+	public void setLeftDeploy(boolean on) {
+	    deploy1.set(on);
+	}
+	
+	public void setRightDeploy(boolean on) {
+	    deploy2.set(on);
 	}
 
 	@Override

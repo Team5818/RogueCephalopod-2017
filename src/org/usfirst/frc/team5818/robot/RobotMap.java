@@ -22,4 +22,8 @@ public class RobotMap {
 	public static final int ARM_TALON_R = 7;
 	public static final int TOP_COLLECTOR_ROLLER = 8;
 	public static final int BOT_COLLECTOR_ROLLER = 9;
+	
+	//Channels
+	public static final int L_SOLENOID = 1;
+	public static final int R_SOLENOID = 2;
 }
