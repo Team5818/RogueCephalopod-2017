@@ -43,14 +43,14 @@ public class AimTurret extends Command{
 	
 	@Override
 	protected void execute(){
-		degreesOff = track.getCurrentX() * (realFOV/240.0);
+		degreesOff = track.getCurrentAngle();
 		turr.setAng(degreesOff - turr.getAng());
 	}
 	
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return Math.abs((degreesOff - track.getCurrentX() * (realFOV/240.0))) < DEGREES_TOLERANCE;
+		return Math.abs(degreesOff - track.getCurrentAngle()) < DEGREES_TOLERANCE;
 	}
 
 	

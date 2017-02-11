@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import org.usfirst.frc.team5818.robot.constants.BotConstants;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -10,7 +12,7 @@ public class VisionTracker extends Subsystem implements Runnable{
 
 	private SerialPort rasPi;
 	private Port port;
-	private int currentX = -999;
+	private double currentAngle = -999;
 	private String charBuffer = "";
 	private Solenoid lightRing;
 	
@@ -43,8 +45,8 @@ public class VisionTracker extends Subsystem implements Runnable{
         if(output.equals("\n")){
         	//DriverStation.reportError(charBuffer + "\n", false);
         	if(charBuffer.length() == 4){
-        	    currentX = Integer.parseInt(charBuffer.substring(0, 4));
-
+        	    currentAngle = Integer.parseInt(charBuffer.substring(0, 4))
+        	            *BotConstants.CAMERA_WIDTH/BotConstants.CAMERA_FOV/2.0;
         	}
     	    charBuffer = "";
         }
@@ -65,8 +67,8 @@ public class VisionTracker extends Subsystem implements Runnable{
 		
 	}
 	
-	public int getCurrentX(){
-		return currentX;
+	public double getCurrentAngle(){
+		return currentAngle;
 	}
 	
 	

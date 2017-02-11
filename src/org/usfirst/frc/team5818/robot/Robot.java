@@ -136,7 +136,7 @@ public class Robot extends IterativeRobot {
 //    	SmartDashboard.putData("IMU", driveTrain.getGyro());
     	SmartDashboard.putNumber("Left in:", driveTrain.getLeftSide().getSidePosition());
     	SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
-    	SmartDashboard.putNumber("Gear X:", track.getCurrentX());
+    	SmartDashboard.putNumber("Gear X:", track.getCurrentAngle());
     	SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
     	SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
     }
