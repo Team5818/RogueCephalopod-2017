@@ -59,9 +59,6 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 	private static int timesGetAngCalled = 0;
 	public double getAng() {
 		double analog = pot.getValue();
-		if (timesGetAngCalled % 100 == 0)
-		    SmartDashboard.putString("DB/String 3", "" + analog);
-		timesGetAngCalled++; 
 		return ((analog - centerOffSet) * potScale);
 	}
 	

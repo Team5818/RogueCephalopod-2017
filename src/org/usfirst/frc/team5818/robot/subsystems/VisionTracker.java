@@ -55,7 +55,7 @@ public class VisionTracker extends Subsystem implements Runnable{
         }
 	}
 	
-	public void setlightsOn(boolean on) {
+	public void setLightsOn(boolean on) {
 	    lightRing.set(on);
 	}
 	

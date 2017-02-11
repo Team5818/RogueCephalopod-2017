@@ -6,7 +6,6 @@ import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraight extends Command {
 
@@ -23,44 +22,47 @@ public class DriveStraight extends Command {
     private int camMultiplier;
     private boolean useVision;
     private double maxRatio;
-    
-    public enum Camera{
+
+    public enum Camera {
         CAM_FORWARD, CAM_BACKWARD, NONE;
     }
-    
-    public DriveStraight(double in, double pow, double targetRat, double maxRat, Camera cam, boolean stop) {
+
+    public DriveStraight(double in, double pow, double targetRat, double maxRat,
+            Camera cam, boolean stop) {
         inches = in;
         maxPow = pow;
         requires(Robot.runningrobot.driveTrain);
         setTimeout(in / 12);
         targetRatio = targetRat; // Ratio is LEFT/RIGHT
         maxRatio = maxRat;
-        
-        if(cam.equals(Camera.NONE)){
+
+        if (cam.equals(Camera.NONE)) {
             camMultiplier = 0;
             useVision = false;
-        }
-        else if(cam.equals(Camera.CAM_FORWARD)){
+        } else if (cam.equals(Camera.CAM_FORWARD)) {
             camMultiplier = 1;
             useVision = true;
-        }
-        else if(cam.equals(Camera.CAM_BACKWARD)){
+        } else if (cam.equals(Camera.CAM_BACKWARD)) {
             camMultiplier = -1;
             useVision = true;
         }
-        
+
         stopAtEnd = stop;
     }
+
     /**
      * No vision constructor
      */
-    public DriveStraight(double in, double pow, double targetRatio, boolean stop) {
+    public DriveStraight(double in, double pow, double targetRatio,
+            boolean stop) {
         this(in, pow, targetRatio, 1.0, Camera.NONE, stop);
     }
+
     /**
      * Vision Constructor
      */
-    public DriveStraight(double in, double pow, double maxRatio, Camera cam, boolean stop) {
+    public DriveStraight(double in, double pow, double maxRatio, Camera cam,
+            boolean stop) {
         this(in, pow, 1.0, maxRatio, cam, stop);
     }
 
@@ -84,11 +86,12 @@ public class DriveStraight extends Command {
             currRatio = leftVel / rightVel;
         }
 
-        double anglePower = Robot.runningrobot.track.getCurrentAngle()/BotConstants.CAMERA_FOV*camMultiplier*2.0;
-        
+        double anglePower = Robot.runningrobot.track.getCurrentAngle()
+                / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
+
         double target = targetRatio;
-        
-        if(useVision){
+
+        if (useVision) {
             target = Math.pow(maxRatio, anglePower);
         }
 
@@ -100,12 +103,6 @@ public class DriveStraight extends Command {
 
         Robot.runningrobot.driveTrain.setPowerLeftRight(driveVec);
 
-        SmartDashboard.putString("DB/String 0",
-                String.format("%.3f", leftVel / rightVel));
-        SmartDashboard.putString("DB/String 1",
-                String.format("%.3f", driveVec.getX()));
-        SmartDashboard.putString("DB/String 2",
-                String.format("%.3f", driveVec.getY()));
     }
 
     @Override
@@ -117,19 +114,17 @@ public class DriveStraight extends Command {
     }
 
     @Override
-    public synchronized void cancel() {
-        // TODO Auto-generated method stub
-        super.cancel();
-    }
-
-    @Override
     protected boolean isFinished() {
-        return isTimedOut() || Math
-                .abs(Robot.runningrobot.driveTrain.left.getSidePosition())
-                - Math.abs(leftStart) >= Math.abs(inches)
-                && Math.abs(
-                        Robot.runningrobot.driveTrain.right.getSidePosition())
-                        - Math.abs(rightStart) >= Math.abs(inches);
+        boolean passedTarget =
+                Math.abs(Robot.runningrobot.driveTrain.left.getSidePosition())
+                        - Math.abs(leftStart) >= Math.abs(inches)
+                        && Math
+                                .abs(Robot.runningrobot.driveTrain.right
+                                        .getSidePosition())
+                                - Math.abs(rightStart) >= Math.abs(inches);
+
+        return isTimedOut() || passedTarget;
+
     }
 
 }
