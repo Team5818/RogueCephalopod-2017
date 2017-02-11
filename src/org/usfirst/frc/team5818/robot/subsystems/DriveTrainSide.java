@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import javafx.geometry.Side;
 
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
