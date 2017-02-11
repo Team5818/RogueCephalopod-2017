@@ -20,6 +20,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
 	public PIDSourceType pidType = PIDSourceType.kDisplacement;
 	public BetterPIDController anglePID;
 	
+	
 	private static final double kP = 0.0;// tune me pls
 	private static final double kI = 0.0;
 	private static final double kD = 0.0;
@@ -81,6 +82,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
 		leftMotorTal.set(x);
 		rightMotorTal.set(x);
 	}
+	
 
 	@Override
 	protected void initDefaultCommand() {

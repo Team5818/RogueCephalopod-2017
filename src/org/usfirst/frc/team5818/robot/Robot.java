@@ -51,6 +51,7 @@ public class Robot extends IterativeRobot {
     	turret = new Turret();
     	collector = new Collector();
         chooser = new SendableChooser<>();
+        driver = new Driver();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
         SmartDashboard.putData("Auto mode", chooser);
@@ -132,11 +133,10 @@ public class Robot extends IterativeRobot {
     }
     
     public void printSmartDash(){
+//    	SmartDashboard.putData("IMU", driveTrain.getGyro());
     	SmartDashboard.putNumber("Left in:", driveTrain.getLeftSide().getSidePosition());
     	SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
-    	SmartDashboard.putNumber("Gear X:", track.getCurrentX());
-    	SmartDashboard.putNumber("Gear Y:", track.getCurrentY());
-    	SmartDashboard.putNumber("Gear R:", track.getCurrentR());
+    	SmartDashboard.putNumber("Gear X:", track.getCurrentAngle());
     	SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
     	SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
     }

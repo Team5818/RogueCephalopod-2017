@@ -2,6 +2,7 @@ package org.usfirst.frc.team5818.robot.controllers;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.commands.AimTurret;
+import org.usfirst.frc.team5818.robot.commands.DriveStraight;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
@@ -25,6 +26,7 @@ public class Driver {
 	Joystick JS_TURRET;
 	DriveTrain train;
 	public static double  JOYSTICK_DEADBAND = .2;
+	public static boolean joystickControlEnabled;
 	
 	public boolean driving = true;
 	public boolean was_driving;
@@ -71,19 +73,24 @@ public class Driver {
 		JoystickButton turretAim = new JoystickButton(JS_TURRET,2);
 		turretAim.whenPressed(new AimTurret());
 
-		JoystickButton driveStraight = new JoystickButton(JS_FW_BACK, 7);
+		JoystickButton driveStraightButton = new JoystickButton(JS_FW_BACK, 3);
+		//driveStraightButton.whenPressed(new DriveStraight(72, 0.7, 1.2, true));
+		driveStraightButton.whenPressed(new DriveStraight(72, -0.4, 1.8, DriveStraight.Camera.CAM_BACKWARD, true));
 		
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;
 		cMode = ControlMode.ARCADE;
 		driveCalc = ArcadeDriveCalculator.INSTANCE;
+		joystickControlEnabled = true;
 	}
 	
 	public void teleopPeriodic(){
-		handleDeadbands();
-		handleCalc();
-		controlTurret();
-		drive();
+	    if (joystickControlEnabled) {
+            handleDeadbands();
+            handleCalc();
+            controlTurret();
+            drive();
+	    }
 	}
 	
 	public void drive(){

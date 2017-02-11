@@ -1,7 +1,10 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import org.usfirst.frc.team5818.robot.constants.BotConstants;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -9,12 +12,12 @@ public class VisionTracker extends Subsystem implements Runnable{
 
 	private SerialPort rasPi;
 	private Port port;
-	private int currentX = -999;
-	private int currentY = -999;
-	private int currentR = -999;
+	private double currentAngle = -999;
 	private String charBuffer = "";
+	private Solenoid lightRing;
 	
 	public VisionTracker(){
+	    lightRing = new Solenoid(0);
 		port = Port.kMXP;
 		rasPi = new SerialPort(9600, port);
 		rasPi.setReadBufferSize(1);
@@ -41,16 +44,19 @@ public class VisionTracker extends Subsystem implements Runnable{
 		}
         if(output.equals("\n")){
         	//DriverStation.reportError(charBuffer + "\n", false);
-        	if(charBuffer.length() == 12){
-        	    currentX = Integer.parseInt(charBuffer.substring(0, 4));
-        	    currentY = Integer.parseInt(charBuffer.substring(4, 8));
-        	    currentR = Integer.parseInt(charBuffer.substring(8, 12));
+        	if(charBuffer.length() == 4){
+        	    currentAngle = Integer.parseInt(charBuffer.substring(0, 4))
+        	            *BotConstants.CAMERA_FOV/BotConstants.CAMERA_WIDTH/2.0;
         	}
     	    charBuffer = "";
         }
         else{
         	charBuffer += output;
         }
+	}
+	
+	public void setLightsOn(boolean on) {
+	    lightRing.set(on);
 	}
 	
 	@Override
@@ -61,17 +67,10 @@ public class VisionTracker extends Subsystem implements Runnable{
 		
 	}
 	
-	public int getCurrentX(){
-		return currentX;
+	public double getCurrentAngle(){
+		return currentAngle;
 	}
 	
-	public int getCurrentY(){
-		return currentY;
-	}
-	
-	public int getCurrentR(){
-		return currentR;
-	}
 	
 	@Override
 	protected void initDefaultCommand() {

@@ -1,59 +1,130 @@
 package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
+import org.usfirst.frc.team5818.robot.constants.BotConstants;
+import org.usfirst.frc.team5818.robot.controllers.Driver;
+import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveStraight extends Command {
-	private double inches;
-	private double maxPow;
-	private double leftPowMult;
-	private double rightPowMult;
-	private double leftVel;
-	private double rightVel;
-	private double leftStart;
-	private double rightStart;
-	private double minSpeedRatio;
 
+    private double inches;
+    private double maxPow;
+    private double leftPowMult;
+    private double rightPowMult;
+    private double leftVel;
+    private double rightVel;
+    private double leftStart;
+    private double rightStart;
+    private double targetRatio;
+    private boolean stopAtEnd;
+    private int camMultiplier;
+    private boolean useVision;
+    private double maxRatio;
 
-	public DriveStraight(double in, double pow, double minSpeedRatio) {
-		inches = in;
-		maxPow = pow;
-		requires(Robot.runningrobot.driveTrain);
-		setTimeout(in / 12);
-		leftPowMult = 1;
-		rightPowMult = 1;
-		this.minSpeedRatio = minSpeedRatio;
-	}
-	
-	public void execute() {
-		Robot.runningrobot.driveTrain.left.setPower(leftPowMult * maxPow);
-		Robot.runningrobot.driveTrain.right.setPower(rightPowMult * maxPow);
-		leftVel = Robot.runningrobot.driveTrain.left.getSideVelocity();
-		rightVel = Robot.runningrobot.driveTrain.right.getSideVelocity();
-		if (leftVel == 0 || rightVel == 0) {
-		    System.out.println("zero vel on a side");
-		}
-		if (leftVel >= rightVel) {
-			if (leftVel / rightVel <= minSpeedRatio)
-				rightPowMult = leftVel / rightVel;
-			else
-				rightPowMult = minSpeedRatio;
-			leftPowMult = 1;
-		} else if (rightVel < leftVel) {
-			if (rightVel / leftVel <= minSpeedRatio)
-				leftPowMult = rightVel / leftVel;
-			else
-				leftPowMult = 1;
-			rightPowMult = 1;
-		}
-	}
-	@Override
-	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return isTimedOut() || 
-				Math.abs(Robot.runningrobot.driveTrain.left.getSidePosition()) - Math.abs(leftStart) >= Math.abs(inches) &&
-				Math.abs(Robot.runningrobot.driveTrain.right.getSidePosition()) - Math.abs(rightStart) >= Math.abs(inches);
-	}
-	
+    public enum Camera {
+        CAM_FORWARD, CAM_BACKWARD, NONE;
+    }
+
+    public DriveStraight(double in, double pow, double targetRat, double maxRat,
+            Camera cam, boolean stop) {
+        inches = in;
+        maxPow = pow;
+        requires(Robot.runningrobot.driveTrain);
+        setTimeout(in / 12);
+        targetRatio = targetRat; // Ratio is LEFT/RIGHT
+        maxRatio = maxRat;
+
+        if (cam.equals(Camera.NONE)) {
+            camMultiplier = 0;
+            useVision = false;
+        } else if (cam.equals(Camera.CAM_FORWARD)) {
+            camMultiplier = 1;
+            useVision = true;
+        } else if (cam.equals(Camera.CAM_BACKWARD)) {
+            camMultiplier = -1;
+            useVision = true;
+        }
+
+        stopAtEnd = stop;
+    }
+
+    /**
+     * No vision constructor
+     */
+    public DriveStraight(double in, double pow, double targetRatio,
+            boolean stop) {
+        this(in, pow, targetRatio, 1.0, Camera.NONE, stop);
+    }
+
+    /**
+     * Vision Constructor
+     */
+    public DriveStraight(double in, double pow, double maxRatio, Camera cam,
+            boolean stop) {
+        this(in, pow, 1.0, maxRatio, cam, stop);
+    }
+
+    @Override
+    public void initialize() {
+        leftPowMult = 1;
+        rightPowMult = 1;
+        Driver.joystickControlEnabled = false;
+        leftStart = Robot.runningrobot.driveTrain.left.getSidePosition();
+        rightStart = Robot.runningrobot.driveTrain.left.getSidePosition();
+    }
+
+    public void execute() {
+        leftVel =
+                Math.abs(Robot.runningrobot.driveTrain.left.getSideVelocity());
+        rightVel =
+                Math.abs(Robot.runningrobot.driveTrain.right.getSideVelocity());
+        double currRatio = targetRatio;
+
+        if (leftVel != 0 && rightVel != 0) {
+            currRatio = leftVel / rightVel;
+        }
+
+        double anglePower = Robot.runningrobot.track.getCurrentAngle()
+                / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
+
+        double target = targetRatio;
+
+        if (useVision) {
+            target = Math.pow(maxRatio, anglePower);
+        }
+
+        leftPowMult = 1.0;
+        rightPowMult = currRatio / target;
+
+        Vector2d driveVec = new Vector2d(leftPowMult, rightPowMult);
+        driveVec = driveVec.normalize(maxPow);
+
+        Robot.runningrobot.driveTrain.setPowerLeftRight(driveVec);
+
+    }
+
+    @Override
+    public void end() {
+        if (stopAtEnd) {
+            Robot.runningrobot.driveTrain.stop();
+        }
+        Driver.joystickControlEnabled = true;
+    }
+
+    @Override
+    protected boolean isFinished() {
+        boolean passedTarget =
+                Math.abs(Robot.runningrobot.driveTrain.left.getSidePosition())
+                        - Math.abs(leftStart) >= Math.abs(inches)
+                        && Math
+                                .abs(Robot.runningrobot.driveTrain.right
+                                        .getSidePosition())
+                                - Math.abs(rightStart) >= Math.abs(inches);
+
+        return isTimedOut() || passedTarget;
+
+    }
+
 }
