@@ -48,8 +48,11 @@ public class DriveStraight extends Command {
 	public void execute() {
 		leftVel = Math.abs(Robot.runningrobot.driveTrain.left.getSideVelocity());
 		rightVel = Math.abs(Robot.runningrobot.driveTrain.right.getSideVelocity());
+		double currRatio = targetRatio;
 		
-		double currRatio = leftVel/rightVel;
+		if(leftVel != 0 && rightVel != 0){
+		    currRatio = targetRatio;
+		}
 		
 		if(useVision){
 		    targetRatio = Robot.runningrobot.track.getCurrentAngle()*angleMult;
@@ -68,8 +71,8 @@ public class DriveStraight extends Command {
 		Robot.runningrobot.driveTrain.setPowerLeftRight(driveVec);
 		
         SmartDashboard.putString("DB/String 0", String.format("%.3f", leftVel / rightVel));
-        SmartDashboard.putString("DB/String 1", String.format("%.3f", leftPowMult));
-        SmartDashboard.putString("DB/String 2", String.format("%.3f", rightPowMult));
+        SmartDashboard.putString("DB/String 1", String.format("%.3f", driveVec.getX()));
+        SmartDashboard.putString("DB/String 2", String.format("%.3f", driveVec.getY()));
 	}
 	@Override
 	public void end() {
