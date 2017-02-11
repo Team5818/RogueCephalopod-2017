@@ -2,6 +2,7 @@ package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
+import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,6 +17,8 @@ public class DriveStraight extends Command {
 	private double leftStart;
 	private double rightStart;
 	private double minSpeedRatio;
+	private double targetRatio;
+	private double angleMult;
 
 
 	public DriveStraight(double in, double pow, double minSpeedRatio) {
@@ -23,7 +26,9 @@ public class DriveStraight extends Command {
 		maxPow = pow;
 		requires(Robot.runningrobot.driveTrain);
 		setTimeout(in / 12);
-		this.minSpeedRatio = minSpeedRatio;
+		minSpeedRatio = minSpeedRatio;
+		targetRatio = 1.0; //Ratio is LEFT/RIGHT
+		angleMult = .01;
 	}
 	
 	@Override
@@ -35,23 +40,25 @@ public class DriveStraight extends Command {
 		rightStart = Robot.runningrobot.driveTrain.left.getSidePosition();
 	}
 	public void execute() {
-		Robot.runningrobot.driveTrain.left.setPower(leftPowMult * maxPow);
-		Robot.runningrobot.driveTrain.right.setPower(rightPowMult * maxPow);
 		leftVel = Math.abs(Robot.runningrobot.driveTrain.left.getSideVelocity());
 		rightVel = Math.abs(Robot.runningrobot.driveTrain.right.getSideVelocity());
-		if (leftVel < rightVel) {
-			if (leftVel / rightVel >= minSpeedRatio)
-				rightPowMult = leftVel / rightVel;
-			else
-				rightPowMult = minSpeedRatio;
-			leftPowMult = 1;
-		} else {
-			if (rightVel / leftVel >= minSpeedRatio)
-				leftPowMult = rightVel / leftVel;
-			else
-				leftPowMult = minSpeedRatio;
-			rightPowMult = 1;
+		
+		double currRatio = leftVel/rightVel;
+		
+		targetRatio = Robot.runningrobot.track.getCurrentAngle()*angleMult;
+		
+		if(targetRatio < 0){
+		    targetRatio = 1.0/Math.abs(targetRatio);
 		}
+		
+		leftPowMult = 1.0;
+		rightPowMult = currRatio/targetRatio;
+		
+		Vector2d driveVec = new Vector2d(leftPowMult, rightPowMult);
+		driveVec = driveVec.normalize(maxPow);
+		
+		Robot.runningrobot.driveTrain.setPowerLeftRight(driveVec);
+		
         SmartDashboard.putString("DB/String 0", String.format("%.3f", leftVel / rightVel));
         SmartDashboard.putString("DB/String 1", String.format("%.3f", leftPowMult));
         SmartDashboard.putString("DB/String 2", String.format("%.3f", rightPowMult));
