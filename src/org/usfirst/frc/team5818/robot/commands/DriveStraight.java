@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
+import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
@@ -18,24 +19,49 @@ public class DriveStraight extends Command {
     private double leftStart;
     private double rightStart;
     private double targetRatio;
-    private double angleMult;
-    private boolean useVision;
     private boolean stopAtEnd;
-
-    public DriveStraight(double in, double pow, double targetRat, boolean vis,
-            boolean stop) {
+    private int camMultiplier;
+    private boolean useVision;
+    private double maxRatio;
+    
+    public enum Camera{
+        CAM_FORWARD, CAM_BACKWARD, NONE;
+    }
+    
+    public DriveStraight(double in, double pow, double targetRat, double maxRat, Camera cam, boolean stop) {
         inches = in;
         maxPow = pow;
         requires(Robot.runningrobot.driveTrain);
         setTimeout(in / 12);
         targetRatio = targetRat; // Ratio is LEFT/RIGHT
-        angleMult = .01;
-        useVision = vis;
+        maxRatio = maxRat;
+        
+        if(cam.equals(Camera.NONE)){
+            camMultiplier = 0;
+            useVision = false;
+        }
+        else if(cam.equals(Camera.CAM_FORWARD)){
+            camMultiplier = 1;
+            useVision = true;
+        }
+        else if(cam.equals(Camera.CAM_BACKWARD)){
+            camMultiplier = -1;
+            useVision = true;
+        }
+        
         stopAtEnd = stop;
     }
-
-    public DriveStraight(double in, double pow, boolean vis, boolean stop) {
-        this(in, pow, 1.0, vis, stop);
+    /**
+     * No vision constructor
+     */
+    public DriveStraight(double in, double pow, double targetRatio, boolean stop) {
+        this(in, pow, targetRatio, 1.0, Camera.NONE, stop);
+    }
+    /**
+     * Vision Constructor
+     */
+    public DriveStraight(double in, double pow, double maxRatio, Camera cam, boolean stop) {
+        this(in, pow, 1.0, maxRatio, cam, stop);
     }
 
     @Override
@@ -58,17 +84,16 @@ public class DriveStraight extends Command {
             currRatio = leftVel / rightVel;
         }
 
-        if (useVision) {
-            targetRatio =
-                    Robot.runningrobot.track.getCurrentAngle() * angleMult;
-        }
-
-        if (targetRatio < 0) {
-            targetRatio = 1.0 / Math.abs(targetRatio);
+        double anglePower = Robot.runningrobot.track.getCurrentAngle()/BotConstants.CAMERA_FOV*camMultiplier*2.0;
+        
+        double target = targetRatio;
+        
+        if(useVision){
+            target = Math.pow(maxRatio, anglePower);
         }
 
         leftPowMult = 1.0;
-        rightPowMult = currRatio / targetRatio;
+        rightPowMult = currRatio / target;
 
         Vector2d driveVec = new Vector2d(leftPowMult, rightPowMult);
         driveVec = driveVec.normalize(maxPow);

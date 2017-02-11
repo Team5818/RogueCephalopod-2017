@@ -74,7 +74,8 @@ public class Driver {
 		turretAim.whenPressed(new AimTurret());
 
 		JoystickButton driveStraightButton = new JoystickButton(JS_FW_BACK, 3);
-		driveStraightButton.whenPressed(new DriveStraight(72, 0.5, 1.2, false, true));
+		//driveStraightButton.whenPressed(new DriveStraight(72, 0.7, 1.2, true));
+		driveStraightButton.whenPressed(new DriveStraight(72, -0.4, 1.8, DriveStraight.Camera.CAM_BACKWARD, true));
 		
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;

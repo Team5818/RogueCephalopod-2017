@@ -46,7 +46,7 @@ public class VisionTracker extends Subsystem implements Runnable{
         	//DriverStation.reportError(charBuffer + "\n", false);
         	if(charBuffer.length() == 4){
         	    currentAngle = Integer.parseInt(charBuffer.substring(0, 4))
-        	            *BotConstants.CAMERA_WIDTH/BotConstants.CAMERA_FOV/2.0;
+        	            *BotConstants.CAMERA_FOV/BotConstants.CAMERA_WIDTH/2.0;
         	}
     	    charBuffer = "";
         }
