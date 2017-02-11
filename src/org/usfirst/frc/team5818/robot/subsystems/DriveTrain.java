@@ -4,16 +4,18 @@ import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
     public DriveTrainSide left;
 	public DriveTrainSide right;
 	private	ADIS16448_IMU gyro;
-	private BetterPIDController spinController;
+//	private BetterPIDController spinController;
 	
 	private static double spinP = 0.0;
 	private static double spinI = 0.0;
@@ -22,12 +24,12 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
 	public DriveTrain() {
 		left = new DriveTrainSide(DriveTrainSide.Side.LEFT);
 		right = new DriveTrainSide(DriveTrainSide.Side.RIGHT);
-		gyro = new ADIS16448_IMU();
-		spinController = new BetterPIDController(spinP, spinI, spinD, this, this);
+//		gyro = new ADIS16448_IMU();
+//		spinController = new BetterPIDController(spinP, spinI, spinD, this, this);
 	}
 	
 	public void setPowerLeftRight(double lpow, double rpow) {
-		spinController.disable();
+//		spinController.disable();
         left.setPower(lpow);
         right.setPower(rpow);
 	}
@@ -37,7 +39,7 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
 	}
 	
 	public void setVelocityLeftRight(double lvel, double rvel){
-		spinController.disable();
+//		spinController.disable();
 		left.driveVelocity(lvel);
 		right.driveVelocity(rvel);
 	}
@@ -47,15 +49,15 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
 	}
 	
 	public void driveDistance(double dist){
-		spinController.disable();
+//		spinController.disable();
 		left.driveDistance(dist);
 		right.driveDistance(dist);
 	}
 	
 	public void spinAngle(double ang){
-		spinController.disable();
-		spinController.setSetpoint(ang);
-		spinController.enable();
+//		spinController.disable();
+//		spinController.setSetpoint(ang);
+//		spinController.enable();
 	}
 	
 	public void setPIDSourceType(PIDSourceType type) {
@@ -113,7 +115,7 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
 	protected void initDefaultCommand() {}
 	
 	public BetterPIDController getSpinController(){
-		return spinController;
+		return null;
 	}
 	
 	public ADIS16448_IMU getGyro(){
@@ -122,7 +124,8 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
 	
 	@Override
 	public double pidGet(){
-		return getHeading();
+	    return 0;
+//		return getHeading();
 	}
 
 	@Override

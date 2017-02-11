@@ -2,6 +2,7 @@ package org.usfirst.frc.team5818.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -11,8 +12,10 @@ public class VisionTracker extends Subsystem implements Runnable{
 	private Port port;
 	private int currentX = -999;
 	private String charBuffer = "";
+	private Solenoid lightRing;
 	
 	public VisionTracker(){
+	    lightRing = new Solenoid(0);
 		port = Port.kMXP;
 		rasPi = new SerialPort(9600, port);
 		rasPi.setReadBufferSize(1);
@@ -48,6 +51,10 @@ public class VisionTracker extends Subsystem implements Runnable{
         else{
         	charBuffer += output;
         }
+	}
+	
+	public void setlightsOn(boolean on) {
+	    lightRing.set(on);
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Solenoid;
 
 import com.ctre.CANTalon;
 
@@ -28,6 +30,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 	public static final double kI = 0.0005;
 	public static final double kD = 0.0;
 
+	private Solenoid solenoid1;
+	private Solenoid solenoid2;
 	
 	public Turret() {
 		motor = new CANTalon(RobotMap.TURR_MOTOR); //Turret motor number not set
@@ -35,8 +39,10 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 		angController  = new BetterPIDController(kP,kI, kD, this, this);
 		pot = new AnalogInput(BotConstants.TURRET_POT);
 		angController.setAbsoluteTolerance(0.3);
-		centerOffSet = 992;
-		potScale = 90.0/(2557-992);
+		centerOffSet = 3027;
+		potScale = 360.0/4095.0;
+		solenoid1 = new Solenoid(1);
+		solenoid1 = new Solenoid(2);
 	}
 	
 	public void setPower(double x) {
@@ -50,8 +56,12 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 		angController.enable();
 	}
 	
+	private static int timesGetAngCalled = 0;
 	public double getAng() {
 		double analog = pot.getValue();
+		if (timesGetAngCalled % 100 == 0)
+		    SmartDashboard.putString("DB/String 3", "" + analog);
+		timesGetAngCalled++; 
 		return ((analog - centerOffSet) * potScale);
 	}
 	
@@ -104,6 +114,12 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 		else{
 			motor.set(x);
 		}
+	}
+	public void setSolenoid1(boolean on) {
+	    solenoid1.set(on);
+	}
+	public void setSolenoid2(boolean on) {
+	    solenoid2.set(on);
 	}
 
 	@Override

@@ -133,7 +133,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void printSmartDash(){
-    	SmartDashboard.putData("IMU", driveTrain.getGyro());
+//    	SmartDashboard.putData("IMU", driveTrain.getGyro());
     	SmartDashboard.putNumber("Left in:", driveTrain.getLeftSide().getSidePosition());
     	SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
     	SmartDashboard.putNumber("Gear X:", track.getCurrentX());

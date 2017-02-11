@@ -17,7 +17,7 @@ public class SpinRobot extends Command{
 	}
 	
 	public void initialize(){
-		train.getSpinController().setAbsoluteTolerance(DEGREES_TOLERANCE);
+	//	train.getSpinController().setAbsoluteTolerance(DEGREES_TOLERANCE);
 		train.spinAngle(targetAng);
 	}
 	
@@ -27,12 +27,12 @@ public class SpinRobot extends Command{
 	
 	@Override
 	protected boolean isFinished() {
-		return train.getSpinController().onTarget();
+return true;//		return train.getSpinController().onTarget();
 	}
 	
 	@Override
 	protected void end(){
-		train.getSpinController().disable();
+//		train.getSpinController().disable();
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ import org.usfirst.frc.team5818.robot.RobotMap;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Solenoid;
 
 import com.ctre.CANTalon;
 
@@ -19,6 +20,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
 	
 	public PIDSourceType pidType = PIDSourceType.kDisplacement;
 	public BetterPIDController anglePID;
+	
 	
 	private static final double kP = 0.0;// tune me pls
 	private static final double kI = 0.0;
@@ -81,6 +83,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
 		leftMotorTal.set(x);
 		rightMotorTal.set(x);
 	}
+	
 
 	@Override
 	protected void initDefaultCommand() {
