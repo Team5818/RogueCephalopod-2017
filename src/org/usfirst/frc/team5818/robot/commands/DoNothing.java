@@ -1,27 +1,13 @@
 package org.usfirst.frc.team5818.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import java.util.concurrent.TimeUnit;
 
-public class DoNothing extends Command {
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
-    @Override
-    public void initialize() {
+public class DoNothing extends TimedCommand {
 
-    }
-
-    @Override
-    protected void execute() {
-
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    protected void interrupted() {
-        this.end();
+    public DoNothing(long time, TimeUnit unit) {
+        super(unit.toSeconds(time));
     }
 
 }
