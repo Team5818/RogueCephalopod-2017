@@ -5,6 +5,7 @@ import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
+import org.usfirst.frc.team5818.robot.subsystems.CollectorRollers;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.ExampleSubsystem;
@@ -30,7 +31,8 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public DriveTrain driveTrain;
 	public Driver driver;
-	public Collector collector;
+    public Collector collector;
+    public CollectorRollers collectorRollers;
 	public VisionTracker track;
 	public Turret turret;
 	public static Robot runningrobot;
@@ -50,6 +52,7 @@ public class Robot extends IterativeRobot {
 		track = new VisionTracker();
     	turret = new Turret();
     	collector = new Collector();
+    	collectorRollers = new CollectorRollers();
         chooser = new SendableChooser<>();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
