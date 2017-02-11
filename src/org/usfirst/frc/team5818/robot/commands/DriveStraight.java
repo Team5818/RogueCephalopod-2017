@@ -16,20 +16,25 @@ public class DriveStraight extends Command {
 	private double rightVel;
 	private double leftStart;
 	private double rightStart;
-	private double minSpeedRatio;
 	private double targetRatio;
 	private double angleMult;
+	private boolean useVision;
+	private boolean stopAtEnd;
 
-
-	public DriveStraight(double in, double pow, double minSpeedRatio) {
+	public DriveStraight(double in, double pow, double targetRat, boolean vis, boolean stop) {
 		inches = in;
 		maxPow = pow;
 		requires(Robot.runningrobot.driveTrain);
 		setTimeout(in / 12);
-		minSpeedRatio = minSpeedRatio;
-		targetRatio = 1.0; //Ratio is LEFT/RIGHT
+		targetRatio = targetRat; //Ratio is LEFT/RIGHT
 		angleMult = .01;
+		useVision = vis;
+		stopAtEnd = stop;
 	}
+	
+	public DriveStraight(double in, double pow, boolean vis, boolean stop) {
+	    this(in,pow, 1.0, vis,stop);
+	 }
 	
 	@Override
 	public void initialize() {
@@ -39,13 +44,16 @@ public class DriveStraight extends Command {
 		leftStart = Robot.runningrobot.driveTrain.left.getSidePosition();
 		rightStart = Robot.runningrobot.driveTrain.left.getSidePosition();
 	}
+	
 	public void execute() {
 		leftVel = Math.abs(Robot.runningrobot.driveTrain.left.getSideVelocity());
 		rightVel = Math.abs(Robot.runningrobot.driveTrain.right.getSideVelocity());
 		
 		double currRatio = leftVel/rightVel;
 		
-		targetRatio = Robot.runningrobot.track.getCurrentAngle()*angleMult;
+		if(useVision){
+		    targetRatio = Robot.runningrobot.track.getCurrentAngle()*angleMult;
+		}
 		
 		if(targetRatio < 0){
 		    targetRatio = 1.0/Math.abs(targetRatio);
@@ -65,9 +73,12 @@ public class DriveStraight extends Command {
 	}
 	@Override
 	public void end() {
-	    Robot.runningrobot.driveTrain.stop();
+	    if(stopAtEnd){
+	        Robot.runningrobot.driveTrain.stop();
+	    }
 	    Driver.joystickControlEnabled = true;
-	}@Override
+	}
+	@Override
 	public synchronized void cancel() {
 	    // TODO Auto-generated method stub
 	    super.cancel();
