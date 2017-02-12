@@ -10,7 +10,6 @@ public class SwitchFeed extends Command{
 
 	private SerialPort rPi;
 	private boolean done;
-	private String order;
 	private static boolean gear;
 	
 	public static boolean isGear(){
@@ -24,14 +23,8 @@ public class SwitchFeed extends Command{
 	
 	@Override
 	protected void initialize(){
-		if(gear){
-			order = "t";
-		}
-		else{
-			order = "g";
-		}
 		try{
-			rPi.writeString(order);
+			rPi.writeString("w");
 			gear = !gear;
 		}
 		catch(Exception e){
