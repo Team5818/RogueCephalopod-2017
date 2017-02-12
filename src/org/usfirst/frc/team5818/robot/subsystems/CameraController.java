@@ -2,6 +2,7 @@ package org.usfirst.frc.team5818.robot.subsystems;
 
 import org.usfirst.frc.team5818.robot.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -26,7 +27,8 @@ public class CameraController extends Subsystem{
     
     public void switchFeed(){
         try{
-            rPi.writeString("switch"); 
+            rPi.writeString("switch\n"); 
+            DriverStation.reportError("Wrote", false);
             if(currCam.equals(Camera.BACK)){
                 currCam = Camera.FRONT;
             }else{

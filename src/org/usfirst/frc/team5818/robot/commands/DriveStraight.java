@@ -33,6 +33,7 @@ public class DriveStraight extends Command {
         maxRatio = maxRat;
         useVision = vis;
         camMultiplier = 0;
+        stopAtEnd = stop;
         if (useVision) {
             if(Robot.runningrobot.camCont.isFront()){
                 camMultiplier = -1;
@@ -42,7 +43,6 @@ public class DriveStraight extends Command {
                 maxPow = Math.abs(maxPow);
             }
         } 
-        stopAtEnd = stop;
     }
 
 
