@@ -27,7 +27,7 @@ public class CameraController extends Subsystem{
     
     public void switchFeed(){
         try{
-            rPi.writeString("switch\n"); 
+            rPi.writeString("w"); 
             DriverStation.reportError("Wrote", false);
             if(currCam.equals(Camera.BACK)){
                 currCam = Camera.FRONT;
