@@ -56,7 +56,6 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 		angController.enable();
 	}
 	
-	private static int timesGetAngCalled = 0;
 	public double getAng() {
 		double analog = pot.getValue();
 		return ((analog - centerOffSet) * potScale);

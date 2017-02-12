@@ -4,6 +4,7 @@ package org.usfirst.frc.team5818.robot;
 import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
+import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
@@ -33,6 +34,7 @@ public class Robot extends IterativeRobot {
 	public Collector collector;
 	public VisionTracker track;
 	public Turret turret;
+	public CameraController camCont;
 	public static Robot runningrobot;
 
     Command autonomousCommand;
@@ -51,6 +53,7 @@ public class Robot extends IterativeRobot {
     	turret = new Turret();
     	collector = new Collector();
         chooser = new SendableChooser<>();
+        camCont = new CameraController();
         driver = new Driver();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));

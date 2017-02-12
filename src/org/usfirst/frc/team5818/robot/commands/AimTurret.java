@@ -2,6 +2,7 @@ package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
+import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
@@ -13,6 +14,7 @@ public class AimTurret extends Command{
 
 	private Turret turr;
 	private VisionTracker track; 
+	private CameraController cont;
 	private double degreesOff;
 	public static final double DEGREES_TOLERANCE = 2;
 	
@@ -32,13 +34,11 @@ public class AimTurret extends Command{
 	public AimTurret(){
 		turr = Robot.runningrobot.turret;
 		track = Robot.runningrobot.track;
+		cont = Robot.runningrobot.camCont;
 	}
 	
 	public void initialize(){
-		if(!SwitchFeed.isGear()){
-			SwitchFeed sf = new SwitchFeed();
-			sf.start();
-		} 
+	    cont.tapeMode();
 	}
 	
 	@Override
