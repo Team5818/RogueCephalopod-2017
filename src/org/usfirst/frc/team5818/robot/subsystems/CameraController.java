@@ -27,7 +27,8 @@ public class CameraController extends Subsystem{
     
     public void switchFeed(){
         try{
-            rPi.writeString("w"); 
+            // for (int i = 0; i < 1000; i++)
+                rPi.writeString("w"); 
             DriverStation.reportError("Wrote", false);
             if(currCam.equals(Camera.BACK)){
                 currCam = Camera.FRONT;
@@ -63,7 +64,8 @@ public class CameraController extends Subsystem{
     
     public void exposureHigh(){
         try{
-            rPi.writeString("exphi");
+            // for (int i = 0; i < 1000; i++)
+                rPi.writeString("h");
             frontExposure = CAMERA_EXPOSURE_HIGH;
         } catch(Exception e){
             e.printStackTrace();
@@ -72,7 +74,8 @@ public class CameraController extends Subsystem{
     
     public void exposureLow(){
         try{
-            rPi.writeString("explo");
+            // for (int i = 0; i < 1000; i++)
+                rPi.writeString("l");
             frontExposure = CAMERA_EXPOSURE_LOW;
         } catch(Exception e){
             e.printStackTrace();
@@ -81,7 +84,8 @@ public class CameraController extends Subsystem{
     
     public void shutDown(){
         try{
-            rPi.writeString("shutdown");
+            // for (int i = 0; i < 1000; i++)
+                rPi.writeString("s");
         }
         catch(Exception e){
             e.printStackTrace();

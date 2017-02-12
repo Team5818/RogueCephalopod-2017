@@ -54,7 +54,7 @@ public class VisionTracker extends Subsystem implements Runnable{
         	charBuffer += output;
         }
         // testing rpi serial
-        rasPi.writeString("test");
+        // rasPi.writeString("test");
 	}
 	
 	public void setLightsOn(boolean on) {
