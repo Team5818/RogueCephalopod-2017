@@ -23,48 +23,28 @@ public class DriveStraight extends Command {
     private boolean useVision;
     private double maxRatio;
 
-    public enum Camera {
-        CAM_FORWARD, CAM_BACKWARD, NONE;
-    }
 
-    public DriveStraight(double in, double pow, double targetRat, double maxRat,
-            Camera cam, boolean stop) {
+    public DriveStraight(double in, double pow, double targetRat, double maxRat, boolean vis, boolean stop) {
         inches = in;
         maxPow = pow;
         requires(Robot.runningrobot.driveTrain);
         setTimeout(in / 12);
         targetRatio = targetRat; // Ratio is LEFT/RIGHT
         maxRatio = maxRat;
-
-        if (cam.equals(Camera.NONE)) {
-            camMultiplier = 0;
-            useVision = false;
-        } else if (cam.equals(Camera.CAM_FORWARD)) {
-            camMultiplier = 1;
-            useVision = true;
-        } else if (cam.equals(Camera.CAM_BACKWARD)) {
-            camMultiplier = -1;
-            useVision = true;
-        }
-
+        useVision = vis;
+        camMultiplier = 0;
+        if (useVision) {
+            if(Robot.runningrobot.camCont.isFront()){
+                camMultiplier = -1;
+                maxPow = -Math.abs(maxPow);
+            } else{
+                camMultiplier = 1;
+                maxPow = Math.abs(maxPow);
+            }
+        } 
         stopAtEnd = stop;
     }
 
-    /**
-     * No vision constructor
-     */
-    public DriveStraight(double in, double pow, double targetRatio,
-            boolean stop) {
-        this(in, pow, targetRatio, 1.0, Camera.NONE, stop);
-    }
-
-    /**
-     * Vision Constructor
-     */
-    public DriveStraight(double in, double pow, double maxRatio, Camera cam,
-            boolean stop) {
-        this(in, pow, 1.0, maxRatio, cam, stop);
-    }
 
     @Override
     public void initialize() {

@@ -4,10 +4,10 @@ import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.DriveStraight;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
-import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.SwitchFeed;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
+import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
@@ -25,6 +25,7 @@ public class Driver {
 	Joystick JS_TURN;
 	Joystick JS_TURRET;
 	DriveTrain train;
+	CameraController cont;
 	public static double  JOYSTICK_DEADBAND = .2;
 	public static boolean joystickControlEnabled;
 	
@@ -55,9 +56,6 @@ public class Driver {
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
 		JS_TURRET = new Joystick(BotConstants.JS_TURRET);
 		
-		JoystickButton killPi = new JoystickButton(JS_FW_BACK, 4);
-		killPi.whenPressed(new ShutDownRPi());
-		
 		JoystickButton switchCam = new JoystickButton(JS_FW_BACK, 5);
 		switchCam.whenPressed(new SwitchFeed());
 		
@@ -75,12 +73,13 @@ public class Driver {
 
 		JoystickButton driveStraightButton = new JoystickButton(JS_FW_BACK, 3);
 		//driveStraightButton.whenPressed(new DriveStraight(72, 0.7, 1.2, true));
-		driveStraightButton.whenPressed(new DriveStraight(72, -0.4, 1.8, DriveStraight.Camera.CAM_BACKWARD, true));
+		driveStraightButton.whenPressed(new DriveStraight(72.0, .4, 1.0, 1.8, false, true));
 		
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;
 		cMode = ControlMode.ARCADE;
 		driveCalc = ArcadeDriveCalculator.INSTANCE;
+		cont = Robot.runningrobot.camCont;
 		joystickControlEnabled = true;
 	}
 	
