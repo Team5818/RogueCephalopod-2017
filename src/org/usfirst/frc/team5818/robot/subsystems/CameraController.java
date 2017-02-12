@@ -50,6 +50,15 @@ public class CameraController extends Subsystem{
         }
     }
     
+    public void switchExposure(){
+        if(frontExposure == CAMERA_EXPOSURE_LOW){
+            exposureHigh();
+        }
+        else{
+            exposureLow();
+        }
+    }
+    
     public void exposureHigh(){
         try{
             rPi.writeString("exphi");
