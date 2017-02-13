@@ -2,6 +2,7 @@ package org.usfirst.frc.team5818.robot.controllers;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.commands.AimTurret;
+import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.DriveStraight;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
@@ -58,11 +59,17 @@ public class Driver {
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
 		JS_TURRET = new Joystick(BotConstants.JS_TURRET);
 		
+//	    JoystickButton driveForwardButton = new JoystickButton(JS_FW_BACK, 1);
+//	     driveForwardButton.whenPressed(new DriveStraight(72.0, 0.4, 1.8, DriveStraight.Camera.CAM_FORWARD, true));
+//	     
+//	    JoystickButton driveBackwardButton = new JoystickButton(JS_TURN, 1);
+//	    driveBackwardButton.whenPressed(new DriveStraight(72.0, 0.4, 1.8, DriveStraight.Camera.CAM_BACKWARD, true));
+	    
 	    JoystickButton driveForwardButton = new JoystickButton(JS_FW_BACK, 1);
-	     driveForwardButton.whenPressed(new DriveStraight(72.0, 0.4, 1.8, DriveStraight.Camera.CAM_FORWARD, true));
-	     
+	    driveForwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.FORWARD));
+	         
 	    JoystickButton driveBackwardButton = new JoystickButton(JS_TURN, 1);
-	    driveBackwardButton.whenPressed(new DriveStraight(72.0, 0.4, 1.8, DriveStraight.Camera.CAM_BACKWARD, true));
+	    driveBackwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.BACKWARD));
 		
 		JoystickButton killPi = new JoystickButton(JS_FW_BACK, 3);
 		killPi.whenPressed(new ShutDownRPi());
