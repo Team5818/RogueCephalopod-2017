@@ -58,8 +58,11 @@ public class Driver {
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
 		JS_TURRET = new Joystick(BotConstants.JS_TURRET);
 		
-	    JoystickButton driveStraightButton = new JoystickButton(JS_FW_BACK, 1);
-	     driveStraightButton.whenPressed(new DriveStraight(72.0, .4, 1.0, 1.8, false, true));
+	    JoystickButton driveForwardButton = new JoystickButton(JS_FW_BACK, 1);
+	     driveForwardButton.whenPressed(new DriveStraight(72.0, 0.4, 1.8, DriveStraight.Camera.CAM_FORWARD, true));
+	     
+	    JoystickButton driveBackwardButton = new JoystickButton(JS_TURN, 1);
+	    driveBackwardButton.whenPressed(new DriveStraight(72.0, 0.4, 1.8, DriveStraight.Camera.CAM_BACKWARD, true));
 		
 		JoystickButton killPi = new JoystickButton(JS_FW_BACK, 3);
 		killPi.whenPressed(new ShutDownRPi());

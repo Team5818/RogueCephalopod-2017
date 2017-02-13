@@ -26,30 +26,31 @@ public class CameraController extends Subsystem{
     }
     
     public void switchFeed(){
+        if(currCam.equals(Camera.BACK)){
+            tapeMode();
+        }
+        else{
+            gearMode();
+        }
+    }
+    
+    public void gearMode(){
         try{
-            // for (int i = 0; i < 1000; i++)
-                rPi.writeString("w"); 
-            DriverStation.reportError("Wrote", false);
-            if(currCam.equals(Camera.BACK)){
-                currCam = Camera.FRONT;
-            }else{
-                currCam = Camera.BACK;
-            }
+            rPi.writeString("g"); 
+            currCam = Camera.BACK;
         }
         catch(Exception e){
             e.printStackTrace();
         }
     }
     
-    public void gearMode(){
-        if(currCam.equals(Camera.FRONT)){
-            switchFeed();
-        }
-    }
-    
     public void tapeMode(){
-        if(currCam.equals(Camera.BACK)){
-            switchFeed();
+        try{
+            rPi.writeString("t"); 
+            currCam = Camera.FRONT;
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
     }
     
@@ -64,8 +65,7 @@ public class CameraController extends Subsystem{
     
     public void exposureHigh(){
         try{
-            // for (int i = 0; i < 1000; i++)
-                rPi.writeString("h");
+            rPi.writeString("h");
             frontExposure = CAMERA_EXPOSURE_HIGH;
         } catch(Exception e){
             e.printStackTrace();
@@ -74,8 +74,7 @@ public class CameraController extends Subsystem{
     
     public void exposureLow(){
         try{
-            // for (int i = 0; i < 1000; i++)
-                rPi.writeString("l");
+            rPi.writeString("l");
             frontExposure = CAMERA_EXPOSURE_LOW;
         } catch(Exception e){
             e.printStackTrace();
@@ -84,8 +83,7 @@ public class CameraController extends Subsystem{
     
     public void shutDown(){
         try{
-            // for (int i = 0; i < 1000; i++)
-                rPi.writeString("s");
+            rPi.writeString("s");
         }
         catch(Exception e){
             e.printStackTrace();

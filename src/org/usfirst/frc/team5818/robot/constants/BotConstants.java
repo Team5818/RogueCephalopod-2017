@@ -31,5 +31,5 @@ public class BotConstants {
 	
 	public static final int TURRET_POT = 0;
 	public static final double CAMERA_FOV = 60.0;
-	public static final double CAMERA_WIDTH = 320.0;
+	public static final double CAMERA_WIDTH = 160.0;
 }

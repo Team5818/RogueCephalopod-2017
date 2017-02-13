@@ -3,6 +3,7 @@ package org.usfirst.frc.team5818.robot.commands;
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
+import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,29 +23,54 @@ public class DriveStraight extends Command {
     private int camMultiplier;
     private boolean useVision;
     private double maxRatio;
+    private CameraController cont;
+    private Camera camera;
 
+    public enum Camera {
+        CAM_FORWARD, CAM_BACKWARD, NONE;
+    }
 
-    public DriveStraight(double in, double pow, double targetRat, double maxRat, boolean vis, boolean stop) {
+    public DriveStraight(double in, double pow, double targetRat, double maxRat,
+            Camera cam, boolean stop) {
+        camera = cam;
         inches = in;
         maxPow = pow;
         requires(Robot.runningrobot.driveTrain);
         setTimeout(in / 12);
         targetRatio = targetRat; // Ratio is LEFT/RIGHT
         maxRatio = maxRat;
-        useVision = vis;
-        camMultiplier = 0;
+        cont = Robot.runningrobot.camCont;
+        if (cam.equals(Camera.NONE)) {
+            camMultiplier = 0;
+            useVision = false;
+        } else if (cam.equals(Camera.CAM_FORWARD)) {
+            camMultiplier = 1;
+            maxPow = Math.abs(pow);
+            useVision = true;
+        } else if (cam.equals(Camera.CAM_BACKWARD)) {
+            camMultiplier = -1;
+            maxPow = -Math.abs(pow);
+            useVision = true;
+        }
+
         stopAtEnd = stop;
-        if (useVision) {
-            if(Robot.runningrobot.camCont.isFront()){
-                camMultiplier = -1;
-                maxPow = -Math.abs(maxPow);
-            } else{
-                camMultiplier = 1;
-                maxPow = Math.abs(maxPow);
-            }
-        } 
     }
 
+    /**
+     * No vision constructor
+     */
+    public DriveStraight(double in, double pow, double targetRatio,
+            boolean stop) {
+        this(in, pow, targetRatio, 1.0, Camera.NONE, stop);
+    }
+
+    /**
+     * Vision Constructor
+     */
+    public DriveStraight(double in, double pow, double maxRatio, Camera cam,
+            boolean stop) {
+        this(in, pow, 1.0, maxRatio, cam, stop);
+    }
 
     @Override
     public void initialize() {
@@ -53,6 +79,12 @@ public class DriveStraight extends Command {
         Driver.joystickControlEnabled = false;
         leftStart = Robot.runningrobot.driveTrain.left.getSidePosition();
         rightStart = Robot.runningrobot.driveTrain.left.getSidePosition();
+        
+        if (camera.equals(Camera.CAM_FORWARD)) {
+            cont.tapeMode();
+        } else if (camera.equals(Camera.CAM_BACKWARD)) {
+            cont.gearMode();
+        }
     }
 
     public void execute() {
