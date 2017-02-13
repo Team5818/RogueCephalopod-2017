@@ -106,6 +106,9 @@ public class DriveStraight extends Command {
         if (useVision) {
             target = Math.pow(maxRatio, anglePower);
         }
+        else{
+            target = Math.pow(target, Math.signum(maxPow));
+        }
 
         leftPowMult = 1.0;
         rightPowMult = currRatio / target;
