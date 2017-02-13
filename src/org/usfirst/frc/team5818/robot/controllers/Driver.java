@@ -66,7 +66,7 @@ public class Driver {
 //	    driveBackwardButton.whenPressed(new DriveStraight(72.0, 0.4, 1.8, DriveStraight.Camera.CAM_BACKWARD, true));
 	    
 	    JoystickButton driveForwardButton = new JoystickButton(JS_FW_BACK, 1);
-	    driveForwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.FORWARD, 1.0));
+	    driveForwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.FORWARD, 1.8));
 	         
 	    JoystickButton driveBackwardButton = new JoystickButton(JS_TURN, 1);
 	    driveBackwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.BACKWARD, 1.8));

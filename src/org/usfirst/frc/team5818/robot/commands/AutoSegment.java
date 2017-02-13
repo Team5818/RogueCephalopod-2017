@@ -18,14 +18,14 @@ public class AutoSegment extends CommandGroup{
     public AutoSegment(Direction dir, double radius){
         drive = new CommandGroup();
         if(dir.equals(Direction.BACKWARD)){
-            driveOvershoot = new DriveStraight(24, -.4, radius, false);
-            driveVision = new DriveStraight(36, -.4, 2.0, DriveStraight.Camera.CAM_BACKWARD, false);
-            driveFinal = new DriveStraight(12, -.4, 1.0, true);
+            driveOvershoot = new DriveStraight(30, -.4, radius, false);
+            driveVision = new DriveStraight(30, -.4, 3.2, DriveStraight.Camera.CAM_BACKWARD, false);
+            driveFinal = new DriveStraight(8, -.4, 1.0, true);
         }
         else{
-            driveOvershoot = new DriveStraight(24, .4, radius, false);
-            driveVision = new DriveStraight(36, .4, 2.0, DriveStraight.Camera.CAM_FORWARD, false);
-            driveFinal = new DriveStraight(12, .4, 1.0, true);
+            driveOvershoot = new DriveStraight(30, .4, radius, false);
+            driveVision = new DriveStraight(30, .4, 2.6, DriveStraight.Camera.CAM_FORWARD, false);
+            driveFinal = new DriveStraight(8, .4, 1.0, true);
         }
         drive.addSequential(driveOvershoot);
         drive.addSequential(driveVision);
