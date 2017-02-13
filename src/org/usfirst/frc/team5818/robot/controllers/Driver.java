@@ -3,12 +3,14 @@ package org.usfirst.frc.team5818.robot.controllers;
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
+import org.usfirst.frc.team5818.robot.commands.AutoSegment.Side;
 import org.usfirst.frc.team5818.robot.commands.DriveStraight;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.SwitchExposure;
 import org.usfirst.frc.team5818.robot.commands.SwitchFeed;
+import org.usfirst.frc.team5818.robot.commands.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
@@ -59,17 +61,17 @@ public class Driver {
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
 		JS_TURRET = new Joystick(BotConstants.JS_TURRET);
 		
+	     JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
+	     twoGearButton.whenPressed(new TwoGearAuto());
+		
 //	    JoystickButton driveForwardButton = new JoystickButton(JS_FW_BACK, 1);
-//	     driveForwardButton.whenPressed(new DriveStraight(72.0, 0.4, 1.8, DriveStraight.Camera.CAM_FORWARD, true));
-//	     
+//	    driveForwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.FORWARD, Side.RIGHT));
+//	         
+//	    JoystickButton driveStraightButton = new JoystickButton(JS_FW_BACK, 2);
+//	    driveStraightButton.whenPressed(new AutoSegment(AutoSegment.Direction.FORWARD, Side.STRAIGHT));
+//	        
 //	    JoystickButton driveBackwardButton = new JoystickButton(JS_TURN, 1);
-//	    driveBackwardButton.whenPressed(new DriveStraight(72.0, 0.4, 1.8, DriveStraight.Camera.CAM_BACKWARD, true));
-	    
-	    JoystickButton driveForwardButton = new JoystickButton(JS_FW_BACK, 1);
-	    driveForwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.FORWARD, 1.8));
-	         
-	    JoystickButton driveBackwardButton = new JoystickButton(JS_TURN, 1);
-	    driveBackwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.BACKWARD, 1.8));
+//	    driveBackwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.BACKWARD, Side.RIGHT));
 		
 		JoystickButton killPi = new JoystickButton(JS_FW_BACK, 3);
 		killPi.whenPressed(new ShutDownRPi());
