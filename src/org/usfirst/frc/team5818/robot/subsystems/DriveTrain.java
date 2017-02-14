@@ -22,8 +22,8 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
 	private static double spinD = 0.0;
 	
 	public DriveTrain() {
-		left = new DriveTrainSide(DriveTrainSide.Side.LEFT);
-		right = new DriveTrainSide(DriveTrainSide.Side.RIGHT);
+		left = new DriveTrainSide(DriveTrainSide.Side.LEFT, false);
+		right = new DriveTrainSide(DriveTrainSide.Side.RIGHT, false);
 //		gyro = new ADIS16448_IMU();
 //		spinController = new BetterPIDController(spinP, spinI, spinD, this, this);
 	}

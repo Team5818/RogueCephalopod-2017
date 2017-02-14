@@ -19,6 +19,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 
     private CANTalon motorNoEnc;
     private CANTalon motorEnc;
+    private CANTalon motor2NoEnc;
 
     public BetterPIDController distController;
     public BetterPIDController velController;
@@ -28,12 +29,15 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     private int multiplier;
     private Side side;
 
-    public DriveTrainSide(Side side) {
+    public DriveTrainSide(Side side, boolean threeTalons) {
         this.side = side;
         if (side == Side.LEFT) {
             multiplier = 1;
             motorNoEnc = new CANTalon(RobotMap.L_TALON);
             motorEnc = new CANTalon(RobotMap.L_TALON_ENC);
+            if(threeTalons) {
+                motor2NoEnc = new CANTalon(RobotMap.L_TALON_2);
+            }
             velController = new BetterPIDController(BotConstants.L_VEL_KP,
                     BotConstants.L_VEL_KI, BotConstants.L_VEL_KD,
                     BotConstants.L_VEL_KF, this, this);
@@ -43,8 +47,14 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             multiplier = -1;
             motorNoEnc = new CANTalon(RobotMap.R_TALON);
             motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
+            if(threeTalons) {
+                motor2NoEnc = new CANTalon(RobotMap.R_TALON_2);
+            }
             motorNoEnc.setInverted(true);
             motorEnc.setInverted(true);
+            if(motor2NoEnc != null) {
+                motor2NoEnc.setInverted(true);
+            }
             velController = new BetterPIDController(BotConstants.R_VEL_KP,
                     BotConstants.R_VEL_KI, BotConstants.R_VEL_KD,
                     BotConstants.R_VEL_KF, this, this);
@@ -65,6 +75,9 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
         }
         motorNoEnc.set(numIn * BotConstants.MAX_POWER);
         motorEnc.set(numIn * BotConstants.MAX_POWER);
+        if(motor2NoEnc != null) {
+            motor2NoEnc.set(numIn * BotConstants.MAX_POWER);
+        }
     }
 
     public double getSidePosition() {
@@ -81,6 +94,9 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     public void pidWrite(double val) {
         motorEnc.set(val * BotConstants.MAX_POWER);
         motorNoEnc.set(val * BotConstants.MAX_POWER);
+        if(motor2NoEnc != null) {
+            motor2NoEnc.set(val * BotConstants.MAX_POWER);
+        }
     }
 
     @Override
@@ -139,11 +155,17 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     public void setCoastMode() {
         motorNoEnc.enableBrakeMode(false);
         motorEnc.enableBrakeMode(false);
+        if(motor2NoEnc != null) {
+            motor2NoEnc.enableBrakeMode(false);
+        }
     }
 
     public void setBrakeMode() {
         motorEnc.enableBrakeMode(true);
         motorNoEnc.enableBrakeMode(true);
+        if(motor2NoEnc != null) {
+            motor2NoEnc.enableBrakeMode(true);
+        }
     }
 
     public void initDefaultCommand() {
