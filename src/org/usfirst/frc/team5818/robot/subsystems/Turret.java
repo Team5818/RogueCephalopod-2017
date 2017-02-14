@@ -41,8 +41,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 		angController.setAbsoluteTolerance(0.3);
 		centerOffSet = 3027;
 		potScale = 360.0/4095.0;
+		solenoid1 = new Solenoid(1);
 		solenoid1 = new Solenoid(2);
-		solenoid1 = new Solenoid(3);
 	}
 	
 	public void setPower(double x) {

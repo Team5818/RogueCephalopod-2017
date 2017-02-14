@@ -5,11 +5,13 @@ import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment.Side;
 import org.usfirst.frc.team5818.robot.commands.DriveStraight;
+import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
+import org.usfirst.frc.team5818.robot.commands.ExposureLow;
+import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
-import org.usfirst.frc.team5818.robot.commands.SwitchExposure;
-import org.usfirst.frc.team5818.robot.commands.SwitchFeed;
+import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
@@ -61,38 +63,32 @@ public class Driver {
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
 		JS_TURRET = new Joystick(BotConstants.JS_TURRET);
 		
-	     JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
-	     twoGearButton.whenPressed(new TwoGearAuto());
+	    JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
+	    twoGearButton.whenPressed(new TwoGearAuto());
 		
-//	    JoystickButton driveForwardButton = new JoystickButton(JS_FW_BACK, 1);
-//	    driveForwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.FORWARD, Side.RIGHT));
-//	         
-//	    JoystickButton driveStraightButton = new JoystickButton(JS_FW_BACK, 2);
-//	    driveStraightButton.whenPressed(new AutoSegment(AutoSegment.Direction.FORWARD, Side.STRAIGHT));
-//	        
-//	    JoystickButton driveBackwardButton = new JoystickButton(JS_TURN, 1);
-//	    driveBackwardButton.whenPressed(new AutoSegment(AutoSegment.Direction.BACKWARD, Side.RIGHT));
-		
-		JoystickButton killPi = new JoystickButton(JS_FW_BACK, 3);
+		JoystickButton killPi = new JoystickButton(JS_TURN, 2);
 		killPi.whenPressed(new ShutDownRPi());
 		
-	    JoystickButton switchExp = new JoystickButton(JS_FW_BACK, 4);
-	    switchExp.whenPressed(new SwitchExposure());
-	     
-		JoystickButton switchCam = new JoystickButton(JS_FW_BACK, 5);
-		switchCam.whenPressed(new SwitchFeed());
+	    JoystickButton expLo = new JoystickButton(JS_TURN, 3);
+	    expLo.whenPressed(new ExposureLow());
 		
-		JoystickButton switchDrive = new JoystickButton(JS_FW_BACK, 6);
-		switchDrive.whenPressed(new SwitchDriveMode());
+	    JoystickButton expHi = new JoystickButton(JS_TURN, 5);
+	    expHi.whenPressed(new ExposureHigh());
+	     
+		JoystickButton gear = new JoystickButton(JS_TURN, 4);
+		gear.whenPressed(new GearMode());
+		
+	    JoystickButton tape = new JoystickButton(JS_TURN, 6);
+	     tape.whenPressed(new TapeMode());
 		
 		JoystickButton turret90 = new JoystickButton(JS_TURRET,1);
 		turret90.whenPressed(new SetTurretAngle(90.0));
 		
+	    JoystickButton turretAim = new JoystickButton(JS_TURRET,2);
+	     turretAim.whenPressed(new AimTurret());
+		
 		JoystickButton turretZero = new JoystickButton(JS_TURRET,3);
 		turretZero.whenPressed(new SetTurretAngle(0.0));
-		
-		JoystickButton turretAim = new JoystickButton(JS_TURRET,2);
-		turretAim.whenPressed(new AimTurret());
 		
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;
