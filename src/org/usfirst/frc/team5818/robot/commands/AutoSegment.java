@@ -24,27 +24,27 @@ public class AutoSegment extends CommandGroup{
         double radius;
         double dist1;
         if(side.equals(Side.RIGHT)){
-            radius = 1.8;
-            dist1 = 30;
+            radius = 2.2;
+            dist1 = 25;
         }
         else if(side.equals(Side.LEFT)){
-            radius = 1.0/1.8;
-            dist1 = 30;
+            radius = 1.0/2.2;
+            dist1 = 25;
         }
         else{
             radius = 1.0;
-            dist1 = 27.5;
+            dist1 = 31;
         }
         
         if(dir.equals(Direction.BACKWARD)){
             driveOvershoot = new DriveStraight(dist1, -.4, radius, false);
-            driveVision = new DriveStraight(30, -.4, 3.6, DriveStraight.Camera.CAM_BACKWARD, false);
-            driveFinal = new DriveStraight(8, -.4, 1.0, true);
+            driveVision = new DriveStraight(30, -.4, 4.2, DriveStraight.Camera.CAM_BACKWARD, false);
+            driveFinal = new DriveStraight(6, -.4, 1.0, true);
         }
         else{
             driveOvershoot = new DriveStraight(dist1, .4, radius, false);
             driveVision = new DriveStraight(30, .4, 2.6, DriveStraight.Camera.CAM_FORWARD, false);
-            driveFinal = new DriveStraight(7, .4, 1.0, true);
+            driveFinal = new DriveStraight(6, .4, 1.0, true);
         }
         drive.addSequential(driveOvershoot);
         drive.addSequential(driveVision);

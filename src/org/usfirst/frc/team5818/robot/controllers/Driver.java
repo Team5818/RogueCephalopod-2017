@@ -65,6 +65,10 @@ public class Driver {
 		
 	    JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
 	    twoGearButton.whenPressed(new TwoGearAuto());
+	    
+        JoystickButton getGear = new JoystickButton(JS_FW_BACK, 2); 
+        getGear.whenPressed(new AutoSegment(AutoSegment.Direction.BACKWARD, Side.LEFT));
+
 		
 		JoystickButton killPi = new JoystickButton(JS_TURN, 2);
 		killPi.whenPressed(new ShutDownRPi());

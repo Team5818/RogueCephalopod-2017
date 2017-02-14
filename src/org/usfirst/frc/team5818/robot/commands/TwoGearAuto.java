@@ -18,9 +18,9 @@ public class TwoGearAuto extends CommandGroup{
         tapeMode1 = new TapeMode();
         forward = new AutoSegment(AutoSegment.Direction.FORWARD, Side.STRAIGHT);
         gearMode = new GearMode();
-        getGear = new AutoSegment(AutoSegment.Direction.BACKWARD, Side.RIGHT);
+        getGear = new AutoSegment(AutoSegment.Direction.BACKWARD, Side.LEFT);
         tapeMode2 = new TapeMode();
-        placeGear = new AutoSegment(AutoSegment.Direction.FORWARD, Side.RIGHT);
+        placeGear = new AutoSegment(AutoSegment.Direction.FORWARD, Side.LEFT);
         
         this.addSequential(tapeMode1);
         this.addSequential(forward);

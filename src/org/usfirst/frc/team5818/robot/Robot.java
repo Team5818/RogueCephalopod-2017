@@ -116,7 +116,6 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) autonomousCommand.cancel();
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
-        track.setLightsOn(true);
         track.start();
     }
 

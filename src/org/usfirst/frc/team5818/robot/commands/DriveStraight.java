@@ -7,6 +7,7 @@ import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraight extends Command {
 
@@ -16,8 +17,7 @@ public class DriveStraight extends Command {
     private double rightPowMult;
     private double leftVel;
     private double rightVel;
-    private double leftStart;
-    private double rightStart;
+    private double avStart;
     private double targetRatio;
     private boolean stopAtEnd;
     private int camMultiplier;
@@ -74,11 +74,12 @@ public class DriveStraight extends Command {
 
     @Override
     public void initialize() {
+        SmartDashboard.putNumber("Vision Angle", Robot.runningrobot.track.getCurrentAngle());
         leftPowMult = 1;
         rightPowMult = 1;
         Driver.joystickControlEnabled = false;
-        leftStart = Robot.runningrobot.driveTrain.left.getSidePosition();
-        rightStart = Robot.runningrobot.driveTrain.left.getSidePosition();
+        avStart = Robot.runningrobot.driveTrain.getAverageDistance();
+        
         
         if (camera.equals(Camera.CAM_FORWARD)) {
             cont.tapeMode();
@@ -131,13 +132,7 @@ public class DriveStraight extends Command {
     @Override
     protected boolean isFinished() {
         boolean passedTarget =
-                Math.abs(Robot.runningrobot.driveTrain.left.getSidePosition())
-                        - Math.abs(leftStart) >= Math.abs(inches)
-                        && Math
-                                .abs(Robot.runningrobot.driveTrain.right
-                                        .getSidePosition())
-                                - Math.abs(rightStart) >= Math.abs(inches);
-
+                Math.abs(Robot.runningrobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
         return isTimedOut() || passedTarget;
 
     }
