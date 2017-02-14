@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,6 +16,7 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
     public DriveTrainSide left;
 	public DriveTrainSide right;
 	private	ADIS16448_IMU gyro;
+	private Ultrasonic sanic;
 //	private BetterPIDController spinController;
 	
 	private static double spinP = 0.0;
@@ -24,8 +26,37 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput{
 	public DriveTrain() {
 		left = new DriveTrainSide(DriveTrainSide.Side.LEFT);
 		right = new DriveTrainSide(DriveTrainSide.Side.RIGHT);
+		sanic = new Ultrasonic(0,1);
 //		gyro = new ADIS16448_IMU();
 //		spinController = new BetterPIDController(spinP, spinI, spinD, this, this);
+	}
+	
+	public Ultrasonic getSanic(){
+	    return sanic;
+	}
+	
+	public void enableSanic(){
+	    sanic.setAutomaticMode(true);
+	}
+	
+	public double readSanic(){
+	    return sanic.getRangeInches();
+	}
+	
+	public String askSanic(){
+	    int idx = (int)Math.random()*4;
+	    switch(idx){
+	        case 0:
+	            return "Gotta go fast!";
+	        case 1:
+	            return "Sanic's my name!";
+	        case 2:
+	            return "Speed's my game!";
+	        case 3:
+	            return "Stop hating on sanic!";
+	        default:
+	            return "Your too slooooowww!!";
+	    }
 	}
 	
 	public void setPowerLeftRight(double lpow, double rpow) {
