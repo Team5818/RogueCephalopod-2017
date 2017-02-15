@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class CameraController extends Subsystem{
 
-    private enum Camera{
+    public enum Camera{
         FRONT, BACK
     }
     
