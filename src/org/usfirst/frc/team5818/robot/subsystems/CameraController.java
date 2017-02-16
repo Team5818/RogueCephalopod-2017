@@ -2,14 +2,13 @@ package org.usfirst.frc.team5818.robot.subsystems;
 
 import org.usfirst.frc.team5818.robot.Robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class CameraController extends Subsystem{
 
     public enum Camera{
-        FRONT, BACK
+        CAM_FORWARD, CAM_BACKWARD, NONE
     }
     
     public static double CAMERA_EXPOSURE_HIGH = 156;
@@ -21,12 +20,12 @@ public class CameraController extends Subsystem{
     
     public CameraController(){
         rPi = Robot.runningrobot.track.getRasPi();
-        currCam = Camera.FRONT;
+        currCam = Camera.CAM_FORWARD;
         frontExposure = CAMERA_EXPOSURE_LOW;
     }
     
     public void switchFeed(){
-        if(currCam.equals(Camera.BACK)){
+        if(currCam.equals(Camera.CAM_BACKWARD)){
             tapeMode();
         }
         else{
@@ -37,7 +36,7 @@ public class CameraController extends Subsystem{
     public void gearMode(){
         try{
             rPi.writeString("g"); 
-            currCam = Camera.BACK;
+            currCam = Camera.CAM_BACKWARD;
         }
         catch(Exception e){
             e.printStackTrace();
@@ -47,7 +46,7 @@ public class CameraController extends Subsystem{
     public void tapeMode(){
         try{
             rPi.writeString("t"); 
-            currCam = Camera.FRONT;
+            currCam = Camera.CAM_FORWARD;
         }
         catch(Exception e){
             e.printStackTrace();
@@ -96,7 +95,7 @@ public class CameraController extends Subsystem{
     
     
     public boolean isFront(){
-        return currCam.equals(Camera.FRONT);
+        return currCam.equals(Camera.CAM_FORWARD);
     }
     
     public double getFrontExposure(){

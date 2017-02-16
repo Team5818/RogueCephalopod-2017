@@ -24,14 +24,10 @@ public class DriveStraight extends Command {
     private boolean useVision;
     private double maxRatio;
     private CameraController cont;
-    private Camera camera;
-
-    public enum Camera {
-        CAM_FORWARD, CAM_BACKWARD, NONE;
-    }
+    private CameraController.Camera camera;
 
     public DriveStraight(double in, double pow, double targetRat, double maxRat,
-            Camera cam, boolean stop) {
+            CameraController.Camera cam, boolean stop) {
         camera = cam;
         inches = in;
         maxPow = pow;
@@ -40,14 +36,14 @@ public class DriveStraight extends Command {
         targetRatio = targetRat; // Ratio is LEFT/RIGHT
         maxRatio = maxRat;
         cont = Robot.runningrobot.camCont;
-        if (cam.equals(Camera.NONE)) {
+        if (cam.equals(CameraController.Camera.NONE)) {
             camMultiplier = 0;
             useVision = false;
-        } else if (cam.equals(Camera.CAM_FORWARD)) {
+        } else if (cam.equals(CameraController.Camera.CAM_FORWARD)) {
             camMultiplier = 1;
             maxPow = Math.abs(pow);
             useVision = true;
-        } else if (cam.equals(Camera.CAM_BACKWARD)) {
+        } else if (cam.equals(CameraController.Camera.CAM_BACKWARD)) {
             camMultiplier = -1;
             maxPow = -Math.abs(pow);
             useVision = true;
@@ -61,13 +57,13 @@ public class DriveStraight extends Command {
      */
     public DriveStraight(double in, double pow, double targetRatio,
             boolean stop) {
-        this(in, pow, targetRatio, 1.0, Camera.NONE, stop);
+        this(in, pow, targetRatio, 1.0, CameraController.Camera.NONE, stop);
     }
 
     /**
      * Vision Constructor
      */
-    public DriveStraight(double in, double pow, double maxRatio, Camera cam,
+    public DriveStraight(double in, double pow, double maxRatio, CameraController.Camera cam,
             boolean stop) {
         this(in, pow, 1.0, maxRatio, cam, stop);
     }
@@ -81,9 +77,9 @@ public class DriveStraight extends Command {
         avStart = Robot.runningrobot.driveTrain.getAverageDistance();
         
         
-        if (camera.equals(Camera.CAM_FORWARD)) {
+        if (camera.equals(CameraController.Camera.CAM_FORWARD)) {
             cont.tapeMode();
-        } else if (camera.equals(Camera.CAM_BACKWARD)) {
+        } else if (camera.equals(CameraController.Camera.CAM_BACKWARD)) {
             cont.gearMode();
         }
     }
