@@ -29,15 +29,13 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     private int multiplier;
     private Side side;
 
-    public DriveTrainSide(Side side, boolean threeTalons) {
+    public DriveTrainSide(Side side) {
         this.side = side;
         if (side == Side.LEFT) {
             multiplier = 1;
             motorNoEnc = new CANTalon(RobotMap.L_TALON);
             motorEnc = new CANTalon(RobotMap.L_TALON_ENC);
-            if(threeTalons) {
-                motor2NoEnc = new CANTalon(RobotMap.L_TALON_2);
-            }
+            motor2NoEnc = new CANTalon(RobotMap.L_TALON_2);
             velController = new BetterPIDController(BotConstants.L_VEL_KP,
                     BotConstants.L_VEL_KI, BotConstants.L_VEL_KD,
                     BotConstants.L_VEL_KF, this, this);
@@ -47,9 +45,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             multiplier = -1;
             motorNoEnc = new CANTalon(RobotMap.R_TALON);
             motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
-            if(threeTalons) {
-                motor2NoEnc = new CANTalon(RobotMap.R_TALON_2);
-            }
+            motor2NoEnc = new CANTalon(RobotMap.R_TALON_2);
             motorNoEnc.setInverted(true);
             motorEnc.setInverted(true);
             if(motor2NoEnc != null) {
