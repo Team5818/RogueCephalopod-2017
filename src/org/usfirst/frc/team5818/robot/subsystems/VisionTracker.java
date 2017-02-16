@@ -12,12 +12,12 @@ public class VisionTracker extends Subsystem implements Runnable{
 
 	private SerialPort rasPi;
 	private Port port;
-	private double currentAngle = -999;
+	private double currentAngle = 0.0;
 	private String charBuffer = "";
 	private Solenoid lightRing;
 	
 	public VisionTracker(){
-	    lightRing = new Solenoid(0);
+	    lightRing = new Solenoid(4);
 		port = Port.kMXP;
 		rasPi = new SerialPort(9600, port);
 		rasPi.setReadBufferSize(1);
