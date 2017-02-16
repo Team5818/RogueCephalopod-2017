@@ -12,10 +12,6 @@ public class RobotMap {
 	public static final int CD_JOY_1 = 2;
 	public static final int CD_JOY_2 = 3;
 	
-	////////////////////////////
-	//   SET TALON NUMBERS!   //
-	////////////////////////////
-	
 	// Talon numbers; -ENC ones have encoders
 	public static final int L_TALON = 1;
 	public static final int L_TALON_ENC = 2;
