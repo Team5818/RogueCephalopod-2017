@@ -136,12 +136,13 @@ public class Robot extends IterativeRobot {
     }
     
     public void printSmartDash(){
-//    	SmartDashboard.putData("IMU", driveTrain.getGyro());
-    	SmartDashboard.putNumber("Left in:", driveTrain.getLeftSide().getSidePosition());
-    	SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
-    	SmartDashboard.putNumber("Gear X:", track.getCurrentAngle());
-    	SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
-    	SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
-    	SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
+        SmartDashboard.putNumber("Left in:", driveTrain.getLeftSide().getSidePosition());
+        SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
+        SmartDashboard.putNumber("Gear X:", track.getCurrentAngle());
+        SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
+        SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
+        SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
+        SmartDashboard.putNumber("Arm angle", collector.getAngle());
+        SmartDashboard.putNumber("Arm encoder", collector.getAngle());
     }
 }
