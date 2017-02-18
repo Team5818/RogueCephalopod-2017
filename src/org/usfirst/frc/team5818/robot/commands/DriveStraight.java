@@ -25,6 +25,7 @@ public class DriveStraight extends Command {
     private double maxRatio;
     private CameraController cont;
     private CameraController.Camera camera;
+    private boolean useSanic;
 
     public DriveStraight(double in, double pow, double targetRat, double maxRat,
             CameraController.Camera cam, boolean stop) {
@@ -39,25 +40,41 @@ public class DriveStraight extends Command {
         if (cam.equals(CameraController.Camera.NONE)) {
             camMultiplier = 0;
             useVision = false;
+            useSanic = false;
         } else if (cam.equals(CameraController.Camera.CAM_FORWARD)) {
             camMultiplier = 1;
             maxPow = Math.abs(pow);
             useVision = true;
+            useSanic = false;
         } else if (cam.equals(CameraController.Camera.CAM_BACKWARD)) {
             camMultiplier = -1;
             maxPow = -Math.abs(pow);
             useVision = true;
+            useSanic = false;
+        }
+        else if (cam.equals(CameraController.Camera.ULTRASANIC)) {
+            camMultiplier = 0;
+            useVision = false;
+            useSanic = true;
+            
         }
 
         stopAtEnd = stop;
     }
 
     /**
-     * No vision constructor
+     * No vision, no sanic constructor
      */
     public DriveStraight(double in, double pow, double targetRatio,
             boolean stop) {
         this(in, pow, targetRatio, 1.0, CameraController.Camera.NONE, stop);
+    }
+    
+    /**
+     * Sanic constructor
+     */
+    public DriveStraight(double in, double pow, double targetRatio){
+        this(in, pow, targetRatio, 1.0, CameraController.Camera.ULTRASANIC, true);
     }
 
     /**
@@ -127,8 +144,14 @@ public class DriveStraight extends Command {
 
     @Override
     protected boolean isFinished() {
-        boolean passedTarget =
-                Math.abs(Robot.runningrobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
+        boolean passedTarget = false;
+        if(!useSanic){
+            passedTarget =
+                    Math.abs(Robot.runningrobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
+        }
+        else{
+            passedTarget = Robot.runningrobot.driveTrain.readSanic() < inches;
+        }
         return isTimedOut() || passedTarget;
 
     }
