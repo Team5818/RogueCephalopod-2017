@@ -4,6 +4,7 @@ import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,12 +14,15 @@ public class DriveTrain extends Subsystem {
     public DriveTrainSide left;
     public DriveTrainSide right;
     private Ultrasonic sanic;
+	private Compressor comp;
 
 
     public DriveTrain() {
         left = new DriveTrainSide(Side.LEFT);
         right = new DriveTrainSide(Side.RIGHT);
         sanic = new Ultrasonic(0, 1);
+		comp = new Compressor();
+		comp.start();
         enableSanic();
     }
 
