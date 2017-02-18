@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraight extends Command {
 
+    public static final double MIN_SONIC_RANGE = 5;
+    
     private double inches;
     private double maxPow;
     private double leftPowMult;
@@ -26,7 +28,6 @@ public class DriveStraight extends Command {
     private CameraController cont;
     private CameraController.Camera camera;
     private boolean useSanic;
-    public static final double MIN_SONIC_RANGE = 5;
 
     public DriveStraight(double in, double pow, double targetRat, double maxRat,
             CameraController.Camera cam, boolean stop) {
@@ -147,8 +148,8 @@ public class DriveStraight extends Command {
     protected boolean isFinished() {
         boolean passedTarget =
                  Math.abs(Robot.runningrobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
-        boolean sonicThresh = Robot.runningrobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
         if(useSanic){
+            boolean sonicThresh = Robot.runningrobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
             return isTimedOut() || passedTarget || sonicThresh;
         }
         return isTimedOut() || passedTarget;

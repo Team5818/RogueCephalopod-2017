@@ -43,7 +43,7 @@ public class DriveTrain extends Subsystem{
 	        case 3:
 	            return "Stop hating on sanic!";
 	        default:
-	            return "Your too slooooowww!!";
+	            return "You're too slooooowww!!";
 	    }
 	}
 	
