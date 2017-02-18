@@ -4,13 +4,12 @@ import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment.Side;
-import org.usfirst.frc.team5818.robot.commands.DriveStraight;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
+import org.usfirst.frc.team5818.robot.commands.SetCollectorAngle;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
-import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
@@ -31,6 +30,7 @@ public class Driver {
 	Joystick JS_FW_BACK;
 	Joystick JS_TURN;
 	Joystick JS_TURRET;
+	Joystick JS_COLLECTOR;
 	DriveTrain train;
 	CameraController cont;
 	public static double  JOYSTICK_DEADBAND = .2;
@@ -42,6 +42,8 @@ public class Driver {
 	public boolean turreting = true;
 	public boolean was_turreting;
 
+	public boolean controllingArm = true;
+	public boolean wasControllingArm;
 	
 	public static final int BUT_QUICK_TURN = 2;
 	
@@ -62,6 +64,7 @@ public class Driver {
 		JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
 		JS_TURN = new Joystick(BotConstants.JS_TURN);
 		JS_TURRET = new Joystick(BotConstants.JS_TURRET);
+		JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
 		
 	    JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
 	    twoGearButton.whenPressed(new TwoGearAuto());
@@ -94,6 +97,12 @@ public class Driver {
 		JoystickButton turretZero = new JoystickButton(JS_TURRET,3);
 		turretZero.whenPressed(new SetTurretAngle(0.0));
 		
+		JoystickButton setArm90 = new JoystickButton(JS_COLLECTOR, 1);
+		setArm90.whenPressed(new SetCollectorAngle(90.0));
+		
+		JoystickButton setArm0 = new JoystickButton(JS_COLLECTOR, 2);
+		setArm0.whenPressed(new SetCollectorAngle(0.0));
+		
 		train = Robot.runningrobot.driveTrain;
 		dMode = DriveMode.POWER;
 		cMode = ControlMode.ARCADE;
@@ -108,6 +117,7 @@ public class Driver {
             handleCalc();
             controlTurret();
             drive();
+            controlCollector();
 	    }
 	}
 	
@@ -160,5 +170,15 @@ public class Driver {
 		driving = MathUtil.deadband(JS_FW_BACK, JOYSTICK_DEADBAND) || MathUtil.deadband(JS_TURN, JOYSTICK_DEADBAND);
 		was_turreting = turreting;
 		turreting = MathUtil.deadband(JS_TURRET, JOYSTICK_DEADBAND);
+		wasControllingArm = controllingArm;
+		controllingArm = MathUtil.deadband(JS_COLLECTOR, JOYSTICK_DEADBAND);
+	}
+	
+	public void controlCollector() {
+	    if (controllingArm) {
+	        Robot.runningrobot.collector.setPower(JS_COLLECTOR.getY());
+	    } else if (!controllingArm && wasControllingArm) {
+	        Robot.runningrobot.collector.setPower(0.0);
+	    }
 	}
 }

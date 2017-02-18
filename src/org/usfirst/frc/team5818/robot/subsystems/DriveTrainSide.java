@@ -54,6 +54,9 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motorNoEnc = new CANTalon(RobotMap.L_TALON);
             motorEnc = new CANTalon(RobotMap.L_TALON_ENC);
             motor2NoEnc = new CANTalon(RobotMap.L_TALON_2);
+            motorNoEnc.setInverted(false);
+            motorEnc.setInverted(true);
+            motor2NoEnc.setInverted(false);
             velController = new BetterPIDController(L_VEL_KP,
                     L_VEL_KI, L_VEL_KD,
                     L_VEL_KF, this, this);
@@ -65,7 +68,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
             motor2NoEnc = new CANTalon(RobotMap.R_TALON_2);
             motorNoEnc.setInverted(true);
-            motorEnc.setInverted(true);
+            motorEnc.setInverted(false);
             motor2NoEnc.setInverted(true);
             velController = new BetterPIDController(R_VEL_KP,
                     R_VEL_KI, R_VEL_KD,
