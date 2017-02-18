@@ -26,6 +26,7 @@ public class DriveStraight extends Command {
     private CameraController cont;
     private CameraController.Camera camera;
     private boolean useSanic;
+    public static final double MIN_SONIC_RANGE = 5;
 
     public DriveStraight(double in, double pow, double targetRat, double maxRat,
             CameraController.Camera cam, boolean stop) {
@@ -144,13 +145,11 @@ public class DriveStraight extends Command {
 
     @Override
     protected boolean isFinished() {
-        boolean passedTarget = false;
-        if(!useSanic){
-            passedTarget =
-                    Math.abs(Robot.runningrobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
-        }
-        else{
-            passedTarget = Robot.runningrobot.driveTrain.readSanic() < inches;
+        boolean passedTarget =
+                 Math.abs(Robot.runningrobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
+        boolean sonicThresh = Robot.runningrobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
+        if(useSanic){
+            return isTimedOut() || passedTarget || sonicThresh;
         }
         return isTimedOut() || passedTarget;
 
