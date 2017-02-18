@@ -10,7 +10,7 @@ public class DeployGear extends Command {
     
     private Turret turr;
     
-    enum Position{
+    public enum Position{
         RETRACT, EXTEND, PLACE
     }
     
@@ -36,7 +36,7 @@ public class DeployGear extends Command {
                 turr.punch(false);
                 break;
             case PLACE:
-                turr.extend(false);
+                turr.extend(true);
                 turr.punch(true);
                 break;
         }
