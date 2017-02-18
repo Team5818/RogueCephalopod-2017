@@ -2,6 +2,7 @@ package org.usfirst.frc.team5818.robot.subsystems;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team5818.robot.RobotMap;
@@ -41,7 +42,7 @@ public class CollectorRollers extends Subsystem {
     }
     
     public boolean isPlaneBroken(){
-        return 
+        return lineBreak.get();
     }
 
     @Override
