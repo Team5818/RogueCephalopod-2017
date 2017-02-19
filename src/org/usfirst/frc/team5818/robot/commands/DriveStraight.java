@@ -98,6 +98,7 @@ public class DriveStraight extends Command {
         }
     }
 
+    @Override
     public void execute() {
         leftVel = Math.abs(Robot.runningrobot.driveTrain.left.getSideVelocity());
         rightVel = Math.abs(Robot.runningrobot.driveTrain.right.getSideVelocity());

@@ -38,6 +38,7 @@ public class AimTurret extends Command {
         requires(cont);
     }
 
+    @Override
     public void initialize() {
         cont.tapeMode();
     }

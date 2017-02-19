@@ -21,19 +21,23 @@ public class DrivePowerDistance extends Command {
         this.timeout = timeout;
     }
 
+    @Override
     protected void initialize() {
         setTimeout(timeout);
         startPos = Math.abs(dt.getAvgSidePosition());
     }
 
+    @Override
     protected void execute() {
         dt.setPowerLeftRight(power, power);
     }
 
+    @Override
     protected boolean isFinished() {
         return (Math.abs(Math.abs(dt.getAvgSidePosition()) - startPos) > inches) || isTimedOut();
     }
 
+    @Override
     protected void end() {
         dt.stop();
     }

@@ -9,8 +9,8 @@ public enum TankDriveCalculator implements DriveCalculator {
      */
     INSTANCE;
 
+    @Override
     public Vector2d compute(Vector2d in) {
-
         double leftMotorSpeed = in.getX();
         double rightMotorSpeed = in.getY();
         return new Vector2d(leftMotorSpeed, rightMotorSpeed);

@@ -18,6 +18,7 @@ public class SetCollectorAngle extends Command {
         requires(collector);
     }
 
+    @Override
     public void initialize() {
         collector.getanglePID().setAbsoluteTolerance(TOLERANCE);
         collector.getanglePID().setSetpoint(targetAng);

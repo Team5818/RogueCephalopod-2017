@@ -22,6 +22,7 @@ public class DrivePIDDistance extends Command {
         this(inches, DEFAULT_TIMEOUT);
     }
 
+    @Override
     public void initialize() {
         dt.driveDistance(inches);
     }

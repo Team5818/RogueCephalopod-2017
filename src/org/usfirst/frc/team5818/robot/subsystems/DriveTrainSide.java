@@ -173,6 +173,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
         motor2NoEnc.enableBrakeMode(true);
     }
 
+    @Override
     public void initDefaultCommand() {
 
     }
