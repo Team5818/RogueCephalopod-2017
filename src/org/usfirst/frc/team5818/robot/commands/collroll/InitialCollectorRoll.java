@@ -13,9 +13,14 @@ public class InitialCollectorRoll extends Command {
     private static final double CURRENT_LIMIT = 10;
     private static final double LIMIT_EXCEED_TIME = 4; // seconds
 
-    private final CollectorRollers collectorRollers = Robot.runningrobot.collectorRollers;
+    private final CollectorRollers collectorRollers = Robot.runningrobot.roll;
 
     private double timeFirstExceeded;
+    private final DetectionMode detectionMode;
+
+    public InitialCollectorRoll(DetectionMode detectionMode) {
+        this.detectionMode = detectionMode;
+    }
 
     @Override
     protected void execute() {
@@ -31,18 +36,22 @@ public class InitialCollectorRoll extends Command {
 
     @Override
     protected boolean isFinished() {
-        boolean overCurrently =
-                Math.max(collectorRollers.getBotCurrent(), collectorRollers.getTopCurrent()) > CURRENT_LIMIT;
-        if (timeFirstExceeded > 0) {
-            if (overCurrently) {
-                return (Timer.getFPGATimestamp() - timeFirstExceeded) > LIMIT_EXCEED_TIME;
-            } else {
-                timeFirstExceeded = 0;
+        if (detectionMode == DetectionMode.CURRENT_SPIKE) {
+            boolean overCurrently =
+                    Math.max(collectorRollers.getBotCurrent(), collectorRollers.getTopCurrent()) > CURRENT_LIMIT;
+            if (timeFirstExceeded > 0) {
+                if (overCurrently) {
+                    return (Timer.getFPGATimestamp() - timeFirstExceeded) > LIMIT_EXCEED_TIME;
+                } else {
+                    timeFirstExceeded = 0;
+                }
+            } else if (overCurrently) {
+                timeFirstExceeded = Timer.getFPGATimestamp();
             }
-        } else if (overCurrently) {
-            timeFirstExceeded = Timer.getFPGATimestamp();
+            return false;
+        } else {
+            return !collectorRollers.receivingBeam();
         }
-        return false;
     }
 
 }

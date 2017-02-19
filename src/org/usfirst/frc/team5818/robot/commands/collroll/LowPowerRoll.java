@@ -9,7 +9,7 @@ public class LowPowerRoll extends TimedCommand {
 
     private static final double POWER = 0.1;
 
-    private final CollectorRollers collectorRollers = Robot.runningrobot.collectorRollers;
+    private final CollectorRollers collectorRollers = Robot.runningrobot.roll;
 
     public LowPowerRoll() {
         super(1);
