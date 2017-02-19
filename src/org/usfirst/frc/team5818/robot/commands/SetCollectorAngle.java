@@ -20,13 +20,13 @@ public class SetCollectorAngle extends Command {
 
     @Override
     public void initialize() {
-        collector.getanglePID().setAbsoluteTolerance(TOLERANCE);
-        collector.getanglePID().setSetpoint(targetAng);
+        collector.getAnglePID().setAbsoluteTolerance(TOLERANCE);
+        collector.getAnglePID().setSetpoint(targetAng);
     }
 
     @Override
     protected boolean isFinished() {
-        return collector.getanglePID().onTarget();
+        return collector.getAnglePID().onTarget();
     }
 
     @Override
