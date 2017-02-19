@@ -19,6 +19,7 @@ import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
+import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -96,11 +97,10 @@ public class Driver {
         controlTurret();
         controlCollector();
     }
-		driveVector = MathUtil.adjustDeadband(driveVector, DEADBAND_VEC);
 
     public void controlTurret() {
         if (turreting) {
-			Robot.runningrobot.turret.setPower(MathUtil.adjustDeadband(JS_TURRET, DEADBAND_VEC).getX());
+            Robot.runningrobot.turret.setPower(MathUtil.adjustDeadband(JS_TURRET, DEADBAND_VEC).getX());
         } else if (!turreting && was_turreting) {
             Robot.runningrobot.turret.setPower(0.0);
         }
@@ -109,14 +109,14 @@ public class Driver {
 
     public void handleDeadbands() {
         was_turreting = turreting;
-        turreting = MathUtil.deadband(JS_TURRET, JOYSTICK_DEADBAND);
+        turreting = MathUtil.outOfDeadband(JS_TURRET, JOYSTICK_DEADBAND);
         wasControllingArm = controllingArm;
-        controllingArm = MathUtil.deadband(JS_COLLECTOR, JOYSTICK_DEADBAND);
+        controllingArm = MathUtil.outOfDeadband(JS_COLLECTOR, JOYSTICK_DEADBAND);
     }
 
     public void controlCollector() {
         if (controllingArm) {
-	        Robot.runningrobot.collector.setPower(-1 * MathUtil.adjustDeadband(JS_COLLECTOR, DEADBAND_VEC).getY());
+            Robot.runningrobot.collector.setPower(-1 * MathUtil.adjustDeadband(JS_COLLECTOR, DEADBAND_VEC).getY());
         } else if (!controllingArm && wasControllingArm) {
             Robot.runningrobot.collector.setPower(0.0);
         }

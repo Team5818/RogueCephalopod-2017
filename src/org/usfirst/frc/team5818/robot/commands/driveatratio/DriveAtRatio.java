@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveAtRatio extends Command {
 
     public static final double MIN_SONIC_RANGE = 5;
-    
+
     public static DriveAtRatio withDeadReckon(Consumer<DeadReckonOpts.Builder> config) {
         DeadReckonOpts.Builder b = DeadReckonOpts.builder();
         config.accept(b);
         return new DriveAtRatio(b.build());
     }
-    
+
     public static DriveAtRatio withVision(Camera camera, Consumer<VisionOpts.Builder> config) {
         VisionOpts.Builder b = VisionOpts.builder(camera);
         config.accept(b);

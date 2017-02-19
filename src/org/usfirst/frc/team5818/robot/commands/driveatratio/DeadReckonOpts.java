@@ -6,7 +6,7 @@ import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class DeadReckonOpts implements DriveAtRatioOptions {
-    
+
     public static Builder builder() {
         return new AutoValue_DeadReckonOpts.Builder();
     }

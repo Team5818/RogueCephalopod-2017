@@ -21,8 +21,7 @@ public interface DriveAtRatioOptions {
     }
 
     default boolean isUsingVision() {
-        return getCamera() == Camera.CAM_FORWARD
-                || getCamera() == Camera.CAM_BACKWARD;
+        return getCamera() == Camera.CAM_FORWARD || getCamera() == Camera.CAM_BACKWARD;
     }
 
 }

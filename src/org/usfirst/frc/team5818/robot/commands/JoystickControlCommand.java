@@ -4,6 +4,7 @@ import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 import org.usfirst.frc.team5818.robot.utils.Vectors;
 
@@ -20,7 +21,13 @@ public class JoystickControlCommand extends Command {
 
     @Override
     protected void execute() {
+        // if neither joystick out of deadband, return
+        if (!MathUtil.outOfDeadband(DRIVER.JS_FW_BACK, Driver.JOYSTICK_DEADBAND)
+                && !MathUtil.outOfDeadband(DRIVER.JS_TURN, Driver.JOYSTICK_DEADBAND)) {
+            return;
+        }
         Vector2d driveVector = Vectors.fromJoystick(DRIVER.JS_FW_BACK, DRIVER.JS_TURN, true);
+        driveVector = MathUtil.adjustDeadband(driveVector, Driver.DEADBAND_VEC);
         Vector2d controlVector = DRIVER.driveCalc.compute(driveVector);
         switch (DRIVER.dMode) {
             case POWER:
