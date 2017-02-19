@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.commands;
 
-import org.usfirst.frc.team5818.robot.commands.AutoSegment.Side;
+import org.usfirst.frc.team5818.robot.constants.Direction;
+import org.usfirst.frc.team5818.robot.constants.Side;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -15,11 +16,11 @@ public class TwoGearAuto extends CommandGroup {
 
     public TwoGearAuto() {
         tapeMode1 = new TapeMode();
-        forward = new AutoSegment(AutoSegment.Direction.FORWARD, Side.STRAIGHT);
+        forward = new AutoSegment(Direction.FORWARD, Side.CENTER);
         gearMode = new GearMode();
-        getGear = new AutoSegment(AutoSegment.Direction.BACKWARD, Side.LEFT);
+        getGear = new AutoSegment(Direction.BACKWARD, Side.LEFT);
         tapeMode2 = new TapeMode();
-        placeGear = new AutoSegment(AutoSegment.Direction.FORWARD, Side.LEFT);
+        placeGear = new AutoSegment(Direction.FORWARD, Side.LEFT);
 
         this.addSequential(tapeMode1);
         this.addSequential(forward);

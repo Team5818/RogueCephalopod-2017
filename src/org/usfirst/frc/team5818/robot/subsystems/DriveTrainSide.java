@@ -2,6 +2,7 @@ package org.usfirst.frc.team5818.robot.subsystems;
 
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
+import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
@@ -31,10 +32,6 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     public static final double R_DIST_KI = 0.0001; // NEEDS TUNING
     public static final double R_DIST_KD = 0.0; // NEEDS TUNING
 
-    public enum Side {
-        RIGHT, LEFT;
-    }
-
     private CANTalon motorNoEnc;
     private CANTalon motorEnc;
     private CANTalon motor2NoEnc;
@@ -48,6 +45,9 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     private Side side;
 
     public DriveTrainSide(Side side) {
+        if (side == Side.CENTER) {
+            throw new IllegalArgumentException("A drive train may not be in the center");
+        }
         this.side = side;
         if (side == Side.LEFT) {
             encoderSign = 1;

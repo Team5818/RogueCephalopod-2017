@@ -3,7 +3,6 @@ package org.usfirst.frc.team5818.robot.controllers;
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
-import org.usfirst.frc.team5818.robot.commands.AutoSegment.Side;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
@@ -13,6 +12,10 @@ import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
+import org.usfirst.frc.team5818.robot.constants.ControlMode;
+import org.usfirst.frc.team5818.robot.constants.Direction;
+import org.usfirst.frc.team5818.robot.constants.DriveMode;
+import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
@@ -49,14 +52,6 @@ public class Driver {
 
     public static final int BUT_QUICK_TURN = 2;
 
-    public enum DriveMode {
-        POWER, VELOCITY,
-    }
-
-    public enum ControlMode {
-        ARCADE, TANK, RADIUS
-    }
-
     public DriveMode dMode;
     public ControlMode cMode;
     private DriveCalculator driveCalc;
@@ -72,7 +67,7 @@ public class Driver {
 
         JoystickButton getGear = new JoystickButton(JS_FW_BACK, 2);
         getGear.whenPressed(
-                new AutoSegment(AutoSegment.Direction.BACKWARD, Side.LEFT));
+                new AutoSegment(Direction.BACKWARD, Side.LEFT));
 
         JoystickButton killPi = new JoystickButton(JS_TURN, 2);
         killPi.whenPressed(new ShutDownRPi());

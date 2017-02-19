@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5818.robot.commands;
 
-import org.usfirst.frc.team5818.robot.subsystems.CameraController;
+import org.usfirst.frc.team5818.robot.constants.Camera;
+import org.usfirst.frc.team5818.robot.constants.Direction;
+import org.usfirst.frc.team5818.robot.constants.Side;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -10,14 +12,6 @@ public class AutoSegment extends CommandGroup {
     private DriveStraight driveOvershoot;
     private DriveStraight driveVision;
     private DriveStraight driveFinal;
-
-    public enum Direction {
-        BACKWARD, FORWARD
-    }
-
-    public enum Side {
-        LEFT, RIGHT, STRAIGHT
-    }
 
     /*
      * @param radius > 1 means arc right, radius < 1 means arc left. Same for
@@ -41,12 +35,12 @@ public class AutoSegment extends CommandGroup {
         if (dir.equals(Direction.BACKWARD)) {
             driveOvershoot = new DriveStraight(dist1, -.4, radius, false);
             driveVision = new DriveStraight(33, -.4, 4.2,
-                    CameraController.Camera.CAM_BACKWARD, false);
+                    Camera.CAM_BACKWARD, false);
             driveFinal = new DriveStraight(7, -.4, 1.0, true);
         } else {
             driveOvershoot = new DriveStraight(dist1, .4, radius, false);
             driveVision = new DriveStraight(31, .4, 2.6,
-                    CameraController.Camera.CAM_FORWARD, false);
+                    Camera.CAM_FORWARD, false);
             driveFinal = new DriveStraight(6, .4, 1.0, true);
         }
         drive.addSequential(driveOvershoot);

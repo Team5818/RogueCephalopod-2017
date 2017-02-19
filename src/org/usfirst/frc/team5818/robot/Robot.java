@@ -9,7 +9,6 @@ import org.usfirst.frc.team5818.robot.subsystems.Collector;
 import org.usfirst.frc.team5818.robot.subsystems.CollectorRollers;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
-import org.usfirst.frc.team5818.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
@@ -29,8 +28,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-    public static final ExampleSubsystem exampleSubsystem =
-            new ExampleSubsystem();
     public DriveTrain driveTrain;
     public Driver driver;
     public Collector collector;

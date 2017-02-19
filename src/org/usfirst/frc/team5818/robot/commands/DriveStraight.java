@@ -2,6 +2,7 @@ package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
+import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
@@ -26,11 +27,11 @@ public class DriveStraight extends Command {
     private boolean useVision;
     private double maxRatio;
     private CameraController cont;
-    private CameraController.Camera camera;
+    private Camera camera;
     private boolean useSanic;
 
     public DriveStraight(double in, double pow, double targetRat, double maxRat,
-            CameraController.Camera cam, boolean stop) {
+            Camera cam, boolean stop) {
         camera = cam;
         inches = in;
         maxPow = pow;
@@ -39,21 +40,21 @@ public class DriveStraight extends Command {
         targetRatio = targetRat; // Ratio is LEFT/RIGHT
         maxRatio = maxRat;
         cont = Robot.runningrobot.camCont;
-        if (cam.equals(CameraController.Camera.NONE)) {
+        if (cam.equals(Camera.NONE)) {
             camMultiplier = 0;
             useVision = false;
             useSanic = false;
-        } else if (cam.equals(CameraController.Camera.CAM_FORWARD)) {
+        } else if (cam.equals(Camera.CAM_FORWARD)) {
             camMultiplier = 1;
             maxPow = Math.abs(pow);
             useVision = true;
             useSanic = false;
-        } else if (cam.equals(CameraController.Camera.CAM_BACKWARD)) {
+        } else if (cam.equals(Camera.CAM_BACKWARD)) {
             camMultiplier = -1;
             maxPow = -Math.abs(pow);
             useVision = true;
             useSanic = false;
-        } else if (cam.equals(CameraController.Camera.ULTRASANIC)) {
+        } else if (cam.equals(Camera.ULTRASANIC)) {
             camMultiplier = 0;
             useVision = false;
             useSanic = true;
@@ -68,14 +69,14 @@ public class DriveStraight extends Command {
      */
     public DriveStraight(double in, double pow, double targetRatio,
             boolean stop) {
-        this(in, pow, targetRatio, 1.0, CameraController.Camera.NONE, stop);
+        this(in, pow, targetRatio, 1.0, Camera.NONE, stop);
     }
 
     /**
      * Sanic constructor
      */
     public DriveStraight(double in, double pow, double targetRatio) {
-        this(in, pow, targetRatio, 1.0, CameraController.Camera.ULTRASANIC,
+        this(in, pow, targetRatio, 1.0, Camera.ULTRASANIC,
                 true);
     }
 
@@ -83,7 +84,7 @@ public class DriveStraight extends Command {
      * Vision Constructor
      */
     public DriveStraight(double in, double pow, double maxRatio,
-            CameraController.Camera cam, boolean stop) {
+            Camera cam, boolean stop) {
         this(in, pow, 1.0, maxRatio, cam, stop);
     }
 
@@ -96,9 +97,9 @@ public class DriveStraight extends Command {
         Driver.joystickControlEnabled = false;
         avStart = Robot.runningrobot.driveTrain.getAverageDistance();
 
-        if (camera.equals(CameraController.Camera.CAM_FORWARD)) {
+        if (camera.equals(Camera.CAM_FORWARD)) {
             cont.tapeMode();
-        } else if (camera.equals(CameraController.Camera.CAM_BACKWARD)) {
+        } else if (camera.equals(Camera.CAM_BACKWARD)) {
             cont.gearMode();
         }
     }

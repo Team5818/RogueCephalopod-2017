@@ -1,15 +1,12 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
 import org.usfirst.frc.team5818.robot.Robot;
+import org.usfirst.frc.team5818.robot.constants.Camera;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class CameraController extends Subsystem {
-
-    public enum Camera {
-        CAM_FORWARD, CAM_BACKWARD, ULTRASANIC, NONE
-    }
 
     public static double CAMERA_EXPOSURE_HIGH = 156;
     public static double CAMERA_EXPOSURE_LOW = 5;

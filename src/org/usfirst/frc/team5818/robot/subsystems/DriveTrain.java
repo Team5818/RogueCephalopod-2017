@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -10,12 +11,11 @@ public class DriveTrain extends Subsystem {
 
     public DriveTrainSide left;
     public DriveTrainSide right;
-    private ADIS16448_IMU gyro;
     private Ultrasonic sanic;
 
     public DriveTrain() {
-        left = new DriveTrainSide(DriveTrainSide.Side.LEFT);
-        right = new DriveTrainSide(DriveTrainSide.Side.RIGHT);
+        left = new DriveTrainSide(Side.LEFT);
+        right = new DriveTrainSide(Side.RIGHT);
         sanic = new Ultrasonic(0, 1);
         enableSanic();
     }
@@ -112,10 +112,6 @@ public class DriveTrain extends Subsystem {
         return (left.getSidePosition() + right.getSidePosition()) / 2;
     }
 
-    public double getHeading() {
-        return gyro.getAngle();
-    }
-
     public void stop() {
         left.setBrakeMode();
         right.setBrakeMode();
@@ -124,10 +120,6 @@ public class DriveTrain extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-    }
-
-    public ADIS16448_IMU getGyro() {
-        return gyro;
     }
 
 }
