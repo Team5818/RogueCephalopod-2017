@@ -92,9 +92,9 @@ public class DriveAtRatio extends Command {
         avStart = Robot.runningrobot.driveTrain.getAverageDistance();
 
         if (camera.equals(Camera.CAM_FORWARD)) {
-            cont.tapeMode();
+            cont.enterTapeMode();
         } else if (camera.equals(Camera.CAM_BACKWARD)) {
-            cont.gearMode();
+            cont.enterGearMode();
         }
     }
 

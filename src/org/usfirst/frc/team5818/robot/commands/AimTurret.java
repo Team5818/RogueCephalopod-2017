@@ -40,7 +40,7 @@ public class AimTurret extends Command {
 
     @Override
     public void initialize() {
-        cont.tapeMode();
+        cont.enterTapeMode();
     }
 
     @Override

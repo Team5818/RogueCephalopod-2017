@@ -16,7 +16,7 @@ public class ExposureHigh extends Command {
 
     @Override
     protected void initialize() {
-        cont.exposureHigh();
+        cont.setHighExposure();
     }
 
     @Override

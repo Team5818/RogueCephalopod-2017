@@ -20,7 +20,7 @@ public class GearMode extends Command {
 
     @Override
     protected void initialize() {
-        cont.gearMode();
+        cont.enterGearMode();
         track.setLightsOn(false);
     }
 

@@ -20,7 +20,7 @@ public class TapeMode extends Command {
 
     @Override
     protected void initialize() {
-        cont.tapeMode();
+        cont.enterTapeMode();
         track.setLightsOn(true);
     }
 

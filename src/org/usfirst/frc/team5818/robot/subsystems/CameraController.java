@@ -23,13 +23,13 @@ public class CameraController extends Subsystem {
 
     public void switchFeed() {
         if (currCam.equals(Camera.CAM_BACKWARD)) {
-            tapeMode();
+            enterTapeMode();
         } else {
-            gearMode();
+            enterGearMode();
         }
     }
 
-    public void gearMode() {
+    public void enterGearMode() {
         try {
             rPi.writeString("g");
             currCam = Camera.CAM_BACKWARD;
@@ -38,7 +38,7 @@ public class CameraController extends Subsystem {
         }
     }
 
-    public void tapeMode() {
+    public void enterTapeMode() {
         try {
             rPi.writeString("t");
             currCam = Camera.CAM_FORWARD;
@@ -49,13 +49,13 @@ public class CameraController extends Subsystem {
 
     public void switchExposure() {
         if (frontExposure == CAMERA_EXPOSURE_LOW) {
-            exposureHigh();
+            setHighExposure();
         } else {
-            exposureLow();
+            setLowExposure();
         }
     }
 
-    public void exposureHigh() {
+    public void setHighExposure() {
         try {
             rPi.writeString("h");
             frontExposure = CAMERA_EXPOSURE_HIGH;
@@ -64,7 +64,7 @@ public class CameraController extends Subsystem {
         }
     }
 
-    public void exposureLow() {
+    public void setLowExposure() {
         try {
             rPi.writeString("l");
             frontExposure = CAMERA_EXPOSURE_LOW;
