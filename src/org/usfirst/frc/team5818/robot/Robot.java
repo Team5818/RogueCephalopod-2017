@@ -5,6 +5,7 @@ import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
+import org.usfirst.frc.team5818.robot.subsystems.Climber;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
 import org.usfirst.frc.team5818.robot.subsystems.CollectorRollers;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
@@ -36,6 +37,7 @@ public class Robot extends IterativeRobot {
     public CollectorRollers roll;
     public VisionTracker track;
     public Turret turret;
+	public Climber climb;
     public CameraController camCont;
 
     Command autonomousCommand;
@@ -55,6 +57,7 @@ public class Robot extends IterativeRobot {
         turret = new Turret();
         roll = new CollectorRollers();
         collector = new Collector();
+    	climb = new Climber();
         chooser = new SendableChooser<>();
         camCont = new CameraController();
         driver = new Driver();
