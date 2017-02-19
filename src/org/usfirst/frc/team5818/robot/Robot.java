@@ -147,7 +147,5 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
         SmartDashboard.putNumber("Arm angle", collector.getAngle());
         SmartDashboard.putBoolean("Line Broken",roll.receivingBeam());
-
-        SmartDashboard.putNumber("Arm encoder", collector.getAngle());
     }
 }
