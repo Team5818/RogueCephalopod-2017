@@ -39,7 +39,9 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
 	}
 	
 	public void setPower(double x) {
-		anglePID.disable();
+	    if (anglePID.isEnabled()) {
+	        anglePID.disable();
+	    }
 		leftMotorTal.set(x * BotConstants.MAX_POWER);
 		rightMotorTal.set(x * BotConstants.MAX_POWER);
 	}

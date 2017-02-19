@@ -33,7 +33,8 @@ public class Driver {
 	Joystick JS_COLLECTOR;
 	DriveTrain train;
 	CameraController cont;
-	public static double  JOYSTICK_DEADBAND = .2;
+    public static double JOYSTICK_DEADBAND = .2;
+    public static Vector2d DEADBAND_VEC = new Vector2d(JOYSTICK_DEADBAND, JOYSTICK_DEADBAND);
 	public static boolean joystickControlEnabled;
 	
 	public boolean driving = true;
@@ -123,6 +124,7 @@ public class Driver {
 	
 	public void drive(){
 		Vector2d driveVector = Vectors.fromJoystick(JS_FW_BACK, JS_TURN, true);
+		driveVector = MathUtil.adjustDeadband(driveVector, DEADBAND_VEC);
 		Vector2d controlVector = driveCalc.compute(driveVector);
 		RadiusDriveCalculator.INSTANCE.setQuick(JS_TURN.getRawButton(BUT_QUICK_TURN));
         switch(dMode){
@@ -140,7 +142,7 @@ public class Driver {
 	
 	public void controlTurret(){
 		if(turreting){
-			Robot.runningrobot.turret.setPower(JS_TURRET.getX());
+			Robot.runningrobot.turret.setPower(MathUtil.adjustDeadband(JS_TURRET, DEADBAND_VEC).getX());
 		}
 		else if(!turreting && was_turreting){
 			Robot.runningrobot.turret.setPower(0.0);
@@ -176,7 +178,7 @@ public class Driver {
 	
 	public void controlCollector() {
 	    if (controllingArm) {
-	        Robot.runningrobot.collector.setPower(JS_COLLECTOR.getY());
+	        Robot.runningrobot.collector.setPower(-1 * MathUtil.adjustDeadband(JS_COLLECTOR, DEADBAND_VEC).getY());
 	    } else if (!controllingArm && wasControllingArm) {
 	        Robot.runningrobot.collector.setPower(0.0);
 	    }
