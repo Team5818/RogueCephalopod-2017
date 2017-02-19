@@ -140,7 +140,7 @@ public class Driver {
 	
 	public void controlTurret(){
 		if(turreting){
-			Robot.runningrobot.turret.setPower(JS_TURRET.getX()*.7);
+			Robot.runningrobot.turret.setPower(JS_TURRET.getX());
 		}
 		else if(!turreting && was_turreting){
 			Robot.runningrobot.turret.setPower(0.0);
