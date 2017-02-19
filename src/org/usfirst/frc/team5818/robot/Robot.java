@@ -28,6 +28,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
+    public static Robot runningrobot;
+
     public DriveTrain driveTrain;
     public Driver driver;
     public Collector collector;
@@ -35,7 +37,6 @@ public class Robot extends IterativeRobot {
     public VisionTracker track;
     public Turret turret;
     public CameraController camCont;
-    public static Robot runningrobot;
 
     Command autonomousCommand;
     SendableChooser<Command> chooser;

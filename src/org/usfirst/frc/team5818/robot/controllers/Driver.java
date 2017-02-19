@@ -15,7 +15,6 @@ import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Side;
-import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
@@ -26,21 +25,21 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Driver {
 
+    public static double JOYSTICK_DEADBAND = .2;
+    public static Vector2d DEADBAND_VEC = new Vector2d(JOYSTICK_DEADBAND, JOYSTICK_DEADBAND);
+
+    public static final int BUT_QUICK_TURN = 2;
+
     public Joystick JS_FW_BACK;
     public Joystick JS_TURN;
     public Joystick JS_TURRET;
     public Joystick JS_COLLECTOR;
-    CameraController cont;
-    public static double JOYSTICK_DEADBAND = .2;
-    public static Vector2d DEADBAND_VEC = new Vector2d(JOYSTICK_DEADBAND, JOYSTICK_DEADBAND);
 
     public boolean turreting = true;
     public boolean was_turreting;
 
     public boolean controllingArm = true;
     public boolean wasControllingArm;
-
-    public static final int BUT_QUICK_TURN = 2;
 
     public DriveMode dMode;
     public DriveCalculator driveCalc;
@@ -89,7 +88,6 @@ public class Driver {
 
         dMode = DriveMode.POWER;
         driveCalc = ArcadeDriveCalculator.INSTANCE;
-        cont = Robot.runningrobot.camCont;
     }
 
     public void teleopPeriodic() {

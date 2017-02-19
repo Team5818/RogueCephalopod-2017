@@ -15,6 +15,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
+    public static final double kP = 0.011;
+    public static final double kI = 0.0005;
+    public static final double kD = 0.0;
+
     private CANTalon motor;
 
     private PIDSourceType pidType = PIDSourceType.kDisplacement;
@@ -23,9 +27,6 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     public int centerOffSet;
     public double potScale;
-    public static final double kP = 0.011;
-    public static final double kI = 0.0005;
-    public static final double kD = 0.0;
 
     private Solenoid solenoid1;
     private Solenoid solenoid2;

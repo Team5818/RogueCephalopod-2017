@@ -13,15 +13,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Collector extends Subsystem implements PIDSource, PIDOutput {
 
+    private static final double kP = 0.0;// tune me pls
+    private static final double kI = 0.0;
+    private static final double kD = 0.0;
+
     private CANTalon leftMotorTal;
     private CANTalon rightMotorTal;
 
     public PIDSourceType pidType = PIDSourceType.kDisplacement;
     public BetterPIDController anglePID;
-
-    private static final double kP = 0.0;// tune me pls
-    private static final double kI = 0.0;
-    private static final double kD = 0.0;
 
     public int centerOffSet;
 
