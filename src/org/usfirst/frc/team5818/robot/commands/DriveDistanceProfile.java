@@ -19,8 +19,9 @@ public class DriveDistanceProfile extends Command {
     private DriveTrain train;
     private DriveTrainSide leftSide;
     private DriveTrainSide rightSide;
-    
-    public DriveDistanceProfile(LinearLookupTable left, LinearLookupTable right, double distanceInches, double timeoutSeconds) {
+
+    public DriveDistanceProfile(LinearLookupTable left, LinearLookupTable right,
+            double distanceInches, double timeoutSeconds) {
         requires(Robot.runningrobot.driveTrain);
         train = Robot.runningrobot.driveTrain;
         leftSide = Robot.runningrobot.driveTrain.getLeftSide();
@@ -30,17 +31,17 @@ public class DriveDistanceProfile extends Command {
         leftTable = left;
         rightTable = right;
     }
-    
-    public DriveDistanceProfile(LinearLookupTable table, double distance, double timeout){
+
+    public DriveDistanceProfile(LinearLookupTable table, double distance,
+            double timeout) {
         this(table, table, distance, timeout);
     }
-    
-    protected void end()
-    {
+
+    protected void end() {
         leftSide.setPower(0.0);
         rightSide.setPower(0.0);
     }
-    
+
     @Override
     protected void initialize() {
         this.setTimeout(timeout);
@@ -61,12 +62,13 @@ public class DriveDistanceProfile extends Command {
 
     @Override
     protected boolean isFinished() {
-    	return isTimedOut() || (leftSide.getDistController().onTarget() && rightSide.getDistController().onTarget());
+        return isTimedOut() || (leftSide.getDistController().onTarget()
+                && rightSide.getDistController().onTarget());
     }
 
     @Override
     protected void interrupted() {
         this.end();
-        
+
     }
 }

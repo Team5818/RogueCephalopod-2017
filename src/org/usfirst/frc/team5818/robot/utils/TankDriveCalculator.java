@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5818.robot.utils;
 
-import org.usfirst.frc.team5818.robot.utils.Vector2d;
-
 /**
  * A {@link DriveCalculator} that computes values for tank drive.
  */

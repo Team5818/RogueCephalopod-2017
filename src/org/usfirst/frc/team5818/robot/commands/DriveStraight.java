@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveStraight extends Command {
 
     public static final double MIN_SONIC_RANGE = 5;
-    
+
     private double inches;
     private double maxPow;
     private double leftPowMult;
@@ -53,12 +53,11 @@ public class DriveStraight extends Command {
             maxPow = -Math.abs(pow);
             useVision = true;
             useSanic = false;
-        }
-        else if (cam.equals(CameraController.Camera.ULTRASANIC)) {
+        } else if (cam.equals(CameraController.Camera.ULTRASANIC)) {
             camMultiplier = 0;
             useVision = false;
             useSanic = true;
-            
+
         }
 
         stopAtEnd = stop;
@@ -71,31 +70,32 @@ public class DriveStraight extends Command {
             boolean stop) {
         this(in, pow, targetRatio, 1.0, CameraController.Camera.NONE, stop);
     }
-    
+
     /**
      * Sanic constructor
      */
-    public DriveStraight(double in, double pow, double targetRatio){
-        this(in, pow, targetRatio, 1.0, CameraController.Camera.ULTRASANIC, true);
+    public DriveStraight(double in, double pow, double targetRatio) {
+        this(in, pow, targetRatio, 1.0, CameraController.Camera.ULTRASANIC,
+                true);
     }
 
     /**
      * Vision Constructor
      */
-    public DriveStraight(double in, double pow, double maxRatio, CameraController.Camera cam,
-            boolean stop) {
+    public DriveStraight(double in, double pow, double maxRatio,
+            CameraController.Camera cam, boolean stop) {
         this(in, pow, 1.0, maxRatio, cam, stop);
     }
 
     @Override
     public void initialize() {
-        SmartDashboard.putNumber("Vision Angle", Robot.runningrobot.track.getCurrentAngle());
+        SmartDashboard.putNumber("Vision Angle",
+                Robot.runningrobot.track.getCurrentAngle());
         leftPowMult = 1;
         rightPowMult = 1;
         Driver.joystickControlEnabled = false;
         avStart = Robot.runningrobot.driveTrain.getAverageDistance();
-        
-        
+
         if (camera.equals(CameraController.Camera.CAM_FORWARD)) {
             cont.tapeMode();
         } else if (camera.equals(CameraController.Camera.CAM_BACKWARD)) {
@@ -121,8 +121,7 @@ public class DriveStraight extends Command {
 
         if (useVision) {
             target = Math.pow(maxRatio, anglePower);
-        }
-        else{
+        } else {
             target = Math.pow(target, Math.signum(maxPow));
         }
 
@@ -147,9 +146,11 @@ public class DriveStraight extends Command {
     @Override
     protected boolean isFinished() {
         boolean passedTarget =
-                 Math.abs(Robot.runningrobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
-        if(useSanic){
-            boolean sonicThresh = Robot.runningrobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
+                Math.abs(Robot.runningrobot.driveTrain.getAverageDistance()
+                        - avStart) >= Math.abs(inches);
+        if (useSanic) {
+            boolean sonicThresh =
+                    Robot.runningrobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
             return isTimedOut() || passedTarget || sonicThresh;
         }
         return isTimedOut() || passedTarget;

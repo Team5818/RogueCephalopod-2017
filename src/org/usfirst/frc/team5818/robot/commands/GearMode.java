@@ -6,25 +6,25 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class GearMode extends Command{
+public class GearMode extends Command {
 
     private CameraController cont;
     private VisionTracker track;
     private boolean done;
-    
-    public GearMode(){
+
+    public GearMode() {
         cont = Robot.runningrobot.camCont;
         track = Robot.runningrobot.track;
         done = false;
     }
-    
+
     @Override
-    protected void initialize(){
+    protected void initialize() {
         cont.gearMode();
         track.setLightsOn(false);
         done = true;
     }
-    
+
     @Override
     protected boolean isFinished() {
         return done;

@@ -1,15 +1,15 @@
 package org.usfirst.frc.team5818.robot.utils;
 
-public enum RadiusDriveCalculator implements DriveCalculator{
-	
-	INSTANCE;
-	
-    private static final double kTurnSensitivity = 1.0;
-	private boolean isQuickTurn = false;
-	private double mQuickStopAccumulator = 0.0;
+public enum RadiusDriveCalculator implements DriveCalculator {
 
-	@Override
-	public Vector2d compute(Vector2d input) {
+    INSTANCE;
+
+    private static final double kTurnSensitivity = 1.0;
+    private boolean isQuickTurn = false;
+    private double mQuickStopAccumulator = 0.0;
+
+    @Override
+    public Vector2d compute(Vector2d input) {
 
         double wheel = input.getX();
         double throttle = input.getY();
@@ -21,13 +21,15 @@ public enum RadiusDriveCalculator implements DriveCalculator{
         if (isQuickTurn) {
             if (Math.abs(throttle) < 0.2) {
                 double alpha = 0.1;
-                mQuickStopAccumulator = (1 - alpha) * mQuickStopAccumulator + alpha * MathUtil.limit(wheel, 1.0) * 2;
+                mQuickStopAccumulator = (1 - alpha) * mQuickStopAccumulator
+                        + alpha * MathUtil.limit(wheel, 1.0) * 2;
             }
             overPower = 1.0;
             angularPower = wheel;
         } else {
             overPower = 0.0;
-            angularPower = Math.abs(throttle) * wheel * kTurnSensitivity - mQuickStopAccumulator;
+            angularPower = Math.abs(throttle) * wheel * kTurnSensitivity
+                    - mQuickStopAccumulator;
             if (mQuickStopAccumulator > 1) {
                 mQuickStopAccumulator -= 1;
             } else if (mQuickStopAccumulator < -1) {
@@ -55,9 +57,9 @@ public enum RadiusDriveCalculator implements DriveCalculator{
         Vector2d output = new Vector2d(leftPwm, rightPwm);
         return output;
     }
-	
-	public void setQuick(boolean b){
-		isQuickTurn = b;
-	}
+
+    public void setQuick(boolean b) {
+        isQuickTurn = b;
+    }
 
 }

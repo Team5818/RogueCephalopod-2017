@@ -6,24 +6,24 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ExposureLow extends Command{
+public class ExposureLow extends Command {
 
     private CameraController cont;
     private VisionTracker track;
     private boolean done;
-    
-    public ExposureLow(){
+
+    public ExposureLow() {
         cont = Robot.runningrobot.camCont;
         track = Robot.runningrobot.track;
         done = false;
     }
-    
+
     @Override
-    protected void initialize(){
+    protected void initialize() {
         cont.exposureLow();
         done = true;
     }
-    
+
     @Override
     protected boolean isFinished() {
         return done;

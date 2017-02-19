@@ -27,160 +27,162 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Driver {
-	Joystick JS_FW_BACK;
-	Joystick JS_TURN;
-	Joystick JS_TURRET;
-	Joystick JS_COLLECTOR;
-	DriveTrain train;
-	CameraController cont;
+
+    Joystick JS_FW_BACK;
+    Joystick JS_TURN;
+    Joystick JS_TURRET;
+    Joystick JS_COLLECTOR;
+    DriveTrain train;
+    CameraController cont;
     public static double JOYSTICK_DEADBAND = .2;
     public static Vector2d DEADBAND_VEC = new Vector2d(JOYSTICK_DEADBAND, JOYSTICK_DEADBAND);
-	public static boolean joystickControlEnabled;
-	
-	public boolean driving = true;
-	public boolean was_driving;
+    public static boolean joystickControlEnabled;
 
-	public boolean turreting = true;
-	public boolean was_turreting;
+    public boolean driving = true;
+    public boolean was_driving;
 
-	public boolean controllingArm = true;
-	public boolean wasControllingArm;
-	
-	public static final int BUT_QUICK_TURN = 2;
-	
-	
-	public enum DriveMode{
-		POWER, VELOCITY, 
-	}
-	
-	public enum ControlMode{
-		ARCADE, TANK, RADIUS
-	}
-	
-	public DriveMode dMode;
-	public ControlMode cMode;
-	private DriveCalculator driveCalc;
-	
-	public Driver() {
-		JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
-		JS_TURN = new Joystick(BotConstants.JS_TURN);
-		JS_TURRET = new Joystick(BotConstants.JS_TURRET);
-		JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
-		
-	    JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
-	    twoGearButton.whenPressed(new TwoGearAuto());
-	    
-        JoystickButton getGear = new JoystickButton(JS_FW_BACK, 2); 
-        getGear.whenPressed(new AutoSegment(AutoSegment.Direction.BACKWARD, Side.LEFT));
+    public boolean turreting = true;
+    public boolean was_turreting;
 
-		
-		JoystickButton killPi = new JoystickButton(JS_TURN, 2);
-		killPi.whenPressed(new ShutDownRPi());
-		
-	    JoystickButton expLo = new JoystickButton(JS_TURN, 3);
-	    expLo.whenPressed(new ExposureLow());
-		
-	    JoystickButton expHi = new JoystickButton(JS_TURN, 5);
-	    expHi.whenPressed(new ExposureHigh());
-	     
-		JoystickButton gear = new JoystickButton(JS_TURN, 4);
-		gear.whenPressed(new GearMode());
-		
-	    JoystickButton tape = new JoystickButton(JS_TURN, 6);
-	     tape.whenPressed(new TapeMode());
-		
-		JoystickButton turret90 = new JoystickButton(JS_TURRET,1);
-		turret90.whenPressed(new SetTurretAngle(90.0));
-		
-	    JoystickButton turretAim = new JoystickButton(JS_TURRET,2);
-	     turretAim.whenPressed(new AimTurret());
-		
-		JoystickButton turretZero = new JoystickButton(JS_TURRET,3);
-		turretZero.whenPressed(new SetTurretAngle(0.0));
-		
-		JoystickButton setArm90 = new JoystickButton(JS_COLLECTOR, 1);
-		setArm90.whenPressed(new SetCollectorAngle(90.0));
-		
-		JoystickButton setArm0 = new JoystickButton(JS_COLLECTOR, 2);
-		setArm0.whenPressed(new SetCollectorAngle(0.0));
-		
-		train = Robot.runningrobot.driveTrain;
-		dMode = DriveMode.POWER;
-		cMode = ControlMode.ARCADE;
-		driveCalc = ArcadeDriveCalculator.INSTANCE;
-		cont = Robot.runningrobot.camCont;
-		joystickControlEnabled = true;
-	}
-	
-	public void teleopPeriodic(){
-	    if (joystickControlEnabled) {
+    public boolean controllingArm = true;
+    public boolean wasControllingArm;
+
+    public static final int BUT_QUICK_TURN = 2;
+
+    public enum DriveMode {
+        POWER, VELOCITY,
+    }
+
+    public enum ControlMode {
+        ARCADE, TANK, RADIUS
+    }
+
+    public DriveMode dMode;
+    public ControlMode cMode;
+    private DriveCalculator driveCalc;
+
+    public Driver() {
+        JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
+        JS_TURN = new Joystick(BotConstants.JS_TURN);
+        JS_TURRET = new Joystick(BotConstants.JS_TURRET);
+        JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
+
+        JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
+        twoGearButton.whenPressed(new TwoGearAuto());
+
+        JoystickButton getGear = new JoystickButton(JS_FW_BACK, 2);
+        getGear.whenPressed(
+                new AutoSegment(AutoSegment.Direction.BACKWARD, Side.LEFT));
+
+        JoystickButton killPi = new JoystickButton(JS_TURN, 2);
+        killPi.whenPressed(new ShutDownRPi());
+
+        JoystickButton expLo = new JoystickButton(JS_TURN, 3);
+        expLo.whenPressed(new ExposureLow());
+
+        JoystickButton expHi = new JoystickButton(JS_TURN, 5);
+        expHi.whenPressed(new ExposureHigh());
+
+        JoystickButton gear = new JoystickButton(JS_TURN, 4);
+        gear.whenPressed(new GearMode());
+
+        JoystickButton tape = new JoystickButton(JS_TURN, 6);
+        tape.whenPressed(new TapeMode());
+
+        JoystickButton turret90 = new JoystickButton(JS_TURRET, 1);
+        turret90.whenPressed(new SetTurretAngle(90.0));
+
+        JoystickButton turretAim = new JoystickButton(JS_TURRET, 2);
+        turretAim.whenPressed(new AimTurret());
+
+        JoystickButton turretZero = new JoystickButton(JS_TURRET, 3);
+        turretZero.whenPressed(new SetTurretAngle(0.0));
+
+        JoystickButton setArm90 = new JoystickButton(JS_COLLECTOR, 1);
+        setArm90.whenPressed(new SetCollectorAngle(90.0));
+
+        JoystickButton setArm0 = new JoystickButton(JS_COLLECTOR, 2);
+        setArm0.whenPressed(new SetCollectorAngle(0.0));
+
+        train = Robot.runningrobot.driveTrain;
+        dMode = DriveMode.POWER;
+        cMode = ControlMode.ARCADE;
+        driveCalc = ArcadeDriveCalculator.INSTANCE;
+        cont = Robot.runningrobot.camCont;
+        joystickControlEnabled = true;
+    }
+
+    public void teleopPeriodic() {
+        if (joystickControlEnabled) {
             handleDeadbands();
             handleCalc();
             controlTurret();
             drive();
             controlCollector();
-	    }
-	}
-	
-	public void drive(){
-		Vector2d driveVector = Vectors.fromJoystick(JS_FW_BACK, JS_TURN, true);
-		driveVector = MathUtil.adjustDeadband(driveVector, DEADBAND_VEC);
-		Vector2d controlVector = driveCalc.compute(driveVector);
-		RadiusDriveCalculator.INSTANCE.setQuick(JS_TURN.getRawButton(BUT_QUICK_TURN));
-        switch(dMode){
-            case POWER:
-            	train.setPowerLeftRight(controlVector);
-            	break;
-            case VELOCITY:
-            	train.setVelocityLeftRight(controlVector.scale(BotConstants.ROBOT_MAX_VELOCITY));
-            	break;
-            default:
-            	train.stop();
-            	break;
         }
-	}
-	
-	public void controlTurret(){
-		if(turreting){
+    }
+
+    public void drive() {
+        Vector2d driveVector = Vectors.fromJoystick(JS_FW_BACK, JS_TURN, true);
+		driveVector = MathUtil.adjustDeadband(driveVector, DEADBAND_VEC);
+        Vector2d controlVector = driveCalc.compute(driveVector);
+        RadiusDriveCalculator.INSTANCE
+                .setQuick(JS_TURN.getRawButton(BUT_QUICK_TURN));
+        switch (dMode) {
+            case POWER:
+                train.setPowerLeftRight(controlVector);
+                break;
+            case VELOCITY:
+                train.setVelocityLeftRight(
+                        controlVector.scale(BotConstants.ROBOT_MAX_VELOCITY));
+                break;
+            default:
+                train.stop();
+                break;
+        }
+    }
+
+    public void controlTurret() {
+        if (turreting) {
 			Robot.runningrobot.turret.setPower(MathUtil.adjustDeadband(JS_TURRET, DEADBAND_VEC).getX());
-		}
-		else if(!turreting && was_turreting){
-			Robot.runningrobot.turret.setPower(0.0);
-		}
-		
-	}
-	
-	public void handleCalc(){
-		switch(cMode){
-		    case ARCADE:
-		    	driveCalc = ArcadeDriveCalculator.INSTANCE;
-		    	break;
-		    case TANK:
-		    	driveCalc = TankDriveCalculator.INSTANCE;
-		    	break;
-		    case RADIUS:
-		    	driveCalc = RadiusDriveCalculator.INSTANCE;
-		    	((RadiusDriveCalculator) driveCalc).setQuick(false);
-		    	break;
-		    default:
-		    	driveCalc = ArcadeDriveCalculator.INSTANCE;
-		}
-	}
-	
-	public void handleDeadbands(){
-		was_driving = driving;
-		driving = MathUtil.deadband(JS_FW_BACK, JOYSTICK_DEADBAND) || MathUtil.deadband(JS_TURN, JOYSTICK_DEADBAND);
-		was_turreting = turreting;
-		turreting = MathUtil.deadband(JS_TURRET, JOYSTICK_DEADBAND);
-		wasControllingArm = controllingArm;
-		controllingArm = MathUtil.deadband(JS_COLLECTOR, JOYSTICK_DEADBAND);
-	}
-	
-	public void controlCollector() {
-	    if (controllingArm) {
+        } else if (!turreting && was_turreting) {
+            Robot.runningrobot.turret.setPower(0.0);
+        }
+
+    }
+
+    public void handleCalc() {
+        switch (cMode) {
+            case ARCADE:
+                driveCalc = ArcadeDriveCalculator.INSTANCE;
+                break;
+            case TANK:
+                driveCalc = TankDriveCalculator.INSTANCE;
+                break;
+            case RADIUS:
+                driveCalc = RadiusDriveCalculator.INSTANCE;
+                ((RadiusDriveCalculator) driveCalc).setQuick(false);
+                break;
+            default:
+                driveCalc = ArcadeDriveCalculator.INSTANCE;
+        }
+    }
+
+    public void handleDeadbands() {
+        was_driving = driving;
+        driving = MathUtil.deadband(JS_FW_BACK, JOYSTICK_DEADBAND)
+                || MathUtil.deadband(JS_TURN, JOYSTICK_DEADBAND);
+        was_turreting = turreting;
+        turreting = MathUtil.deadband(JS_TURRET, JOYSTICK_DEADBAND);
+        wasControllingArm = controllingArm;
+        controllingArm = MathUtil.deadband(JS_COLLECTOR, JOYSTICK_DEADBAND);
+    }
+
+    public void controlCollector() {
+        if (controllingArm) {
 	        Robot.runningrobot.collector.setPower(-1 * MathUtil.adjustDeadband(JS_COLLECTOR, DEADBAND_VEC).getY());
-	    } else if (!controllingArm && wasControllingArm) {
-	        Robot.runningrobot.collector.setPower(0.0);
-	    }
-	}
+        } else if (!controllingArm && wasControllingArm) {
+            Robot.runningrobot.collector.setPower(0.0);
+        }
+    }
 }

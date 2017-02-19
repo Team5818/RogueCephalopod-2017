@@ -4,8 +4,8 @@ import org.usfirst.frc.team5818.robot.commands.AutoSegment.Side;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class TwoGearAuto extends CommandGroup{
-    
+public class TwoGearAuto extends CommandGroup {
+
     private AutoSegment forward;
     private AutoSegment getGear;
     private AutoSegment placeGear;
@@ -13,15 +13,14 @@ public class TwoGearAuto extends CommandGroup{
     private GearMode gearMode;
     private TapeMode tapeMode2;
 
-    
-    public TwoGearAuto(){
+    public TwoGearAuto() {
         tapeMode1 = new TapeMode();
         forward = new AutoSegment(AutoSegment.Direction.FORWARD, Side.STRAIGHT);
         gearMode = new GearMode();
         getGear = new AutoSegment(AutoSegment.Direction.BACKWARD, Side.LEFT);
         tapeMode2 = new TapeMode();
         placeGear = new AutoSegment(AutoSegment.Direction.FORWARD, Side.LEFT);
-        
+
         this.addSequential(tapeMode1);
         this.addSequential(forward);
         this.addSequential(gearMode);
@@ -29,5 +28,5 @@ public class TwoGearAuto extends CommandGroup{
         this.addSequential(tapeMode2);
         this.addSequential(placeGear);
     }
-    
+
 }

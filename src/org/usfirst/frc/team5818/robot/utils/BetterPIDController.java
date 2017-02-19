@@ -199,8 +199,8 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
      *            effects calculations of the integral and differential terms.
      *            The default is 50ms.
      */
-    public BetterPIDController(double Kp, double Ki, double Kd, PIDSource source,
-            PIDOutput output, double period) {
+    public BetterPIDController(double Kp, double Ki, double Kd,
+            PIDSource source, PIDOutput output, double period) {
         this(Kp, Ki, Kd, 0.0, source, output, period);
     }
 
@@ -219,8 +219,8 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
      * @param output
      *            The PIDOutput object that is set to the output percentage
      */
-    public BetterPIDController(double Kp, double Ki, double Kd, PIDSource source,
-            PIDOutput output) {
+    public BetterPIDController(double Kp, double Ki, double Kd,
+            PIDSource source, PIDOutput output) {
         this(Kp, Ki, Kd, source, output, kDefaultPeriod);
     }
 

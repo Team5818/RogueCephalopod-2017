@@ -43,25 +43,26 @@ public class Vector2d {
     public String toString() {
         return String.format("(%s, %s)", x, y);
     }
-    
-    public Vector2d scale(double x, double y){
-    	return new Vector2d(getX()*x, getY()*y);
+
+    public Vector2d scale(double x, double y) {
+        return new Vector2d(getX() * x, getY() * y);
     }
-    
-    public Vector2d scale(double scale){
-    	return scale(scale,scale);
+
+    public Vector2d scale(double scale) {
+        return scale(scale, scale);
     }
-    
-    public Vector2d normalize(){
+
+    public Vector2d normalize() {
         return normalize(1.0);
     }
-    
-    public Vector2d normalize(double target){
-        return new Vector2d(x/Math.max(x, y)*target, y/Math.max(x, y)*target);
+
+    public Vector2d normalize(double target) {
+        return new Vector2d(x / Math.max(x, y) * target,
+                y / Math.max(x, y) * target);
     }
-    
-    public double componentRatio(){
-        return x/y;
+
+    public double componentRatio() {
+        return x / y;
     }
     // TODO: more vector math!
 
