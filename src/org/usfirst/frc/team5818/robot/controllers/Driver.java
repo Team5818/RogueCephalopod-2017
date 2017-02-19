@@ -16,7 +16,6 @@ import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
-import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
@@ -30,7 +29,6 @@ public class Driver {
     public Joystick JS_TURN;
     public Joystick JS_TURRET;
     public Joystick JS_COLLECTOR;
-    DriveTrain train;
     CameraController cont;
     public static double JOYSTICK_DEADBAND = .2;
     public static Vector2d DEADBAND_VEC = new Vector2d(JOYSTICK_DEADBAND, JOYSTICK_DEADBAND);
@@ -88,7 +86,6 @@ public class Driver {
         JoystickButton setArm0 = new JoystickButton(JS_COLLECTOR, 2);
         setArm0.whenPressed(new SetCollectorAngle(0.0));
 
-        train = Robot.runningrobot.driveTrain;
         dMode = DriveMode.POWER;
         driveCalc = ArcadeDriveCalculator.INSTANCE;
         cont = Robot.runningrobot.camCont;
