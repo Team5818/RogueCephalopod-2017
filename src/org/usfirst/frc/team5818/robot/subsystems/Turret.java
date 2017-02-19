@@ -46,7 +46,9 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 	}
 	
 	public void setPower(double x) {
-		angController.disable();
+	    if (angController.isEnabled()) {
+	        angController.disable();
+	    }
 		pidWrite(x);
 	}
 	
@@ -91,25 +93,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 	
 	@Override
 	public void pidWrite(double x) {
-		if(getAng() > 120){
-			if(x < 0){
-				motor.set(x);
-			}
-		    else{
-		    	motor.set(0.0);
-		    }
-		}
-		else if(getAng() < -45){
-			if(x > 0){
-				motor.set(x);
-			}
-			else{
-				motor.set(0.0);
-			}
-		}
-		else{
-			motor.set(x);
-		}
+		motor.set(x);
 	}
 	public void setSolenoid1(boolean on) {
 	    solenoid1.set(on);
