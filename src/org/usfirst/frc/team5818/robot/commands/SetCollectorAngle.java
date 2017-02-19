@@ -7,23 +7,20 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetCollectorAngle extends Command {
 
-    private Collector collector;
-    double targetAng;
     public static final double TOLERANCE = 3;
+
+    private Collector collector;
+    private double targetAng;
 
     public SetCollectorAngle(double angle) {
         collector = Robot.runningrobot.collector;
         targetAng = angle;
+        requires(collector);
     }
 
     public void initialize() {
         collector.getanglePID().setAbsoluteTolerance(TOLERANCE);
         collector.getanglePID().setSetpoint(targetAng);
-    }
-
-    @Override
-    public void execute() {
-
     }
 
     @Override
@@ -36,8 +33,4 @@ public class SetCollectorAngle extends Command {
         collector.stop();
     }
 
-    @Override
-    public void interrupted() {
-        collector.stop();
-    }
 }

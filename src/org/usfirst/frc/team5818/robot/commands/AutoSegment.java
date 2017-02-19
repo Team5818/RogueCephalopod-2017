@@ -34,13 +34,11 @@ public class AutoSegment extends CommandGroup {
 
         if (dir.equals(Direction.BACKWARD)) {
             driveOvershoot = new DriveStraight(dist1, -.4, radius, false);
-            driveVision = new DriveStraight(33, -.4, 4.2,
-                    Camera.CAM_BACKWARD, false);
+            driveVision = new DriveStraight(33, -.4, 4.2, Camera.CAM_BACKWARD, false);
             driveFinal = new DriveStraight(7, -.4, 1.0, true);
         } else {
             driveOvershoot = new DriveStraight(dist1, .4, radius, false);
-            driveVision = new DriveStraight(31, .4, 2.6,
-                    Camera.CAM_FORWARD, false);
+            driveVision = new DriveStraight(31, .4, 2.6, Camera.CAM_FORWARD, false);
             driveFinal = new DriveStraight(6, .4, 1.0, true);
         }
         drive.addSequential(driveOvershoot);

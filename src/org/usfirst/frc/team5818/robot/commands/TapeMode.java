@@ -10,24 +10,23 @@ public class TapeMode extends Command {
 
     private CameraController cont;
     private VisionTracker track;
-    private boolean done;
 
     public TapeMode() {
         cont = Robot.runningrobot.camCont;
         track = Robot.runningrobot.track;
-        done = false;
+        requires(cont);
+        requires(track);
     }
 
     @Override
     protected void initialize() {
         cont.tapeMode();
         track.setLightsOn(true);
-        done = true;
     }
 
     @Override
     protected boolean isFinished() {
-        return done;
+        return true;
     }
 
 }

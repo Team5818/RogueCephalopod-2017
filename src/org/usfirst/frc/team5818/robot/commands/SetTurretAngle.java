@@ -7,22 +7,20 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetTurretAngle extends Command {
 
+    public static final double DEGREES_TOLERANCE = 2;
+
     private Turret turr;
     private double targetAng;
-    public static final double DEGREES_TOLERANCE = 2;
 
     public SetTurretAngle(double ang) {
         turr = Robot.runningrobot.turret;
+        requires(turr);
         targetAng = ang;
     }
 
     public void initialize() {
         turr.getAngController().setAbsoluteTolerance(DEGREES_TOLERANCE);
         turr.setAng(targetAng);
-    }
-
-    @Override
-    protected void execute() {
     }
 
     @Override
@@ -33,11 +31,6 @@ public class SetTurretAngle extends Command {
     @Override
     protected void end() {
         turr.getAngController().disable();
-    }
-
-    @Override
-    protected void interrupted() {
-        end();
     }
 
 }

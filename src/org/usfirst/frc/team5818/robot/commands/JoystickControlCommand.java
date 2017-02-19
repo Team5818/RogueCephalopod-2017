@@ -20,16 +20,14 @@ public class JoystickControlCommand extends Command {
 
     @Override
     protected void execute() {
-        Vector2d driveVector =
-                Vectors.fromJoystick(DRIVER.JS_FW_BACK, DRIVER.JS_TURN, true);
+        Vector2d driveVector = Vectors.fromJoystick(DRIVER.JS_FW_BACK, DRIVER.JS_TURN, true);
         Vector2d controlVector = DRIVER.driveCalc.compute(driveVector);
         switch (DRIVER.dMode) {
             case POWER:
                 driveTrain.setPowerLeftRight(controlVector);
                 break;
             case VELOCITY:
-                driveTrain.setVelocityLeftRight(
-                        controlVector.scale(BotConstants.ROBOT_MAX_VELOCITY));
+                driveTrain.setVelocityLeftRight(controlVector.scale(BotConstants.ROBOT_MAX_VELOCITY));
                 break;
             default:
                 driveTrain.stop();

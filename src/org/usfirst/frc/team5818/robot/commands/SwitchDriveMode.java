@@ -8,8 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SwitchDriveMode extends Command {
 
-    Driver driver;
-    private boolean isDone = false;
+    private Driver driver;
 
     public SwitchDriveMode() {
         driver = Robot.runningrobot.driver;
@@ -17,17 +16,18 @@ public class SwitchDriveMode extends Command {
 
     @Override
     protected void initialize() {
-        if (driver.dMode.equals(DriveMode.POWER)) {
-            driver.dMode = DriveMode.VELOCITY;
-        } else if (driver.dMode.equals(DriveMode.VELOCITY)) {
-            driver.dMode = DriveMode.POWER;
+        switch (driver.dMode) {
+            case POWER:
+                driver.dMode = DriveMode.VELOCITY;
+                break;
+            default /* case VELOCITY */:
+                driver.dMode = DriveMode.POWER;
         }
-        isDone = true;
     }
 
     @Override
     protected boolean isFinished() {
-        return isDone;
+        return true;
     }
 
 }

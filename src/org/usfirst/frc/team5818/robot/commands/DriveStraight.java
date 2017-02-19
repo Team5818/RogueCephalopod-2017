@@ -29,16 +29,16 @@ public class DriveStraight extends Command {
     private Camera camera;
     private boolean useSanic;
 
-    public DriveStraight(double in, double pow, double targetRat, double maxRat,
-            Camera cam, boolean stop) {
+    public DriveStraight(double in, double pow, double targetRat, double maxRat, Camera cam, boolean stop) {
         camera = cam;
         inches = in;
         maxPow = pow;
         requires(Robot.runningrobot.driveTrain);
+        cont = Robot.runningrobot.camCont;
+        requires(cont);
         setTimeout(in / 12);
         targetRatio = targetRat; // Ratio is LEFT/RIGHT
         maxRatio = maxRat;
-        cont = Robot.runningrobot.camCont;
         if (cam.equals(Camera.NONE)) {
             camMultiplier = 0;
             useVision = false;
@@ -66,8 +66,7 @@ public class DriveStraight extends Command {
     /**
      * No vision, no sanic constructor
      */
-    public DriveStraight(double in, double pow, double targetRatio,
-            boolean stop) {
+    public DriveStraight(double in, double pow, double targetRatio, boolean stop) {
         this(in, pow, targetRatio, 1.0, Camera.NONE, stop);
     }
 
@@ -81,15 +80,13 @@ public class DriveStraight extends Command {
     /**
      * Vision Constructor
      */
-    public DriveStraight(double in, double pow, double maxRatio, Camera cam,
-            boolean stop) {
+    public DriveStraight(double in, double pow, double maxRatio, Camera cam, boolean stop) {
         this(in, pow, 1.0, maxRatio, cam, stop);
     }
 
     @Override
     public void initialize() {
-        SmartDashboard.putNumber("Vision Angle",
-                Robot.runningrobot.track.getCurrentAngle());
+        SmartDashboard.putNumber("Vision Angle", Robot.runningrobot.track.getCurrentAngle());
         leftPowMult = 1;
         rightPowMult = 1;
         avStart = Robot.runningrobot.driveTrain.getAverageDistance();
@@ -102,18 +99,15 @@ public class DriveStraight extends Command {
     }
 
     public void execute() {
-        leftVel =
-                Math.abs(Robot.runningrobot.driveTrain.left.getSideVelocity());
-        rightVel =
-                Math.abs(Robot.runningrobot.driveTrain.right.getSideVelocity());
+        leftVel = Math.abs(Robot.runningrobot.driveTrain.left.getSideVelocity());
+        rightVel = Math.abs(Robot.runningrobot.driveTrain.right.getSideVelocity());
         double currRatio = targetRatio;
 
         if (leftVel != 0 && rightVel != 0) {
             currRatio = leftVel / rightVel;
         }
 
-        double anglePower = Robot.runningrobot.track.getCurrentAngle()
-                / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
+        double anglePower = Robot.runningrobot.track.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
 
         double target = targetRatio;
 
@@ -143,11 +137,9 @@ public class DriveStraight extends Command {
     @Override
     protected boolean isFinished() {
         boolean passedTarget =
-                Math.abs(Robot.runningrobot.driveTrain.getAverageDistance()
-                        - avStart) >= Math.abs(inches);
+                Math.abs(Robot.runningrobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
         if (useSanic) {
-            boolean sonicThresh =
-                    Robot.runningrobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
+            boolean sonicThresh = Robot.runningrobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
             return isTimedOut() || passedTarget || sonicThresh;
         }
         return isTimedOut() || passedTarget;

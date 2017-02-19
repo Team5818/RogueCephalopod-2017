@@ -7,9 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DrivePIDDistance extends Command {
 
+    public static final int DEFAULT_TIMEOUT = 5;
+
     private double inches;
     private DriveTrain dt = Robot.runningrobot.driveTrain;
-    public static final int DEFAULT_TIMEOUT = 5;
 
     public DrivePIDDistance(double inches, double timeout) {
         requires(Robot.runningrobot.driveTrain);
@@ -25,23 +26,14 @@ public class DrivePIDDistance extends Command {
         dt.driveDistance(inches);
     }
 
-    protected void execute() {
-    }
-
     @Override
     protected boolean isFinished() {
-        return (dt.getLeftSide().getDistController().onTarget()
-                && dt.getRightSide().getDistController().onTarget())
+        return (dt.getLeftSide().getDistController().onTarget() && dt.getRightSide().getDistController().onTarget())
                 || isTimedOut();
     }
 
     @Override
     protected void end() {
         dt.stop();
-    }
-
-    @Override
-    protected void interrupted() {
-        end();
     }
 }

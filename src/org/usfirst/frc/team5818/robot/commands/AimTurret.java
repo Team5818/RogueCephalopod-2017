@@ -10,29 +10,32 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AimTurret extends Command {
 
-    private Turret turr;
-    private VisionTracker track;
-    private CameraController cont;
-    private double degreesOff;
     public static final double DEGREES_TOLERANCE = 2;
 
     public static final double distFromTarget = 36; // Estimation in inches
     public static final double cameraOffset = 6;// Estimation in inches
 
-    /*
+    /**
      * Finds field of vision taking into account camera offset. Assumes distance
      * from the target and uses tangents to find angle Is the assumption worth
      * it? Maybe we want a way to find distance from target? Or just assume
      * camera is at center of turret?
      */
     public static final double realFOV = 2 * Math.toDegrees(
-            Math.atan2(Math.tan(BotConstants.CAMERA_FOV / 2) * distFromTarget,
-                    distFromTarget + cameraOffset));
+            Math.atan2(Math.tan(BotConstants.CAMERA_FOV / 2) * distFromTarget, distFromTarget + cameraOffset));
+
+    private Turret turr;
+    private VisionTracker track;
+    private CameraController cont;
+    private double degreesOff;
 
     public AimTurret() {
         turr = Robot.runningrobot.turret;
         track = Robot.runningrobot.track;
         cont = Robot.runningrobot.camCont;
+        requires(turr);
+        requires(track);
+        requires(cont);
     }
 
     public void initialize() {
@@ -47,9 +50,7 @@ public class AimTurret extends Command {
 
     @Override
     protected boolean isFinished() {
-        // TODO Auto-generated method stub
-        return Math
-                .abs(degreesOff - track.getCurrentAngle()) < DEGREES_TOLERANCE;
+        return Math.abs(degreesOff - track.getCurrentAngle()) < DEGREES_TOLERANCE;
     }
 
 }
