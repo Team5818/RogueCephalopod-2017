@@ -41,7 +41,7 @@ public class CollectorRollers extends Subsystem {
         return botRoller.getOutputCurrent();
     }
     
-    public boolean isPlaneBroken(){
+    public boolean receivingBeam(){
         return lineBreak.get();
     }
 
