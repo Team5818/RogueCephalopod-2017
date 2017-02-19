@@ -57,10 +57,8 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motorNoEnc.setInverted(false);
             motorEnc.setInverted(true);
             motor2NoEnc.setInverted(false);
-            velController = new BetterPIDController(L_VEL_KP, L_VEL_KI,
-                    L_VEL_KD, L_VEL_KF, this, this);
-            distController = new BetterPIDController(L_DIST_KP, L_DIST_KI,
-                    L_DIST_KD, this, this);
+            velController = new BetterPIDController(L_VEL_KP, L_VEL_KI, L_VEL_KD, L_VEL_KF, this, this);
+            distController = new BetterPIDController(L_DIST_KP, L_DIST_KI, L_DIST_KD, this, this);
         } else {
             encoderSign = -1;
             motorNoEnc = new CANTalon(RobotMap.R_TALON);
@@ -69,10 +67,8 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motorNoEnc.setInverted(true);
             motorEnc.setInverted(false);
             motor2NoEnc.setInverted(true);
-            velController = new BetterPIDController(R_VEL_KP, R_VEL_KI,
-                    R_VEL_KD, R_VEL_KF, this, this);
-            distController = new BetterPIDController(R_DIST_KP, R_DIST_KI,
-                    R_DIST_KD, this, this);
+            velController = new BetterPIDController(R_VEL_KP, R_VEL_KI, R_VEL_KD, R_VEL_KF, this, this);
+            distController = new BetterPIDController(R_DIST_KP, R_DIST_KI, R_DIST_KD, this, this);
 
         }
         distController.setAbsoluteTolerance(1);
@@ -92,13 +88,11 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     }
 
     public double getSidePosition() {
-        return encoderSign * motorEnc.getEncPosition()
-                / BotConstants.TICS_PER_INCH;
+        return encoderSign * motorEnc.getEncPosition() / BotConstants.TICS_PER_INCH;
     }
 
     public double getSideVelocity() {
-        return encoderSign * motorEnc.getEncVelocity()
-                / BotConstants.TICS_PER_INCH;
+        return encoderSign * motorEnc.getEncVelocity() / BotConstants.TICS_PER_INCH;
     }
 
     @Override

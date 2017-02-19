@@ -1,13 +1,13 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.DigitalInput;
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 public class CollectorRollers extends Subsystem {
 
     private CANTalon topRoller;
@@ -40,8 +40,8 @@ public class CollectorRollers extends Subsystem {
     public double getBotCurrent() {
         return botRoller.getOutputCurrent();
     }
-    
-    public boolean receivingBeam(){
+
+    public boolean receivingBeam() {
         return lineBreak.get();
     }
 

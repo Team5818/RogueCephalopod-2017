@@ -78,8 +78,7 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
 
         @Override
         public boolean onTarget() {
-            throw new RuntimeException(
-                    "No tolerance value set when calling onTarget().");
+            throw new RuntimeException("No tolerance value set when calling onTarget().");
         }
     }
 
@@ -93,8 +92,8 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
 
         @Override
         public boolean onTarget() {
-            return isAvgErrorValid() && (Math.abs(getAvgError()) < percentage
-                    / 100 * (m_maximumInput - m_minimumInput));
+            return isAvgErrorValid()
+                    && (Math.abs(getAvgError()) < percentage / 100 * (m_maximumInput - m_minimumInput));
         }
     }
 
@@ -149,8 +148,8 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
      *            effects calculations of the integral and differential terms.
      *            The default is 50ms.
      */
-    public BetterPIDController(double Kp, double Ki, double Kd, double Kf,
-            PIDSource source, PIDOutput output, double period) {
+    public BetterPIDController(double Kp, double Ki, double Kd, double Kf, PIDSource source, PIDOutput output,
+            double period) {
 
         if (source == null) {
             throw new NullPointerException("Null PIDSource was given");
@@ -199,8 +198,7 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
      *            effects calculations of the integral and differential terms.
      *            The default is 50ms.
      */
-    public BetterPIDController(double Kp, double Ki, double Kd,
-            PIDSource source, PIDOutput output, double period) {
+    public BetterPIDController(double Kp, double Ki, double Kd, PIDSource source, PIDOutput output, double period) {
         this(Kp, Ki, Kd, 0.0, source, output, period);
     }
 
@@ -219,8 +217,7 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
      * @param output
      *            The PIDOutput object that is set to the output percentage
      */
-    public BetterPIDController(double Kp, double Ki, double Kd,
-            PIDSource source, PIDOutput output) {
+    public BetterPIDController(double Kp, double Ki, double Kd, PIDSource source, PIDOutput output) {
         this(Kp, Ki, Kd, source, output, kDefaultPeriod);
     }
 
@@ -241,8 +238,7 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
      * @param output
      *            The PIDOutput object that is set to the output percentage
      */
-    public BetterPIDController(double Kp, double Ki, double Kd, double Kf,
-            PIDSource source, PIDOutput output) {
+    public BetterPIDController(double Kp, double Ki, double Kd, double Kf, PIDSource source, PIDOutput output) {
         this(Kp, Ki, Kd, Kf, source, output, kDefaultPeriod);
     }
 
@@ -291,8 +287,7 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
             synchronized (this) {
                 m_error = m_setpoint - input;
                 if (m_continuous) {
-                    if (Math.abs(m_error) > (m_maximumInput - m_minimumInput)
-                            / 2) {
+                    if (Math.abs(m_error) > (m_maximumInput - m_minimumInput) / 2) {
                         if (m_error > 0) {
                             m_error = m_error - m_maximumInput + m_minimumInput;
                         } else {
@@ -314,8 +309,7 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
                             m_totalError = m_maximumOutput / m_P;
                         }
 
-                        m_result = m_P * m_totalError + m_D * m_error
-                                + calculateFeedForward();
+                        m_result = m_P * m_totalError + m_D * m_error + calculateFeedForward();
                     }
                 } else {
                     if (m_I != 0) {
@@ -331,9 +325,8 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
                         }
                     }
 
-                    m_result = m_P * m_error + m_I * m_totalError
-                            + m_D * (m_error - m_prevError)
-                            + calculateFeedForward();
+                    m_result =
+                            m_P * m_error + m_I * m_totalError + m_D * (m_error - m_prevError) + calculateFeedForward();
                 }
                 m_prevError = m_error;
 
@@ -514,11 +507,9 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
      * @param maximumInput
      *            the maximum value expected from the input
      */
-    public synchronized void setInputRange(double minimumInput,
-            double maximumInput) {
+    public synchronized void setInputRange(double minimumInput, double maximumInput) {
         if (minimumInput > maximumInput) {
-            throw new BoundaryException(
-                    "Lower bound is greater than upper bound");
+            throw new BoundaryException("Lower bound is greater than upper bound");
         }
         m_minimumInput = minimumInput;
         m_maximumInput = maximumInput;
@@ -533,11 +524,9 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
      * @param maximumOutput
      *            the maximum percentage to write to the output
      */
-    public synchronized void setOutputRange(double minimumOutput,
-            double maximumOutput) {
+    public synchronized void setOutputRange(double minimumOutput, double maximumOutput) {
         if (minimumOutput > maximumOutput) {
-            throw new BoundaryException(
-                    "Lower bound is greater than upper bound");
+            throw new BoundaryException("Lower bound is greater than upper bound");
         }
         m_minimumOutput = minimumOutput;
         m_maximumOutput = maximumOutput;
@@ -631,8 +620,7 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
         double avgError = 0;
         // Don't divide by zero.
         if (m_buf.size() != 0)
-            avgError = m_buf.stream().mapToDouble(Double::doubleValue).average()
-                    .orElse(0);
+            avgError = m_buf.stream().mapToDouble(Double::doubleValue).average().orElse(0);
         return avgError;
     }
 
@@ -792,16 +780,11 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
     private final ITableListener listener = new ITableListener() {
 
         @Override
-        public void valueChanged(ITable table, String key, Object value,
-                boolean isNew) {
-            if (key.equals("p") || key.equals("i") || key.equals("d")
-                    || key.equals("f")) {
-                if (getP() != table.getNumber("p", 0.0)
-                        || getI() != table.getNumber("i", 0.0)
-                        || getD() != table.getNumber("d", 0.0)
-                        || getF() != table.getNumber("f", 0.0))
-                    setPID(table.getNumber("p", 0.0), table.getNumber("i", 0.0),
-                            table.getNumber("d", 0.0),
+        public void valueChanged(ITable table, String key, Object value, boolean isNew) {
+            if (key.equals("p") || key.equals("i") || key.equals("d") || key.equals("f")) {
+                if (getP() != table.getNumber("p", 0.0) || getI() != table.getNumber("i", 0.0)
+                        || getD() != table.getNumber("d", 0.0) || getF() != table.getNumber("f", 0.0))
+                    setPID(table.getNumber("p", 0.0), table.getNumber("i", 0.0), table.getNumber("d", 0.0),
                             table.getNumber("f", 0.0));
             } else if (key.equals("setpoint")) {
                 if (getSetpoint() != ((Double) value).doubleValue())

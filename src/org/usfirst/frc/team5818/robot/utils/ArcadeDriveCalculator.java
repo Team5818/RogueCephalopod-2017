@@ -54,12 +54,10 @@ public enum ArcadeDriveCalculator implements DriveCalculator {
     }
 
     public Vector2d computeTurnsDifferent(Vector2d in) {
-        double rotateValue = Math.signum(-in.getX())
-                * Math.pow(Math.abs(handleDeadband(in.getX())), turnPower)
-                * turnMult; // Less
-        double moveValue = Math.signum(-in.getY())
-                * Math.pow(Math.abs(handleDeadband(in.getY())), forwardPower)
-                * forwardMult; // Less
+        double rotateValue =
+                Math.signum(-in.getX()) * Math.pow(Math.abs(handleDeadband(in.getX())), turnPower) * turnMult; // Less
+        double moveValue =
+                Math.signum(-in.getY()) * Math.pow(Math.abs(handleDeadband(in.getY())), forwardPower) * forwardMult; // Less
 
         double leftMotorSpeed;
         double rightMotorSpeed;

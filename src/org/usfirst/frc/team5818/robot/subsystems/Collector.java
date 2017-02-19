@@ -28,11 +28,9 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     public Collector() {
         leftMotorTal = new CANTalon(RobotMap.ARM_TALON_L);
         leftMotorTal.setInverted(true);
-        leftMotorTal.setFeedbackDevice(
-                CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
+        leftMotorTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         rightMotorTal = new CANTalon(RobotMap.ARM_TALON_R);
-        rightMotorTal.setFeedbackDevice(
-                CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
+        rightMotorTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         anglePID = new BetterPIDController(kP, kI, kD, this, this);
         anglePID.setAbsoluteTolerance(0.3);
         centerOffSet = 512;

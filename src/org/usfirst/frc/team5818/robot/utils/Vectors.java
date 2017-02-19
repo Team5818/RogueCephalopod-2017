@@ -17,8 +17,7 @@ public final class Vectors {
      * 
      * @return A new vector of the values
      */
-    public static Vector2d fromJoystick(Joystick stick,
-            boolean invertedThrottle) {
+    public static Vector2d fromJoystick(Joystick stick, boolean invertedThrottle) {
         int sign = 1;
         if (invertedThrottle)
             sign *= -1;
@@ -37,8 +36,7 @@ public final class Vectors {
      * 
      * @return A new vector of the values
      */
-    public static Vector2d fromJoystick(Joystick stick, Joystick stick2,
-            boolean invertedThrottle) {
+    public static Vector2d fromJoystick(Joystick stick, Joystick stick2, boolean invertedThrottle) {
         int sign = 1;
         if (invertedThrottle)
             sign *= -1;
@@ -57,8 +55,7 @@ public final class Vectors {
      * 
      * @return A new vector of the values
      */
-    public static Vector2d fromJoystickTank(Joystick stick, Joystick stick2,
-            boolean invertedThrottle) {
+    public static Vector2d fromJoystickTank(Joystick stick, Joystick stick2, boolean invertedThrottle) {
         int sign = 1;
         if (invertedThrottle)
             sign *= -1;

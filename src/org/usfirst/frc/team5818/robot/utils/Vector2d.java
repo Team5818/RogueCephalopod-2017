@@ -57,8 +57,7 @@ public class Vector2d {
     }
 
     public Vector2d normalize(double target) {
-        return new Vector2d(x / Math.max(x, y) * target,
-                y / Math.max(x, y) * target);
+        return new Vector2d(x / Math.max(x, y) * target, y / Math.max(x, y) * target);
     }
 
     public double componentRatio() {
