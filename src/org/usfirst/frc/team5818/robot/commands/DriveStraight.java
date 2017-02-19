@@ -3,7 +3,6 @@ package org.usfirst.frc.team5818.robot.commands;
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.Camera;
-import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
@@ -76,15 +75,14 @@ public class DriveStraight extends Command {
      * Sanic constructor
      */
     public DriveStraight(double in, double pow, double targetRatio) {
-        this(in, pow, targetRatio, 1.0, Camera.ULTRASANIC,
-                true);
+        this(in, pow, targetRatio, 1.0, Camera.ULTRASANIC, true);
     }
 
     /**
      * Vision Constructor
      */
-    public DriveStraight(double in, double pow, double maxRatio,
-            Camera cam, boolean stop) {
+    public DriveStraight(double in, double pow, double maxRatio, Camera cam,
+            boolean stop) {
         this(in, pow, 1.0, maxRatio, cam, stop);
     }
 
@@ -94,7 +92,6 @@ public class DriveStraight extends Command {
                 Robot.runningrobot.track.getCurrentAngle());
         leftPowMult = 1;
         rightPowMult = 1;
-        Driver.joystickControlEnabled = false;
         avStart = Robot.runningrobot.driveTrain.getAverageDistance();
 
         if (camera.equals(Camera.CAM_FORWARD)) {
@@ -141,7 +138,6 @@ public class DriveStraight extends Command {
         if (stopAtEnd) {
             Robot.runningrobot.driveTrain.stop();
         }
-        Driver.joystickControlEnabled = true;
     }
 
     @Override

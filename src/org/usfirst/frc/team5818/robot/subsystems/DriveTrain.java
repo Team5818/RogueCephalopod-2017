@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import org.usfirst.frc.team5818.robot.commands.JoystickControlCommand;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
@@ -120,6 +121,7 @@ public class DriveTrain extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
+        setDefaultCommand(new JoystickControlCommand());
     }
 
 }

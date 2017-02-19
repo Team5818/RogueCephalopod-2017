@@ -12,7 +12,6 @@ import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
-import org.usfirst.frc.team5818.robot.constants.ControlMode;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Side;
@@ -21,28 +20,20 @@ import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
-import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
-import org.usfirst.frc.team5818.robot.utils.TankDriveCalculator;
-import org.usfirst.frc.team5818.robot.utils.Vector2d;
-import org.usfirst.frc.team5818.robot.utils.Vectors;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Driver {
 
-    Joystick JS_FW_BACK;
-    Joystick JS_TURN;
-    Joystick JS_TURRET;
-    Joystick JS_COLLECTOR;
+    public Joystick JS_FW_BACK;
+    public Joystick JS_TURN;
+    public Joystick JS_TURRET;
+    public Joystick JS_COLLECTOR;
     DriveTrain train;
     CameraController cont;
     public static double JOYSTICK_DEADBAND = .2;
     public static Vector2d DEADBAND_VEC = new Vector2d(JOYSTICK_DEADBAND, JOYSTICK_DEADBAND);
-    public static boolean joystickControlEnabled;
-
-    public boolean driving = true;
-    public boolean was_driving;
 
     public boolean turreting = true;
     public boolean was_turreting;
@@ -53,8 +44,7 @@ public class Driver {
     public static final int BUT_QUICK_TURN = 2;
 
     public DriveMode dMode;
-    public ControlMode cMode;
-    private DriveCalculator driveCalc;
+    public DriveCalculator driveCalc;
 
     public Driver() {
         JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
@@ -66,8 +56,7 @@ public class Driver {
         twoGearButton.whenPressed(new TwoGearAuto());
 
         JoystickButton getGear = new JoystickButton(JS_FW_BACK, 2);
-        getGear.whenPressed(
-                new AutoSegment(Direction.BACKWARD, Side.LEFT));
+        getGear.whenPressed(new AutoSegment(Direction.BACKWARD, Side.LEFT));
 
         JoystickButton killPi = new JoystickButton(JS_TURN, 2);
         killPi.whenPressed(new ShutDownRPi());
@@ -101,41 +90,16 @@ public class Driver {
 
         train = Robot.runningrobot.driveTrain;
         dMode = DriveMode.POWER;
-        cMode = ControlMode.ARCADE;
         driveCalc = ArcadeDriveCalculator.INSTANCE;
         cont = Robot.runningrobot.camCont;
-        joystickControlEnabled = true;
     }
 
     public void teleopPeriodic() {
-        if (joystickControlEnabled) {
-            handleDeadbands();
-            handleCalc();
-            controlTurret();
-            drive();
-            controlCollector();
-        }
+        handleDeadbands();
+        controlTurret();
+        controlCollector();
     }
-
-    public void drive() {
-        Vector2d driveVector = Vectors.fromJoystick(JS_FW_BACK, JS_TURN, true);
 		driveVector = MathUtil.adjustDeadband(driveVector, DEADBAND_VEC);
-        Vector2d controlVector = driveCalc.compute(driveVector);
-        RadiusDriveCalculator.INSTANCE
-                .setQuick(JS_TURN.getRawButton(BUT_QUICK_TURN));
-        switch (dMode) {
-            case POWER:
-                train.setPowerLeftRight(controlVector);
-                break;
-            case VELOCITY:
-                train.setVelocityLeftRight(
-                        controlVector.scale(BotConstants.ROBOT_MAX_VELOCITY));
-                break;
-            default:
-                train.stop();
-                break;
-        }
-    }
 
     public void controlTurret() {
         if (turreting) {
@@ -146,27 +110,7 @@ public class Driver {
 
     }
 
-    public void handleCalc() {
-        switch (cMode) {
-            case ARCADE:
-                driveCalc = ArcadeDriveCalculator.INSTANCE;
-                break;
-            case TANK:
-                driveCalc = TankDriveCalculator.INSTANCE;
-                break;
-            case RADIUS:
-                driveCalc = RadiusDriveCalculator.INSTANCE;
-                ((RadiusDriveCalculator) driveCalc).setQuick(false);
-                break;
-            default:
-                driveCalc = ArcadeDriveCalculator.INSTANCE;
-        }
-    }
-
     public void handleDeadbands() {
-        was_driving = driving;
-        driving = MathUtil.deadband(JS_FW_BACK, JOYSTICK_DEADBAND)
-                || MathUtil.deadband(JS_TURN, JOYSTICK_DEADBAND);
         was_turreting = turreting;
         turreting = MathUtil.deadband(JS_TURRET, JOYSTICK_DEADBAND);
         wasControllingArm = controllingArm;
