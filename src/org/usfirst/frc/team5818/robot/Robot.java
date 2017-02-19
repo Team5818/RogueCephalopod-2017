@@ -6,6 +6,7 @@ import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
+import org.usfirst.frc.team5818.robot.subsystems.CollectorRollers;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.ExampleSubsystem;
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
 	public DriveTrain driveTrain;
 	public Driver driver;
 	public Collector collector;
+	public CollectorRollers roll;
 	public VisionTracker track;
 	public Turret turret;
 	public CameraController camCont;
@@ -51,6 +53,7 @@ public class Robot extends IterativeRobot {
     	driveTrain = new DriveTrain();
 		track = new VisionTracker();
     	turret = new Turret();
+    	roll = new CollectorRollers();
     	collector = new Collector();
         chooser = new SendableChooser<>();
         camCont = new CameraController();
@@ -143,6 +146,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
         SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
         SmartDashboard.putNumber("Arm angle", collector.getAngle());
-        SmartDashboard.putNumber("Arm encoder", collector.getAngle());
+        SmartDashboard.putBoolean("Line Broken",roll.receivingBeam());
     }
 }
