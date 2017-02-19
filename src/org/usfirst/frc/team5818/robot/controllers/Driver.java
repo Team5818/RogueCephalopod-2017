@@ -98,9 +98,9 @@ public class Driver {
 
     public void controlTurret() {
         if (turreting) {
-            Robot.runningrobot.turret.setPower(MathUtil.adjustDeadband(JS_TURRET, DEADBAND_VEC).getX());
+            Robot.runningRobot.turret.setPower(MathUtil.adjustDeadband(JS_TURRET, DEADBAND_VEC).getX());
         } else if (!turreting && was_turreting) {
-            Robot.runningrobot.turret.setPower(0.0);
+            Robot.runningRobot.turret.setPower(0.0);
         }
 
     }
@@ -114,9 +114,9 @@ public class Driver {
 
     public void controlCollector() {
         if (controllingArm) {
-            Robot.runningrobot.collector.setPower(-1 * MathUtil.adjustDeadband(JS_COLLECTOR, DEADBAND_VEC).getY());
+            Robot.runningRobot.collector.setPower(-1 * MathUtil.adjustDeadband(JS_COLLECTOR, DEADBAND_VEC).getY());
         } else if (!controllingArm && wasControllingArm) {
-            Robot.runningrobot.collector.setPower(0.0);
+            Robot.runningRobot.collector.setPower(0.0);
         }
     }
 }

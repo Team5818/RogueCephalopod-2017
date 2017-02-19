@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class JoystickControlCommand extends Command {
 
-    private final Driver DRIVER = Robot.runningrobot.driver;
-    private final DriveTrain driveTrain = Robot.runningrobot.driveTrain;
+    private final Driver DRIVER = Robot.runningRobot.driver;
+    private final DriveTrain driveTrain = Robot.runningRobot.driveTrain;
 
     public JoystickControlCommand() {
         requires(driveTrain);

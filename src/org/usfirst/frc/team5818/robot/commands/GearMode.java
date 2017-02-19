@@ -12,8 +12,8 @@ public class GearMode extends Command {
     private VisionTracker track;
 
     public GearMode() {
-        cont = Robot.runningrobot.camCont;
-        track = Robot.runningrobot.track;
+        cont = Robot.runningRobot.camCont;
+        track = Robot.runningRobot.track;
         requires(cont);
         requires(track);
     }

@@ -13,7 +13,7 @@ public class SetCollectorAngle extends Command {
     private double targetAng;
 
     public SetCollectorAngle(double angle) {
-        collector = Robot.runningrobot.collector;
+        collector = Robot.runningRobot.collector;
         targetAng = angle;
         requires(collector);
     }

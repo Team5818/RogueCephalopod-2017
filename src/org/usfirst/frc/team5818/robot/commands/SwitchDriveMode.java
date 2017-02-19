@@ -11,7 +11,7 @@ public class SwitchDriveMode extends Command {
     private Driver driver;
 
     public SwitchDriveMode() {
-        driver = Robot.runningrobot.driver;
+        driver = Robot.runningRobot.driver;
     }
 
     @Override

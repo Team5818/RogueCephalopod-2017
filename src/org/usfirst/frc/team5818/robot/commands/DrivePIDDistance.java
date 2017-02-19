@@ -10,10 +10,10 @@ public class DrivePIDDistance extends Command {
     public static final int DEFAULT_TIMEOUT = 5;
 
     private double inches;
-    private DriveTrain dt = Robot.runningrobot.driveTrain;
+    private DriveTrain dt = Robot.runningRobot.driveTrain;
 
     public DrivePIDDistance(double inches, double timeout) {
-        requires(Robot.runningrobot.driveTrain);
+        requires(Robot.runningRobot.driveTrain);
         this.inches = inches;
         setTimeout(timeout);
     }

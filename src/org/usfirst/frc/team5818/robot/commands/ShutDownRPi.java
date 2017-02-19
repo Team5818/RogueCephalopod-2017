@@ -10,7 +10,7 @@ public class ShutDownRPi extends Command {
     private CameraController cont;
 
     public ShutDownRPi() {
-        cont = Robot.runningrobot.camCont;
+        cont = Robot.runningRobot.camCont;
         requires(cont);
     }
 

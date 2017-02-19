@@ -54,8 +54,8 @@ public class DriveAtRatio extends Command {
         camera = opts.getCamera();
         inches = opts.getInches();
         maxPow = opts.getMaxPower();
-        requires(Robot.runningrobot.driveTrain);
-        cont = Robot.runningrobot.camCont;
+        requires(Robot.runningRobot.driveTrain);
+        cont = Robot.runningRobot.camCont;
         requires(cont);
         setTimeout(inches / 12);
         targetRatio = opts.getTargetRatio(); // Ratio is LEFT/RIGHT
@@ -86,10 +86,10 @@ public class DriveAtRatio extends Command {
 
     @Override
     public void initialize() {
-        SmartDashboard.putNumber("Vision Angle", Robot.runningrobot.track.getCurrentAngle());
+        SmartDashboard.putNumber("Vision Angle", Robot.runningRobot.track.getCurrentAngle());
         leftPowMult = 1;
         rightPowMult = 1;
-        avStart = Robot.runningrobot.driveTrain.getAverageDistance();
+        avStart = Robot.runningRobot.driveTrain.getAverageDistance();
 
         if (camera.equals(Camera.CAM_FORWARD)) {
             cont.enterTapeMode();
@@ -100,15 +100,15 @@ public class DriveAtRatio extends Command {
 
     @Override
     public void execute() {
-        leftVel = Math.abs(Robot.runningrobot.driveTrain.left.getSideVelocity());
-        rightVel = Math.abs(Robot.runningrobot.driveTrain.right.getSideVelocity());
+        leftVel = Math.abs(Robot.runningRobot.driveTrain.left.getSideVelocity());
+        rightVel = Math.abs(Robot.runningRobot.driveTrain.right.getSideVelocity());
         double currRatio = targetRatio;
 
         if (leftVel != 0 && rightVel != 0) {
             currRatio = leftVel / rightVel;
         }
 
-        double anglePower = Robot.runningrobot.track.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
+        double anglePower = Robot.runningRobot.track.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
 
         double target = targetRatio;
 
@@ -124,23 +124,23 @@ public class DriveAtRatio extends Command {
         Vector2d driveVec = new Vector2d(leftPowMult, rightPowMult);
         driveVec = driveVec.normalize(maxPow);
 
-        Robot.runningrobot.driveTrain.setPowerLeftRight(driveVec);
+        Robot.runningRobot.driveTrain.setPowerLeftRight(driveVec);
 
     }
 
     @Override
     public void end() {
         if (stopAtEnd) {
-            Robot.runningrobot.driveTrain.stop();
+            Robot.runningRobot.driveTrain.stop();
         }
     }
 
     @Override
     protected boolean isFinished() {
         boolean passedTarget =
-                Math.abs(Robot.runningrobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
+                Math.abs(Robot.runningRobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
         if (useSanic) {
-            boolean sonicThresh = Robot.runningrobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
+            boolean sonicThresh = Robot.runningRobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
             return isTimedOut() || passedTarget || sonicThresh;
         }
         return isTimedOut() || passedTarget;

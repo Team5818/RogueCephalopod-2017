@@ -10,7 +10,7 @@ public class ExposureHigh extends Command {
     private CameraController cont;
 
     public ExposureHigh() {
-        cont = Robot.runningrobot.camCont;
+        cont = Robot.runningRobot.camCont;
         requires(cont);
     }
 

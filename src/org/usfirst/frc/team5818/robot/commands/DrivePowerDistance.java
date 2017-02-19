@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DrivePowerDistance extends Command {
 
-    private DriveTrain dt = Robot.runningrobot.driveTrain;
+    private DriveTrain dt = Robot.runningRobot.driveTrain;
     private double power;
     private double inches;
     private double timeout;
     private double startPos;
 
     public DrivePowerDistance(double power, double inches, double timeout) {
-        requires(Robot.runningrobot.driveTrain);
+        requires(Robot.runningRobot.driveTrain);
         this.power = power;
         this.inches = inches;
         this.timeout = timeout;

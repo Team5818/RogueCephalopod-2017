@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-    public static Robot runningrobot;
+    public static Robot runningRobot;
 
     public DriveTrain driveTrain;
     public Driver driver;
@@ -49,7 +49,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
-        runningrobot = this;
+        runningRobot = this;
         driveTrain = new DriveTrain();
         track = new VisionTracker();
         turret = new Turret();

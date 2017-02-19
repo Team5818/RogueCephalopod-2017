@@ -30,9 +30,9 @@ public class AimTurret extends Command {
     private double degreesOff;
 
     public AimTurret() {
-        turr = Robot.runningrobot.turret;
-        track = Robot.runningrobot.track;
-        cont = Robot.runningrobot.camCont;
+        turr = Robot.runningRobot.turret;
+        track = Robot.runningRobot.track;
+        cont = Robot.runningRobot.camCont;
         requires(turr);
         requires(track);
         requires(cont);
