@@ -150,9 +150,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
         SmartDashboard.putNumber("Gear X:", track.getCurrentAngle());
         SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
-        SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
+        SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
         SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
-        SmartDashboard.putNumber("Arm angle", collector.getAngle());
+        SmartDashboard.putNumber("Arm Angle", collector.getAngle());
         SmartDashboard.putBoolean("Line Broken", roll.receivingBeam());
     }
 }

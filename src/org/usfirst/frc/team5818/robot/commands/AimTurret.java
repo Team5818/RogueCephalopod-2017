@@ -46,7 +46,7 @@ public class AimTurret extends Command {
     @Override
     protected void execute() {
         degreesOff = track.getCurrentAngle();
-        turr.setAng(degreesOff - turr.getAng());
+        turr.setAngle(degreesOff - turr.getAngle());
     }
 
     @Override

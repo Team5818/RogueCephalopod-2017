@@ -20,18 +20,18 @@ public class SetTurretAngle extends Command {
 
     @Override
     public void initialize() {
-        turr.getAngController().setAbsoluteTolerance(DEGREES_TOLERANCE);
-        turr.setAng(targetAng);
+        turr.getAngleController().setAbsoluteTolerance(DEGREES_TOLERANCE);
+        turr.setAngle(targetAng);
     }
 
     @Override
     protected boolean isFinished() {
-        return turr.getAngController().onTarget();
+        return turr.getAngleController().onTarget();
     }
 
     @Override
     protected void end() {
-        turr.getAngController().disable();
+        turr.getAngleController().disable();
     }
 
 }

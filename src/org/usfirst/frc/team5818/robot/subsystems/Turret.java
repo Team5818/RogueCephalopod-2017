@@ -22,7 +22,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     private CANTalon motor;
 
     private PIDSourceType pidType = PIDSourceType.kDisplacement;
-    private BetterPIDController angController;
+    private BetterPIDController angleController;
     private AnalogInput pot;
 
     public int centerOffSet;
@@ -35,9 +35,9 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         motor = new CANTalon(RobotMap.TURR_MOTOR); // Turret motor number not
                                                    // set
         motor.setInverted(true);
-        angController = new BetterPIDController(kP, kI, kD, this, this);
+        angleController = new BetterPIDController(kP, kI, kD, this, this);
         pot = new AnalogInput(BotConstants.TURRET_POT);
-        angController.setAbsoluteTolerance(0.3);
+        angleController.setAbsoluteTolerance(0.3);
         centerOffSet = 3027;
         potScale = 360.0 / 4095.0;
         solenoid1 = new Solenoid(1);
@@ -45,19 +45,19 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     }
 
     public void setPower(double x) {
-        if (angController.isEnabled()) {
-            angController.disable();
+        if (angleController.isEnabled()) {
+            angleController.disable();
         }
         pidWrite(x);
     }
 
-    public void setAng(double ang) {
-        angController.disable();
-        angController.setSetpoint(ang);
-        angController.enable();
+    public void setAngle(double ang) {
+        angleController.disable();
+        angleController.setSetpoint(ang);
+        angleController.enable();
     }
 
-    public double getAng() {
+    public double getAngle() {
         double analog = pot.getValue();
         return ((analog - centerOffSet) * potScale);
     }
@@ -66,12 +66,12 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         return pot.getValue();
     }
 
-    public BetterPIDController getAngController() {
-        return angController;
+    public BetterPIDController getAngleController() {
+        return angleController;
     }
 
     public void stop() {
-        angController.disable();
+        angleController.disable();
         this.setPower(0);
     }
 
@@ -87,7 +87,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     public double pidGet() {
-        return getAng();
+        return getAngle();
     }
 
     @Override
