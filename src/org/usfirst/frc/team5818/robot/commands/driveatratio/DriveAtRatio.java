@@ -1,4 +1,6 @@
-package org.usfirst.frc.team5818.robot.commands;
+package org.usfirst.frc.team5818.robot.commands.driveatratio;
+
+import java.util.function.Consumer;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
@@ -9,9 +11,28 @@ import org.usfirst.frc.team5818.robot.utils.Vector2d;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveStraight extends Command {
+public class DriveAtRatio extends Command {
 
     public static final double MIN_SONIC_RANGE = 5;
+    
+    public static DriveAtRatio withDeadReckon(Consumer<DeadReckonOpts.Builder> config) {
+        DeadReckonOpts.Builder b = DeadReckonOpts.builder();
+        config.accept(b);
+        return new DriveAtRatio(b.build());
+    }
+    
+    public static DriveAtRatio withVision(Camera camera, Consumer<VisionOpts.Builder> config) {
+        VisionOpts.Builder b = VisionOpts.builder(camera);
+        config.accept(b);
+        return new DriveAtRatio(b.build());
+    }
+
+    // fast
+    public static DriveAtRatio withSanic(Consumer<SanicOpts.Builder> config) {
+        SanicOpts.Builder b = SanicOpts.builder();
+        config.accept(b);
+        return new DriveAtRatio(b.build());
+    }
 
     private double inches;
     private double maxPow;
@@ -29,59 +50,38 @@ public class DriveStraight extends Command {
     private Camera camera;
     private boolean useSanic;
 
-    public DriveStraight(double in, double pow, double targetRat, double maxRat, Camera cam, boolean stop) {
-        camera = cam;
-        inches = in;
-        maxPow = pow;
+    private DriveAtRatio(DriveAtRatioOptions opts) {
+        camera = opts.getCamera();
+        inches = opts.getInches();
+        maxPow = opts.getMaxPower();
         requires(Robot.runningrobot.driveTrain);
         cont = Robot.runningrobot.camCont;
         requires(cont);
-        setTimeout(in / 12);
-        targetRatio = targetRat; // Ratio is LEFT/RIGHT
-        maxRatio = maxRat;
-        if (cam.equals(Camera.NONE)) {
+        setTimeout(inches / 12);
+        targetRatio = opts.getTargetRatio(); // Ratio is LEFT/RIGHT
+        maxRatio = opts.getMaxRatio();
+        if (camera.equals(Camera.NONE)) {
             camMultiplier = 0;
             useVision = false;
             useSanic = false;
-        } else if (cam.equals(Camera.CAM_FORWARD)) {
+        } else if (camera.equals(Camera.CAM_FORWARD)) {
             camMultiplier = 1;
-            maxPow = Math.abs(pow);
+            maxPow = Math.abs(maxPow);
             useVision = true;
             useSanic = false;
-        } else if (cam.equals(Camera.CAM_BACKWARD)) {
+        } else if (camera.equals(Camera.CAM_BACKWARD)) {
             camMultiplier = -1;
-            maxPow = -Math.abs(pow);
+            maxPow = -Math.abs(maxPow);
             useVision = true;
             useSanic = false;
-        } else if (cam.equals(Camera.ULTRASANIC)) {
+        } else if (camera.equals(Camera.ULTRASANIC)) {
             camMultiplier = 0;
             useVision = false;
             useSanic = true;
 
         }
 
-        stopAtEnd = stop;
-    }
-
-    /**
-     * No vision, no sanic constructor
-     */
-    public DriveStraight(double in, double pow, double targetRatio, boolean stop) {
-        this(in, pow, targetRatio, 1.0, Camera.NONE, stop);
-    }
-
-    /**
-     * Sanic constructor
-     */
-    public DriveStraight(double in, double pow, double targetRatio) {
-        this(in, pow, targetRatio, 1.0, Camera.ULTRASANIC, true);
-    }
-
-    /**
-     * Vision Constructor
-     */
-    public DriveStraight(double in, double pow, double maxRatio, Camera cam, boolean stop) {
-        this(in, pow, 1.0, maxRatio, cam, stop);
+        stopAtEnd = opts.isStoppingAtEnd();
     }
 
     @Override

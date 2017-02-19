@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5818.robot.commands;
 
+import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.Side;
@@ -9,9 +10,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoSegment extends CommandGroup {
 
     private CommandGroup drive;
-    private DriveStraight driveOvershoot;
-    private DriveStraight driveVision;
-    private DriveStraight driveFinal;
+    private DriveAtRatio driveOvershoot;
+    private DriveAtRatio driveVision;
+    private DriveAtRatio driveFinal;
 
     /*
      * @param radius > 1 means arc right, radius < 1 means arc left. Same for
@@ -33,13 +34,43 @@ public class AutoSegment extends CommandGroup {
         }
 
         if (dir.equals(Direction.BACKWARD)) {
-            driveOvershoot = new DriveStraight(dist1, -.4, radius, false);
-            driveVision = new DriveStraight(33, -.4, 4.2, Camera.CAM_BACKWARD, false);
-            driveFinal = new DriveStraight(7, -.4, 1.0, true);
+            driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
+                b.inches(dist1);
+                b.maxPower(-0.4);
+                b.targetRatio(radius);
+                b.stoppingAtEnd(false);
+            });
+            driveVision = DriveAtRatio.withVision(Camera.CAM_BACKWARD, b -> {
+                b.inches(33);
+                b.maxPower(-0.4);
+                b.maxRatio(4.2);
+                b.stoppingAtEnd(false);
+            });
+            driveFinal = DriveAtRatio.withDeadReckon(b -> {
+                b.inches(7);
+                b.maxPower(-0.4);
+                b.targetRatio(1);
+                b.stoppingAtEnd(true);
+            });
         } else {
-            driveOvershoot = new DriveStraight(dist1, .4, radius, false);
-            driveVision = new DriveStraight(31, .4, 2.6, Camera.CAM_FORWARD, false);
-            driveFinal = new DriveStraight(6, .4, 1.0, true);
+            driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
+                b.inches(dist1);
+                b.maxPower(0.4);
+                b.targetRatio(radius);
+                b.stoppingAtEnd(false);
+            });
+            driveVision = DriveAtRatio.withVision(Camera.CAM_FORWARD, b -> {
+                b.inches(31);
+                b.maxPower(0.4);
+                b.maxRatio(2.6);
+                b.stoppingAtEnd(false);
+            });
+            driveFinal = DriveAtRatio.withDeadReckon(b -> {
+                b.inches(6);
+                b.maxPower(0.4);
+                b.targetRatio(1);
+                b.stoppingAtEnd(true);
+            });
         }
         drive.addSequential(driveOvershoot);
         drive.addSequential(driveVision);
