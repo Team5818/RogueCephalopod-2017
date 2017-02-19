@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5818.robot.controllers;
 
-import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
@@ -17,7 +16,6 @@ import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
-import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -91,32 +89,6 @@ public class Driver {
     }
 
     public void teleopPeriodic() {
-        handleDeadbands();
-        controlTurret();
-        controlCollector();
     }
 
-    public void controlTurret() {
-        if (turreting) {
-            Robot.runningRobot.turret.setPower(MathUtil.adjustDeadband(JS_TURRET, DEADBAND_VEC).getX());
-        } else if (!turreting && was_turreting) {
-            Robot.runningRobot.turret.setPower(0.0);
-        }
-
-    }
-
-    public void handleDeadbands() {
-        was_turreting = turreting;
-        turreting = MathUtil.outOfDeadband(JS_TURRET, JOYSTICK_DEADBAND);
-        wasControllingArm = controllingArm;
-        controllingArm = MathUtil.outOfDeadband(JS_COLLECTOR, JOYSTICK_DEADBAND);
-    }
-
-    public void controlCollector() {
-        if (controllingArm) {
-            Robot.runningRobot.collector.setPower(-1 * MathUtil.adjustDeadband(JS_COLLECTOR, DEADBAND_VEC).getY());
-        } else if (!controllingArm && wasControllingArm) {
-            Robot.runningRobot.collector.setPower(0.0);
-        }
-    }
 }

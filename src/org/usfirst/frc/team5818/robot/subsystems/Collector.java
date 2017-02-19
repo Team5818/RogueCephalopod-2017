@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
 import org.usfirst.frc.team5818.robot.RobotMap;
+import org.usfirst.frc.team5818.robot.commands.CollectorControlCommand;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
@@ -86,7 +87,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     protected void initDefaultCommand() {
-
+        setDefaultCommand(new CollectorControlCommand());
     }
 
 }

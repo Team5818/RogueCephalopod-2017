@@ -8,28 +8,21 @@ import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 import org.usfirst.frc.team5818.robot.utils.Vectors;
 
-import edu.wpi.first.wpilibj.command.Command;
+public class DriveControlCommand extends ControlCommand {
 
-public class JoystickControlCommand extends Command {
-
-    private final Driver DRIVER = Robot.runningRobot.driver;
     private final DriveTrain driveTrain = Robot.runningRobot.driveTrain;
 
-    public JoystickControlCommand() {
+    public DriveControlCommand() {
+        super(js(driver -> driver.JS_FW_BACK), js(driver -> driver.JS_TURN));
         requires(driveTrain);
     }
 
     @Override
-    protected void execute() {
-        // if neither joystick out of deadband, return
-        if (!MathUtil.outOfDeadband(DRIVER.JS_FW_BACK, Driver.JOYSTICK_DEADBAND)
-                && !MathUtil.outOfDeadband(DRIVER.JS_TURN, Driver.JOYSTICK_DEADBAND)) {
-            return;
-        }
-        Vector2d driveVector = Vectors.fromJoystick(DRIVER.JS_FW_BACK, DRIVER.JS_TURN, true);
+    protected void setPower() {
+        Vector2d driveVector = Vectors.fromJoystick(driver.JS_FW_BACK, driver.JS_TURN, true);
         driveVector = MathUtil.adjustDeadband(driveVector, Driver.DEADBAND_VEC);
-        Vector2d controlVector = DRIVER.driveCalc.compute(driveVector);
-        switch (DRIVER.dMode) {
+        Vector2d controlVector = driver.driveCalc.compute(driveVector);
+        switch (driver.dMode) {
             case POWER:
                 driveTrain.setPowerLeftRight(controlVector);
                 break;
@@ -40,6 +33,11 @@ public class JoystickControlCommand extends Command {
                 driveTrain.stop();
                 break;
         }
+    }
+
+    @Override
+    protected void setZero() {
+        driveTrain.stop();
     }
 
     @Override
