@@ -32,6 +32,7 @@ public class Driver {
     public Joystick JS_TURN;
     public Joystick JS_TURRET;
     public Joystick JS_COLLECTOR;
+    public Joystick JS_CLIMB;
 
     public boolean turreting = true;
     public boolean was_turreting;
@@ -47,6 +48,7 @@ public class Driver {
         JS_TURN = new Joystick(BotConstants.JS_TURN);
         JS_TURRET = new Joystick(BotConstants.JS_TURRET);
         JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
+        JS_CLIMB = new Joystick(BotConstants.JS_CLIMB);
 
         JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
         twoGearButton.whenPressed(new TwoGearAuto());

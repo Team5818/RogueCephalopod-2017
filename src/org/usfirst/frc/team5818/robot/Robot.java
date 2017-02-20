@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot {
     public CollectorRollers roll;
     public VisionTracker track;
     public Turret turret;
-	public Climber climb;
+    public Climber climb;
     public CameraController camCont;
 
     Command autonomousCommand;

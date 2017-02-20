@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
 import org.usfirst.frc.team5818.robot.RobotMap;
+import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
+import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 
 import com.ctre.CANTalon;
 
@@ -21,10 +23,18 @@ public class Climber extends Subsystem{
     }
     
     public void setPower(double pow){
-        left1.set(pow);
-        //left2.set(pow);
-        right1.set(pow);
-        //right2.set(pow);
+	if(pow < 0.0){
+	    left1.set(pow);
+	    //left2.set(pow);
+	    right1.set(pow);
+	    //right2.set(pow);
+	}
+	else{
+	    left1.set(0.0);
+	    //left2.set(pow);
+	    right1.set(0.0);
+	    //right2.set(pow);
+	}
     }
     
     public double getLeftCurrent(){
@@ -36,6 +46,8 @@ public class Climber extends Subsystem{
     }
     
     @Override
-    protected void initDefaultCommand() {}
+    protected void initDefaultCommand() {
+        setDefaultCommand(new ClimbControlCommand());
+    }
 
 }
