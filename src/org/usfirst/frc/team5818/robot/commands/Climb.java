@@ -13,7 +13,7 @@ public class Climb extends Command{
 
     
     public Climb(double timeout){
-        climb = Robot.runningrobot.climb;
+        climb = Robot.runningRobot.climb;
         setTimeout(timeout);
     }
     
