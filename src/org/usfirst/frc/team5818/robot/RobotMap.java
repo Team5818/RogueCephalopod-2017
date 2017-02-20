@@ -26,9 +26,9 @@ public class RobotMap {
     public static final int ARM_TALON_R = 9;
     public static final int TOP_COLLECTOR_ROLLER = 10;
     public static final int BOT_COLLECTOR_ROLLER = 11;
-	public static final int LEFT_CLIMB_TALON_1 = 12;
-	public static final int LEFT_CLIMB_TALON_2 = 13;
-	public static final int RIGHT_CLIMB_TALON_1 = 14;
-	public static final int RIGHT_CLIMB_TALON_2 = 15;
+    public static final int LEFT_CLIMB_TALON_1 = 15;
+    public static final int RIGHT_CLIMB_TALON_1 = 14;
+    public static final int LEFT_CLIMB_TALON_2 = 12;
+    public static final int RIGHT_CLIMB_TALON_2 = 13;
 	
 }

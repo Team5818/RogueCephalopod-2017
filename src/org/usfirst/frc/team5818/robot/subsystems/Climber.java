@@ -15,24 +15,24 @@ public class Climber extends Subsystem{
     
     public Climber(){
         left1 = new CANTalon(RobotMap.LEFT_CLIMB_TALON_1);
-        left2 = new CANTalon(RobotMap.LEFT_CLIMB_TALON_2);
+        //left2 = new CANTalon(RobotMap.LEFT_CLIMB_TALON_2);
         right1 = new CANTalon(RobotMap.RIGHT_CLIMB_TALON_1);
-        right2 = new CANTalon(RobotMap.RIGHT_CLIMB_TALON_2);
+        //right2 = new CANTalon(RobotMap.RIGHT_CLIMB_TALON_2);
     }
     
     public void setPower(double pow){
         left1.set(pow);
-        left2.set(pow);
+        //left2.set(pow);
         right1.set(pow);
-        right2.set(pow);
+        //right2.set(pow);
     }
     
     public double getLeftCurrent(){
-        return (left1.getOutputCurrent() + left2.getOutputCurrent())/2;
+        return left1.getOutputCurrent();// + left2.getOutputCurrent())/2;
     }
     
     public double getRightCurrent(){
-        return (right1.getOutputCurrent() + right2.getOutputCurrent())/2;
+        return right1.getOutputCurrent();// + right2.getOutputCurrent())/2;
     }
     
     @Override
