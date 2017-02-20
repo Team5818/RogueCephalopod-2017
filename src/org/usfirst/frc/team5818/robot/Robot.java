@@ -155,6 +155,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
         SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
         SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
+        SmartDashboard.putNumber("Arm Raw", collector.getRaw());
         SmartDashboard.putNumber("Arm Angle", collector.getAngle());
         SmartDashboard.putNumber("Bot Current", roll.getBotCurrent());
     }

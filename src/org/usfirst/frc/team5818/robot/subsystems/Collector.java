@@ -24,7 +24,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     public PIDSourceType pidType = PIDSourceType.kDisplacement;
     public BetterPIDController anglePID;
 
-    public int centerOffSet;
+    public int angleOffset;
 
     public Collector() {
         leftMotorTal = new CANTalon(RobotMap.ARM_TALON_L);
@@ -34,7 +34,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
         rightMotorTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         anglePID = new BetterPIDController(kP, kI, kD, this, this);
         anglePID.setAbsoluteTolerance(0.3);
-        centerOffSet = 512;
+        angleOffset = 370;
     }
 
     public void setPower(double x) {
@@ -51,8 +51,12 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
         anglePID.enable();
     }
 
-    public double getAngle() {
+    public double getRaw(){
         return rightMotorTal.getEncPosition();
+    }
+    
+    public double getAngle() {
+        return (rightMotorTal.getEncPosition() - angleOffset)/4096.0*360.0/2.0;
     }
 
     public BetterPIDController getAnglePID() {
