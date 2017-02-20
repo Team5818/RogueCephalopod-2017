@@ -2,6 +2,7 @@ package org.usfirst.frc.team5818.robot.controllers;
 
 import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
+import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
@@ -32,7 +33,6 @@ public class Driver {
     public Joystick JS_TURN;
     public Joystick JS_TURRET;
     public Joystick JS_COLLECTOR;
-    public Joystick JS_CLIMB;
 
     public boolean turreting = true;
     public boolean was_turreting;
@@ -48,7 +48,6 @@ public class Driver {
         JS_TURN = new Joystick(BotConstants.JS_TURN);
         JS_TURRET = new Joystick(BotConstants.JS_TURRET);
         JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
-        JS_CLIMB = new Joystick(BotConstants.JS_CLIMB);
 
         JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
         twoGearButton.whenPressed(new TwoGearAuto());
@@ -79,6 +78,9 @@ public class Driver {
 
         JoystickButton turretZero = new JoystickButton(JS_TURRET, 3);
         turretZero.whenPressed(new SetTurretAngle(0.0));
+        
+        JoystickButton climbMode = new JoystickButton(JS_TURRET, 4);
+        climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
 
         JoystickButton setArm90 = new JoystickButton(JS_COLLECTOR, 1);
         setArm90.whenPressed(new SetCollectorAngle(90.0));

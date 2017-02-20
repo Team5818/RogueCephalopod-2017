@@ -9,7 +9,6 @@ public class BotConstants {
     public static final int JS_TURN = 1;
     public static final int JS_TURRET = 2;
     public static final int JS_COLLECTOR = 3;
-    public static final int JS_CLIMB = 4;
 
     public static final double TICS_PER_INCH = 44.815;
     public static final double ROBOT_MAX_VELOCITY = 500;

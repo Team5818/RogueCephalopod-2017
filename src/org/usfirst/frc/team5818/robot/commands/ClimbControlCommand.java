@@ -6,23 +6,31 @@ import org.usfirst.frc.team5818.robot.subsystems.Climber;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 public class ClimbControlCommand extends ControlCommand {
 
     private final Climber climb = Robot.runningRobot.climb;
+    private final Turret turret = Robot.runningRobot.turret;
+    private final Joystick js;
 
-    public ClimbControlCommand() {
-        super(js(driver -> driver.JS_CLIMB));
+    public ClimbControlCommand(Joystick joystick) {
+        super(joystick);
+        js = joystick;
         requires(climb);
+        requires(turret);
     }
 
     @Override
     protected void setPower() {
-        climb.setPower(MathUtil.adjustDeadband(driver.JS_CLIMB, Driver.DEADBAND_VEC).getY());
+        climb.setPower(MathUtil.adjustDeadband(js, Driver.DEADBAND_VEC).getY());
+        turret.setPower(0.0);
     }
 
     @Override
     protected void setZero() {
-        climb.setPower(0);
+        climb.setPower(0.0);
+        turret.setPower(0.0);
     }
 
 }

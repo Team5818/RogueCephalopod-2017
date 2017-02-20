@@ -46,8 +46,6 @@ public class Climber extends Subsystem{
     }
     
     @Override
-    protected void initDefaultCommand() {
-        setDefaultCommand(new ClimbControlCommand());
-    }
+    protected void initDefaultCommand() {}
 
 }
