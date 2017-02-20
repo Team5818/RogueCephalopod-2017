@@ -10,7 +10,7 @@ public class CollectGearSanic extends Command {
     private static final double DEFAULT_SONIC_THRESH = 20;
     private double sonicThresh;
     private double power;
-    private final CollectorRollers collectorRollers = Robot.runningrobot.roll;
+    private final CollectorRollers collectorRollers = Robot.runningRobot.roll;
 
     public CollectGearSanic(double thresh, double pow) {
         sonicThresh = thresh;
@@ -39,8 +39,5 @@ public class CollectGearSanic extends Command {
     }
     
     @Override
-    protected void end(){
-        collectorRollers.setTopPower(0.0);
-        collectorRollers.setBotPower(0.0);
-    }
+    protected void end(){}
 }
