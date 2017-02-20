@@ -20,7 +20,7 @@ public class DeployGear extends Command {
     
     public DeployGear(Position pos) {
         target = pos;
-        turr = Robot.runningrobot.turret;
+        turr = Robot.runningRobot.turret;
         
         done = false;
     }
