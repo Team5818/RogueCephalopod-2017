@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
         turret = new Turret();
         roll = new CollectorRollers();
         collector = new Collector();
-    	climb = new Climber();
+        climb = new Climber();
         chooser = new SendableChooser<>();
         camCont = new CameraController();
         driver = new Driver();
