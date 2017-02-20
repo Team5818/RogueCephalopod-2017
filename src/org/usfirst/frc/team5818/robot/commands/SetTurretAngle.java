@@ -5,39 +5,33 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SetTurretAngle extends Command{
-	
-	private Turret turr;
-	private double targetAng;
-	public static final double DEGREES_TOLERANCE = 2;
-	
-	public SetTurretAngle(double ang){
-		turr = Robot.runningrobot.turret;
-		targetAng = ang;
-	}
-	
-	public void initialize(){
-		turr.getAngController().setAbsoluteTolerance(DEGREES_TOLERANCE);
-		turr.setAng(targetAng);
-	}
-	
-	@Override
-	protected void execute(){
-	}
-	
-	@Override
-	protected boolean isFinished() {
-		return turr.getAngController().onTarget();
-	}
-	
-	@Override
-	protected void end(){
-		turr.getAngController().disable();
-	}
-	
-	@Override
-	protected void interrupted(){
-		end();
-	}
+public class SetTurretAngle extends Command {
+
+    public static final double DEGREES_TOLERANCE = 2;
+
+    private Turret turr;
+    private double targetAng;
+
+    public SetTurretAngle(double ang) {
+        turr = Robot.runningRobot.turret;
+        requires(turr);
+        targetAng = ang;
+    }
+
+    @Override
+    public void initialize() {
+        turr.getAngleController().setAbsoluteTolerance(DEGREES_TOLERANCE);
+        turr.setAngle(targetAng);
+    }
+
+    @Override
+    protected boolean isFinished() {
+        return turr.getAngleController().onTarget();
+    }
+
+    @Override
+    protected void end() {
+        turr.getAngleController().disable();
+    }
 
 }

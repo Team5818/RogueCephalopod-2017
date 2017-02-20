@@ -1,43 +1,37 @@
 package org.usfirst.frc.team5818.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
 
+import edu.wpi.first.wpilibj.command.Command;
+
 public class SetCollectorAngle extends Command {
-    
-    private Collector collector;
-    double targetAng;
+
     public static final double TOLERANCE = 3;
-    
+
+    private Collector collector;
+    private double targetAng;
+
     public SetCollectorAngle(double angle) {
-        collector = Robot.runningrobot.collector;
+        collector = Robot.runningRobot.collector;
         targetAng = angle;
+        requires(collector);
     }
-    
-    public void initialize(){
-        collector.getanglePID().setAbsoluteTolerance(TOLERANCE);
-        collector.getanglePID().setSetpoint(targetAng);
-    }
-    
+
     @Override
-    public void execute(){
-        
+    public void initialize() {
+        collector.getAnglePID().setAbsoluteTolerance(TOLERANCE);
+        collector.getAnglePID().setSetpoint(targetAng);
     }
 
     @Override
     protected boolean isFinished() {
-        return collector.getanglePID().onTarget();
+        return collector.getAnglePID().onTarget();
     }
-    
+
     @Override
-    public void end(){
+    public void end() {
         collector.stop();
     }
-    
-    @Override
-    public void interrupted(){
-        collector.stop();
-    }
+
 }

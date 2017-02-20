@@ -5,23 +5,22 @@ import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ShutDownRPi extends Command{
+public class ShutDownRPi extends Command {
+
     private CameraController cont;
-    private boolean done;
-    
-    public ShutDownRPi(){
-        cont = Robot.runningrobot.camCont;
-        done = false;
+
+    public ShutDownRPi() {
+        cont = Robot.runningRobot.camCont;
+        requires(cont);
     }
-    
+
     @Override
-    protected void initialize(){
+    protected void initialize() {
         cont.shutDown();
-        done = true;
     }
-    
+
     @Override
     protected boolean isFinished() {
-        return done;
+        return true;
     }
 }

@@ -1,15 +1,15 @@
 package org.usfirst.frc.team5818.robot.utils;
 
-public enum RadiusDriveCalculator implements DriveCalculator{
-	
-	INSTANCE;
-	
-    private static final double kTurnSensitivity = 1.0;
-	private boolean isQuickTurn = false;
-	private double mQuickStopAccumulator = 0.0;
+public enum RadiusDriveCalculator implements DriveCalculator {
 
-	@Override
-	public Vector2d compute(Vector2d input) {
+    INSTANCE;
+
+    private static final double kTurnSensitivity = 1.0;
+    private boolean isQuickTurn = false;
+    private double mQuickStopAccumulator = 0.0;
+
+    @Override
+    public Vector2d compute(Vector2d input) {
 
         double wheel = input.getX();
         double throttle = input.getY();
@@ -55,9 +55,9 @@ public enum RadiusDriveCalculator implements DriveCalculator{
         Vector2d output = new Vector2d(leftPwm, rightPwm);
         return output;
     }
-	
-	public void setQuick(boolean b){
-		isQuickTurn = b;
-	}
+
+    public void setQuick(boolean b) {
+        isQuickTurn = b;
+    }
 
 }

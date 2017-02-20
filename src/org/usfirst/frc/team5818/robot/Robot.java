@@ -9,7 +9,6 @@ import org.usfirst.frc.team5818.robot.subsystems.Collector;
 import org.usfirst.frc.team5818.robot.subsystems.CollectorRollers;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
-import org.usfirst.frc.team5818.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
@@ -29,15 +28,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public DriveTrain driveTrain;
-	public Driver driver;
-	public Collector collector;
-	public CollectorRollers roll;
-	public VisionTracker track;
-	public Turret turret;
-	public CameraController camCont;
-	public static Robot runningrobot;
+    public static Robot runningRobot;
+
+    public DriveTrain driveTrain;
+    public Driver driver;
+    public Collector collector;
+    public CollectorRollers roll;
+    public VisionTracker track;
+    public Turret turret;
+    public CameraController camCont;
 
     Command autonomousCommand;
     SendableChooser<Command> chooser;
@@ -48,13 +47,14 @@ public class Robot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+    @Override
     public void robotInit() {
-    	runningrobot = this;
-    	driveTrain = new DriveTrain();
-		track = new VisionTracker();
-    	turret = new Turret();
-    	roll = new CollectorRollers();
-    	collector = new Collector();
+        runningRobot = this;
+        driveTrain = new DriveTrain();
+        track = new VisionTracker();
+        turret = new Turret();
+        roll = new CollectorRollers();
+        collector = new Collector();
         chooser = new SendableChooser<>();
         camCont = new CameraController();
         driver = new Driver();
@@ -62,61 +62,66 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
         SmartDashboard.putData("Auto mode", chooser);
     }
-	
-	/**
+
+    /**
      * This function is called once each time the robot enters Disabled mode.
      * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
+     * the robot is disabled.
      */
-    public void disabledInit(){
+    @Override
+    public void disabledInit() {
 
     }
-	
-	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
-	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
-	 * or additional comparisons to the switch structure below with additional strings & commands.
-	 */
+    @Override
+    public void disabledPeriodic() {
+        Scheduler.getInstance().run();
+    }
+
+    /**
+     * This autonomous (along with the chooser code above) shows how to select
+     * between different autonomous modes using the dashboard. The sendable
+     * chooser code works with the Java SmartDashboard. If you prefer the
+     * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+     * getString code to get the auto name from the text box below the Gyro
+     *
+     * You can add additional auto modes by adding additional commands to the
+     * chooser code above (like the commented example) or additional comparisons
+     * to the switch structure below with additional strings & commands.
+     */
+    @Override
     public void autonomousInit() {
         autonomousCommand = chooser.getSelected();
-        
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
-    	
-    	// schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+
+        /*
+         * String autoSelected = SmartDashboard.getString("Auto Selector",
+         * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+         * = new MyAutoCommand(); break; case "Default Auto": default:
+         * autonomousCommand = new ExampleCommand(); break; }
+         */
+
+        // schedule the autonomous command (example)
+        if (autonomousCommand != null)
+            autonomousCommand.start();
     }
 
     /**
      * This function is called periodically during autonomous
      */
+    @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         printSmartDash();
     }
 
+    @Override
     public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
+        // This makes sure that the autonomous stops running when
+        // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
+        if (autonomousCommand != null)
+            autonomousCommand.cancel();
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
         track.start();
@@ -125,27 +130,29 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
+    @Override
     public void teleopPeriodic() {
-    	printSmartDash();
-    	driver.teleopPeriodic();
+        printSmartDash();
+        driver.teleopPeriodic();
         Scheduler.getInstance().run();
     }
-    
+
     /**
      * This function is called periodically during test mode
      */
+    @Override
     public void testPeriodic() {
         LiveWindow.run();
     }
-    
-    public void printSmartDash(){
+
+    public void printSmartDash() {
         SmartDashboard.putNumber("Left in:", driveTrain.getLeftSide().getSidePosition());
         SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
         SmartDashboard.putNumber("Gear X:", track.getCurrentAngle());
         SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
-        SmartDashboard.putNumber("Turret Anlge:", turret.getAng());
+        SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
         SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
-        SmartDashboard.putNumber("Arm angle", collector.getAngle());
-        SmartDashboard.putBoolean("Line Broken",roll.receivingBeam());
+        SmartDashboard.putNumber("Arm Angle", collector.getAngle());
+        SmartDashboard.putBoolean("Line Broken", roll.receivingBeam());
     }
 }

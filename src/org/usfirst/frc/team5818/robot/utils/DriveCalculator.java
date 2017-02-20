@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5818.robot.utils;
 
-
 /**
  * Calculators map raw power values (from joysticks or provided in auto) to
  * talon power.
