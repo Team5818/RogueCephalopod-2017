@@ -13,8 +13,15 @@ public class CollectGear extends CommandGroup{
     
     public CollectGear(){
 	roll = Robot.runningRobot.roll;
-	this.addSequential(new CollectGearCurrent(.3));
-	this.addSequential(new TimedCommand(.8));
+	this.addSequential(new TimedCommand(.3));
+	this.addSequential(new CollectGearCurrent(.7));
+	this.addSequential(new TimedCommand(.3));
+    }
+    
+    @Override
+    protected void initialize(){
+	roll.setBotPower(.7);
+	roll.setTopPower(.7);
     }
     
     @Override
