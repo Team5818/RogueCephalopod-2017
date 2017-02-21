@@ -16,7 +16,7 @@ public class CollectorControlCommand extends ControlCommand {
 
     @Override
     protected void setPower() {
-        coll.setPower(MathUtil.adjustDeadband(driver.JS_COLLECTOR, Driver.DEADBAND_VEC).getX());
+        coll.setPower(-1*MathUtil.adjustDeadband(driver.JS_COLLECTOR, Driver.DEADBAND_VEC).getY());
     }
 
     @Override

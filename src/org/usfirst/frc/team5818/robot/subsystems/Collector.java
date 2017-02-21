@@ -56,7 +56,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     }
     
     public double getAngle() {
-        return (rightMotorTal.getEncPosition() - angleOffset)/4096.0*360.0/2.0;
+        return (rightMotorTal.getEncPosition())/4096.0*360.0/2.0 - angleOffset;
     }
 
     public BetterPIDController getAnglePID() {
