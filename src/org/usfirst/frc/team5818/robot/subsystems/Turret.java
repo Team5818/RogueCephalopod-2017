@@ -26,8 +26,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     private BetterPIDController angleController;
     private AnalogInput pot;
 
-    public int centerOffSet;
-    public double potScale;
+    public static final int CENTER_OFFSET = 1971;
+    public static final double POT_SCALE = -90.0/100.0;
 
     private Solenoid solenoid1;
     private Solenoid solenoid2;
@@ -39,8 +39,6 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         angleController = new BetterPIDController(kP, kI, kD, this, this);
         pot = new AnalogInput(BotConstants.TURRET_POT);
         angleController.setAbsoluteTolerance(0.3);
-        centerOffSet = 3027;
-        potScale = 360.0 / 4095.0;
         solenoid1 = new Solenoid(1);
         solenoid1 = new Solenoid(2);
     }
@@ -60,7 +58,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     public double getAngle() {
         double analog = pot.getValue();
-        return ((analog - centerOffSet) * potScale);
+        return ((analog - CENTER_OFFSET) * POT_SCALE);
     }
 
     public double getRawCounts() {
