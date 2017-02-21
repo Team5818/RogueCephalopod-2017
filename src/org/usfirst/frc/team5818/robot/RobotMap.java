@@ -30,5 +30,5 @@ public class RobotMap {
     public static final int RIGHT_CLIMB_TALON_1 = 15;
     public static final int LEFT_CLIMB_TALON_2 = 12;
     public static final int RIGHT_CLIMB_TALON_2 = 13;
-	
+
 }
