@@ -18,6 +18,7 @@ public class DriveTrain extends Subsystem {
         left = new DriveTrainSide(Side.LEFT);
         right = new DriveTrainSide(Side.RIGHT);
         sanic = new Ultrasonic(0, 1);
+        enableSanic();
     }
 
     public Ultrasonic getSanic() {
