@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Collector extends Subsystem implements PIDSource, PIDOutput {
 
     private static final double kP = 0.0004;// tune me pls
-    private static final double kI = 0.00001;
+    private static final double kI = 0.0000;
     private static final double kD = 0.0;
     
     public static final double COLLECT_POSITION = -5;
@@ -24,7 +24,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     public static final double LOAD_POSITION = 2732;
     public static final double angleScale = .04277;
     public static final double angleOffset = 11.21385 - 16.3;
-    public static final double holdPower = .06;
+    public static final double holdPower = .055;
 
 
     private CANTalon leftMotorTal;

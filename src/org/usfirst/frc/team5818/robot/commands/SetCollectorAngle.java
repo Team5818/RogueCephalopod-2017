@@ -14,13 +14,13 @@ public class SetCollectorAngle extends Command {
 
     public SetCollectorAngle(double angle) {
         collector = Robot.runningRobot.collector;
-        collector.setBrakeMode(false);
         targetAng = angle;
         requires(collector);
     }
 
     @Override
     public void initialize() {
+        collector.setBrakeMode(false);
         collector.getAnglePID().setAbsoluteTolerance(TOLERANCE);
         collector.getAnglePID().setToleranceBuffer(2);
         collector.setAngle(targetAng);
