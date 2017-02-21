@@ -21,7 +21,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     
     public static final double COLLECT_POSITION = -5;
     public static final double MID_POSITION = 1538;
-    public static final double LOAD_POSITION = 2732;
+    public static final double LOAD_POSITION = 2782;
     public static final double angleScale = .04277;
     public static final double angleOffset = 11.21385 - 16.3;
     public static final double holdPower = .055;
