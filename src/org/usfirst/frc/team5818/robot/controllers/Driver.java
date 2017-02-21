@@ -98,7 +98,7 @@ public class Driver {
         armMid.whenPressed(new SetCollectorAngle(Collector.MID_POSITION));
         
         JoystickButton armLoad = new JoystickButton(JS_COLLECTOR, 5);
-        armLoad.whenPressed(new SetCollectorAngle(Collector.LOAD_POSITION));
+        armLoad.whenPressed(new SetCollectorAngle(2666));//Collector.LOAD_POSITION));
 
         dMode = DriveMode.POWER;
         driveCalc = ArcadeDriveCalculator.INSTANCE;

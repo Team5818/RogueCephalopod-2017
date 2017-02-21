@@ -15,15 +15,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Collector extends Subsystem implements PIDSource, PIDOutput {
 
-    private static final double kP = 0.0005;// tune me pls
-    private static final double kI = 0.000012;
+    private static final double kP = 0.0004;// tune me pls
+    private static final double kI = 0.00001;
     private static final double kD = 0.0;
     
     public static final double COLLECT_POSITION = -5;
     public static final double MID_POSITION = 1538;
     public static final double LOAD_POSITION = 2732;
-    public static final double angleScale = .04925;
-    public static final double angleOffset = 11.24625;
+    public static final double angleScale = .04277;
+    public static final double angleOffset = 11.21385 - 16.3;
     public static final double holdPower = .06;
 
 
@@ -42,8 +42,12 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
         rightMotorTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         anglePID = new BetterPIDController(kP, kI, kD, this, this);
         anglePID.setAbsoluteTolerance(0.3);
-        leftMotorTal.enableBrakeMode(true);
-        rightMotorTal.enableBrakeMode(true);
+        setBrakeMode(true);
+    }
+    
+    public void setBrakeMode(boolean mode){
+    	leftMotorTal.enableBrakeMode(mode);
+    	rightMotorTal.enableBrakeMode(mode);
     }
 
     public void setPower(double x) {
@@ -90,6 +94,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     }
     
     public double getIdlePower(){
+        SmartDashboard.putNumber("Arm Angle", Math.toRadians((getPosition()*angleScale + angleOffset)));
     	return holdPower*Math.cos(Math.toRadians((getPosition()*angleScale + angleOffset)));
     }
 
@@ -97,6 +102,8 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     public void pidWrite(double x) {
         leftMotorTal.set(x + getIdlePower());
         rightMotorTal.set(x + getIdlePower());
+        SmartDashboard.putNumber("Arn Power", x);
+
     }
 
     @Override

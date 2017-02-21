@@ -73,7 +73,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void disabledInit() {
-
+    	collector.setBrakeMode(true);
     }
 
     @Override
