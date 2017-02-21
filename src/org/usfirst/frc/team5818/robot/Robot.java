@@ -149,13 +149,15 @@ public class Robot extends IterativeRobot {
     }
 
     public void printSmartDash() {
-        SmartDashboard.putNumber("Left in:", driveTrain.getLeftSide().getSidePosition());
-        SmartDashboard.putNumber("Right in:", driveTrain.getRightSide().getSidePosition());
         SmartDashboard.putNumber("Gear X:", track.getCurrentAngle());
         SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
         SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
         SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
         SmartDashboard.putNumber("Bot Current", roll.getBotCurrent());
         SmartDashboard.putNumber("Arm Pos", collector.getPosition());
+        SmartDashboard.putNumber("left drive encoder", driveTrain.getLeftSide().getSidePosition());
+        SmartDashboard.putNumber("right drive encoder", driveTrain.getRightSide().getSidePosition());
+        SmartDashboard.putNumber("left encoder raw", driveTrain.getLeftSide().getRawPos());
+        SmartDashboard.putNumber("right encoder raw", driveTrain.getRightSide().getRawPos());
     }
 }

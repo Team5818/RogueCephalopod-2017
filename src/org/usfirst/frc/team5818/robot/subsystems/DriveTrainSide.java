@@ -7,6 +7,7 @@ import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -31,10 +32,17 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     public static final double R_DIST_KP = 0.005; // NEEDS TUNING
     public static final double R_DIST_KI = 0.0001; // NEEDS TUNING
     public static final double R_DIST_KD = 0.0; // NEEDS TUNING
+    
+    public static final double LEFT_ENC_SCALE = 4.0*120.0/182358.0;
+    public static final double RIGHT_ENC_SCALE = 4.0*120.0/1208.0;
+
+    
 
     private CANTalon motorNoEnc;
     private CANTalon motorEnc;
     private CANTalon motor2NoEnc;
+    private Encoder enc;
+    private double countsPerRev;
 
     public BetterPIDController distController;
     public BetterPIDController velController;
@@ -50,7 +58,6 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
         }
         this.side = side;
         if (side == Side.LEFT) {
-            encoderSign = 1;
             motorNoEnc = new CANTalon(RobotMap.L_TALON);
             motorEnc = new CANTalon(RobotMap.L_TALON_ENC);
             motor2NoEnc = new CANTalon(RobotMap.L_TALON_2);
@@ -59,8 +66,10 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motor2NoEnc.setInverted(false);
             velController = new BetterPIDController(L_VEL_KP, L_VEL_KI, L_VEL_KD, L_VEL_KF, this, this);
             distController = new BetterPIDController(L_DIST_KP, L_DIST_KI, L_DIST_KD, this, this);
+            enc = new Encoder(7, 6, true, Encoder.EncodingType.k4X);
+            enc.setDistancePerPulse(LEFT_ENC_SCALE);
+            enc.setMaxPeriod(0.1);
         } else {
-            encoderSign = -1;
             motorNoEnc = new CANTalon(RobotMap.R_TALON);
             motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
             motor2NoEnc = new CANTalon(RobotMap.R_TALON_2);
@@ -69,7 +78,9 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motor2NoEnc.setInverted(true);
             velController = new BetterPIDController(R_VEL_KP, R_VEL_KI, R_VEL_KD, R_VEL_KF, this, this);
             distController = new BetterPIDController(R_DIST_KP, R_DIST_KI, R_DIST_KD, this, this);
-
+            enc = new Encoder(9, 8, false, Encoder.EncodingType.k4X);
+            enc.setDistancePerPulse(RIGHT_ENC_SCALE);
+            enc.setMaxPeriod(0.1);
         }
         distController.setAbsoluteTolerance(1);
 
@@ -88,11 +99,18 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     }
 
     public double getSidePosition() {
-        return encoderSign * motorEnc.getEncPosition() / BotConstants.TICS_PER_INCH;
+        return enc.getDistance();
     }
 
+    public double getRawPos() {
+        return enc.getRaw();
+    }
+    
     public double getSideVelocity() {
-        return encoderSign * motorEnc.getEncVelocity() / BotConstants.TICS_PER_INCH;
+    	if (enc.getStopped())
+    		return 0;
+    	else
+    		return enc.getRate();
     }
 
     @Override
@@ -152,7 +170,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     }
 
     public void resetEnc() {
-        motorEnc.setEncPosition(0);
+    	enc.reset();
     }
 
     public void setCoastMode() {
