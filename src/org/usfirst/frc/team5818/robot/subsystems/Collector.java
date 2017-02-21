@@ -14,9 +14,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Collector extends Subsystem implements PIDSource, PIDOutput {
 
-    private static final double kP = 0.0;// tune me pls
-    private static final double kI = 0.0;
+    private static final double kP = 0.0005;// tune me pls
+    private static final double kI = 0.000012;
     private static final double kD = 0.0;
+    
+    public static final double COLLECT_POSITION = -2196;
+    public static final double MID_POSITION = -709;
+    public static final double LOAD_POSITION = 564;
+
 
     private CANTalon leftMotorTal;
     private CANTalon rightMotorTal;
@@ -28,9 +33,10 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
 
     public Collector() {
         leftMotorTal = new CANTalon(RobotMap.ARM_TALON_L);
-        leftMotorTal.setInverted(true);
+        leftMotorTal.setInverted(false);
         leftMotorTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         rightMotorTal = new CANTalon(RobotMap.ARM_TALON_R);
+        rightMotorTal.setInverted(true);
         rightMotorTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         anglePID = new BetterPIDController(kP, kI, kD, this, this);
         anglePID.setAbsoluteTolerance(0.3);
@@ -51,13 +57,10 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
         anglePID.enable();
     }
 
-    public double getRaw(){
+    public double getPosition(){
         return rightMotorTal.getEncPosition();
     }
     
-    public double getAngle() {
-        return (rightMotorTal.getEncPosition())/4096.0*360.0/2.0 - angleOffset;
-    }
 
     public BetterPIDController getAnglePID() {
         return anglePID;
@@ -80,7 +83,7 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     public double pidGet() {
-        return getAngle();
+        return getPosition();
     }
 
     @Override
