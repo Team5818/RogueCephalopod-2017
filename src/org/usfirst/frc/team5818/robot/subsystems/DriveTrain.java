@@ -1,11 +1,13 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -123,7 +125,12 @@ public class DriveTrain extends Subsystem {
         right.setBrakeMode();
         this.setPowerLeftRight(0, 0);
     }
-
+    
+    public void shiftGears(boolean gear){
+        left.shiftGears(gear);
+        right.shiftGears(gear);
+    }
+    
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(new DriveControlCommand());

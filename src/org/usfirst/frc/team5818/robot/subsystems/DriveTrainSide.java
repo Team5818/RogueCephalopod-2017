@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
@@ -41,6 +42,8 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	private CANTalon motor2NoEnc;
 	private Encoder enc;
 
+    private Solenoid shift;
+    
 	public BetterPIDController distController;
 	public BetterPIDController velController;
 
@@ -54,6 +57,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 		}
 		this.side = side;
 		if (side == Side.LEFT) {
+            shift = new Solenoid(RobotMap.LEFT_SHIFTER_SOLENOID);
 			motorNoEnc = new CANTalon(RobotMap.L_TALON);
 			motorEnc = new CANTalon(RobotMap.L_TALON_ENC);
 			motor2NoEnc = new CANTalon(RobotMap.L_TALON_2);
@@ -66,6 +70,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 			enc.setDistancePerPulse(LEFT_ENC_SCALE);
 			enc.setMaxPeriod(0.1);
 		} else {
+            shift = new Solenoid(RobotMap.RIGHT_SHIFTER_SOLENOID);
 			motorNoEnc = new CANTalon(RobotMap.R_TALON);
 			motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
 			motor2NoEnc = new CANTalon(RobotMap.R_TALON_2);
@@ -179,6 +184,13 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 		motorEnc.enableBrakeMode(true);
 		motorNoEnc.enableBrakeMode(true);
 		motor2NoEnc.enableBrakeMode(true);
+    }
+    
+    public void shiftGears(boolean gear){
+        distController.disable();
+        velController.disable();
+        setPower(0);
+        shift.set(gear);
 	}
 
 	@Override
