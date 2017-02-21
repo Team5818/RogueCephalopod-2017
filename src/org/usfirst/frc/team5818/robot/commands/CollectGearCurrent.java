@@ -16,17 +16,17 @@ public class CollectGearCurrent extends Command {
         currThresh = thresh;
         power = pow;
     }
-    
+
     public CollectGearCurrent(double pow) {
-        this(DEFAULT_CURRENT_THRESH,pow);
+        this(DEFAULT_CURRENT_THRESH, pow);
     }
 
     @Override
-    protected void initialize(){
+    protected void initialize() {
         collectorRollers.setTopPower(power);
         collectorRollers.setBotPower(power);
     }
-    
+
     @Override
     protected void execute() {
         collectorRollers.setTopPower(power);
@@ -37,7 +37,8 @@ public class CollectGearCurrent extends Command {
     protected boolean isFinished() {
         return collectorRollers.getTopCurrent() > currThresh;
     }
-    
+
     @Override
-    protected void end(){}
+    protected void end() {
+    }
 }
