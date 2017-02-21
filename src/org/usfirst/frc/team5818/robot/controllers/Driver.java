@@ -4,6 +4,7 @@ import org.usfirst.frc.team5818.robot.autos.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
+import org.usfirst.frc.team5818.robot.commands.CollectGear;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
@@ -87,6 +88,9 @@ public class Driver {
 
         JoystickButton setArm0 = new JoystickButton(JS_COLLECTOR, 2);
         setArm0.whenPressed(new SetCollectorAngle(0.0));
+        
+        JoystickButton collect = new JoystickButton(JS_COLLECTOR, 3);
+        collect.whenPressed(new CollectGear());
 
         dMode = DriveMode.POWER;
         driveCalc = ArcadeDriveCalculator.INSTANCE;
