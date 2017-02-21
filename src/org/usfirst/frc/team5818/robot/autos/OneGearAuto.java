@@ -1,9 +1,8 @@
 package org.usfirst.frc.team5818.robot.autos;
 
-import org.usfirst.frc.team5818.robot.commands.DriveStraight;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
+import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
+import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.StartingPosition;
-import org.usfirst.frc.team5818.robot.subsystems.CameraController.Camera;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -27,19 +26,29 @@ public class OneGearAuto extends CommandGroup {
             case CENTER:
                 break;
             default:
-                throw new IllegalArgumentException(
-                        pos + " is an unknown starting position");
+                throw new IllegalArgumentException(pos + " is an unknown starting position");
         }
-        addSequential(new DriveStraight(VISION_DISTANCE, BotConstants.MAX_POWER,
-                1, Camera.CAM_FORWARD, false));
-        addSequential(new DriveStraight(PEG_PLACE_DISTANCE, PEG_PLACE_POWER,
-                1.0, true));
+        addSequential(DriveAtRatio.withVision(Camera.CAM_FORWARD, b -> {
+            b.inches(VISION_DISTANCE);
+            b.maxPower(0.3);
+            b.maxRatio(1);
+            b.stoppingAtEnd(false);
+        }));
+        addSequential(DriveAtRatio.withDeadReckon(b -> {
+            b.inches(PEG_PLACE_DISTANCE);
+            b.maxPower(PEG_PLACE_POWER);
+            b.targetRatio(1.0);
+            b.stoppingAtEnd(true);
+        }));
     }
 
     private void addCurve(int sideMultiplier) {
-        addSequential(
-                new DriveStraight(INITIAL_DRIVE_DISTANCE, INITIAL_DRIVE_POWER,
-                        sideMultiplier * INITIAL_DRIVE_RATIO, false));
+        addSequential(DriveAtRatio.withDeadReckon(b -> {
+            b.inches(INITIAL_DRIVE_DISTANCE);
+            b.maxPower(INITIAL_DRIVE_POWER);
+            b.targetRatio(sideMultiplier * INITIAL_DRIVE_RATIO);
+            b.stoppingAtEnd(false);
+        }));
     }
 
 }

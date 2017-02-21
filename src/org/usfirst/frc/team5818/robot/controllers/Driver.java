@@ -78,7 +78,7 @@ public class Driver {
 
         JoystickButton turretZero = new JoystickButton(JS_TURRET, 3);
         turretZero.whenPressed(new SetTurretAngle(0.0));
-        
+
         JoystickButton climbMode = new JoystickButton(JS_TURRET, 4);
         climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
 

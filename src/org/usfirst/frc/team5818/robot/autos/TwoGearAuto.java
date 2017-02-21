@@ -1,9 +1,10 @@
 package org.usfirst.frc.team5818.robot.autos;
 
-import org.usfirst.frc.team5818.robot.constants.Direction;
-import org.usfirst.frc.team5818.robot.constants.Side;
+import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
+import org.usfirst.frc.team5818.robot.constants.Direction;
+import org.usfirst.frc.team5818.robot.constants.Side;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
