@@ -10,7 +10,6 @@ public class BotConstants {
     public static final int JS_TURRET = 2;
     public static final int JS_COLLECTOR = 3;
 
-    public static final double REVS_PER_INCH = 1.0/4*Math.PI; // incorrect number
     public static final double ROBOT_MAX_VELOCITY = 500;
 
     public static final int TURRET_POT = 0;
