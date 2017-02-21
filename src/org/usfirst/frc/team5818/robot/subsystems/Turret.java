@@ -16,11 +16,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
-    public static final double kP = 0.012;
-    public static final double kI = 0.002;
+    public static final double kP = 0.03;
+    public static final double kI = 0.0;
     public static final double kD = 0.0;
 
-    public static final int CENTER_OFFSET = 1971;
+    public static final int CENTER_OFFSET = 1969;
     public static final double POT_SCALE = -90.0/100.0;
     
     private CANTalon motor;

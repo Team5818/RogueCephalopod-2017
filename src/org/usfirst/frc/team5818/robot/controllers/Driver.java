@@ -72,16 +72,16 @@ public class Driver {
         JoystickButton tape = new JoystickButton(JS_TURN, 6);
         tape.whenPressed(new TapeMode());
 
-        JoystickButton turret90 = new JoystickButton(JS_TURRET, 1);
-        turret90.whenPressed(new SetTurretAngle(90.0));
+        JoystickButton turretMinus90 = new JoystickButton(JS_TURRET, 4);
+        turretMinus90.whenPressed(new SetTurretAngle(-90.0));
 
-        JoystickButton turretAim = new JoystickButton(JS_TURRET, 2);
-        turretAim.whenPressed(new AimTurret());
+        JoystickButton turretAim = new JoystickButton(JS_TURRET, 3);
+        turretAim.whenPressed(new SetTurretAngle(-0.0));
 
-        JoystickButton turretZero = new JoystickButton(JS_TURRET, 3);
-        turretZero.whenPressed(new SetTurretAngle(0.0));
+        JoystickButton turretZero = new JoystickButton(JS_TURRET, 5);
+        turretZero.whenPressed(new SetTurretAngle(90.0));
 
-        JoystickButton climbMode = new JoystickButton(JS_TURRET, 4);
+        JoystickButton climbMode = new JoystickButton(JS_TURRET, 2);
         climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
         
         JoystickButton collect = new JoystickButton(JS_COLLECTOR, 1);
