@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Collector extends Subsystem implements PIDSource, PIDOutput {
 
@@ -18,9 +19,12 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     private static final double kI = 0.000012;
     private static final double kD = 0.0;
     
-    public static final double COLLECT_POSITION = -2196;
-    public static final double MID_POSITION = -709;
-    public static final double LOAD_POSITION = 564;
+    public static final double COLLECT_POSITION = -5;
+    public static final double MID_POSITION = 1538;
+    public static final double LOAD_POSITION = 2732;
+    public static final double angleScale = .04925;
+    public static final double angleOffset = 11.24625;
+    public static final double holdPower = .06;
 
 
     private CANTalon leftMotorTal;
@@ -28,8 +32,6 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
 
     public PIDSourceType pidType = PIDSourceType.kDisplacement;
     public BetterPIDController anglePID;
-
-    public int angleOffset;
 
     public Collector() {
         leftMotorTal = new CANTalon(RobotMap.ARM_TALON_L);
@@ -40,15 +42,16 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
         rightMotorTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         anglePID = new BetterPIDController(kP, kI, kD, this, this);
         anglePID.setAbsoluteTolerance(0.3);
-        angleOffset = 370;
+        leftMotorTal.enableBrakeMode(true);
+        rightMotorTal.enableBrakeMode(true);
     }
 
     public void setPower(double x) {
         if (anglePID.isEnabled()) {
             anglePID.disable();
         }
-        leftMotorTal.set(x * BotConstants.MAX_POWER);
-        rightMotorTal.set(x * BotConstants.MAX_POWER);
+        pidWrite(x);
+        SmartDashboard.putNumber("Arn Power", x);
     }
 
     public void setAngle(double angle) {
@@ -85,11 +88,15 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     public double pidGet() {
         return getPosition();
     }
+    
+    public double getIdlePower(){
+    	return holdPower*Math.cos(Math.toRadians((getPosition()*angleScale + angleOffset)));
+    }
 
     @Override
     public void pidWrite(double x) {
-        leftMotorTal.set(x);
-        rightMotorTal.set(x);
+        leftMotorTal.set(x + getIdlePower());
+        rightMotorTal.set(x + getIdlePower());
     }
 
     @Override
