@@ -5,12 +5,14 @@ import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
 import org.usfirst.frc.team5818.robot.commands.CollectGear;
+import org.usfirst.frc.team5818.robot.commands.DeployGear;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
+import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
@@ -57,6 +59,12 @@ public class Driver {
 
         JoystickButton getGear = new JoystickButton(JS_FW_BACK, 2);
         getGear.whenPressed(new AutoSegment(Direction.BACKWARD, Side.LEFT));
+        
+        JoystickButton shiftLow = new JoystickButton(JS_FW_BACK, 3);
+        shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
+        
+        JoystickButton shiftHigh = new JoystickButton(JS_FW_BACK, 4);
+        shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
 
         JoystickButton killPi = new JoystickButton(JS_TURN, 2);
         killPi.whenPressed(new ShutDownRPi());
@@ -73,6 +81,10 @@ public class Driver {
         JoystickButton tape = new JoystickButton(JS_TURN, 6);
         tape.whenPressed(new TapeMode());
 
+        JoystickButton placeGear = new JoystickButton(JS_TURRET, 1);
+        placeGear.whenPressed(new DeployGear(DeployGear.Position.PLACE));
+        placeGear.whenReleased(new DeployGear(DeployGear.Position.RETRACT));
+        
         JoystickButton turretMinus90 = new JoystickButton(JS_TURRET, 4);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
 

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
@@ -40,7 +41,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 	private CANTalon motorEnc;
 	private CANTalon motor2NoEnc;
 	private Encoder enc;
-
+    
 	public BetterPIDController distController;
 	public BetterPIDController velController;
 
@@ -179,7 +180,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 		motorEnc.enableBrakeMode(true);
 		motorNoEnc.enableBrakeMode(true);
 		motor2NoEnc.enableBrakeMode(true);
-	}
+    }
 
 	@Override
 	public void initDefaultCommand() {

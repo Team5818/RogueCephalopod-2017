@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -17,7 +18,7 @@ public class VisionTracker extends Subsystem implements Runnable {
     private Solenoid lightRing;
 
     public VisionTracker() {
-        lightRing = new Solenoid(4);
+        lightRing = new Solenoid(RobotMap.LED_SOLENOID);
         port = Port.kMXP;
         rasPi = new SerialPort(9600, port);
         rasPi.setReadBufferSize(1);
