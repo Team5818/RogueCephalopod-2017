@@ -73,7 +73,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void disabledInit() {
-
+    	collector.setBrakeMode(true);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
         SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
         SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
-        SmartDashboard.putNumber("Arm Angle", collector.getAngle());
         SmartDashboard.putNumber("Bot Current", roll.getBotCurrent());
+        SmartDashboard.putNumber("Arm Pos", collector.getPosition());
     }
 }

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetCollectorAngle extends Command {
 
-    public static final double TOLERANCE = 3;
+    public static final double TOLERANCE = 50;
 
     private Collector collector;
     private double targetAng;
@@ -20,8 +20,10 @@ public class SetCollectorAngle extends Command {
 
     @Override
     public void initialize() {
+        collector.setBrakeMode(false);
         collector.getAnglePID().setAbsoluteTolerance(TOLERANCE);
-        collector.getAnglePID().setSetpoint(targetAng);
+        collector.getAnglePID().setToleranceBuffer(2);
+        collector.setAngle(targetAng);
     }
 
     @Override
@@ -32,6 +34,7 @@ public class SetCollectorAngle extends Command {
     @Override
     public void end() {
         collector.stop();
+        collector.setBrakeMode(true);
     }
 
 }

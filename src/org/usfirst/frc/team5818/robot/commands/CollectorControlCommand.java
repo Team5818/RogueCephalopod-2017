@@ -15,8 +15,13 @@ public class CollectorControlCommand extends ControlCommand {
     }
 
     @Override
+    protected void initialize(){
+    	coll.setBrakeMode(true);
+    }
+    
+    @Override
     protected void setPower() {
-        coll.setPower(MathUtil.adjustDeadband(driver.JS_COLLECTOR, Driver.DEADBAND_VEC).getX());
+        coll.setPower(MathUtil.adjustDeadband(driver.JS_COLLECTOR, Driver.DEADBAND_VEC).getY());
     }
 
     @Override

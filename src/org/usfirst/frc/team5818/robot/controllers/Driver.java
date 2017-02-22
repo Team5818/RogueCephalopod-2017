@@ -17,6 +17,7 @@ import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Side;
+import org.usfirst.frc.team5818.robot.subsystems.Collector;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
@@ -89,6 +90,15 @@ public class Driver {
         
         JoystickButton spit = new JoystickButton(JS_COLLECTOR, 2);
         spit.whileHeld(new SetCollectorPower());
+
+        JoystickButton armCollect = new JoystickButton(JS_COLLECTOR, 4);
+        armCollect.whenPressed(new SetCollectorAngle(Collector.COLLECT_POSITION));
+
+        JoystickButton armMid = new JoystickButton(JS_COLLECTOR, 3);
+        armMid.whenPressed(new SetCollectorAngle(Collector.MID_POSITION));
+        
+        JoystickButton armLoad = new JoystickButton(JS_COLLECTOR, 5);
+        armLoad.whenPressed(new SetCollectorAngle(Collector.LOAD_POSITION));//Collector.LOAD_POSITION));
 
         dMode = DriveMode.POWER;
         driveCalc = ArcadeDriveCalculator.INSTANCE;
