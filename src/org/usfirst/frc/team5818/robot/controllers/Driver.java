@@ -5,6 +5,7 @@ import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
 import org.usfirst.frc.team5818.robot.commands.CollectGear;
+import org.usfirst.frc.team5818.robot.commands.DeployGear;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
@@ -80,6 +81,10 @@ public class Driver {
         JoystickButton tape = new JoystickButton(JS_TURN, 6);
         tape.whenPressed(new TapeMode());
 
+        JoystickButton placeGear = new JoystickButton(JS_TURRET, 1);
+        placeGear.whenPressed(new DeployGear(DeployGear.Position.PLACE));
+        placeGear.whenReleased(new DeployGear(DeployGear.Position.RETRACT));
+        
         JoystickButton turretMinus90 = new JoystickButton(JS_TURRET, 4);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
 
