@@ -3,22 +3,17 @@ package org.usfirst.frc.team5818.robot.commands;
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.subsystems.CollectorRollers;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class CollectGearCurrent extends Command {
+public class EjectGear extends TimedCommand {
 
-    private static final double DEFAULT_CURRENT_THRESH = 6.0;
-    private double currThresh;
-    private double power;
+    private static final double DEFAULT_DURATION = 1;
+    private final double power;
     private final CollectorRollers collectorRollers = Robot.runningRobot.roll;
 
-    public CollectGearCurrent(double thresh, double pow) {
-        currThresh = thresh;
-        power = pow;
-    }
-
-    public CollectGearCurrent(double pow) {
-        this(DEFAULT_CURRENT_THRESH, pow);
+    public EjectGear(double pow) {
+        super(DEFAULT_DURATION);
+        this.power = pow;
     }
 
     @Override
@@ -34,8 +29,9 @@ public class CollectGearCurrent extends Command {
     }
 
     @Override
-    protected boolean isFinished() {
-        return collectorRollers.getBotCurrent() > currThresh;
+    protected void end() {
+        collectorRollers.setTopPower(0);
+        collectorRollers.setBotPower(0);
     }
 
 }

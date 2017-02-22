@@ -5,6 +5,7 @@ import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
 import org.usfirst.frc.team5818.robot.commands.CollectGear;
 import org.usfirst.frc.team5818.robot.commands.DeployGear;
+import org.usfirst.frc.team5818.robot.commands.EjectGear;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
@@ -109,7 +110,10 @@ public class Driver {
         armMid.whenPressed(new SetCollectorAngle(Collector.MID_POSITION));
 
         JoystickButton armLoad = new JoystickButton(JS_COLLECTOR, 5);
-        armLoad.whenPressed(new SetCollectorAngle(Collector.LOAD_POSITION));// Collector.LOAD_POSITION));
+        armLoad.whenPressed(new SetCollectorAngle(Collector.LOAD_POSITION));
+
+        JoystickButton eject = new JoystickButton(JS_COLLECTOR, 6);
+        eject.whenPressed(new EjectGear(.7));
 
         dMode = DriveMode.POWER;
         driveCalc = ArcadeDriveCalculator.INSTANCE;
