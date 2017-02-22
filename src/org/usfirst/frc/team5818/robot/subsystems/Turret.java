@@ -16,31 +16,28 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
-    public static final double kP = 0.011;
-    public static final double kI = 0.0005;
+    public static final double kP = 0.03;
+    public static final double kI = 0.0;
     public static final double kD = 0.0;
 
+    public static final int CENTER_OFFSET = 1969;
+    public static final double POT_SCALE = -90.0/100.0;
+    
     private CANTalon motor;
 
     private PIDSourceType pidType = PIDSourceType.kDisplacement;
     private BetterPIDController angleController;
     private AnalogInput pot;
 
-    public int centerOffSet;
-    public double potScale;
-
     private Solenoid solenoid1;
     private Solenoid solenoid2;
 
     public Turret() {
-        motor = new CANTalon(RobotMap.TURR_MOTOR); // Turret motor number not
-                                                   // set
+        motor = new CANTalon(RobotMap.TURR_MOTOR); 
         motor.setInverted(true);
         angleController = new BetterPIDController(kP, kI, kD, this, this);
         pot = new AnalogInput(BotConstants.TURRET_POT);
         angleController.setAbsoluteTolerance(0.3);
-        centerOffSet = 3027;
-        potScale = 360.0 / 4095.0;
         solenoid1 = new Solenoid(1);
         solenoid1 = new Solenoid(2);
     }
@@ -60,7 +57,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     public double getAngle() {
         double analog = pot.getValue();
-        return ((analog - centerOffSet) * potScale);
+        return ((analog - CENTER_OFFSET) * POT_SCALE);
     }
 
     public double getRawCounts() {
