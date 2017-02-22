@@ -3,6 +3,7 @@ package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
+import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.Climber;
@@ -39,6 +40,7 @@ public class Robot extends IterativeRobot {
     public Turret turret;
     public Climber climb;
     public CameraController camCont;
+    public TurretMoveToZero turretZero;
 
     Command autonomousCommand;
     SendableChooser<Command> chooser;
@@ -61,6 +63,7 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         camCont = new CameraController();
         driver = new Driver();
+        turretZero = new TurretMoveToZero();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
         SmartDashboard.putData("Auto mode", chooser);
@@ -137,7 +140,17 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         printSmartDash();
         driver.teleopPeriodic();
+        /* check arm for exceeding disable position */
+        if (collector.getPosition() >= Collector.TURRET_RESET_POSITION) {
+           runTurretOverrides();
+        }
         Scheduler.getInstance().run();
+    }
+    
+    public void runTurretOverrides() {
+        if (!turretZero.isRunning()) {
+            Scheduler.getInstance().add(turretZero);
+        }
     }
 
     /**

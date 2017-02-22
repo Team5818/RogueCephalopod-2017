@@ -20,6 +20,10 @@ public class SetCollectorAngle extends Command {
 
     @Override
     public void initialize() {
+        // reset turret if target is too high
+        if (targetAng >= Collector.TURRET_RESET_POSITION) {
+            Robot.runningRobot.runTurretOverrides();
+        }
         collector.setBrakeMode(false);
         collector.getAnglePID().setAbsoluteTolerance(TOLERANCE);
         collector.getAnglePID().setToleranceBuffer(2);
