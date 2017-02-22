@@ -4,17 +4,22 @@ import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.Side;
+import org.usfirst.frc.team5818.robot.subsystems.Collector;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoSegment extends CommandGroup {
+    
+    public enum AutoExtra {
+        COLLECT, PLACE
+    }
 
     private CommandGroup drive;
     private DriveAtRatio driveOvershoot;
     private DriveAtRatio driveVision;
     private DriveAtRatio driveFinal;
 
-    public AutoSegment(Direction dir, Side side, boolean spinRollers) {
+    public AutoSegment(Direction dir, Side side, AutoExtra extra) {
         drive = new CommandGroup();
         double radius;
         double dist1;
@@ -70,8 +75,16 @@ public class AutoSegment extends CommandGroup {
         }
         drive.addSequential(driveOvershoot);
         drive.addSequential(driveVision);
+        if (extra == AutoExtra.COLLECT) {
+            drive.addParallel(new SetCollectorAngle(Collector.COLLECT_POSITION));
+        } else if (extra == AutoExtra.PLACE) {
+            CommandGroup g = new CommandGroup();
+            g.addSequential(new SetCollectorAngle(Collector.LOAD_POSITION));
+            g.addSequential(new SetCollectorPower(true));
+            drive.addParallel(g);
+        }
         drive.addSequential(driveFinal);
-        if (spinRollers) {
+        if (extra == AutoExtra.COLLECT) {
             drive.addParallel(new CollectGear(1));
         }
 

@@ -4,6 +4,7 @@ package org.usfirst.frc.team5818.robot;
 import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
+import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.Climber;
@@ -109,6 +110,7 @@ public class Robot extends IterativeRobot {
         // schedule the autonomous command (example)
         if (autonomousCommand != null)
             autonomousCommand.start();
+        driveTrain.shiftGears(BotConstants.LOW_GEAR_VALUE);
     }
 
     /**
@@ -130,6 +132,7 @@ public class Robot extends IterativeRobot {
             autonomousCommand.cancel();
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
+        driveTrain.shiftGears(BotConstants.LOW_GEAR_VALUE);
         track.start();
     }
 
@@ -149,7 +152,7 @@ public class Robot extends IterativeRobot {
     
     public void runTurretOverrides() {
         if (!turretZero.isRunning()) {
-            Scheduler.getInstance().add(turretZero);
+            turretZero.start();
         }
     }
 

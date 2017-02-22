@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Driver {
 
-    public static double JOYSTICK_DEADBAND = .2;
+    public static double JOYSTICK_DEADBAND = .05;
     public static Vector2d DEADBAND_VEC = new Vector2d(JOYSTICK_DEADBAND, JOYSTICK_DEADBAND);
 
     public static final int BUT_QUICK_TURN = 2;
@@ -51,7 +51,7 @@ public class Driver {
         twoGearButton.whenPressed(new TwoGearAuto());
 
         JoystickButton getGear = new JoystickButton(JS_FW_BACK, 2);
-        getGear.whenPressed(new AutoSegment(Direction.BACKWARD, Side.LEFT, false));
+        getGear.whenPressed(new AutoSegment(Direction.BACKWARD, Side.LEFT, null));
 
         JoystickButton shiftLow = new JoystickButton(JS_FW_BACK, 3);
         shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));

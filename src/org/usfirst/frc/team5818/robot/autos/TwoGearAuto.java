@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5818.robot.autos;
 
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
-import org.usfirst.frc.team5818.robot.commands.CollectGear;
+import org.usfirst.frc.team5818.robot.commands.AutoSegment.AutoExtra;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.PlaceGear;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
@@ -21,18 +21,17 @@ public class TwoGearAuto extends CommandGroup {
 
     public TwoGearAuto() {
         tapeMode1 = new TapeMode();
-        moveForward = new AutoSegment(Direction.FORWARD, Side.CENTER, false);
+        moveForward = new AutoSegment(Direction.FORWARD, Side.CENTER, null);
         gearMode = new GearMode();
-        moveToGear = new AutoSegment(Direction.BACKWARD, Side.LEFT, true);
+        moveToGear = new AutoSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.COLLECT);
         tapeMode2 = new TapeMode();
-        moveToPeg = new AutoSegment(Direction.FORWARD, Side.LEFT, false);
+        moveToPeg = new AutoSegment(Direction.FORWARD, Side.LEFT, AutoExtra.PLACE);
 
         this.addSequential(tapeMode1);
         this.addSequential(moveForward);
         this.addSequential(new PlaceGear());
         this.addSequential(gearMode);
         this.addSequential(moveToGear);
-        this.addSequential(new CollectGear());
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
         this.addSequential(new PlaceGear());

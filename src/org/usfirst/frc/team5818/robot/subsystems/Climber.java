@@ -21,17 +21,8 @@ public class Climber extends Subsystem {
     }
 
     public void setPower(double pow) {
-        if (pow < 0.0) {
-            left1.set(pow);
-            // left2.set(pow);
-            right1.set(pow);
-            // right2.set(pow);
-        } else {
-            left1.set(0.0);
-            // left2.set(pow);
-            right1.set(0.0);
-            // right2.set(pow);
-        }
+        left1.set(pow);
+        right1.set(pow);
     }
 
     public double getLeftCurrent() {

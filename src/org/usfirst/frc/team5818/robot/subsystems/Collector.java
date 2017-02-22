@@ -72,8 +72,12 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     }
 
     public void stop() {
-        anglePID.disable();
-        this.setPower(0);
+        if (anglePID.isEnabled()) {
+            anglePID.disable();
+        }
+        setBrakeMode(true);
+        leftMotorTal.set(0);
+        rightMotorTal.set(0);
     }
 
     @Override
@@ -98,6 +102,11 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     public void pidWrite(double x) {
+        if (getPosition() <= COLLECT_POSITION) {
+            x = Math.max(x, 0);
+        } else if (getPosition() >= LOAD_POSITION) {
+            x = Math.min(x, 0);
+        }
         leftMotorTal.set(x + getIdlePower());
         rightMotorTal.set(x + getIdlePower());
         SmartDashboard.putNumber("Arn Power", x);
