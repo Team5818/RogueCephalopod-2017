@@ -9,6 +9,7 @@ import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorAngle;
+import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
@@ -91,6 +92,9 @@ public class Driver {
         
         JoystickButton collect = new JoystickButton(JS_COLLECTOR, 3);
         collect.whenPressed(new CollectGear());
+        
+        JoystickButton spit = new JoystickButton(JS_COLLECTOR, 2);
+        spit.whileHeld(new SetCollectorPower());
 
         dMode = DriveMode.POWER;
         driveCalc = ArcadeDriveCalculator.INSTANCE;
