@@ -38,12 +38,6 @@ public class Driver {
     public Joystick JS_TURRET;
     public Joystick JS_COLLECTOR;
 
-    public boolean turreting = true;
-    public boolean was_turreting;
-
-    public boolean controllingArm = true;
-    public boolean wasControllingArm;
-
     public DriveMode dMode;
     public DriveCalculator driveCalc;
 
