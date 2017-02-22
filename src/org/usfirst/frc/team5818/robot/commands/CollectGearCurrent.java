@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class CollectGearCurrent extends Command {
 
-    private static final double DEFAULT_CURRENT_THRESH = 3.5;
+    private static final double DEFAULT_CURRENT_THRESH = 6.0;
     private double currThresh;
     private double power;
     private final CollectorRollers collectorRollers = Robot.runningRobot.roll;
@@ -35,7 +35,7 @@ public class CollectGearCurrent extends Command {
 
     @Override
     protected boolean isFinished() {
-        return collectorRollers.getTopCurrent() > currThresh;
+        return collectorRollers.getBotCurrent() > currThresh;
     }
 
     @Override
