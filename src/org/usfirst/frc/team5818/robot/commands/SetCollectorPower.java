@@ -7,17 +7,18 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetCollectorPower extends Command {
 
-    CollectorRollers roll;
+    private final double power;
+    private final CollectorRollers roll = Robot.runningRobot.roll;
 
-    public SetCollectorPower() {
+    public SetCollectorPower(boolean ejectForwards) {
         setTimeout(2);
-        roll = Robot.runningRobot.roll;
+        power = ejectForwards ? -0.7 : 0.7;
     }
 
     @Override
     protected void initialize() {
-        roll.setTopPower(.7);
-        roll.setBotPower(.7);
+        roll.setTopPower(power);
+        roll.setBotPower(power);
     }
 
     @Override
@@ -28,7 +29,6 @@ public class SetCollectorPower extends Command {
 
     @Override
     protected boolean isFinished() {
-        // TODO Auto-generated method stub
         return isTimedOut();
     }
 
