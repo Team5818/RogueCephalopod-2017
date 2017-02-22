@@ -83,14 +83,8 @@ public class Driver {
 
         JoystickButton climbMode = new JoystickButton(JS_TURRET, 4);
         climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
-
-        JoystickButton setArm90 = new JoystickButton(JS_COLLECTOR, 1);
-        setArm90.whenPressed(new SetCollectorAngle(90.0));
-
-        JoystickButton setArm0 = new JoystickButton(JS_COLLECTOR, 2);
-        setArm0.whenPressed(new SetCollectorAngle(0.0));
         
-        JoystickButton collect = new JoystickButton(JS_COLLECTOR, 3);
+        JoystickButton collect = new JoystickButton(JS_COLLECTOR, 1);
         collect.whenPressed(new CollectGear());
         
         JoystickButton spit = new JoystickButton(JS_COLLECTOR, 2);
