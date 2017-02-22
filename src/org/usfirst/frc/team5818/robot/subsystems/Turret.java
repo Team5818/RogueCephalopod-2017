@@ -29,8 +29,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     private BetterPIDController angleController;
     private AnalogInput pot;
 
-    private Solenoid extender;
     private Solenoid puncher;
+    private Solenoid extender;
 
     public Turret() {
         motor = new CANTalon(RobotMap.TURR_MOTOR);
@@ -38,8 +38,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         angleController = new BetterPIDController(kP, kI, kD, this, this);
         pot = new AnalogInput(BotConstants.TURRET_POT);
         angleController.setAbsoluteTolerance(0.3);
-        extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);
         puncher = new Solenoid(RobotMap.TURRET_PUNCHER_SOLENOID);
+        extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);
     }
 
     public void setPower(double x) {
@@ -94,11 +94,11 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     }
 
     public void extend(boolean on) {
-        puncher.set(on);
+        extender.set(on);
     }
 
     public void punch(boolean on) {
-        extender.set(on);
+        puncher.set(on);
     }
 
     @Override
