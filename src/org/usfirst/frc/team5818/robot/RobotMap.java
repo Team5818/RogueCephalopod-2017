@@ -32,9 +32,8 @@ public class RobotMap {
     public static final int RIGHT_CLIMB_TALON_2 = 13;
 
     
-    public static final int TURRET_EXTENDER_SOLENOID = 0;  ///////////
-    public static final int TURRET_PUNCHER_SOLENOID = 3;   //  Not  //
-    public static final int LEFT_SHIFTER_SOLENOID = 4;     //Correct//
-    public static final int RIGHT_SHIFTER_SOLENOID = 5;    ///////////
+    public static final int TURRET_EXTENDER_SOLENOID = 0;
+    public static final int TURRET_PUNCHER_SOLENOID = 3; 
+    public static final int SHIFTER_SOLENOID = 5;
     public static final int LED_SOLENOID = 6;
 }

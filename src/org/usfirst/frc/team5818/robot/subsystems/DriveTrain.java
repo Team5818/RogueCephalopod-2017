@@ -17,6 +17,7 @@ public class DriveTrain extends Subsystem {
     public DriveTrainSide right;
     private Ultrasonic sanic;
 	private Compressor comp;
+	private Solenoid shifter;
 
 
     public DriveTrain() {
@@ -24,6 +25,7 @@ public class DriveTrain extends Subsystem {
         right = new DriveTrainSide(Side.RIGHT);
         sanic = new Ultrasonic(0, 1);
         comp = new Compressor();
+        shifter = new Solenoid(RobotMap.SHIFTER_SOLENOID);
         comp.start();
         enableSanic();
     }
@@ -127,8 +129,7 @@ public class DriveTrain extends Subsystem {
     }
     
     public void shiftGears(boolean gear){
-        left.shiftGears(gear);
-        right.shiftGears(gear);
+        shifter.set(gear);
     }
     
     @Override
