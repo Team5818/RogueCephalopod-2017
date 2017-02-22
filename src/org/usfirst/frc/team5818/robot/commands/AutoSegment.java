@@ -14,11 +14,7 @@ public class AutoSegment extends CommandGroup {
     private DriveAtRatio driveVision;
     private DriveAtRatio driveFinal;
 
-    /*
-     * @param radius > 1 means arc right, radius < 1 means arc left. Same for
-     * forward or backward.
-     */
-    public AutoSegment(Direction dir, Side side) {
+    public AutoSegment(Direction dir, Side side, boolean spinRollers) {
         drive = new CommandGroup();
         double radius;
         double dist1;
@@ -75,6 +71,9 @@ public class AutoSegment extends CommandGroup {
         drive.addSequential(driveOvershoot);
         drive.addSequential(driveVision);
         drive.addSequential(driveFinal);
+        if (spinRollers) {
+            drive.addParallel(new CollectGear(1));
+        }
 
         this.addSequential(drive);
     }

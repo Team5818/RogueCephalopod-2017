@@ -5,7 +5,7 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DeployGear extends Command {
+public class MovePiston extends Command {
 
     private Turret turr;
 
@@ -17,7 +17,7 @@ public class DeployGear extends Command {
 
     private boolean done;
 
-    public DeployGear(Position pos) {
+    public MovePiston(Position pos) {
         target = pos;
         turr = Robot.runningRobot.turret;
 

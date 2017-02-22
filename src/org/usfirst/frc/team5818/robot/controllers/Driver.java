@@ -4,7 +4,7 @@ import org.usfirst.frc.team5818.robot.autos.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
 import org.usfirst.frc.team5818.robot.commands.CollectGear;
-import org.usfirst.frc.team5818.robot.commands.DeployGear;
+import org.usfirst.frc.team5818.robot.commands.MovePiston;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
@@ -51,7 +51,7 @@ public class Driver {
         twoGearButton.whenPressed(new TwoGearAuto());
 
         JoystickButton getGear = new JoystickButton(JS_FW_BACK, 2);
-        getGear.whenPressed(new AutoSegment(Direction.BACKWARD, Side.LEFT));
+        getGear.whenPressed(new AutoSegment(Direction.BACKWARD, Side.LEFT, false));
 
         JoystickButton shiftLow = new JoystickButton(JS_FW_BACK, 3);
         shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
@@ -75,8 +75,8 @@ public class Driver {
         tape.whenPressed(new TapeMode());
 
         JoystickButton placeGear = new JoystickButton(JS_TURRET, 1);
-        placeGear.whenPressed(new DeployGear(DeployGear.Position.PLACE));
-        placeGear.whenReleased(new DeployGear(DeployGear.Position.RETRACT));
+        placeGear.whenPressed(new MovePiston(MovePiston.Position.PLACE));
+        placeGear.whenReleased(new MovePiston(MovePiston.Position.RETRACT));
 
         JoystickButton turretMinus90 = new JoystickButton(JS_TURRET, 4);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));

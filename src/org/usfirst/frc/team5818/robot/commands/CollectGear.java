@@ -11,8 +11,12 @@ public class CollectGear extends CommandGroup {
     CollectorRollers roll;
 
     public CollectGear() {
+        this(.5);
+    }
+    
+    public CollectGear(double initialTimeout) {
         roll = Robot.runningRobot.roll;
-        this.addSequential(new TimedCommand(.5));
+        this.addSequential(new TimedCommand(initialTimeout));
         this.addSequential(new CollectGearCurrent(.7));
         this.addSequential(new TimedCommand(.3));
     }
