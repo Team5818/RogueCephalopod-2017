@@ -2,7 +2,6 @@ package org.usfirst.frc.team5818.robot.subsystems;
 
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.commands.CollectorControlCommand;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
@@ -18,14 +17,13 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     private static final double kP = 0.0004;// tune me pls
     private static final double kI = 0.0000;
     private static final double kD = 0.0;
-    
+
     public static final double COLLECT_POSITION = -5;
     public static final double MID_POSITION = 1538;
     public static final double LOAD_POSITION = 2782;
     public static final double angleScale = .04277;
     public static final double angleOffset = 11.21385 - 16.3;
     public static final double holdPower = .055;
-
 
     private CANTalon leftMotorTal;
     private CANTalon rightMotorTal;
@@ -44,10 +42,10 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
         anglePID.setAbsoluteTolerance(0.3);
         setBrakeMode(true);
     }
-    
-    public void setBrakeMode(boolean mode){
-    	leftMotorTal.enableBrakeMode(mode);
-    	rightMotorTal.enableBrakeMode(mode);
+
+    public void setBrakeMode(boolean mode) {
+        leftMotorTal.enableBrakeMode(mode);
+        rightMotorTal.enableBrakeMode(mode);
     }
 
     public void setPower(double x) {
@@ -64,10 +62,9 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
         anglePID.enable();
     }
 
-    public double getPosition(){
+    public double getPosition() {
         return rightMotorTal.getEncPosition();
     }
-    
 
     public BetterPIDController getAnglePID() {
         return anglePID;
@@ -92,10 +89,10 @@ public class Collector extends Subsystem implements PIDSource, PIDOutput {
     public double pidGet() {
         return getPosition();
     }
-    
-    public double getIdlePower(){
-        SmartDashboard.putNumber("Arm Angle", Math.toRadians((getPosition()*angleScale + angleOffset)));
-    	return holdPower*Math.cos(Math.toRadians((getPosition()*angleScale + angleOffset)));
+
+    public double getIdlePower() {
+        SmartDashboard.putNumber("Arm Angle", Math.toRadians((getPosition() * angleScale + angleOffset)));
+        return holdPower * Math.cos(Math.toRadians((getPosition() * angleScale + angleOffset)));
     }
 
     @Override

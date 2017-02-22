@@ -1,13 +1,11 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
-import com.ctre.CANTalon;
-
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Ultrasonic;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
+
+import com.ctre.CANTalon;
+
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class CollectorRollers extends Subsystem {
 

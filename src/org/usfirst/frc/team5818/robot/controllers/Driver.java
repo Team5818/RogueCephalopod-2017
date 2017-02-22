@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5818.robot.controllers;
 
 import org.usfirst.frc.team5818.robot.autos.TwoGearAuto;
-import org.usfirst.frc.team5818.robot.commands.AimTurret;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
 import org.usfirst.frc.team5818.robot.commands.CollectGear;
@@ -59,10 +58,10 @@ public class Driver {
 
         JoystickButton getGear = new JoystickButton(JS_FW_BACK, 2);
         getGear.whenPressed(new AutoSegment(Direction.BACKWARD, Side.LEFT));
-        
+
         JoystickButton shiftLow = new JoystickButton(JS_FW_BACK, 3);
         shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
-        
+
         JoystickButton shiftHigh = new JoystickButton(JS_FW_BACK, 4);
         shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
 
@@ -84,7 +83,7 @@ public class Driver {
         JoystickButton placeGear = new JoystickButton(JS_TURRET, 1);
         placeGear.whenPressed(new DeployGear(DeployGear.Position.PLACE));
         placeGear.whenReleased(new DeployGear(DeployGear.Position.RETRACT));
-        
+
         JoystickButton turretMinus90 = new JoystickButton(JS_TURRET, 4);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
 
@@ -96,10 +95,10 @@ public class Driver {
 
         JoystickButton climbMode = new JoystickButton(JS_TURRET, 2);
         climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
-        
+
         JoystickButton collect = new JoystickButton(JS_COLLECTOR, 1);
         collect.whenPressed(new CollectGear());
-        
+
         JoystickButton spit = new JoystickButton(JS_COLLECTOR, 2);
         spit.whileHeld(new SetCollectorPower());
 
@@ -108,9 +107,9 @@ public class Driver {
 
         JoystickButton armMid = new JoystickButton(JS_COLLECTOR, 3);
         armMid.whenPressed(new SetCollectorAngle(Collector.MID_POSITION));
-        
+
         JoystickButton armLoad = new JoystickButton(JS_COLLECTOR, 5);
-        armLoad.whenPressed(new SetCollectorAngle(Collector.LOAD_POSITION));//Collector.LOAD_POSITION));
+        armLoad.whenPressed(new SetCollectorAngle(Collector.LOAD_POSITION));// Collector.LOAD_POSITION));
 
         dMode = DriveMode.POWER;
         driveCalc = ArcadeDriveCalculator.INSTANCE;
