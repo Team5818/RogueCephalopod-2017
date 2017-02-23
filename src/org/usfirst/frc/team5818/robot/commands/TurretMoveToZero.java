@@ -16,6 +16,7 @@ public class TurretMoveToZero extends Command {
 
     public TurretMoveToZero() {
         requires(turret);
+        setInterruptible(false);
     }
 
     @Override
