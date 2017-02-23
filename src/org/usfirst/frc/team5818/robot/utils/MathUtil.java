@@ -29,7 +29,7 @@ public class MathUtil {
             return 0;
         }
         double sign = Math.signum(jVal);
-        return sign * map(abs, 0.2, 1, 0, 1);
+        return sign * map(abs, min, 1, 0, 1);
     }
 
     private static double map(double in, double lowIn, double highIn, double lowOut, double highOut) {

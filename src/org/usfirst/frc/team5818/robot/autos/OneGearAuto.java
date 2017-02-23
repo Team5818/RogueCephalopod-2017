@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5818.robot.autos;
 
+import org.usfirst.frc.team5818.robot.commands.PlaceGear;
 import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Side;
@@ -40,6 +41,7 @@ public class OneGearAuto extends CommandGroup {
             b.targetRatio(1.0);
             b.stoppingAtEnd(true);
         }));
+        this.addSequential(new PlaceGear());
     }
 
     private void addCurve(int sideMultiplier) {

@@ -38,7 +38,4 @@ public class CollectGearCurrent extends Command {
         return collectorRollers.getBotCurrent() > currThresh;
     }
 
-    @Override
-    protected void end() {
-    }
 }

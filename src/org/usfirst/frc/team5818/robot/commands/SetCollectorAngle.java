@@ -13,6 +13,7 @@ public class SetCollectorAngle extends Command {
     private double targetAng;
 
     public SetCollectorAngle(double angle) {
+        setTimeout(2);
         collector = Robot.runningRobot.collector;
         targetAng = angle;
         requires(collector);
@@ -20,6 +21,10 @@ public class SetCollectorAngle extends Command {
 
     @Override
     public void initialize() {
+        // reset turret if target is too high
+        if (targetAng >= Collector.TURRET_RESET_POSITION) {
+            Robot.runningRobot.runTurretOverrides();
+        }
         collector.setBrakeMode(false);
         collector.getAnglePID().setAbsoluteTolerance(TOLERANCE);
         collector.getAnglePID().setToleranceBuffer(2);
@@ -28,7 +33,7 @@ public class SetCollectorAngle extends Command {
 
     @Override
     protected boolean isFinished() {
-        return collector.getAnglePID().onTarget();
+        return isTimedOut() || collector.getAnglePID().onTarget();
     }
 
     @Override

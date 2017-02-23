@@ -3,6 +3,8 @@ package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
+import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
+import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.Climber;
@@ -39,6 +41,7 @@ public class Robot extends IterativeRobot {
     public Turret turret;
     public Climber climb;
     public CameraController camCont;
+    public TurretMoveToZero turretZero;
 
     Command autonomousCommand;
     SendableChooser<Command> chooser;
@@ -61,6 +64,7 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         camCont = new CameraController();
         driver = new Driver();
+        turretZero = new TurretMoveToZero();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
         SmartDashboard.putData("Auto mode", chooser);
@@ -73,7 +77,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void disabledInit() {
-    	collector.setBrakeMode(true);
+        collector.setBrakeMode(true);
     }
 
     @Override
@@ -106,6 +110,7 @@ public class Robot extends IterativeRobot {
         // schedule the autonomous command (example)
         if (autonomousCommand != null)
             autonomousCommand.start();
+        driveTrain.shiftGears(BotConstants.LOW_GEAR_VALUE);
     }
 
     /**
@@ -127,6 +132,7 @@ public class Robot extends IterativeRobot {
             autonomousCommand.cancel();
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
+        driveTrain.shiftGears(BotConstants.LOW_GEAR_VALUE);
         track.start();
     }
 
@@ -137,7 +143,17 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         printSmartDash();
         driver.teleopPeriodic();
+        /* check arm for exceeding disable position */
+        if (collector.getPosition() >= Collector.TURRET_RESET_POSITION) {
+           runTurretOverrides();
+        }
         Scheduler.getInstance().run();
+    }
+    
+    public void runTurretOverrides() {
+        if (!turretZero.isRunning()) {
+            turretZero.start();
+        }
     }
 
     /**

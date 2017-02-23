@@ -20,26 +20,26 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
-    public static final int CENTER_OFFSET = 1969;
-    public static final double POT_SCALE = -90.0/100.0;
-    
+    public static final int CENTER_OFFSET = 1920;
+    public static final double POT_SCALE = -90.0 / 100.0;
+
     private CANTalon motor;
 
     private PIDSourceType pidType = PIDSourceType.kDisplacement;
     private BetterPIDController angleController;
     private AnalogInput pot;
 
-	private Solenoid extender;
-	private Solenoid puncher;
+    private Solenoid puncher;
+    private Solenoid extender;
 
     public Turret() {
-        motor = new CANTalon(RobotMap.TURR_MOTOR); 
+        motor = new CANTalon(RobotMap.TURR_MOTOR);
         motor.setInverted(true);
         angleController = new BetterPIDController(kP, kI, kD, this, this);
         pot = new AnalogInput(BotConstants.TURRET_POT);
         angleController.setAbsoluteTolerance(0.3);
-		extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);
-		puncher = new Solenoid(RobotMap.TURRET_PUNCHER_SOLENOID);
+        puncher = new Solenoid(RobotMap.TURRET_PUNCHER_SOLENOID);
+        extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);
     }
 
     public void setPower(double x) {
@@ -90,14 +90,20 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     public void pidWrite(double x) {
+        if (getAngle() > 100) {
+            x = Math.min(x, 0);
+        } else if (getAngle() < -100) {
+            x = Math.max(0, x);
+        }
         motor.set(x);
     }
 
-	public void extend(boolean on) {
-	    puncher.set(on);
+    public void extend(boolean on) {
+        extender.set(on);
     }
-	public void punch(boolean on) {
-	    extender.set(on);
+
+    public void punch(boolean on) {
+        puncher.set(on);
     }
 
     @Override

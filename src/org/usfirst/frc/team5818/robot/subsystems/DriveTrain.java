@@ -16,9 +16,8 @@ public class DriveTrain extends Subsystem {
     public DriveTrainSide left;
     public DriveTrainSide right;
     private Ultrasonic sanic;
-	private Compressor comp;
-	private Solenoid shifter;
-
+    private Compressor comp;
+    private Solenoid shifter;
 
     public DriveTrain() {
         left = new DriveTrainSide(Side.LEFT);
@@ -127,11 +126,11 @@ public class DriveTrain extends Subsystem {
         right.setBrakeMode();
         this.setPowerLeftRight(0, 0);
     }
-    
-    public void shiftGears(boolean gear){
+
+    public void shiftGears(boolean gear) {
         shifter.set(gear);
     }
-    
+
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(new DriveControlCommand());
