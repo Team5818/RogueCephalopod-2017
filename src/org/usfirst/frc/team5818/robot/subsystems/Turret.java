@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -20,8 +21,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
-    public static final int CENTER_OFFSET = 1920;
-    public static final double POT_SCALE = -90.0 / 100.0;
+    public static final double CENTER_OFFSET = Preferences.getInstance().getDouble("TurretCenter", 1920);
+    public static final double POT_SCALE = Preferences.getInstance().getDouble("TurretScale", -90/100);
 
     private CANTalon motor;
 
@@ -90,11 +91,11 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     public void pidWrite(double x) {
-        if (getAngle() > 100) {
-            x = Math.min(x, 0);
-        } else if (getAngle() < -100) {
-            x = Math.max(0, x);
-        }
+//        if (getAngle() > 100) {
+//            x = Math.min(x, 0);
+//        } else if (getAngle() < -100) {
+//            x = Math.max(0, x);
+//        }
         motor.set(x);
     }
 
