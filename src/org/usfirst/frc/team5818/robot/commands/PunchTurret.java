@@ -17,7 +17,7 @@ public class PunchTurret extends Command{
     
     @Override 
     protected void initialize(){
-        turr.extend(on);
+        turr.punch(on);
         done = true;
     }
     
