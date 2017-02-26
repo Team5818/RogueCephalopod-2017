@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
 public class PlaceGear extends CommandGroup {
 
     public PlaceGear() {
-        this.addSequential(new MovePiston(Position.PLACE));
+        this.addSequential(new MovePiston(Position.PLACE_STRAIGHT));
         this.addSequential(new TimedCommand(0.2));
         this.addSequential(new MovePiston(Position.RETRACT));
     }

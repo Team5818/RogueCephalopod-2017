@@ -10,7 +10,7 @@ public class MovePiston extends Command {
     private Turret turr;
 
     public enum Position {
-        RETRACT, EXTEND, PLACE
+        RETRACT, EXTEND, PLACE_LEFT, PLACE_RIGHT, PLACE_STRAIGHT
     }
 
     private Position target;
@@ -29,14 +29,32 @@ public class MovePiston extends Command {
             case RETRACT:
                 turr.extend(false);
                 turr.punch(false);
+                turr.leftMini(false);
+                turr.rightMini(false);
                 break;
             case EXTEND:
                 turr.extend(true);
                 turr.punch(false);
+                turr.leftMini(false);
+                turr.rightMini(false);
                 break;
-            case PLACE:
+            case PLACE_LEFT:
                 turr.extend(true);
                 turr.punch(true);
+                turr.leftMini(false);
+                turr.rightMini(true);
+                break;
+            case PLACE_RIGHT:
+                turr.extend(true);
+                turr.punch(true);
+                turr.leftMini(true);
+                turr.rightMini(false);
+                break;
+            case PLACE_STRAIGHT:
+                turr.extend(true);
+                turr.punch(true);
+                turr.leftMini(true);
+                turr.rightMini(true);
                 break;
         }
 

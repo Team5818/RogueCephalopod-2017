@@ -32,6 +32,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     private Solenoid puncher;
     private Solenoid extender;
+    private Solenoid leftMini;
+    private Solenoid rightMini;
 
     public Turret() {
         motor = new CANTalon(RobotMap.TURR_MOTOR);
@@ -106,7 +108,15 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     public void punch(boolean on) {
         puncher.set(on);
     }
+    
+    public void leftMini(boolean on){
+        leftMini.set(on);
+    }
 
+    public void rightMini(boolean on){
+        rightMini.set(on);
+    }
+    
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(new TurretControlCommand());

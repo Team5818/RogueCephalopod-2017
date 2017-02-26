@@ -75,7 +75,7 @@ public class Driver {
         tape.whenPressed(new TapeMode());
 
         JoystickButton placeGear = new JoystickButton(JS_TURRET, 1);
-        placeGear.whenPressed(new MovePiston(MovePiston.Position.PLACE));
+        placeGear.whenPressed(new MovePiston(MovePiston.Position.PLACE_STRAIGHT));
         placeGear.whenReleased(new MovePiston(MovePiston.Position.RETRACT));
 
         JoystickButton turretMinus90 = new JoystickButton(JS_TURRET, 4);
