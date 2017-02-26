@@ -76,7 +76,7 @@ public class Driver {
 
         JoystickButton placeGear = new JoystickButton(JS_TURRET, 1);
         placeGear.whenPressed(new MovePiston(MovePiston.Position.PLACE_STRAIGHT));
-        placeGear.whenReleased(new MovePiston(MovePiston.Position.RETRACT));
+        placeGear.whenReleased(new MovePiston(MovePiston.Position.EXTEND));
 
         JoystickButton turretMinus90 = new JoystickButton(JS_TURRET, 4);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
@@ -87,8 +87,9 @@ public class Driver {
         JoystickButton turretZero = new JoystickButton(JS_TURRET, 5);
         turretZero.whenPressed(new SetTurretAngle(90.0));
 
-        JoystickButton climbMode = new JoystickButton(JS_TURRET, 2);
-        climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
+        JoystickButton extend = new JoystickButton(JS_TURRET, 2);
+        extend.whenPressed((new MovePiston(MovePiston.Position.EXTEND)));
+        extend.whenReleased(new MovePiston(MovePiston.Position.RETRACT));
 
         JoystickButton collect = new JoystickButton(JS_COLLECTOR, 1);
         collect.whenPressed(new CollectGear());
