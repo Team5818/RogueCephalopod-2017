@@ -43,6 +43,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         angleController.setAbsoluteTolerance(0.3);
         puncher = new Solenoid(RobotMap.TURRET_PUNCHER_SOLENOID);
         extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);
+        leftMini = new Solenoid(RobotMap.LEFT_MINI_SOLENOID);
+        rightMini = new Solenoid(RobotMap.RIGHT_MINI_SOLENOID);
     }
 
     public void setPower(double x) {
