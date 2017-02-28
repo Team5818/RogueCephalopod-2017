@@ -53,10 +53,10 @@ public class Buttons {
 
     private static void initializeSixJoystick() {
         // more complicated!
-        remapJoystickSix(0, 4, -2);
-        remapJoystickSix(1, 4, 4);
-        remapJoystickSix(2, 5, -2);
-        remapJoystickSix(3, 5, 4);
+        remapJoystickSix(0, 4, 4);
+        remapJoystickSix(1, 4, -2);
+        remapJoystickSix(2, 5, 4);
+        remapJoystickSix(3, 5, -2);
     }
 
     private static void remapJoystickSix(int virtual, int realDelegate, int offset) {
