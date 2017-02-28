@@ -12,14 +12,16 @@ public class CollectGearCurrent extends Command {
     private double power;
     private final CollectorRollers collectorRollers = Robot.runningRobot.roll;
 
-    public CollectGearCurrent(double thresh, double pow) {
+    public CollectGearCurrent(double thresh, double pow, double timeout) {
+        setTimeout(timeout);
         currThresh = thresh;
         power = pow;
     }
 
-    public CollectGearCurrent(double pow) {
-        this(DEFAULT_CURRENT_THRESH, pow);
-    }
+    public CollectGearCurrent(double pow ,double timeout) {
+        this(DEFAULT_CURRENT_THRESH, pow, timeout);
+    } 
+   
 
     @Override
     protected void initialize() {
@@ -35,7 +37,7 @@ public class CollectGearCurrent extends Command {
 
     @Override
     protected boolean isFinished() {
-        return collectorRollers.getBotCurrent() > currThresh;
+        return collectorRollers.getBotCurrent() > currThresh || isTimedOut();
     }
 
 }

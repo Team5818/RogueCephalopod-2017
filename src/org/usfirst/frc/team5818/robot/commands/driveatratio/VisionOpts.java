@@ -10,7 +10,7 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 public abstract class VisionOpts implements DriveAtRatioOptions {
 
-    private static final Set<Camera> VIS_CAMS = EnumSet.of(Camera.CAM_FORWARD, Camera.CAM_BACKWARD);
+    private static final Set<Camera> VIS_CAMS = EnumSet.of(Camera.CAM_TAPE, Camera.CAM_GEARS);
 
     public static Builder builder(Camera camera) {
         if (!VIS_CAMS.contains(camera)) {

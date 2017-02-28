@@ -8,6 +8,7 @@ import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -64,12 +65,12 @@ public class DriveAtRatio extends Command {
             camMultiplier = 0;
             useVision = false;
             useSanic = false;
-        } else if (camera.equals(Camera.CAM_FORWARD)) {
+        } else if (camera.equals(Camera.CAM_GEARS)) {
             camMultiplier = 1;
             maxPow = Math.abs(maxPow);
             useVision = true;
             useSanic = false;
-        } else if (camera.equals(Camera.CAM_BACKWARD)) {
+        } else if (camera.equals(Camera.CAM_TAPE)) {
             camMultiplier = -1;
             maxPow = -Math.abs(maxPow);
             useVision = true;
@@ -86,14 +87,15 @@ public class DriveAtRatio extends Command {
 
     @Override
     public void initialize() {
+        DriverStation.reportError("Begining the drive", false);
         SmartDashboard.putNumber("Vision Angle", Robot.runningRobot.track.getCurrentAngle());
         leftPowMult = 1;
         rightPowMult = 1;
         avStart = Robot.runningRobot.driveTrain.getAverageDistance();
 
-        if (camera.equals(Camera.CAM_FORWARD)) {
+        if (camera.equals(Camera.CAM_TAPE)) {
             cont.enterTapeMode();
-        } else if (camera.equals(Camera.CAM_BACKWARD)) {
+        } else if (camera.equals(Camera.CAM_GEARS)) {
             cont.enterGearMode();
         }
     }
@@ -108,7 +110,10 @@ public class DriveAtRatio extends Command {
             currRatio = leftVel / rightVel;
         }
 
-        double anglePower = Robot.runningRobot.track.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
+        double anglePower = 0.0; 
+        if(Robot.runningRobot.track.getCurrentAngle() != Double.NaN){
+           anglePower = Robot.runningRobot.track.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
+        }
 
         double target = targetRatio;
 

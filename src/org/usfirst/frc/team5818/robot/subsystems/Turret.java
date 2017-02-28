@@ -3,6 +3,7 @@ package org.usfirst.frc.team5818.robot.subsystems;
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.commands.TurretControlCommand;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
+import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
@@ -34,6 +35,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     private Solenoid extender;
     private Solenoid leftMini;
     private Solenoid rightMini;
+    private Side currentMini;
 
     public Turret() {
         motor = new CANTalon(RobotMap.TURR_MOTOR);
@@ -45,6 +47,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);
         leftMini = new Solenoid(RobotMap.LEFT_MINI_SOLENOID);
         rightMini = new Solenoid(RobotMap.RIGHT_MINI_SOLENOID);
+        currentMini = Side.LEFT;
     }
 
     public void setPower(double x) {
@@ -117,6 +120,19 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     public void rightMini(boolean on) {
         rightMini.set(on);
+    }
+    
+    public void currentMini(boolean on){
+        if(currentMini.equals(Side.LEFT)){
+            leftMini(on);
+        }
+        else if(currentMini.equals(Side.RIGHT)){
+            rightMini(on);
+        }
+    }
+    
+    public void switchCurrentMini(Side s){
+        currentMini = s;
     }
 
     @Override

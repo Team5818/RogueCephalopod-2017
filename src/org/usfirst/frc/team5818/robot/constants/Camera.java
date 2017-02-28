@@ -1,5 +1,5 @@
 package org.usfirst.frc.team5818.robot.constants;
 
 public enum Camera {
-    CAM_FORWARD, CAM_BACKWARD, ULTRASANIC, NONE
+    CAM_GEARS, CAM_TAPE, ULTRASANIC, NONE
 }

@@ -18,14 +18,29 @@ public class TwoGearAuto extends CommandGroup {
     private TapeMode tapeMode1;
     private GearMode gearMode;
     private TapeMode tapeMode2;
+    
+    private GearMode gearMode2;
+    private AutoSegment moveToGear2;
+    private TapeMode tapeMode3;
+    private AutoSegment moveToPeg2;
+    
 
     public TwoGearAuto() {
+        setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new AutoSegment(Direction.FORWARD, Side.CENTER, null);
+        moveForward = new AutoSegment(Direction.BACKWARD, Side.CENTER, null);
+
         gearMode = new GearMode();
-        moveToGear = new AutoSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.COLLECT);
+        moveToGear = new AutoSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT);
         tapeMode2 = new TapeMode();
-        moveToPeg = new AutoSegment(Direction.FORWARD, Side.LEFT, AutoExtra.PLACE);
+        moveToPeg = new AutoSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.PLACE);
+        
+        gearMode2 = new GearMode();
+        moveToGear2 = new AutoSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT);
+        tapeMode3 = new TapeMode();
+        moveToPeg2 = new AutoSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.PLACE);
+        
+        
 
         this.addSequential(tapeMode1);
         this.addSequential(moveForward);
@@ -34,7 +49,10 @@ public class TwoGearAuto extends CommandGroup {
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
-        this.addSequential(new PlaceGear());
+        this.addSequential(gearMode2);
+        this.addSequential(moveToGear2);
+        this.addSequential(tapeMode3);
+        this.addSequential(moveToPeg2);
     }
 
 }
