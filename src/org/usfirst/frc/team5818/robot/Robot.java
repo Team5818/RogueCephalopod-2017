@@ -3,6 +3,7 @@ package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
+import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
@@ -42,6 +43,8 @@ public class Robot extends IterativeRobot {
     public Climber climb;
     public CameraController camCont;
     public TurretMoveToZero turretZero;
+    
+    private RequireAllSubsystems requireAllSubsystems;
 
     Command autonomousCommand;
     SendableChooser<Command> chooser;
@@ -65,6 +68,7 @@ public class Robot extends IterativeRobot {
         camCont = new CameraController();
         driver = new Driver();
         turretZero = new TurretMoveToZero();
+        requireAllSubsystems = new RequireAllSubsystems();
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
         SmartDashboard.putData("Auto mode", chooser);
@@ -78,6 +82,9 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void disabledInit() {
+        if (requireAllSubsystems.isRunning()) {
+            requireAllSubsystems.cancel();
+        }
         collector.setBrakeMode(true);
     }
 
@@ -134,6 +141,7 @@ public class Robot extends IterativeRobot {
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
         driveTrain.shiftGears(BotConstants.LOW_GEAR_VALUE);
+        driver.setupTeleopButtons();
     }
 
     /**
@@ -145,15 +153,21 @@ public class Robot extends IterativeRobot {
         driver.teleopPeriodic();
         /* check arm for exceeding disable position */
         if (collector.getPosition() >= Collector.TURRET_RESET_POSITION) {
-           runTurretOverrides();
+            runTurretOverrides();
         }
         Scheduler.getInstance().run();
     }
-    
+
     public void runTurretOverrides() {
         if (!turretZero.isRunning()) {
             turretZero.start();
         }
+    }
+
+    @Override
+    public void testInit() {
+        requireAllSubsystems.start();
+        driver.setupTestButtons();
     }
 
     /**
@@ -161,7 +175,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void testPeriodic() {
-        LiveWindow.run();
+        Scheduler.getInstance().run();
     }
 
     public void printSmartDash() {
