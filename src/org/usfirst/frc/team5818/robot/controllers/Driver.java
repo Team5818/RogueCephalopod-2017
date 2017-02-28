@@ -24,6 +24,7 @@ import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
+import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.SchedulerAccess;
@@ -32,7 +33,7 @@ import org.usfirst.frc.team5818.robot.utils.Vector2d;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Driver {
@@ -56,6 +57,8 @@ public class Driver {
         JS_TURRET = new Joystick(BotConstants.JS_TURRET);
         JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
 
+        Buttons.initialize();
+
         dMode = DriveMode.POWER;
         driveCalc = RadiusDriveCalculator.INSTANCE;
     }
@@ -63,63 +66,63 @@ public class Driver {
     public void setupTeleopButtons() {
         clearButtons();
 
-        JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
+        Button twoGearButton = Buttons.FW_BACK.get(1);
         twoGearButton.whenPressed(new TwoGearAuto());
 
-        JoystickButton getGear = new JoystickButton(JS_FW_BACK, 2);
+        Button getGear = Buttons.FW_BACK.get(2);
         getGear.whenPressed(new AutoSegment(Direction.BACKWARD, Side.LEFT, null));
 
-        JoystickButton shiftLow = new JoystickButton(JS_FW_BACK, 3);
+        Button shiftLow = Buttons.FW_BACK.get(3);
         shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
 
-        JoystickButton shiftHigh = new JoystickButton(JS_FW_BACK, 4);
+        Button shiftHigh = Buttons.FW_BACK.get(4);
         shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
 
-        JoystickButton expLo = new JoystickButton(JS_TURN, 3);
+        Button expLo = Buttons.TURN.get(3);
         expLo.whenPressed(new ExposureLow());
 
-        JoystickButton expHi = new JoystickButton(JS_TURN, 5);
+        Button expHi = Buttons.TURN.get(5);
         expHi.whenPressed(new ExposureHigh());
 
-        JoystickButton gear = new JoystickButton(JS_TURN, 4);
+        Button gear = Buttons.TURN.get(4);
         gear.whenPressed(new GearMode());
 
-        JoystickButton tape = new JoystickButton(JS_TURN, 6);
+        Button tape = Buttons.TURN.get(6);
         tape.whenPressed(new TapeMode());
 
-        JoystickButton placeGear = new JoystickButton(JS_TURRET, 1);
+        Button placeGear = Buttons.TURRET.get(1);
         placeGear.whenPressed(new SetPunchTurret(true));
         placeGear.whenReleased(new SetPunchTurret(false));
 
-        JoystickButton turretMinus90 = new JoystickButton(JS_TURRET, 4);
+        Button turretMinus90 = Buttons.TURRET.get(4);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
 
-        JoystickButton turretAim = new JoystickButton(JS_TURRET, 3);
+        Button turretAim = Buttons.TURRET.get(3);
         turretAim.whenPressed(new SetTurretAngle(-0.0));
 
-        JoystickButton turretZero = new JoystickButton(JS_TURRET, 5);
+        Button turretZero = Buttons.TURRET.get(5);
         turretZero.whenPressed(new SetTurretAngle(90.0));
 
-        JoystickButton extend = new JoystickButton(JS_TURRET, 2);
+        Button extend = Buttons.TURRET.get(2);
         extend.whenPressed(new SetExtendTurret(true));
         extend.whenReleased(new SetExtendTurret(false));
 
-        JoystickButton collect = new JoystickButton(JS_COLLECTOR, 1);
+        Button collect = Buttons.COLLECTOR.get(1);
         collect.whenPressed(new CollectGear());
 
-        JoystickButton spit = new JoystickButton(JS_COLLECTOR, 2);
+        Button spit = Buttons.COLLECTOR.get(2);
         spit.whileHeld(new SetCollectorPower(true));
 
-        JoystickButton armCollect = new JoystickButton(JS_COLLECTOR, 4);
+        Button armCollect = Buttons.COLLECTOR.get(4);
         armCollect.whenPressed(new SetCollectorAngle(Collector.COLLECT_POSITION));
 
-        JoystickButton armMid = new JoystickButton(JS_COLLECTOR, 3);
+        Button armMid = Buttons.COLLECTOR.get(3);
         armMid.whenPressed(new SetCollectorAngle(Collector.MID_POSITION));
 
-        JoystickButton armLoad = new JoystickButton(JS_COLLECTOR, 5);
+        Button armLoad = Buttons.COLLECTOR.get(5);
         armLoad.whenPressed(new SetCollectorAngle(Collector.LOAD_POSITION));
 
-        JoystickButton eject = new JoystickButton(JS_COLLECTOR, 6);
+        Button eject = Buttons.COLLECTOR.get(6);
         eject.whenPressed(new SetCollectorPower(false));
     }
 
@@ -128,29 +131,28 @@ public class Driver {
 
         // DriveTrain Talons 1-6
         for (int i = 0; i < 6; i++) {
-            new JoystickButton(JS_FW_BACK, i + 1)
+            Buttons.FW_BACK.get(i + 1)
                     .whenPressed(new ControlMotor(inverted(JS_FW_BACK::getY), new CANTalon(RobotMap.DRIVE_TALONS[i])));
         }
         // Turret Talon 7
-        new JoystickButton(JS_TURRET, 1)
-                .whenPressed(new ControlMotor(JS_TURRET::getX, new CANTalon(RobotMap.TURR_MOTOR)));
+        Buttons.TURRET.get(1).whenPressed(new ControlMotor(JS_TURRET::getX, new CANTalon(RobotMap.TURR_MOTOR)));
         // Arm Talons 8 & 9
         final CANTalon left = new CANTalon(RobotMap.ARM_TALON_L);
         final CANTalon right = new CANTalon(RobotMap.ARM_TALON_R);
-        new JoystickButton(JS_COLLECTOR, 1).whenPressed(new ControlMotor(inverted(JS_COLLECTOR::getY), i -> {
+        Buttons.COLLECTOR.get(1).whenPressed(new ControlMotor(inverted(JS_COLLECTOR::getY), i -> {
             left.pidWrite(i);
             right.pidWrite(i);
         }));
         // Rollers Talons 10 & 11
-        new JoystickButton(JS_COLLECTOR, 2).whenPressed(
+        Buttons.COLLECTOR.get(2).whenPressed(
                 new ControlMotor(inverted(JS_COLLECTOR::getY), new CANTalon(RobotMap.TOP_COLLECTOR_ROLLER)));
-        new JoystickButton(JS_COLLECTOR, 3).whenPressed(
+        Buttons.COLLECTOR.get(3).whenPressed(
                 new ControlMotor(inverted(JS_COLLECTOR::getY), new CANTalon(RobotMap.BOT_COLLECTOR_ROLLER)));
         // Climber Talons 12-15
         for (int i = 0; i < 4; i++) {
             // add 3 for arm/roll motors and one for the correct button offset
             int jsButton = 3 + i + 1;
-            new JoystickButton(JS_COLLECTOR, jsButton).whenPressed(
+            Buttons.COLLECTOR.get(jsButton).whenPressed(
                     new ControlMotor(inverted(JS_COLLECTOR::getY), new CANTalon(RobotMap.CLIMB_TALONS[i])));
         }
     }
