@@ -22,7 +22,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     public static final double kD = 0.0;
 
     public static final double CENTER_OFFSET = Preferences.getInstance().getDouble("TurretCenter", 1920);
-    public static final double POT_SCALE = Preferences.getInstance().getDouble("TurretScale", -90.0/100.0);
+    public static final double POT_SCALE = Preferences.getInstance().getDouble("TurretScale", -90.0 / 100.0);
 
     private CANTalon motor;
 
@@ -110,15 +110,15 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     public void punch(boolean on) {
         puncher.set(on);
     }
-    
-    public void leftMini(boolean on){
+
+    public void leftMini(boolean on) {
         leftMini.set(on);
     }
 
-    public void rightMini(boolean on){
+    public void rightMini(boolean on) {
         rightMini.set(on);
     }
-    
+
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(new TurretControlCommand());
