@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class PunchTurret extends Command{
     private Turret turr;
-    private boolean done;
     private boolean on;
     
     public PunchTurret(boolean b){
@@ -18,11 +17,10 @@ public class PunchTurret extends Command{
     @Override 
     protected void initialize(){
         turr.punch(on);
-        done = true;
     }
     
     @Override
     protected boolean isFinished(){
-        return done;
+        return true;
     }
 }

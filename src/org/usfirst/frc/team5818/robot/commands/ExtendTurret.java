@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ExtendTurret extends Command{
     private Turret turr;
-    private boolean done;
     private boolean on;
     
     public ExtendTurret(boolean b){
@@ -18,11 +17,10 @@ public class ExtendTurret extends Command{
     @Override 
     protected void initialize(){
         turr.extend(on);
-        done = true;
     }
     
     @Override
     protected boolean isFinished(){
-        return done;
+        return true;
     }
 }
