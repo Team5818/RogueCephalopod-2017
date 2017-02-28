@@ -2,9 +2,7 @@ package org.usfirst.frc.team5818.robot.controllers;
 
 import org.usfirst.frc.team5818.robot.autos.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
-import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
 import org.usfirst.frc.team5818.robot.commands.CollectGear;
-import org.usfirst.frc.team5818.robot.commands.MovePiston;
 import org.usfirst.frc.team5818.robot.commands.PunchTurret;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
