@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -20,8 +21,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
-    public static final int CENTER_OFFSET = 1920;
-    public static final double POT_SCALE = -90.0 / 100.0;
+    public static final double CENTER_OFFSET = Preferences.getInstance().getDouble("TurretCenter", 1920);
+    public static final double POT_SCALE = Preferences.getInstance().getDouble("TurretScale", -90.0 / 100.0);
 
     private CANTalon motor;
 
@@ -31,6 +32,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     private Solenoid puncher;
     private Solenoid extender;
+    private Solenoid leftMini;
+    private Solenoid rightMini;
 
     public Turret() {
         motor = new CANTalon(RobotMap.TURR_MOTOR);
@@ -40,6 +43,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         angleController.setAbsoluteTolerance(0.3);
         puncher = new Solenoid(RobotMap.TURRET_PUNCHER_SOLENOID);
         extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);
+        leftMini = new Solenoid(RobotMap.LEFT_MINI_SOLENOID);
+        rightMini = new Solenoid(RobotMap.RIGHT_MINI_SOLENOID);
     }
 
     public void setPower(double x) {
@@ -104,6 +109,14 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     public void punch(boolean on) {
         puncher.set(on);
+    }
+
+    public void leftMini(boolean on) {
+        leftMini.set(on);
+    }
+
+    public void rightMini(boolean on) {
+        rightMini.set(on);
     }
 
     @Override
