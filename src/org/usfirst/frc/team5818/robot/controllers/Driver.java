@@ -139,21 +139,20 @@ public class Driver {
         // Arm Talons 8 & 9
         final CANTalon left = new CANTalon(RobotMap.ARM_TALON_L);
         final CANTalon right = new CANTalon(RobotMap.ARM_TALON_R);
-        Buttons.COLLECTOR.get(1).whenPressed(new ControlMotor(inverted(JS_COLLECTOR::getY), i -> {
+        DoubleSupplier collectorY = inverted(JS_COLLECTOR::getY);
+        Buttons.COLLECTOR.get(1).whenPressed(new ControlMotor(collectorY, i -> {
             left.pidWrite(i);
             right.pidWrite(i);
         }));
         // Rollers Talons 10 & 11
-        Buttons.COLLECTOR.get(2).whenPressed(
-                new ControlMotor(inverted(JS_COLLECTOR::getY), new CANTalon(RobotMap.TOP_COLLECTOR_ROLLER)));
-        Buttons.COLLECTOR.get(3).whenPressed(
-                new ControlMotor(inverted(JS_COLLECTOR::getY), new CANTalon(RobotMap.BOT_COLLECTOR_ROLLER)));
+        Buttons.COLLECTOR.get(2).whenPressed(new ControlMotor(collectorY, new CANTalon(RobotMap.TOP_COLLECTOR_ROLLER)));
+        Buttons.COLLECTOR.get(3).whenPressed(new ControlMotor(collectorY, new CANTalon(RobotMap.BOT_COLLECTOR_ROLLER)));
         // Climber Talons 12-15
         for (int i = 0; i < 4; i++) {
             // add 3 for arm/roll motors and one for the correct button offset
             int jsButton = 3 + i + 1;
-            Buttons.COLLECTOR.get(jsButton).whenPressed(
-                    new ControlMotor(inverted(JS_COLLECTOR::getY), new CANTalon(RobotMap.CLIMB_TALONS[i])));
+            Buttons.COLLECTOR.get(jsButton)
+                    .whenPressed(new ControlMotor(collectorY, new CANTalon(RobotMap.CLIMB_TALONS[i])));
         }
     }
 
