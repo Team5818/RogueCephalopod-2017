@@ -18,7 +18,7 @@ public enum RadiusDriveCalculator implements DriveCalculator {
 
         double angularPower;
 
-        if (isQuickTurn) {
+        if (isQuickTurn || Math.abs(throttle) == 0) {
             if (Math.abs(throttle) < 0.2) {
                 double alpha = 0.1;
                 mQuickStopAccumulator = (1 - alpha) * mQuickStopAccumulator + alpha * MathUtil.limit(wheel, 1.0) * 2;

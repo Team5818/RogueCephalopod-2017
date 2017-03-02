@@ -26,6 +26,7 @@ public class DriveTrain extends Subsystem {
         comp = new Compressor();
         shifter = new Solenoid(RobotMap.SHIFTER_SOLENOID);
         comp.start();
+        setBrakeMode();
         enableSanic();
     }
 

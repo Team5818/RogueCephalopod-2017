@@ -21,6 +21,7 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
+import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -31,7 +32,7 @@ public class Driver {
     public static double JOYSTICK_DEADBAND = .05;
     public static Vector2d DEADBAND_VEC = new Vector2d(JOYSTICK_DEADBAND, JOYSTICK_DEADBAND);
 
-    public static final int BUT_QUICK_TURN = 2;
+    public static final double TWIST_DEADBAND = .4;
 
     public Joystick JS_FW_BACK;
     public Joystick JS_TURN;
@@ -58,9 +59,6 @@ public class Driver {
 
         JoystickButton shiftHigh = new JoystickButton(JS_FW_BACK, 4);
         shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
-
-        JoystickButton killPi = new JoystickButton(JS_TURN, 2);
-        killPi.whenPressed(new ShutDownRPi());
 
         JoystickButton expLo = new JoystickButton(JS_TURN, 3);
         expLo.whenPressed(new ExposureLow());
@@ -110,7 +108,7 @@ public class Driver {
         eject.whenPressed(new SetCollectorPower(false));
 
         dMode = DriveMode.POWER;
-        driveCalc = ArcadeDriveCalculator.INSTANCE;
+        driveCalc = RadiusDriveCalculator.INSTANCE;
     }
 
     public void teleopPeriodic() {

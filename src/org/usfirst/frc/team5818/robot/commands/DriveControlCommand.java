@@ -5,6 +5,7 @@ import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
+import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 import org.usfirst.frc.team5818.robot.utils.Vectors;
 
@@ -22,6 +23,7 @@ public class DriveControlCommand extends ControlCommand {
         Vector2d driveVector = Vectors.fromJoystick(driver.JS_FW_BACK, driver.JS_TURN, true);
         driveVector = MathUtil.adjustDeadband(driveVector, Driver.DEADBAND_VEC);
         Vector2d controlVector = driver.driveCalc.compute(driveVector);
+        RadiusDriveCalculator.INSTANCE.setQuick(Math.abs(driver.JS_TURN.getTwist()) > Driver.TWIST_DEADBAND);
         switch (driver.dMode) {
             case POWER:
                 driveTrain.setPowerLeftRight(controlVector);
