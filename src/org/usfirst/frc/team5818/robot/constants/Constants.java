@@ -20,6 +20,10 @@ public abstract class Constants {
         }
     }
 
+    public abstract double turretScale();
+
+    public abstract double turretCenter();
+
     public final double maxPower() {
         return 1.0;
     }
