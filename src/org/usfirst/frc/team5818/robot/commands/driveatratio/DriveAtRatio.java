@@ -1,9 +1,10 @@
 package org.usfirst.frc.team5818.robot.commands.driveatratio;
 
+import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
+
 import java.util.function.Consumer;
 
 import org.usfirst.frc.team5818.robot.Robot;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveAtRatio extends Command {
 
     public static final double MIN_SONIC_RANGE = 5;
+    private static final double CAMERA_FOV = Constant.cameraFov();
 
     public static DriveAtRatio withDeadReckon(Consumer<DeadReckonOpts.Builder> config) {
         DeadReckonOpts.Builder b = DeadReckonOpts.builder();
@@ -112,7 +114,7 @@ public class DriveAtRatio extends Command {
 
         double anglePower = 0.0;
         if (!Double.isNaN(Robot.runningRobot.vision.getCurrentAngle())) {
-            anglePower = Robot.runningRobot.vision.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
+           anglePower = Robot.runningRobot.vision.getCurrentAngle() / CAMERA_FOV * camMultiplier * 2.0;
         }
 
         double target = targetRatio;

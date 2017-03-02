@@ -1,7 +1,8 @@
 package org.usfirst.frc.team5818.robot.commands;
 
+import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
+
 import org.usfirst.frc.team5818.robot.Robot;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
@@ -9,6 +10,8 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AimTurret extends Command {
+
+    private static final double CAMERA_FOV = Constant.cameraFov();
 
     public static final double DEGREES_TOLERANCE = 2;
 
@@ -21,8 +24,8 @@ public class AimTurret extends Command {
      * it? Maybe we want a way to find distance from target? Or just assume
      * camera is at center of turret?
      */
-    public static final double realFOV = 2 * Math.toDegrees(
-            Math.atan2(Math.tan(BotConstants.CAMERA_FOV / 2) * distFromTarget, distFromTarget + cameraOffset));
+    public static final double realFOV =
+            2 * Math.toDegrees(Math.atan2(Math.tan(CAMERA_FOV / 2) * distFromTarget, distFromTarget + cameraOffset));
 
     private Turret turr;
     private VisionTracker vision;

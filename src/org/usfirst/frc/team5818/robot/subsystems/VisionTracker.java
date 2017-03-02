@@ -1,7 +1,8 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
+
 import org.usfirst.frc.team5818.robot.RobotMap;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -50,7 +51,7 @@ public class VisionTracker extends Subsystem implements Runnable {
                 if (pixels == NO_VISION) {
                     currentAngle = Double.NaN;
                 } else {
-                    currentAngle = pixels * BotConstants.CAMERA_FOV / BotConstants.CAMERA_WIDTH / 2.0;
+                    currentAngle = pixels * Constant.cameraFov() / Constant.cameraWidth() / 2.0;
                 }
             }
             charBuffer = "";

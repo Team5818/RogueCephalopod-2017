@@ -1,8 +1,9 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
+
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.commands.TurretControlCommand;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
@@ -40,7 +41,6 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         motor.setInverted(true);
         angleController = new BetterPIDController(kP, kI, kD, this, this);
         limitSwitch = new DigitalInput(5);
-        pot = new AnalogInput(BotConstants.TURRET_POT);
         angleController.setAbsoluteTolerance(0.3);
         puncher = new Solenoid(RobotMap.TURRET_PUNCHER_SOLENOID);
         extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);

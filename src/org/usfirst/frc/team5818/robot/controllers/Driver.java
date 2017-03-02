@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5818.robot.controllers;
 
+import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
+
 import java.util.Vector;
 import java.util.function.DoubleSupplier;
 
@@ -16,9 +18,9 @@ import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.TurretSmallAdjustment;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
+import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.RatioDriveCalculator;
@@ -48,10 +50,10 @@ public class Driver {
     public DriveCalculator driveCalc;
 
     public Driver() {
-        JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
-        JS_TURN = new Joystick(BotConstants.JS_TURN);
-        JS_TURRET = new Joystick(BotConstants.JS_TURRET);
-        JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
+        JS_FW_BACK = new Joystick(Constant.joystickForwardBack());
+        JS_TURN = new Joystick(Constant.joystickTurn());
+        JS_TURRET = new Joystick(Constant.joystickTurret());
+        JS_COLLECTOR = new Joystick(Constant.joystickCollector());
 
         dMode = DriveMode.POWER;
         driveCalc = RatioDriveCalculator.INSTANCE;// RadiusDriveCalculator.INSTANCE;
@@ -68,10 +70,10 @@ public class Driver {
         switchDriveMode.whenReleased(new SwitchDriveMode(RatioDriveCalculator.INSTANCE));
 
         Button shiftLow = Buttons.TURN.get(8);
-        shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
+        shiftLow.whenPressed(new ShiftGears(Gear.LOW));
 
         Button shiftHigh = Buttons.TURN.get(5);
-        shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
+        shiftHigh.whenPressed(new ShiftGears(Gear.HIGH));
 
         Button spitGear = Buttons.TURN.get(7);
         spitGear.whileHeld(new SetCollectorPower(false));
