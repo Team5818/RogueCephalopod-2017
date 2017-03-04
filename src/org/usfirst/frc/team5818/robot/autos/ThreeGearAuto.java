@@ -10,7 +10,7 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class TwoGearAuto extends CommandGroup {
+public class ThreeGearAuto extends CommandGroup {
 
     private AutoSegment moveForward;
     private AutoSegment moveToGear;
@@ -25,7 +25,7 @@ public class TwoGearAuto extends CommandGroup {
     private AutoSegment moveToPeg2;
     
 
-    public TwoGearAuto() {
+    public ThreeGearAuto() {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
         moveForward = new AutoSegment(Direction.BACKWARD, Side.CENTER, null);
