@@ -68,6 +68,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Drive Forward", new DrivePIDDistance(72));
         chooser.addObject("Drive Forward Back", new DriveForwardBackPID(72, 6));
         SmartDashboard.putData("Auto mode", chooser);
+        track.start();
     }
 
     /**
@@ -133,7 +134,6 @@ public class Robot extends IterativeRobot {
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
         driveTrain.shiftGears(BotConstants.LOW_GEAR_VALUE);
-        track.start();
     }
 
     /**

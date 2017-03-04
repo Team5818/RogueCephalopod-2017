@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5818.robot.utils;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public enum RadiusDriveCalculator implements DriveCalculator {
 
     INSTANCE;
@@ -34,12 +36,17 @@ public enum RadiusDriveCalculator implements DriveCalculator {
             leftPwm -= overPower * (rightPwm - 1.0);
             rightPwm = 1.0;
         } else if (leftPwm < -1.0) {
-            rightPwm += overPower * (-1.0 - leftPwm);
+            rightPwm += overPower * (-leftPwm - 1.0);
             leftPwm = -1.0;
         } else if (rightPwm < -1.0) {
-            leftPwm += overPower * (-1.0 - rightPwm);
+            leftPwm += overPower * (-rightPwm - 1.0);
             rightPwm = -1.0;
         }
+        if (Math.abs(leftPwm) > 1.0 || Math.abs(rightPwm) > 1.0) {
+            leftPwm = MathUtil.limit(leftPwm, 1);
+            rightPwm = MathUtil.limit(rightPwm, 1);
+        }
+
         Vector2d output = new Vector2d(leftPwm, rightPwm);
         return output;
     }
