@@ -18,7 +18,6 @@ public class AutoSegment extends CommandGroup {
     private CommandGroup whileDriving;
     private CommandGroup atEnd;
     private DriveAtRatio driveOvershoot;
-    private DriveAtRatio driveRecorrect;
     private DriveAtRatio driveVision;
     private DriveAtRatio driveFinal;
 
@@ -43,19 +42,13 @@ public class AutoSegment extends CommandGroup {
 
         if (dir.equals(Direction.FORWARD)) {
             driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(0.0);
+                b.inches(15);
                 b.maxPower(0.4);
                 b.targetRatio(radius);
                 b.stoppingAtEnd(false);
             });
-            driveRecorrect = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(0.0);
-                b.maxPower(0.4);
-                b.targetRatio(1.0/radius);
-                b.stoppingAtEnd(false);
-            });
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
-                b.inches(60);
+                b.inches(45);
                 b.maxPower(0.4);
                 b.maxRatio(4.2);
                 b.stoppingAtEnd(false);
@@ -77,16 +70,6 @@ public class AutoSegment extends CommandGroup {
                 b.targetRatio(1.0);
                 b.stoppingAtEnd(false);
             });
-            driveRecorrect = DriveAtRatio.withDeadReckon(b -> {
-                if(side == Side.CENTER){
-                    b.inches(0);
-                }else{
-                    b.inches(0.0);
-                }
-                b.maxPower(-0.4);
-                b.targetRatio(1.0/radius);
-                b.stoppingAtEnd(false);
-            });
             driveVision = DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
                 if(side == Side.CENTER){
                     b.inches(69);
@@ -106,7 +89,6 @@ public class AutoSegment extends CommandGroup {
         }
         
         drive.addSequential(driveOvershoot);
-        drive.addSequential(driveRecorrect);
         drive.addSequential(driveVision);
         drive.addSequential(driveFinal);
         
