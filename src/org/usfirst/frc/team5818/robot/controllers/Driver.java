@@ -1,8 +1,9 @@
 package org.usfirst.frc.team5818.robot.controllers;
 
+import java.util.Vector;
 import java.util.function.DoubleSupplier;
 
-import org.usfirst.frc.team5818.robot.RobotMap;
+import org.usfirst.frc.team5818.robot.TestingTalon;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.CollectGear;
@@ -16,14 +17,12 @@ import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
 import org.usfirst.frc.team5818.robot.commands.SetPunchTurret;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
-import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
-import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
@@ -34,6 +33,7 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.Trigger.ButtonScheduler;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Driver {
@@ -132,27 +132,26 @@ public class Driver {
         // DriveTrain Talons 1-6
         for (int i = 0; i < 6; i++) {
             Buttons.FW_BACK.get(i + 1)
-                    .whenPressed(new ControlMotor(inverted(JS_FW_BACK::getY), new CANTalon(RobotMap.DRIVE_TALONS[i])));
+                    .whenPressed(new ControlMotor(inverted(JS_FW_BACK::getY), TestingTalon.DRIVE[i].talon));
         }
         // Turret Talon 7
-        Buttons.TURRET.get(1).whenPressed(new ControlMotor(JS_TURRET::getX, new CANTalon(RobotMap.TURR_MOTOR)));
+        Buttons.TURRET.get(1).whenPressed(new ControlMotor(JS_TURRET::getX, TestingTalon.TURRET.talon));
         // Arm Talons 8 & 9
-        final CANTalon left = new CANTalon(RobotMap.ARM_TALON_L);
-        final CANTalon right = new CANTalon(RobotMap.ARM_TALON_R);
+        final CANTalon left = TestingTalon.LEFT_ARM.talon;
+        final CANTalon right = TestingTalon.RIGHT_ARM.talon;
         DoubleSupplier collectorY = inverted(JS_COLLECTOR::getY);
         Buttons.COLLECTOR.get(1).whenPressed(new ControlMotor(collectorY, i -> {
             left.pidWrite(i);
             right.pidWrite(i);
         }));
         // Rollers Talons 10 & 11
-        Buttons.COLLECTOR.get(2).whenPressed(new ControlMotor(collectorY, new CANTalon(RobotMap.TOP_COLLECTOR_ROLLER)));
-        Buttons.COLLECTOR.get(3).whenPressed(new ControlMotor(collectorY, new CANTalon(RobotMap.BOT_COLLECTOR_ROLLER)));
+        Buttons.COLLECTOR.get(2).whenPressed(new ControlMotor(collectorY, TestingTalon.TOP_ROLLER.talon));
+        Buttons.COLLECTOR.get(3).whenPressed(new ControlMotor(collectorY, TestingTalon.BOT_ROLLER.talon));
         // Climber Talons 12-15
         for (int i = 0; i < 4; i++) {
             // add 3 for arm/roll motors and one for the correct button offset
             int jsButton = 3 + i + 1;
-            Buttons.COLLECTOR.get(jsButton)
-                    .whenPressed(new ControlMotor(collectorY, new CANTalon(RobotMap.CLIMB_TALONS[i])));
+            Buttons.COLLECTOR.get(jsButton).whenPressed(new ControlMotor(collectorY, TestingTalon.CLIMB[i].talon));
         }
     }
 
@@ -164,7 +163,11 @@ public class Driver {
     }
 
     private void clearButtons() {
-        SchedulerAccess.getButtons(Scheduler.getInstance()).clear();
+        Vector<ButtonScheduler> buttons = SchedulerAccess.getButtons(Scheduler.getInstance());
+        if (buttons == null) {
+            return;
+        }
+        buttons.clear();
     }
 
 }

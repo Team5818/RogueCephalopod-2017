@@ -14,8 +14,8 @@ public class Buttons {
 
     public static final ButtonContainer FW_BACK = new ButtonContainer(0);
     public static final ButtonContainer TURN = new ButtonContainer(1);
-    public static final ButtonContainer COLLECTOR = new ButtonContainer(2);
-    public static final ButtonContainer TURRET = new ButtonContainer(3);
+    public static final ButtonContainer TURRET = new ButtonContainer(2);
+    public static final ButtonContainer COLLECTOR = new ButtonContainer(3);
 
     public static final class ButtonContainer {
 
