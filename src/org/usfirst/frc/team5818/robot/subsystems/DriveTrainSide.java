@@ -33,8 +33,8 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     public static final double R_DIST_KI = 0.0001; // NEEDS TUNING
     public static final double R_DIST_KD = 0.0; // NEEDS TUNING
 
-    public static final double LEFT_ENC_SCALE = 4.0 * 120.0 / 182358.0;
-    public static final double RIGHT_ENC_SCALE = 4.0 * 120.0 / 1208.0;
+    public static final double LEFT_ENC_SCALE = 4.0/44.815;//4.0 * 120.0 / 182358.0;
+    public static final double RIGHT_ENC_SCALE = 4.0/44.815;//4.0 * 120.0 / 1208.0;
 
     private CANTalon motorNoEnc;
     private CANTalon motorEnc;

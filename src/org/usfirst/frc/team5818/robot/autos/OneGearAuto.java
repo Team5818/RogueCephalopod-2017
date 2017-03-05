@@ -29,7 +29,7 @@ public class OneGearAuto extends CommandGroup {
             default:
                 throw new IllegalArgumentException(startSide + " is an unknown starting position");
         }
-        addSequential(DriveAtRatio.withVision(Camera.CAM_FORWARD, b -> {
+        addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
             b.inches(VISION_DISTANCE);
             b.maxPower(0.3);
             b.maxRatio(1);

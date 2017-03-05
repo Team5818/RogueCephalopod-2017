@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 import org.usfirst.frc.team5818.robot.constants.Side;
@@ -18,6 +19,9 @@ public class DriveTrain extends Subsystem {
     private Ultrasonic sanic;
     private Compressor comp;
     private Solenoid shifter;
+    private boolean visionDriving = false;
+    private double visionThresh = 0.0;
+    private boolean greaterThan = false;
 
     public DriveTrain() {
         left = new DriveTrainSide(Side.LEFT);
@@ -59,6 +63,12 @@ public class DriveTrain extends Subsystem {
     }
 
     public void setPowerLeftRight(double lpow, double rpow) {
+        if (visionDriving && Robot.runningRobot.camCont.isTape()) {
+            if (passedTarget()) {
+                lpow = 0.0;
+                rpow = 0.0;
+            }
+        }
         left.setPower(lpow);
         right.setPower(rpow);
     }
@@ -137,4 +147,24 @@ public class DriveTrain extends Subsystem {
         setDefaultCommand(new DriveControlCommand());
     }
 
+    public boolean isVisionDriving() {
+        return visionDriving;
+    }
+
+    public void enableVisionDriving(double thresh) {
+        visionDriving = true;
+        visionThresh = thresh;
+    }
+
+    public void disableVisionDriving() {
+        visionDriving = false;
+    }
+
+    public boolean passedTarget() {
+        double currentAngle = Robot.runningRobot.track.getCurrentAngle();
+        if (currentAngle != Double.NaN) {
+            return (30 - Math.abs(currentAngle)) > visionThresh;
+        }
+        return false;
+    }
 }

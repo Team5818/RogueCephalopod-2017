@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class VisionTracker extends Subsystem implements Runnable {
 
+    public static final int NO_VISION = 254;
+
     private SerialPort rasPi;
     private Port port;
-    private double currentAngle = 0.0;
+    private volatile double currentAngle = 0.0;
     private String charBuffer = "";
     private Solenoid lightRing;
 
@@ -43,10 +45,13 @@ public class VisionTracker extends Subsystem implements Runnable {
             return;
         }
         if (output.equals("\n")) {
-            // DriverStation.reportError(charBuffer + "\n", false);
             if (charBuffer.length() == 4) {
-                currentAngle = Integer.parseInt(charBuffer.substring(0, 4)) * BotConstants.CAMERA_FOV
-                        / BotConstants.CAMERA_WIDTH / 2.0;
+                int pixels = Integer.parseInt(charBuffer.substring(0, 4));
+                if (pixels == NO_VISION) {
+                    currentAngle = Double.NaN;
+                } else {
+                    currentAngle = pixels * BotConstants.CAMERA_FOV / BotConstants.CAMERA_WIDTH / 2.0;
+                }
             }
             charBuffer = "";
         } else {
@@ -69,6 +74,7 @@ public class VisionTracker extends Subsystem implements Runnable {
     public double getCurrentAngle() {
         return currentAngle;
     }
+    
 
     @Override
     protected void initDefaultCommand() {

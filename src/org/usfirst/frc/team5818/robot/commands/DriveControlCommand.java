@@ -22,7 +22,8 @@ public class DriveControlCommand extends ControlCommand {
     protected void setPower() {
         Vector2d driveVector = Vectors.fromJoystick(driver.JS_FW_BACK, driver.JS_TURN, true);
         driveVector = MathUtil.adjustDeadband(driveVector, Driver.DEADBAND_VEC);
-        RadiusDriveCalculator.INSTANCE.setQuick(Math.abs(driver.JS_TURN.getTwist()) > Driver.TWIST_DEADBAND);
+        RadiusDriveCalculator.INSTANCE
+                .setQuick(Math.abs(driver.JS_TURN.getTwist()) > Driver.TWIST_DEADBAND || driveVector.getY() == 0);
         Vector2d controlVector = driver.driveCalc.compute(driveVector);
         switch (driver.dMode) {
             case POWER:

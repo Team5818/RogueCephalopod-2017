@@ -1,27 +1,33 @@
 package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
+import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SetPunchTurret extends Command{
+public class ChangeMini extends Command{
+    
     private Turret turr;
-    private boolean on;
+    private Side side;
     
-    public SetPunchTurret(boolean b){
+    public ChangeMini(Side s){
         turr = Robot.runningRobot.turret;
+        side = s;
         requires(turr);
-        on = b;
-    }
-    
-    @Override 
-    protected void initialize(){
-        turr.punch(on);
     }
     
     @Override
-    protected boolean isFinished(){
+    protected void initialize(){
+        turr.switchCurrentMini(side);;
+    }
+    
+    @Override
+    protected boolean isFinished() {
+        // TODO Auto-generated method stub
         return true;
     }
+
+    
+    
 }

@@ -5,11 +5,11 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SetPunchTurret extends Command{
+public class SetExtendMini extends Command{
     private Turret turr;
     private boolean on;
     
-    public SetPunchTurret(boolean b){
+    public SetExtendMini(boolean b){
         turr = Robot.runningRobot.turret;
         requires(turr);
         on = b;
@@ -17,7 +17,7 @@ public class SetPunchTurret extends Command{
     
     @Override 
     protected void initialize(){
-        turr.punch(on);
+        turr.currentMini(on);
     }
     
     @Override

@@ -17,12 +17,12 @@ public class CameraController extends Subsystem {
 
     public CameraController() {
         rPi = Robot.runningRobot.track.getRasPi();
-        currCam = Camera.CAM_FORWARD;
+        currCam = Camera.CAM_TAPE;
         frontExposure = CAMERA_EXPOSURE_LOW;
     }
 
     public void switchFeed() {
-        if (currCam.equals(Camera.CAM_BACKWARD)) {
+        if (currCam.equals(Camera.CAM_GEARS)) {
             enterTapeMode();
         } else {
             enterGearMode();
@@ -32,7 +32,7 @@ public class CameraController extends Subsystem {
     public void enterGearMode() {
         try {
             rPi.writeString("g");
-            currCam = Camera.CAM_BACKWARD;
+            currCam = Camera.CAM_GEARS;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,7 +41,7 @@ public class CameraController extends Subsystem {
     public void enterTapeMode() {
         try {
             rPi.writeString("t");
-            currCam = Camera.CAM_FORWARD;
+            currCam = Camera.CAM_TAPE;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,8 +85,8 @@ public class CameraController extends Subsystem {
         return currCam;
     }
 
-    public boolean isFront() {
-        return currCam.equals(Camera.CAM_FORWARD);
+    public boolean isTape() {
+        return currCam.equals(Camera.CAM_TAPE);
     }
 
     public double getFrontExposure() {
