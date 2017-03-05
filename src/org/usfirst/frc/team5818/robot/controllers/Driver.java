@@ -1,37 +1,40 @@
 package org.usfirst.frc.team5818.robot.controllers;
 
+import java.util.Vector;
+import java.util.function.DoubleSupplier;
+
+import org.usfirst.frc.team5818.robot.TestingTalon;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
-import org.usfirst.frc.team5818.robot.commands.ChangeMini;
 import org.usfirst.frc.team5818.robot.commands.CollectGear;
-import org.usfirst.frc.team5818.robot.commands.SetPunchTurret;
+import org.usfirst.frc.team5818.robot.commands.ControlMotor;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
-import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
-import org.usfirst.frc.team5818.robot.commands.PlaceGear;
-import org.usfirst.frc.team5818.robot.commands.QuickPlace;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
+import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
+import org.usfirst.frc.team5818.robot.commands.SetPunchTurret;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
-import org.usfirst.frc.team5818.robot.commands.ShutDownRPi;
-import org.usfirst.frc.team5818.robot.commands.StopVisionDriving;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
-import org.usfirst.frc.team5818.robot.commands.VisionStop;
-import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
-import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
+import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
+import org.usfirst.frc.team5818.robot.utils.SchedulerAccess;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.Trigger.ButtonScheduler;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Driver {
 
@@ -42,7 +45,6 @@ public class Driver {
 
     public Joystick JS_FW_BACK;
     public Joystick JS_TURN;
-    public Joystick BUTTON_PAD;
     public Joystick JS_TURRET;
     public Joystick JS_COLLECTOR;
 
@@ -52,82 +54,120 @@ public class Driver {
     public Driver() {
         JS_FW_BACK = new Joystick(BotConstants.JS_FW_BACK);
         JS_TURN = new Joystick(BotConstants.JS_TURN);
-        BUTTON_PAD = new Joystick(BotConstants.JS_BUTTONS);
         JS_TURRET = new Joystick(BotConstants.JS_TURRET);
         JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
 
-        // JoystickButton twoGearButton = new JoystickButton(JS_FW_BACK, 1);
-        // twoGearButton.whenPressed(new TwoGearAuto());
-        //
-        // JoystickButton driveStraight = new JoystickButton(JS_FW_BACK, 2);
-        // driveStraight.whenPressed( DriveAtRatio.withDeadReckon(b -> {
-        // b.inches(40);
-        // b.maxPower(-0.4);
-        // b.targetRatio(1);
-        // b.stoppingAtEnd(true);
-        // }));
-
-        JoystickButton shiftLow = new JoystickButton(JS_FW_BACK, 1);
-        shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
-
-        JoystickButton shiftHigh = new JoystickButton(JS_FW_BACK, 2);
-        shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
-
-        JoystickButton placeGear = new JoystickButton(JS_TURN, 1);
-        placeGear.whenPressed(new PlaceGear());
-
-        JoystickButton quickPlace = new JoystickButton(JS_TURN, 2);
-        quickPlace.whenPressed(new QuickPlace());
-
-        JoystickButton turret90 = new JoystickButton(BUTTON_PAD, 1);
-        turret90.whenPressed(new SetTurretAngle(90.0));
-        turret90.whileHeld(new VisionStop());
-        turret90.whenReleased(new StopVisionDriving());
-
-        JoystickButton turretZero = new JoystickButton(BUTTON_PAD, 2);
-        turretZero.whenPressed(new SetTurretAngle(0.0));
-
-        JoystickButton turretMinus90 = new JoystickButton(BUTTON_PAD, 3);
-        turretMinus90.whenPressed(new SetTurretAngle(-90.0));
-        turretMinus90.whileHeld(new VisionStop());
-        turretMinus90.whenReleased(new StopVisionDriving());
-
-        JoystickButton collect = new JoystickButton(JS_COLLECTOR, 1);
-        collect.whenPressed(new CollectGear());
-
-        JoystickButton spit = new JoystickButton(JS_COLLECTOR, 2);
-        spit.whileHeld(new SetCollectorPower(true));
-
-        JoystickButton armCollect = new JoystickButton(BUTTON_PAD, 6);
-        armCollect.whenPressed(new SetCollectorAngle(Collector.COLLECT_POSITION));
-
-        JoystickButton armMid = new JoystickButton(BUTTON_PAD, 5);
-        armMid.whenPressed(new SetCollectorAngle(Collector.MID_POSITION));
-
-        JoystickButton armLoad = new JoystickButton(BUTTON_PAD, 4);
-        armLoad.whenPressed(new SetCollectorAngle(Collector.LOAD_POSITION));
-
-        JoystickButton gearMode = new JoystickButton(BUTTON_PAD, 11);
-        gearMode.whenPressed(new GearMode());
-        gearMode.whenReleased(new TapeMode());
-        
-        JoystickButton rawExtend = new JoystickButton(BUTTON_PAD, 10);
-        rawExtend.whenPressed(new SetExtendTurret(true));
-        rawExtend.whenReleased(new SetExtendTurret(false));
-        
-        JoystickButton rawPunch = new JoystickButton(BUTTON_PAD, 9);
-        rawPunch.whenPressed(new SetPunchTurret(true));
-        rawPunch.whenReleased(new SetPunchTurret(false));
-
-        JoystickButton rightMini = new JoystickButton(BUTTON_PAD, 12);
-        rightMini.whenPressed(new ChangeMini(Side.RIGHT));
-        rightMini.whenReleased(new ChangeMini(Side.LEFT));
+        Buttons.initialize();
 
         dMode = DriveMode.POWER;
         driveCalc = RadiusDriveCalculator.INSTANCE;
     }
 
+    public void setupTeleopButtons() {
+        clearButtons();
+
+        Button twoGearButton = Buttons.FW_BACK.get(1);
+        twoGearButton.whenPressed(new TwoGearAuto());
+
+        Button getGear = Buttons.FW_BACK.get(2);
+        getGear.whenPressed(new AutoSegment(Direction.BACKWARD, Side.LEFT, null));
+
+        Button shiftLow = Buttons.FW_BACK.get(3);
+        shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
+
+        Button shiftHigh = Buttons.FW_BACK.get(4);
+        shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
+
+        Button expLo = Buttons.TURN.get(3);
+        expLo.whenPressed(new ExposureLow());
+
+        Button expHi = Buttons.TURN.get(5);
+        expHi.whenPressed(new ExposureHigh());
+
+        Button gear = Buttons.TURN.get(4);
+        gear.whenPressed(new GearMode());
+
+        Button tape = Buttons.TURN.get(6);
+        tape.whenPressed(new TapeMode());
+
+        Button placeGear = Buttons.TURRET.get(1);
+        placeGear.whenPressed(new SetPunchTurret(true));
+        placeGear.whenReleased(new SetPunchTurret(false));
+
+        Button turretMinus90 = Buttons.TURRET.get(4);
+        turretMinus90.whenPressed(new SetTurretAngle(-90.0));
+
+        Button turretAim = Buttons.TURRET.get(3);
+        turretAim.whenPressed(new SetTurretAngle(-0.0));
+
+        Button turretZero = Buttons.TURRET.get(5);
+        turretZero.whenPressed(new SetTurretAngle(90.0));
+
+        Button extend = Buttons.TURRET.get(2);
+        extend.whenPressed(new SetExtendTurret(true));
+        extend.whenReleased(new SetExtendTurret(false));
+
+        Button collect = Buttons.COLLECTOR.get(1);
+        collect.whenPressed(new CollectGear());
+
+        Button spit = Buttons.COLLECTOR.get(2);
+        spit.whileHeld(new SetCollectorPower(true));
+
+        Button armCollect = Buttons.COLLECTOR.get(4);
+        armCollect.whenPressed(new SetCollectorAngle(Collector.COLLECT_POSITION));
+
+        Button armMid = Buttons.COLLECTOR.get(3);
+        armMid.whenPressed(new SetCollectorAngle(Collector.MID_POSITION));
+
+        Button armLoad = Buttons.COLLECTOR.get(5);
+        armLoad.whenPressed(new SetCollectorAngle(Collector.LOAD_POSITION));
+
+        Button eject = Buttons.COLLECTOR.get(6);
+        eject.whenPressed(new SetCollectorPower(false));
+    }
+
+    public void setupTestButtons() {
+        clearButtons();
+
+        // DriveTrain Talons 1-6
+        for (int i = 0; i < 6; i++) {
+            Buttons.FW_BACK.get(i + 1)
+                    .whenPressed(new ControlMotor(inverted(JS_FW_BACK::getY), TestingTalon.DRIVE[i].talon));
+        }
+        // Turret Talon 7
+        Buttons.TURRET.get(1).whenPressed(new ControlMotor(JS_TURRET::getX, TestingTalon.TURRET.talon));
+        // Arm Talons 8 & 9
+        final CANTalon left = TestingTalon.LEFT_ARM.talon;
+        final CANTalon right = TestingTalon.RIGHT_ARM.talon;
+        DoubleSupplier collectorY = inverted(JS_COLLECTOR::getY);
+        Buttons.COLLECTOR.get(1).whenPressed(new ControlMotor(collectorY, i -> {
+            left.pidWrite(i);
+            right.pidWrite(i);
+        }));
+        // Rollers Talons 10 & 11
+        Buttons.COLLECTOR.get(2).whenPressed(new ControlMotor(collectorY, TestingTalon.TOP_ROLLER.talon));
+        Buttons.COLLECTOR.get(3).whenPressed(new ControlMotor(collectorY, TestingTalon.BOT_ROLLER.talon));
+        // Climber Talons 12-15
+        for (int i = 0; i < 4; i++) {
+            // add 3 for arm/roll motors and one for the correct button offset
+            int jsButton = 3 + i + 1;
+            Buttons.COLLECTOR.get(jsButton).whenPressed(new ControlMotor(collectorY, TestingTalon.CLIMB[i].talon));
+        }
+    }
+
+    private DoubleSupplier inverted(DoubleSupplier input) {
+        return () -> -input.getAsDouble();
+    }
+
     public void teleopPeriodic() {
+    }
+
+    private void clearButtons() {
+        Vector<ButtonScheduler> buttons = SchedulerAccess.getButtons(Scheduler.getInstance());
+        if (buttons == null) {
+            return;
+        }
+        buttons.clear();
     }
 
 }
