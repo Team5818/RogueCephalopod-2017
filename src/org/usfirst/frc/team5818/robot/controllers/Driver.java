@@ -33,6 +33,7 @@ import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
+import org.usfirst.frc.team5818.robot.utils.RatioDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.SchedulerAccess;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
@@ -67,7 +68,7 @@ public class Driver {
         Buttons.initialize();
 
         dMode = DriveMode.POWER;
-        driveCalc = RadiusDriveCalculator.INSTANCE;
+        driveCalc = RatioDriveCalculator.INSTANCE;//RadiusDriveCalculator.INSTANCE;
     }
 
     public void setupTeleopButtons() {
