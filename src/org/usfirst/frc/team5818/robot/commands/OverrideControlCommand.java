@@ -11,25 +11,23 @@ import org.usfirst.frc.team5818.robot.utils.Vectors;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class DriveControlCommand extends ControlCommand {
+public class OverrideControlCommand extends ControlCommand {
 
     private final DriveTrain driveTrain = Robot.runningRobot.driveTrain;
-    private Joystick throttle;
-    private Joystick turning;
+    private final Joystick js;
 
-    public DriveControlCommand(Joystick throt, Joystick turn) {
-        super(throt, turn);
-        throttle = throt;
-        turning = turn;
+    public OverrideControlCommand(Joystick joystick) {
+        super(joystick);
+        js = joystick;
         requires(driveTrain);
     }
 
     @Override
     protected void setPower() {
-        Vector2d driveVector = Vectors.fromJoystick(throttle, turning, true);
+        Vector2d driveVector = Vectors.fromJoystick(js, true);
         driveVector = MathUtil.adjustDeadband(driveVector, Driver.DEADBAND_VEC);
         RadiusDriveCalculator.INSTANCE
-                .setQuick(Math.abs(driver.JS_TURN.getTwist()) > Driver.TWIST_DEADBAND || driveVector.getY() == 0);
+                .setQuick(Math.abs(js.getTwist()) > Driver.TWIST_DEADBAND);
         Vector2d controlVector = driver.driveCalc.compute(driveVector);
         switch (driver.dMode) {
             case POWER:

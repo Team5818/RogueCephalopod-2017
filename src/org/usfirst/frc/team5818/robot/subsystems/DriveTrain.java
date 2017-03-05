@@ -144,7 +144,8 @@ public class DriveTrain extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new DriveControlCommand());
+        setDefaultCommand(
+                new DriveControlCommand(Robot.runningRobot.driver.JS_FW_BACK, Robot.runningRobot.driver.JS_TURN));
     }
 
     public boolean isVisionDriving() {
