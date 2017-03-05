@@ -30,10 +30,10 @@ public class AutoSegment extends CommandGroup {
         double radius;
         double dist1;
         if (side.equals(Side.RIGHT)) {
-            radius = 5;
+            radius = 1.5;
             dist1 = 30;
         } else if (side.equals(Side.LEFT)) {
-            radius = 1.0 / 5;
+            radius = 1.0 / 1.5;
             dist1 = 30;
         } else {
             radius = 1.0;
