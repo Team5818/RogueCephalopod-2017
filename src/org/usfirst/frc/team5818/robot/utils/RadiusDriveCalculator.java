@@ -1,12 +1,13 @@
 package org.usfirst.frc.team5818.robot.utils;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public enum RadiusDriveCalculator implements DriveCalculator {
 
     INSTANCE;
 
     private static final double kTurnSensitivity = 1.0;
     private boolean isQuickTurn = false;
-    private double mQuickStopAccumulator = 0.0;
 
     @Override
     public Vector2d compute(Vector2d input) {
@@ -19,22 +20,11 @@ public enum RadiusDriveCalculator implements DriveCalculator {
         double angularPower;
 
         if (isQuickTurn || Math.abs(throttle) == 0) {
-            if (Math.abs(throttle) < 0.2) {
-                double alpha = 0.1;
-                mQuickStopAccumulator = (1 - alpha) * mQuickStopAccumulator + alpha * MathUtil.limit(wheel, 1.0) * 2;
-            }
             overPower = 1.0;
             angularPower = wheel;
         } else {
             overPower = 0.0;
-            angularPower = Math.abs(throttle) * wheel * kTurnSensitivity - mQuickStopAccumulator;
-            if (mQuickStopAccumulator > 1) {
-                mQuickStopAccumulator -= 1;
-            } else if (mQuickStopAccumulator < -1) {
-                mQuickStopAccumulator += 1;
-            } else {
-                mQuickStopAccumulator = 0.0;
-            }
+            angularPower = Math.abs(throttle) * wheel * kTurnSensitivity;
         }
 
         double rightPwm = throttle - angularPower;
@@ -46,12 +36,17 @@ public enum RadiusDriveCalculator implements DriveCalculator {
             leftPwm -= overPower * (rightPwm - 1.0);
             rightPwm = 1.0;
         } else if (leftPwm < -1.0) {
-            rightPwm += overPower * (-1.0 - leftPwm);
+            rightPwm += overPower * (-leftPwm - 1.0);
             leftPwm = -1.0;
         } else if (rightPwm < -1.0) {
-            leftPwm += overPower * (-1.0 - rightPwm);
+            leftPwm += overPower * (-rightPwm - 1.0);
             rightPwm = -1.0;
         }
+        if (Math.abs(leftPwm) > 1.0 || Math.abs(rightPwm) > 1.0) {
+            leftPwm = MathUtil.limit(leftPwm, 1);
+            rightPwm = MathUtil.limit(rightPwm, 1);
+        }
+
         Vector2d output = new Vector2d(leftPwm, rightPwm);
         return output;
     }
