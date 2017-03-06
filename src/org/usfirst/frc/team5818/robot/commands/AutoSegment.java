@@ -50,7 +50,7 @@ public class AutoSegment extends CommandGroup {
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
                 b.inches(45);
                 b.maxPower(0.4);
-                b.maxRatio(4.2);
+                b.maxRatio(2.0);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
@@ -67,7 +67,7 @@ public class AutoSegment extends CommandGroup {
                     b.inches(34);
                 }
                 b.maxPower(-0.4);
-                b.targetRatio(1.0);
+                b.targetRatio(1.2);
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
