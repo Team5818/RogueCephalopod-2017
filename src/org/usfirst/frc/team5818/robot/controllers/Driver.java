@@ -79,7 +79,7 @@ public class Driver {
         
         Button switchDriveMode = Buttons.FW_BACK.get(7);
         switchDriveMode.whenPressed(new SwitchDriveMode(ArcadeDriveCalculator.INSTANCE));
-        switchDriveMode.whenReleased(new SwitchDriveMode(RadiusDriveCalculator.INSTANCE));
+        switchDriveMode.whenReleased(new SwitchDriveMode(RatioDriveCalculator.INSTANCE));
         
         Button shiftLow = Buttons.TURN.get(8);
         shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));

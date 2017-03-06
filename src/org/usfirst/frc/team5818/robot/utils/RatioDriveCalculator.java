@@ -10,12 +10,13 @@ public enum RatioDriveCalculator implements DriveCalculator {
 
     private static final double MAX_RATIO = 5.0;
     private boolean isQuickTurn = false;
+    private static final double TURN_SENSITIVITY = .8;
 
     @Override
     public Vector2d compute(Vector2d input) {
-
-        double anglePower = input.getX();
+        
         double drivePower = input.getY();
+        double anglePower = input.getX()*Math.signum(drivePower);
         double targetRatio = Math.pow(MAX_RATIO, anglePower);
 
         double leftVel = Math.abs(Robot.runningRobot.driveTrain.left.getSideVelocity());
@@ -33,8 +34,8 @@ public enum RatioDriveCalculator implements DriveCalculator {
         driveVec = driveVec.normalize(drivePower);
 
         if(isQuickTurn){
-            double leftPwm = driveVec.getX() + anglePower;
-            double rightPwm = driveVec.getX() - anglePower;
+            double leftPwm = driveVec.getX() + input.getX()*TURN_SENSITIVITY;
+            double rightPwm = driveVec.getY() - input.getX()*TURN_SENSITIVITY;
 
             if (leftPwm > 1.0) {
                 rightPwm -= (leftPwm - 1.0);

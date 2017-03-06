@@ -6,6 +6,7 @@ import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
+import org.usfirst.frc.team5818.robot.utils.RatioDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 import org.usfirst.frc.team5818.robot.utils.Vectors;
 
@@ -28,7 +29,7 @@ public class DriveControlCommand extends ControlCommand {
     protected void setPower() {
         Vector2d driveVector = Vectors.fromJoystick(throttle, turning, true);
         driveVector = MathUtil.adjustDeadband(driveVector, Driver.DEADBAND_VEC);
-        RadiusDriveCalculator.INSTANCE
+        RatioDriveCalculator.INSTANCE
                 .setQuick(Math.abs(driver.JS_TURN.getTwist()) > Driver.TWIST_DEADBAND || driveVector.getY() == 0);
         Vector2d controlVector = driver.driveCalc.compute(driveVector);
         switch (driver.dMode) {
