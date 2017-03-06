@@ -124,7 +124,7 @@ public class DriveAtRatio extends Command {
         }
 
         leftPowMult = 1.0;
-        rightPowMult = currRatio / target;
+        rightPowMult = currRatio / Math.pow(target,2);
 
         Vector2d driveVec = new Vector2d(leftPowMult, rightPowMult);
         driveVec = driveVec.normalize(maxPow);

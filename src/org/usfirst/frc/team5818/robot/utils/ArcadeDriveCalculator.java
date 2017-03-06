@@ -57,7 +57,7 @@ public enum ArcadeDriveCalculator implements DriveCalculator {
         double rotateValue =
                 Math.signum(-in.getX()) * Math.pow(Math.abs(handleDeadband(in.getX())), turnPower) * turnMult; // Less
         double moveValue =
-                Math.signum(-in.getY()) * Math.pow(Math.abs(handleDeadband(in.getY())), forwardPower) * forwardMult; // Less
+                Math.signum(in.getY()) * Math.pow(Math.abs(handleDeadband(-in.getY())), forwardPower) * forwardMult; // Less
 
         double leftMotorSpeed;
         double rightMotorSpeed;

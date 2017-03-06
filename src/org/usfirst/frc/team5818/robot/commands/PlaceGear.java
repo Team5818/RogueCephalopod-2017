@@ -11,7 +11,7 @@ public class PlaceGear extends CommandGroup {
         this.addSequential(new SetExtendTurret(true));
         this.addSequential(new TimedCommand(0.5));
         this.addSequential(new SetPunchTurret(true));
-        this.addSequential(new TimedCommand(0.3));
+        this.addSequential(new TimedCommand(0.6));
         this.addSequential(new SetExtendTurret(false));
         this.addSequential(new SetPunchTurret(false));
         this.addSequential(new SetExtendMini(false));

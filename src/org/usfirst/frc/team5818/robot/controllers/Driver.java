@@ -6,26 +6,35 @@ import java.util.function.DoubleSupplier;
 import org.usfirst.frc.team5818.robot.TestingTalon;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAuto;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
+import org.usfirst.frc.team5818.robot.commands.ChangeMini;
 import org.usfirst.frc.team5818.robot.commands.CollectGear;
 import org.usfirst.frc.team5818.robot.commands.ControlMotor;
+import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ExposureHigh;
 import org.usfirst.frc.team5818.robot.commands.ExposureLow;
+import org.usfirst.frc.team5818.robot.commands.FullExtention;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
+import org.usfirst.frc.team5818.robot.commands.OverrideControlCommand;
+import org.usfirst.frc.team5818.robot.commands.PlaceGear;
+import org.usfirst.frc.team5818.robot.commands.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
 import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
 import org.usfirst.frc.team5818.robot.commands.SetPunchTurret;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
+import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
+import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
+import org.usfirst.frc.team5818.robot.utils.RatioDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.SchedulerAccess;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
@@ -60,70 +69,55 @@ public class Driver {
         Buttons.initialize();
 
         dMode = DriveMode.POWER;
-        driveCalc = RadiusDriveCalculator.INSTANCE;
+        driveCalc = RatioDriveCalculator.INSTANCE;//RadiusDriveCalculator.INSTANCE;
     }
 
     public void setupTeleopButtons() {
         clearButtons();
 
-        Button twoGearButton = Buttons.FW_BACK.get(1);
-        twoGearButton.whenPressed(new TwoGearAuto());
-
-        Button getGear = Buttons.FW_BACK.get(2);
-        getGear.whenPressed(new AutoSegment(Direction.BACKWARD, Side.LEFT, null));
-
-        Button shiftLow = Buttons.FW_BACK.get(3);
+        Button driverControl = Buttons.FW_BACK.get(1);
+        driverControl.whenPressed(new DriveControlCommand(JS_FW_BACK, JS_TURN));
+        
+        Button switchDriveMode = Buttons.FW_BACK.get(7);
+        switchDriveMode.whenPressed(new SwitchDriveMode(ArcadeDriveCalculator.INSTANCE));
+        switchDriveMode.whenReleased(new SwitchDriveMode(RatioDriveCalculator.INSTANCE));
+        
+        Button shiftLow = Buttons.TURN.get(8);
         shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
 
-        Button shiftHigh = Buttons.FW_BACK.get(4);
+        Button shiftHigh = Buttons.FW_BACK.get(5);
         shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
+        
+        Button spitGear = Buttons.FW_BACK.get(7);
+        spitGear.whileHeld(new SetCollectorPower(false));
 
-        Button expLo = Buttons.TURN.get(3);
-        expLo.whenPressed(new ExposureLow());
-
-        Button expHi = Buttons.TURN.get(5);
-        expHi.whenPressed(new ExposureHigh());
-
-        Button gear = Buttons.TURN.get(4);
+        Button gear = Buttons.TURRET.get(7);
         gear.whenPressed(new GearMode());
+        gear.whenReleased(new TapeMode());
+        
+        Button rightMini = Buttons.TURRET.get(8);
+        rightMini.whenPressed(new ChangeMini(Side.RIGHT));
+        rightMini.whenReleased(new ChangeMini(Side.LEFT));
 
-        Button tape = Buttons.TURN.get(6);
-        tape.whenPressed(new TapeMode());
+        Button codriverControl = Buttons.TURRET.get(1);
+        codriverControl.whenPressed(new OverrideControlCommand(JS_COLLECTOR));
 
-        Button placeGear = Buttons.TURRET.get(1);
-        placeGear.whenPressed(new SetPunchTurret(true));
-        placeGear.whenReleased(new SetPunchTurret(false));
-
-        Button turretMinus90 = Buttons.TURRET.get(4);
+        Button turretMinus90 = Buttons.COLLECTOR.get(5);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
 
-        Button turretAim = Buttons.TURRET.get(3);
-        turretAim.whenPressed(new SetTurretAngle(-0.0));
+        Button turretZero = Buttons.COLLECTOR.get(4);
+        turretZero.whenPressed(new SetTurretAngle(-0.0));
 
-        Button turretZero = Buttons.TURRET.get(5);
-        turretZero.whenPressed(new SetTurretAngle(90.0));
+        Button turret90 = Buttons.COLLECTOR.get(3);
+        turret90.whenPressed(new SetTurretAngle(90.0));
 
-        Button extend = Buttons.TURRET.get(2);
-        extend.whenPressed(new SetExtendTurret(true));
-        extend.whenReleased(new SetExtendTurret(false));
+        Button deploy = Buttons.COLLECTOR.get(8);
+        deploy.whenPressed(new PlaceWithLimit());
+        
+        Button fullExtend = Buttons.COLLECTOR.get(7);
+        fullExtend.whenPressed(new FullExtention(true));
+        fullExtend.whenReleased(new FullExtention(false));
 
-        Button collect = Buttons.COLLECTOR.get(1);
-        collect.whenPressed(new CollectGear());
-
-        Button spit = Buttons.COLLECTOR.get(2);
-        spit.whileHeld(new SetCollectorPower(true));
-
-        Button armCollect = Buttons.COLLECTOR.get(4);
-        armCollect.whenPressed(new SetCollectorAngle(Collector.COLLECT_POSITION));
-
-        Button armMid = Buttons.COLLECTOR.get(3);
-        armMid.whenPressed(new SetCollectorAngle(Collector.MID_POSITION));
-
-        Button armLoad = Buttons.COLLECTOR.get(5);
-        armLoad.whenPressed(new SetCollectorAngle(Collector.LOAD_POSITION));
-
-        Button eject = Buttons.COLLECTOR.get(6);
-        eject.whenPressed(new SetCollectorPower(false));
     }
 
     public void setupTestButtons() {
