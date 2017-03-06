@@ -13,6 +13,7 @@ public class AutoSegment extends CommandGroup {
     public enum AutoExtra {
         COLLECT, PLACE
     }
+    private double maxPower;
     private CommandGroup approach;
     private CommandGroup drive;
     private CommandGroup whileDriving;
@@ -21,7 +22,8 @@ public class AutoSegment extends CommandGroup {
     private DriveAtRatio driveVision;
     private DriveAtRatio driveFinal;
 
-    public AutoSegment(Direction dir, Side side, AutoExtra extra) {
+    public AutoSegment(Direction dir, Side side, AutoExtra extra, double maxPow) {
+        maxPower = maxPow;
         approach = new CommandGroup();
         drive = new CommandGroup();
         whileDriving = new CommandGroup();
@@ -30,7 +32,7 @@ public class AutoSegment extends CommandGroup {
         double radius;
         double dist1;
         if (side.equals(Side.RIGHT)) {
-            radius = 1.5;
+            radius = 1.2;
             dist1 = 30;
         } else if (side.equals(Side.LEFT)) {
             radius = 1.0 / 1.5;
@@ -43,19 +45,19 @@ public class AutoSegment extends CommandGroup {
         if (dir.equals(Direction.FORWARD)) {
             driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
                 b.inches(15);
-                b.maxPower(0.4);
+                b.maxPower(maxPower);
                 b.targetRatio(radius);
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
                 b.inches(45);
-                b.maxPower(0.4);
-                b.maxRatio(2.0);
+                b.maxPower(maxPower);
+                b.maxRatio(1.7);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
                 b.inches(7);
-                b.maxPower(0.4);
+                b.maxPower(maxPower);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
             });
@@ -64,25 +66,25 @@ public class AutoSegment extends CommandGroup {
                 if(side == Side.CENTER){
                     b.inches(0);
                 }else{
-                    b.inches(34);
+                    b.inches(30);
                 }
-                b.maxPower(-0.4);
-                b.targetRatio(1.2);
+                b.maxPower(-maxPower);
+                b.targetRatio(1.4);
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
                 if(side == Side.CENTER){
                     b.inches(69);
                 }else{
-                    b.inches(27);
+                    b.inches(31);
                 }
-                b.maxPower(-0.4);
-                b.maxRatio(4.2);
+                b.maxPower(-maxPower);
+                b.maxRatio(2.0);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
                 b.inches(5);
-                b.maxPower(-0.4);
+                b.maxPower(-maxPower);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
             });
