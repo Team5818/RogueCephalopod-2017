@@ -28,17 +28,17 @@ public class ThreeGearAuto extends CommandGroup {
     public ThreeGearAuto() {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new AutoSegment(Direction.BACKWARD, Side.CENTER, null);
+        moveForward = new AutoSegment(Direction.BACKWARD, Side.CENTER, null, .7);
 
         gearMode = new GearMode();
-        moveToGear = new AutoSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT);
+        moveToGear = new AutoSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT, .7);
         tapeMode2 = new TapeMode();
-        moveToPeg = new AutoSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.PLACE);
+        moveToPeg = new AutoSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.PLACE, .7);
         
         gearMode2 = new GearMode();
-        moveToGear2 = new AutoSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT);
+        moveToGear2 = new AutoSegment(Direction.FORWARD, Side.RIGHT, AutoExtra.COLLECT, .7);
         tapeMode3 = new TapeMode();
-        moveToPeg2 = new AutoSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.PLACE);
+        moveToPeg2 = new AutoSegment(Direction.BACKWARD, Side.RIGHT, AutoExtra.PLACE, .7);
         
         
 
