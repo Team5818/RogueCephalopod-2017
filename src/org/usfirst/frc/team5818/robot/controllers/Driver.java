@@ -39,7 +39,7 @@ public class Driver {
     public static Vector2d DEADBAND_VEC = new Vector2d(JOYSTICK_DEADBAND, JOYSTICK_DEADBAND);
 
     public static final double TWIST_DEADBAND = .4;
-
+    
     public Joystick JS_FW_BACK;
     public Joystick JS_TURN;
     public Joystick JS_TURRET;

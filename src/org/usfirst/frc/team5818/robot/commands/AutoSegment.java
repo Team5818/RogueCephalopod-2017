@@ -98,7 +98,7 @@ public class AutoSegment extends CommandGroup {
         } else if (extra == AutoExtra.PLACE) {
             whileDriving.addSequential(new SetCollectorAngle(Collector.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true));
-            atEnd.addSequential(new PlaceGear());
+            atEnd.addSequential(new PlaceWithLimit());
         }
 
         approach.addParallel(drive);
