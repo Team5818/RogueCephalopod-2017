@@ -9,6 +9,7 @@ import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -30,6 +31,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     private PIDSourceType pidType = PIDSourceType.kDisplacement;
     private BetterPIDController angleController;
     private AnalogInput pot;
+    private DigitalInput limitSwitch;
 
     private Solenoid puncher;
     private Solenoid extender;
@@ -41,6 +43,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         motor = new CANTalon(RobotMap.TURR_MOTOR);
         motor.setInverted(true);
         angleController = new BetterPIDController(kP, kI, kD, this, this);
+        limitSwitch = new DigitalInput(5);
         pot = new AnalogInput(BotConstants.TURRET_POT);
         angleController.setAbsoluteTolerance(0.3);
         puncher = new Solenoid(RobotMap.TURRET_PUNCHER_SOLENOID);
@@ -55,6 +58,10 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
             angleController.disable();
         }
         pidWrite(x);
+    }
+    
+    public boolean getLimit(){
+        return limitSwitch.get();
     }
 
     public void setAngle(double ang) {

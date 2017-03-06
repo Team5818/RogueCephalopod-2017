@@ -16,6 +16,7 @@ import org.usfirst.frc.team5818.robot.commands.FullExtention;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.OverrideControlCommand;
 import org.usfirst.frc.team5818.robot.commands.PlaceGear;
+import org.usfirst.frc.team5818.robot.commands.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
 import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
@@ -111,7 +112,7 @@ public class Driver {
         turret90.whenPressed(new SetTurretAngle(90.0));
 
         Button deploy = Buttons.COLLECTOR.get(8);
-        deploy.whenPressed(new PlaceGear());
+        deploy.whenPressed(new PlaceWithLimit());
         
         Button fullExtend = Buttons.COLLECTOR.get(7);
         fullExtend.whenPressed(new FullExtention(true));

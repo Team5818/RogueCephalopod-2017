@@ -183,6 +183,7 @@ public class Robot extends IterativeRobot {
     public void printSmartDash() {
         SmartDashboard.putBoolean("VisDrive", driveTrain.isVisionDriving());
         SmartDashboard.putBoolean("Passed Target", driveTrain.passedTarget());
+        SmartDashboard.putBoolean("Turret Limit Switch", turret.getLimit());
         SmartDashboard.putNumber("Gear X:", track.getCurrentAngle());
         SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
         SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
