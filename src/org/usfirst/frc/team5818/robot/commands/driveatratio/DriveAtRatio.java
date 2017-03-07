@@ -111,7 +111,7 @@ public class DriveAtRatio extends Command {
         }
 
         double anglePower = 0.0; 
-        if(Robot.runningRobot.track.getCurrentAngle() != Double.NaN){
+        if(!Double.isNaN(Robot.runningRobot.track.getCurrentAngle())){
            anglePower = Robot.runningRobot.track.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
         }
 
