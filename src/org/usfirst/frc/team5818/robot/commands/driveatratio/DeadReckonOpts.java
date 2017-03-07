@@ -50,10 +50,5 @@ public abstract class DeadReckonOpts implements DriveAtRatioOptions {
 
     @Override
     public abstract boolean isStoppingAtEnd();
-    
-    @Override
-    public double getVisionOffset() {
-        return 0;
-    }
 
 }

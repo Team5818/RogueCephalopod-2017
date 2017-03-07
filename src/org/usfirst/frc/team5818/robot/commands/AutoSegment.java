@@ -14,7 +14,6 @@ public class AutoSegment extends CommandGroup {
         COLLECT, PLACE
     }
     private double maxPower;
-    private double finalMaxPower;
     private CommandGroup approach;
     private CommandGroup drive;
     private CommandGroup whileDriving;
@@ -22,48 +21,55 @@ public class AutoSegment extends CommandGroup {
     private DriveAtRatio driveOvershoot;
     private DriveAtRatio driveVision;
     private DriveAtRatio driveFinal;
-    private double visionOffset;
 
-    public AutoSegment(Direction dir, Side side, AutoExtra extra, double maxPow, double finalMaxPow) {
+    public AutoSegment(Direction dir, Side side, AutoExtra extra, double maxPow) {
         maxPower = maxPow;
-        finalMaxPower = finalMaxPow;
         approach = new CommandGroup();
         drive = new CommandGroup();
         whileDriving = new CommandGroup();
         atEnd = new CommandGroup();
-        visionOffset = 10;
+
+        double radius;
+        double dist1;
+        if (side.equals(Side.RIGHT)) {
+            radius = 1.2;
+            dist1 = 30;
+        } else if (side.equals(Side.LEFT)) {
+            radius = 1.0 / 1.5;
+            dist1 = 30;
+        } else {
+            radius = 1.0;
+            dist1 = 0;
+        }
 
         if (dir.equals(Direction.FORWARD)) {
-            driveOvershoot = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
-                b.inches(30);
-                b.visionOffset(visionOffset);
+            driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
+                b.inches(15);
                 b.maxPower(maxPower);
-                b.maxRatio(1.7);
+                b.targetRatio(radius);
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
-                b.inches(30);
-                b.visionOffset(0.0);
+                b.inches(45);
                 b.maxPower(maxPower);
                 b.maxRatio(1.7);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
                 b.inches(7);
-                b.maxPower(finalMaxPower);
+                b.maxPower(maxPower);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
             });
         } else {
-            driveOvershoot = DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
+            driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
                 if(side == Side.CENTER){
                     b.inches(0);
                 }else{
                     b.inches(30);
                 }
                 b.maxPower(-maxPower);
-                b.maxRatio(1.7);
-                b.visionOffset(visionOffset);
+                b.targetRatio(1.4);
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
@@ -73,8 +79,7 @@ public class AutoSegment extends CommandGroup {
                     b.inches(31);
                 }
                 b.maxPower(-maxPower);
-                b.maxRatio(1.7);
-                b.visionOffset(0.0);
+                b.maxRatio(2.0);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {

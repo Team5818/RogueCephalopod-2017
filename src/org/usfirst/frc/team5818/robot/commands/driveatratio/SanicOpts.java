@@ -47,10 +47,5 @@ public abstract class SanicOpts implements DriveAtRatioOptions {
     public final boolean isStoppingAtEnd() {
         return true;
     }
-    
-    @Override
-    public double getVisionOffset() {
-        return 0;
-    }
 
 }
