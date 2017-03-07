@@ -42,7 +42,7 @@ public class DiscoverPlacePosition extends Command {
             case EXTEND:
                 // extend and check limit later
                 turr.extend(true);
-                waitThenRunState(300, State.CHECK_LIMIT);
+                waitThenRunState(350, State.CHECK_LIMIT);
                 break;
             case CHECK_LIMIT:
                 // check limit
@@ -60,7 +60,7 @@ public class DiscoverPlacePosition extends Command {
                 turr.setPower(power);
                 loopCount++;
                 power *= -1;
-                waitThenRunState(50 * (loopCount + 1), State.STOP_TURRET);
+                waitThenRunState(30 * (loopCount + 1), State.STOP_TURRET);
                 break;
             case STOP_TURRET:
                 // stop turret and extend

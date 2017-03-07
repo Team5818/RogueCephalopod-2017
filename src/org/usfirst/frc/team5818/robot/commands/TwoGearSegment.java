@@ -72,7 +72,7 @@ public class TwoGearSegment extends CommandGroup {
                 }
                 b.maxPower(-maxPower);
                 if(side == Side.LEFT){
-                    b.targetRatio(1.4);
+                    b.targetRatio(1.6);
                 }
                 else{
                     b.targetRatio(1.0/1.2);
@@ -86,7 +86,7 @@ public class TwoGearSegment extends CommandGroup {
                     b.inches(47);
                 }
                 b.maxPower(-maxPower);
-                b.maxRatio(2.0);
+                b.maxRatio(3.0);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
