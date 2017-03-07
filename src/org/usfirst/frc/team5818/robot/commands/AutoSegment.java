@@ -45,13 +45,13 @@ public class AutoSegment extends CommandGroup {
 
         if (dir.equals(Direction.FORWARD)) {
             driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(12);
+                b.inches(18);
                 b.maxPower(maxPower);
                 b.targetRatio(radius);
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
-                b.inches(45);
+                b.inches(39);
                 b.maxPower(maxPower);
                 b.maxRatio(2.0);
                 b.stoppingAtEnd(false);
