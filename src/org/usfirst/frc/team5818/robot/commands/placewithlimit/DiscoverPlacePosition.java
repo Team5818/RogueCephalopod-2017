@@ -33,7 +33,7 @@ public class DiscoverPlacePosition extends Command {
     protected void initialize() {
         state = State.EXTEND;
         power = 0.4;
-
+        loopCount = 0;
     }
 
     @Override
