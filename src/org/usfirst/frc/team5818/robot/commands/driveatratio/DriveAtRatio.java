@@ -50,8 +50,10 @@ public class DriveAtRatio extends Command {
     private CameraController cont;
     private Camera camera;
     private boolean useSanic;
+    private double visOffset;
 
     private DriveAtRatio(DriveAtRatioOptions opts) {
+        visOffset = opts.getVisionOffset();
         camera = opts.getCamera();
         inches = opts.getInches();
         maxPow = opts.getMaxPower();
@@ -92,7 +94,7 @@ public class DriveAtRatio extends Command {
         leftPowMult = 1;
         rightPowMult = 1;
         avStart = Robot.runningRobot.driveTrain.getAverageDistance();
-
+        visOffset = visOffset*Math.signum(Robot.runningRobot.track.getCurrentAngle());
         if (camera.equals(Camera.CAM_TAPE)) {
             cont.enterTapeMode();
         } else if (camera.equals(Camera.CAM_GEARS)) {
@@ -111,8 +113,8 @@ public class DriveAtRatio extends Command {
         }
 
         double anglePower = 0.0; 
-        if(Robot.runningRobot.track.getCurrentAngle() != Double.NaN){
-           anglePower = Robot.runningRobot.track.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
+        if(Double.isNaN(Robot.runningRobot.track.getCurrentAngle())){
+           anglePower = (Robot.runningRobot.track.getCurrentAngle() + visOffset)/ BotConstants.CAMERA_FOV * camMultiplier * 2.0;
         }
 
         double target = targetRatio;

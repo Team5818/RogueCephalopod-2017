@@ -15,6 +15,8 @@ public interface DriveAtRatioOptions {
     double getTargetRatio();
 
     boolean isStoppingAtEnd();
+    
+    double getVisionOffset();
 
     default boolean isUsingSanic() {
         return getCamera() == Camera.ULTRASANIC;

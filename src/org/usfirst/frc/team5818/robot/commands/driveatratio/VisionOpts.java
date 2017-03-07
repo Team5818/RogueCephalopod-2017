@@ -16,7 +16,7 @@ public abstract class VisionOpts implements DriveAtRatioOptions {
         if (!VIS_CAMS.contains(camera)) {
             throw new IllegalArgumentException("Camera must be one of " + VIS_CAMS);
         }
-        return new AutoValue_VisionOpts.Builder().camera(camera);
+        return new AutoValue_VisionOpts.Builder().camera(camera).visionOffset(0);
     }
 
     @AutoValue.Builder
@@ -31,6 +31,8 @@ public abstract class VisionOpts implements DriveAtRatioOptions {
         public abstract Builder maxRatio(double value);
 
         public abstract Builder stoppingAtEnd(boolean value);
+        
+        public abstract Builder visionOffset(double value);
 
         public abstract VisionOpts build();
 
@@ -55,5 +57,8 @@ public abstract class VisionOpts implements DriveAtRatioOptions {
 
     @Override
     public abstract boolean isStoppingAtEnd();
+    
+    @Override
+    public abstract double getVisionOffset();
 
 }
