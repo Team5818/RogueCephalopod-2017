@@ -17,7 +17,7 @@ public class TurretReZero extends Command{
     
     @Override
     protected void execute(){
-        turr.setPower(-.4 * Math.signum(startAngle));
+        turr.setPower(-.3 * Math.signum(startAngle));
     }
     
     @Override

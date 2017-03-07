@@ -15,6 +15,7 @@ import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
+import org.usfirst.frc.team5818.robot.commands.TurretReZero;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
@@ -71,11 +72,14 @@ public class Driver {
         Button shiftLow = Buttons.TURN.get(8);
         shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
 
-        Button shiftHigh = Buttons.FW_BACK.get(5);
+        Button shiftHigh = Buttons.TURN.get(5);
         shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
         
-        Button spitGear = Buttons.FW_BACK.get(7);
+        Button spitGear = Buttons.TURN.get(7);
         spitGear.whileHeld(new SetCollectorPower(false));
+        
+        Button zero = Buttons.TURN.get(6);
+        zero.whenPressed(new TurretReZero());
 
         Button gear = Buttons.TURRET.get(7);
         gear.whenPressed(new GearMode());
