@@ -8,6 +8,7 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class TwoGearSegment extends CommandGroup {
     
@@ -33,10 +34,10 @@ public class TwoGearSegment extends CommandGroup {
         double radius;
         double dist1;
         if (side.equals(Side.RIGHT)) {
-            radius = 1.6;
+            radius = 1.4;
             dist1 = 30;
         } else if (side.equals(Side.LEFT)) {
-            radius = 1.0/1.6;
+            radius = 1.0/1.4;
             dist1 = 30;
         } else {
             radius = 1.0;
@@ -67,11 +68,11 @@ public class TwoGearSegment extends CommandGroup {
                 if(side == Side.CENTER){
                     b.inches(0);
                 }else{
-                    b.inches(24);
+                    b.inches(16);
                 }
                 b.maxPower(-maxPower);
                 if(side == Side.LEFT){
-                    b.targetRatio(1.3);
+                    b.targetRatio(1.4);
                 }
                 else{
                     b.targetRatio(1.0/1.2);
@@ -82,7 +83,7 @@ public class TwoGearSegment extends CommandGroup {
                 if(side == Side.CENTER){
                     b.inches(69);
                 }else{
-                    b.inches(39);
+                    b.inches(47);
                 }
                 b.maxPower(-maxPower);
                 b.maxRatio(2.0);
@@ -106,6 +107,7 @@ public class TwoGearSegment extends CommandGroup {
         } else if (extra == AutoExtra.PLACE) {
             whileDriving.addSequential(new SetCollectorAngle(Collector.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true));
+            atEnd.addSequential(new TimedCommand(1.0));
             atEnd.addSequential(new PlaceWithLimit());
         }
 

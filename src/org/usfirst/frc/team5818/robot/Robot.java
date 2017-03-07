@@ -78,7 +78,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("One Gear Auto (Center)", new OneGearAuto(Side.CENTER));
         chooser.addObject("Three Gear Auto", new ThreeGearAuto());
         chooser.addObject("Place With Limit", new PlaceWithLimit());
-        chooser.addObject("Place With Limit", new SlowTwoGearAuto());
+        chooser.addObject("Two Gear", new SlowTwoGearAuto());
         SmartDashboard.putData("Auto mode", chooser);
         track.start();
     }
