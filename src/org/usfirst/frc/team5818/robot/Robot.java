@@ -2,11 +2,13 @@
 package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.autos.OneGearAuto;
+import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
 import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
 import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
+import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
@@ -73,7 +75,10 @@ public class Robot extends IterativeRobot {
         turretZero = new TurretMoveToZero();
         requireAllSubsystems = new RequireAllSubsystems();
         chooser.addObject("One Gear Auto", new OneGearAuto(Side.LEFT));
+        chooser.addObject("One Gear Auto (Center)", new OneGearAuto(Side.CENTER));
         chooser.addObject("Three Gear Auto", new ThreeGearAuto());
+        chooser.addObject("Place With Limit", new PlaceWithLimit());
+        chooser.addObject("Place With Limit", new SlowTwoGearAuto());
         SmartDashboard.putData("Auto mode", chooser);
         track.start();
     }
