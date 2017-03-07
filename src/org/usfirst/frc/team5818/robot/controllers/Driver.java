@@ -54,8 +54,6 @@ public class Driver {
         JS_TURRET = new Joystick(BotConstants.JS_TURRET);
         JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
 
-        Buttons.initialize();
-
         dMode = DriveMode.POWER;
         driveCalc = RatioDriveCalculator.INSTANCE;//RadiusDriveCalculator.INSTANCE;
     }
@@ -150,6 +148,8 @@ public class Driver {
             return;
         }
         buttons.clear();
+
+        Buttons.setButtonMapMode();
     }
 
 }

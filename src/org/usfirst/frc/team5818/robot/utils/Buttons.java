@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Buttons {
+    
+    private static final boolean USING_SIX_JOYSTICKS = true;
 
     public static final ButtonContainer FW_BACK = new ButtonContainer(0);
     public static final ButtonContainer TURN = new ButtonContainer(1);
@@ -34,16 +36,15 @@ public class Buttons {
     private static final List<IntFunction<Button>> buttonMap = Arrays.asList(null, null, null, null);
     private static final Joystick[] joysticks = IntStream.range(0, 6).mapToObj(Joystick::new).toArray(Joystick[]::new);
 
-    public static void initialize() {
-        if (DriverStation.getInstance().getJoystickType(4) == -1) {
-            // joysticks 5 & 6 don't exist, use 4 JS setup
-            initializeFourJoystick();
+    public static void setButtonMapMode() {
+        if (USING_SIX_JOYSTICKS) {
+            mapSixJoystick();
         } else {
-            initializeSixJoystick();
+            mapFourJoystick();
         }
     }
 
-    private static void initializeFourJoystick() {
+    private static void mapFourJoystick() {
         // map all buttons to themselves, pretty simple.
         for (int i = 0; i < 4; i++) {
             Joystick stick = joysticks[i];
@@ -51,7 +52,7 @@ public class Buttons {
         }
     }
 
-    private static void initializeSixJoystick() {
+    private static void mapSixJoystick() {
         // more complicated!
         remapJoystickSix(0, 4, 4);
         remapJoystickSix(1, 4, -2);
