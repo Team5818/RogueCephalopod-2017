@@ -143,13 +143,12 @@ public class Driver {
     }
 
     private void clearButtons() {
+        Buttons.setButtonMapMode();
         Vector<ButtonScheduler> buttons = SchedulerAccess.getButtons(Scheduler.getInstance());
         if (buttons == null) {
             return;
         }
         buttons.clear();
-
-        Buttons.setButtonMapMode();
     }
 
 }

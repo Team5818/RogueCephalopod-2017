@@ -24,7 +24,6 @@ public class Buttons {
         private final int joystick;
 
         private ButtonContainer(int joystick) {
-            super();
             this.joystick = joystick;
         }
 
