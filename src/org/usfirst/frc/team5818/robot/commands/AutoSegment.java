@@ -67,11 +67,11 @@ public class AutoSegment extends CommandGroup {
                 if(side == Side.CENTER){
                     b.inches(0);
                 }else{
-                    b.inches(30);
+                    b.inches(24);
                 }
                 b.maxPower(-maxPower);
                 if(side == Side.LEFT){
-                    b.targetRatio(1.4);
+                    b.targetRatio(1.3);
                 }
                 else{
                     b.targetRatio(1.0/1.2);
@@ -82,7 +82,7 @@ public class AutoSegment extends CommandGroup {
                 if(side == Side.CENTER){
                     b.inches(69);
                 }else{
-                    b.inches(33);
+                    b.inches(39);
                 }
                 b.maxPower(-maxPower);
                 b.maxRatio(2.0);
