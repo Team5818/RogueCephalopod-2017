@@ -33,28 +33,6 @@ public class DiscoverPlacePosition extends Command {
     protected void initialize() {
         state = State.EXTEND;
         power = 0.4;
-        for (int i = 0; i < 2; i++) {
-            turr.extend(true);
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException e) {
-            }
-            if (!turr.getLimit()) {
-                turr.extend(false);
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                }
-                turr.setPower(power);
-                try {
-                    Thread.sleep(50 * (i + 1));
-                } catch (InterruptedException e) {
-                }
-                turr.setPower(0.0);
-                power *= -1;
-            }
-        }
-        turr.extend(true);
 
     }
 

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
+import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.Side;
@@ -32,10 +33,10 @@ public class AutoSegment extends CommandGroup {
         double radius;
         double dist1;
         if (side.equals(Side.RIGHT)) {
-            radius = 1.2;
+            radius = 1.6;
             dist1 = 30;
         } else if (side.equals(Side.LEFT)) {
-            radius = 1.0 / 1.5;
+            radius = 1.0/1.6;
             dist1 = 30;
         } else {
             radius = 1.0;
@@ -44,7 +45,7 @@ public class AutoSegment extends CommandGroup {
 
         if (dir.equals(Direction.FORWARD)) {
             driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(15);
+                b.inches(12);
                 b.maxPower(maxPower);
                 b.targetRatio(radius);
                 b.stoppingAtEnd(false);
@@ -52,7 +53,7 @@ public class AutoSegment extends CommandGroup {
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
                 b.inches(45);
                 b.maxPower(maxPower);
-                b.maxRatio(1.7);
+                b.maxRatio(2.0);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
@@ -69,14 +70,19 @@ public class AutoSegment extends CommandGroup {
                     b.inches(30);
                 }
                 b.maxPower(-maxPower);
-                b.targetRatio(1.4);
+                if(side == Side.LEFT){
+                    b.targetRatio(1.4);
+                }
+                else{
+                    b.targetRatio(1.0/1.2);
+                }
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
                 if(side == Side.CENTER){
                     b.inches(69);
                 }else{
-                    b.inches(31);
+                    b.inches(33);
                 }
                 b.maxPower(-maxPower);
                 b.maxRatio(2.0);
