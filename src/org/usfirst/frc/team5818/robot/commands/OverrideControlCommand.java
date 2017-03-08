@@ -26,8 +26,7 @@ public class OverrideControlCommand extends ControlCommand {
     protected void setPower() {
         Vector2d driveVector = Vectors.fromJoystick(js, true);
         driveVector = MathUtil.adjustDeadband(driveVector, Driver.DEADBAND_VEC);
-        RadiusDriveCalculator.INSTANCE
-                .setQuick(Math.abs(js.getTwist()) > Driver.TWIST_DEADBAND);
+        RadiusDriveCalculator.INSTANCE.setQuick(Math.abs(js.getTwist()) > Driver.TWIST_DEADBAND);
         Vector2d controlVector = driver.driveCalc.compute(driveVector);
         switch (driver.dMode) {
             case POWER:

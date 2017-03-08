@@ -74,7 +74,6 @@ public class VisionTracker extends Subsystem implements Runnable {
     public double getCurrentAngle() {
         return currentAngle;
     }
-    
 
     @Override
     protected void initDefaultCommand() {

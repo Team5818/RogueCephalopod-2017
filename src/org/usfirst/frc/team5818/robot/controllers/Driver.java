@@ -15,6 +15,7 @@ import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
+import org.usfirst.frc.team5818.robot.commands.TurretReZero;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
@@ -54,10 +55,8 @@ public class Driver {
         JS_TURRET = new Joystick(BotConstants.JS_TURRET);
         JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
 
-        Buttons.initialize();
-
         dMode = DriveMode.POWER;
-        driveCalc = RatioDriveCalculator.INSTANCE;//RadiusDriveCalculator.INSTANCE;
+        driveCalc = RatioDriveCalculator.INSTANCE;// RadiusDriveCalculator.INSTANCE;
     }
 
     public void setupTeleopButtons() {
@@ -65,24 +64,27 @@ public class Driver {
 
         Button driverControl = Buttons.FW_BACK.get(1);
         driverControl.whenPressed(new DriveControlCommand(JS_FW_BACK, JS_TURN));
-        
+
         Button switchDriveMode = Buttons.FW_BACK.get(7);
         switchDriveMode.whenPressed(new SwitchDriveMode(ArcadeDriveCalculator.INSTANCE));
         switchDriveMode.whenReleased(new SwitchDriveMode(RatioDriveCalculator.INSTANCE));
-        
+
         Button shiftLow = Buttons.TURN.get(8);
         shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
 
-        Button shiftHigh = Buttons.FW_BACK.get(5);
+        Button shiftHigh = Buttons.TURN.get(5);
         shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
-        
-        Button spitGear = Buttons.FW_BACK.get(7);
+
+        Button spitGear = Buttons.TURN.get(7);
         spitGear.whileHeld(new SetCollectorPower(false));
+
+        Button zero = Buttons.TURN.get(6);
+        zero.whenPressed(new TurretReZero());
 
         Button gear = Buttons.TURRET.get(7);
         gear.whenPressed(new GearMode());
         gear.whenReleased(new TapeMode());
-        
+
         Button rightMini = Buttons.TURRET.get(8);
         rightMini.whenPressed(new ChangeMini(Side.RIGHT));
         rightMini.whenReleased(new ChangeMini(Side.LEFT));
@@ -101,7 +103,7 @@ public class Driver {
 
         Button deploy = Buttons.COLLECTOR.get(8);
         deploy.whenPressed(new PlaceWithLimit());
-        
+
         Button fullExtend = Buttons.COLLECTOR.get(7);
         fullExtend.whenPressed(new FullExtention(true));
         fullExtend.whenReleased(new FullExtention(false));
@@ -145,6 +147,7 @@ public class Driver {
     }
 
     private void clearButtons() {
+        Buttons.setButtonMapMode();
         Vector<ButtonScheduler> buttons = SchedulerAccess.getButtons(Scheduler.getInstance());
         if (buttons == null) {
             return;

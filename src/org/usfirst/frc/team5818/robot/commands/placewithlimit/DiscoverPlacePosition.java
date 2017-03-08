@@ -33,29 +33,7 @@ public class DiscoverPlacePosition extends Command {
     protected void initialize() {
         state = State.EXTEND;
         power = 0.4;
-        for (int i = 0; i < 2; i++) {
-            turr.extend(true);
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException e) {
-            }
-            if (!turr.getLimit()) {
-                turr.extend(false);
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                }
-                turr.setPower(power);
-                try {
-                    Thread.sleep(50 * (i + 1));
-                } catch (InterruptedException e) {
-                }
-                turr.setPower(0.0);
-                power *= -1;
-            }
-        }
-        turr.extend(true);
-
+        loopCount = 0;
     }
 
     @Override
@@ -64,7 +42,7 @@ public class DiscoverPlacePosition extends Command {
             case EXTEND:
                 // extend and check limit later
                 turr.extend(true);
-                waitThenRunState(300, State.CHECK_LIMIT);
+                waitThenRunState(350, State.CHECK_LIMIT);
                 break;
             case CHECK_LIMIT:
                 // check limit
@@ -82,7 +60,7 @@ public class DiscoverPlacePosition extends Command {
                 turr.setPower(power);
                 loopCount++;
                 power *= -1;
-                waitThenRunState(50 * (loopCount + 1), State.STOP_TURRET);
+                waitThenRunState(30 * (loopCount + 1), State.STOP_TURRET);
                 break;
             case STOP_TURRET:
                 // stop turret and extend

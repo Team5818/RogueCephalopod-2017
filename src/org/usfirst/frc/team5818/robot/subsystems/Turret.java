@@ -59,8 +59,8 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         }
         pidWrite(x);
     }
-    
-    public boolean getLimit(){
+
+    public boolean getLimit() {
         return limitSwitch.get();
     }
 
@@ -128,17 +128,16 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     public void rightMini(boolean on) {
         rightMini.set(on);
     }
-    
-    public void currentMini(boolean on){
-        if(currentMini.equals(Side.LEFT)){
+
+    public void currentMini(boolean on) {
+        if (currentMini.equals(Side.LEFT)) {
             leftMini(on);
-        }
-        else if(currentMini.equals(Side.RIGHT)){
+        } else if (currentMini.equals(Side.RIGHT)) {
             rightMini(on);
         }
     }
-    
-    public void switchCurrentMini(Side s){
+
+    public void switchCurrentMini(Side s) {
         currentMini = s;
     }
 
