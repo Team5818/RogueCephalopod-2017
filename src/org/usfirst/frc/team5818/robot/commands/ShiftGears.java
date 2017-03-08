@@ -21,7 +21,7 @@ public class ShiftGears extends Command {
     protected void initialize() {
         train.shiftGears(gear);
         train.setMaxPower(.5);
-        
+
     }
 
     @Override
@@ -29,8 +29,8 @@ public class ShiftGears extends Command {
         // TODO Auto-generated method stub
         return isTimedOut();
     }
-    
-    protected void end(){
+
+    protected void end() {
         train.setMaxPower(1.0);
     }
 
