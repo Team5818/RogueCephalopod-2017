@@ -14,7 +14,7 @@ import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
-import org.usfirst.frc.team5818.robot.commands.TurretReZero;
+import org.usfirst.frc.team5818.robot.commands.TurretSmallAdjustment;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
@@ -78,7 +78,7 @@ public class Driver {
         spitGear.whileHeld(new SetCollectorPower(false));
 
         Button zero = Buttons.TURN.get(6);
-        zero.whenPressed(new TurretReZero());
+        zero.whenPressed(new TurretSmallAdjustment(0.0));
 
         Button gear = Buttons.TURRET.get(7);
         gear.whenPressed(new GearMode());
