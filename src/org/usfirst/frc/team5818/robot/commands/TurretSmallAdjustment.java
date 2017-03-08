@@ -5,10 +5,15 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TurretReZero extends Command {
+public class TurretSmallAdjustment extends Command {
 
     private Turret turr = Robot.runningRobot.turret;
+    private double targetAngle;
     private double startAngle;
+    
+    public TurretSmallAdjustment(double ang){
+        targetAngle = ang;
+    }
 
     @Override
     protected void initialize() {
@@ -17,16 +22,15 @@ public class TurretReZero extends Command {
 
     @Override
     protected void execute() {
-        turr.setPower(-.3 * Math.signum(startAngle));
+        turr.setPower(.3 * Math.signum(startAngle - targetAngle));
     }
 
     @Override
     protected boolean isFinished() {
-        if (startAngle < 0) {
-            return turr.getAngle() > 0;
+        if (startAngle < targetAngle) {
+            return turr.getAngle() >= targetAngle - .5;
         } else {
-            return turr.getAngle() < 0;
-
+            return turr.getAngle() <= targetAngle + .5;
         }
     }
 
