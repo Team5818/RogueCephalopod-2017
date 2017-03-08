@@ -70,14 +70,14 @@ public class DriveTrain extends Subsystem {
                 rpow = 0.0;
             }
         }
-        left.setPower(lpow*maxPower);
-        right.setPower(rpow*maxPower);
+        left.setPower(lpow * maxPower);
+        right.setPower(rpow * maxPower);
     }
 
-    public void setMaxPower(double max){
+    public void setMaxPower(double max) {
         maxPower = Math.min(1, Math.abs(max));
     }
-    
+
     public void setPowerLeftRight(Vector2d vec2) {
         setPowerLeftRight(vec2.getX(), vec2.getY());
     }
