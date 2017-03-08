@@ -20,12 +20,18 @@ public class ShiftGears extends Command {
     @Override
     protected void initialize() {
         train.shiftGears(gear);
+        train.setMaxPower(.5);
+
     }
 
     @Override
     protected boolean isFinished() {
         // TODO Auto-generated method stub
         return isTimedOut();
+    }
+
+    protected void end() {
+        train.setMaxPower(1.0);
     }
 
 }

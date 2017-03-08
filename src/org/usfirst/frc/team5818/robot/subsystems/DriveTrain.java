@@ -21,6 +21,7 @@ public class DriveTrain extends Subsystem {
     private Solenoid shifter;
     private boolean visionDriving = false;
     private double visionThresh = 0.0;
+    private double maxPower = 1.0;
     private boolean greaterThan = false;
 
     public DriveTrain() {
@@ -69,8 +70,12 @@ public class DriveTrain extends Subsystem {
                 rpow = 0.0;
             }
         }
-        left.setPower(lpow);
-        right.setPower(rpow);
+        left.setPower(lpow * maxPower);
+        right.setPower(rpow * maxPower);
+    }
+
+    public void setMaxPower(double max) {
+        maxPower = Math.min(1, Math.abs(max));
     }
 
     public void setPowerLeftRight(Vector2d vec2) {
