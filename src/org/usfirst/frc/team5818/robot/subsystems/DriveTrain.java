@@ -167,7 +167,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public boolean passedTarget() {
-        double currentAngle = Robot.runningRobot.track.getCurrentAngle();
+        double currentAngle = Robot.runningRobot.vision.getCurrentAngle();
         if (currentAngle != Double.NaN) {
             return (30 - Math.abs(currentAngle)) > visionThresh;
         }

@@ -9,8 +9,8 @@ public class RequireAllSubsystems extends Command {
     public RequireAllSubsystems() {
         requires(Robot.runningRobot.driveTrain);
         requires(Robot.runningRobot.climb);
-        requires(Robot.runningRobot.collector);
-        requires(Robot.runningRobot.roll);
+        requires(Robot.runningRobot.arm);
+        requires(Robot.runningRobot.collect);
         requires(Robot.runningRobot.turret);
         setInterruptible(false);
     }

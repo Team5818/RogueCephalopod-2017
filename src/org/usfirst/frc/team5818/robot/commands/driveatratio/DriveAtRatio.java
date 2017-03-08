@@ -88,7 +88,7 @@ public class DriveAtRatio extends Command {
     @Override
     public void initialize() {
         DriverStation.reportError("Begining the drive", false);
-        SmartDashboard.putNumber("Vision Angle", Robot.runningRobot.track.getCurrentAngle());
+        SmartDashboard.putNumber("Vision Angle", Robot.runningRobot.vision.getCurrentAngle());
         leftPowMult = 1;
         rightPowMult = 1;
         avStart = Robot.runningRobot.driveTrain.getAverageDistance();
@@ -111,8 +111,8 @@ public class DriveAtRatio extends Command {
         }
 
         double anglePower = 0.0;
-        if (!Double.isNaN(Robot.runningRobot.track.getCurrentAngle())) {
-            anglePower = Robot.runningRobot.track.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
+        if (!Double.isNaN(Robot.runningRobot.vision.getCurrentAngle())) {
+            anglePower = Robot.runningRobot.vision.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
         }
 
         double target = targetRatio;

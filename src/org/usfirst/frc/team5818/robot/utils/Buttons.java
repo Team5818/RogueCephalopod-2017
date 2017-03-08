@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

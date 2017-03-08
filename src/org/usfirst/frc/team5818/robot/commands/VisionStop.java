@@ -13,7 +13,7 @@ public class VisionStop extends Command {
     protected void initialize() {
         Robot.runningRobot.camCont.enterTapeMode();
         Robot.runningRobot.driveTrain.enableVisionDriving(10);
-        Robot.runningRobot.track.setLightsOn(true);
+        Robot.runningRobot.vision.setLightsOn(true);
     }
 
     @Override

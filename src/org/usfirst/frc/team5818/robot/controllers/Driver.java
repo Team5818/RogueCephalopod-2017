@@ -18,7 +18,6 @@ import org.usfirst.frc.team5818.robot.commands.TurretSmallAdjustment;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
-import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;

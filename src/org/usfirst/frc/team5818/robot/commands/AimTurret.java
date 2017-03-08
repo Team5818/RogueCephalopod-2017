@@ -25,16 +25,16 @@ public class AimTurret extends Command {
             Math.atan2(Math.tan(BotConstants.CAMERA_FOV / 2) * distFromTarget, distFromTarget + cameraOffset));
 
     private Turret turr;
-    private VisionTracker track;
+    private VisionTracker vision;
     private CameraController cont;
     private double degreesOff;
 
     public AimTurret() {
         turr = Robot.runningRobot.turret;
-        track = Robot.runningRobot.track;
+        vision = Robot.runningRobot.vision;
         cont = Robot.runningRobot.camCont;
         requires(turr);
-        requires(track);
+        requires(vision);
         requires(cont);
     }
 
@@ -45,13 +45,13 @@ public class AimTurret extends Command {
 
     @Override
     protected void execute() {
-        degreesOff = track.getCurrentAngle();
+        degreesOff = vision.getCurrentAngle();
         turr.setAngle(degreesOff - turr.getAngle());
     }
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(degreesOff - track.getCurrentAngle()) < DEGREES_TOLERANCE;
+        return Math.abs(degreesOff - vision.getCurrentAngle()) < DEGREES_TOLERANCE;
     }
 
 }
