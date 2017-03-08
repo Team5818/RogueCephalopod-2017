@@ -40,7 +40,7 @@ public class Driver {
     public static Vector2d DEADBAND_VEC = new Vector2d(JOYSTICK_DEADBAND, JOYSTICK_DEADBAND);
 
     public static final double TWIST_DEADBAND = .4;
-    
+
     public Joystick JS_FW_BACK;
     public Joystick JS_TURN;
     public Joystick JS_TURRET;
@@ -56,7 +56,7 @@ public class Driver {
         JS_COLLECTOR = new Joystick(BotConstants.JS_COLLECTOR);
 
         dMode = DriveMode.POWER;
-        driveCalc = RatioDriveCalculator.INSTANCE;//RadiusDriveCalculator.INSTANCE;
+        driveCalc = RatioDriveCalculator.INSTANCE;// RadiusDriveCalculator.INSTANCE;
     }
 
     public void setupTeleopButtons() {
@@ -64,27 +64,27 @@ public class Driver {
 
         Button driverControl = Buttons.FW_BACK.get(1);
         driverControl.whenPressed(new DriveControlCommand(JS_FW_BACK, JS_TURN));
-        
+
         Button switchDriveMode = Buttons.FW_BACK.get(7);
         switchDriveMode.whenPressed(new SwitchDriveMode(ArcadeDriveCalculator.INSTANCE));
         switchDriveMode.whenReleased(new SwitchDriveMode(RatioDriveCalculator.INSTANCE));
-        
+
         Button shiftLow = Buttons.TURN.get(8);
         shiftLow.whenPressed(new ShiftGears(BotConstants.LOW_GEAR_VALUE));
 
         Button shiftHigh = Buttons.TURN.get(5);
         shiftHigh.whenPressed(new ShiftGears(BotConstants.HIGH_GEAR_VALUE));
-        
+
         Button spitGear = Buttons.TURN.get(7);
         spitGear.whileHeld(new SetCollectorPower(false));
-        
+
         Button zero = Buttons.TURN.get(6);
         zero.whenPressed(new TurretReZero());
 
         Button gear = Buttons.TURRET.get(7);
         gear.whenPressed(new GearMode());
         gear.whenReleased(new TapeMode());
-        
+
         Button rightMini = Buttons.TURRET.get(8);
         rightMini.whenPressed(new ChangeMini(Side.RIGHT));
         rightMini.whenReleased(new ChangeMini(Side.LEFT));
@@ -103,7 +103,7 @@ public class Driver {
 
         Button deploy = Buttons.COLLECTOR.get(8);
         deploy.whenPressed(new PlaceWithLimit());
-        
+
         Button fullExtend = Buttons.COLLECTOR.get(7);
         fullExtend.whenPressed(new FullExtention(true));
         fullExtend.whenReleased(new FullExtention(false));

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class AutoSegment extends CommandGroup {
-    
+
     private double maxPower;
     private CommandGroup approach;
     private CommandGroup drive;
@@ -35,7 +35,7 @@ public class AutoSegment extends CommandGroup {
             radius = 1.6;
             dist1 = 30;
         } else if (side.equals(Side.LEFT)) {
-            radius = 1.0/1.6;
+            radius = 1.0 / 1.6;
             dist1 = 30;
         } else {
             radius = 1.0;
@@ -63,24 +63,23 @@ public class AutoSegment extends CommandGroup {
             });
         } else {
             driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
-                if(side == Side.CENTER){
+                if (side == Side.CENTER) {
                     b.inches(0);
-                }else{
+                } else {
                     b.inches(24);
                 }
                 b.maxPower(-maxPower);
-                if(side == Side.LEFT){
+                if (side == Side.LEFT) {
                     b.targetRatio(1.3);
-                }
-                else{
-                    b.targetRatio(1.0/1.2);
+                } else {
+                    b.targetRatio(1.0 / 1.2);
                 }
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
-                if(side == Side.CENTER){
+                if (side == Side.CENTER) {
                     b.inches(69);
-                }else{
+                } else {
                     b.inches(39);
                 }
                 b.maxPower(-maxPower);
@@ -94,11 +93,11 @@ public class AutoSegment extends CommandGroup {
                 b.stoppingAtEnd(true);
             });
         }
-        
+
         drive.addSequential(driveOvershoot);
         drive.addSequential(driveVision);
         drive.addSequential(driveFinal);
-        
+
         if (extra == AutoExtra.COLLECT) {
             whileDriving.addSequential(new TurretReZero());
             whileDriving.addSequential((new SetCollectorAngle(Collector.COLLECT_POSITION)));
@@ -112,7 +111,7 @@ public class AutoSegment extends CommandGroup {
 
         approach.addParallel(drive);
         approach.addParallel(whileDriving);
-        
+
         this.addSequential(approach);
         this.addSequential(atEnd);
     }

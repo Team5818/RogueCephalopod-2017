@@ -18,10 +18,9 @@ public class CollectGearCurrent extends Command {
         power = pow;
     }
 
-    public CollectGearCurrent(double pow ,double timeout) {
+    public CollectGearCurrent(double pow, double timeout) {
         this(DEFAULT_CURRENT_THRESH, pow, timeout);
-    } 
-   
+    }
 
     @Override
     protected void initialize() {

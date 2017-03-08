@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Buttons {
-    
+
     private static final boolean USING_SIX_JOYSTICKS = true;
 
     public static final ButtonContainer FW_BACK = new ButtonContainer(0);

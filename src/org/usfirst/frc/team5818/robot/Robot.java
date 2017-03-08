@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
     public Climber climb;
     public CameraController camCont;
     public TurretMoveToZero turretZero;
-    
+
     private RequireAllSubsystems requireAllSubsystems;
 
     Command autonomousCommand;

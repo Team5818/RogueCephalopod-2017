@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class TwoGearSegment extends CommandGroup {
-    
+
     private double maxPower;
     private CommandGroup approach;
     private CommandGroup drive;
@@ -35,7 +35,7 @@ public class TwoGearSegment extends CommandGroup {
             radius = 1.4;
             dist1 = 30;
         } else if (side.equals(Side.LEFT)) {
-            radius = 1.0/1.4;
+            radius = 1.0 / 1.4;
             dist1 = 30;
         } else {
             radius = 1.0;
@@ -63,24 +63,23 @@ public class TwoGearSegment extends CommandGroup {
             });
         } else {
             driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
-                if(side == Side.CENTER){
+                if (side == Side.CENTER) {
                     b.inches(0);
-                }else{
+                } else {
                     b.inches(16);
                 }
                 b.maxPower(-maxPower);
-                if(side == Side.LEFT){
+                if (side == Side.LEFT) {
                     b.targetRatio(1.6);
-                }
-                else{
-                    b.targetRatio(1.0/1.2);
+                } else {
+                    b.targetRatio(1.0 / 1.2);
                 }
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
-                if(side == Side.CENTER){
+                if (side == Side.CENTER) {
                     b.inches(69);
-                }else{
+                } else {
                     b.inches(47);
                 }
                 b.maxPower(-maxPower);
@@ -94,11 +93,11 @@ public class TwoGearSegment extends CommandGroup {
                 b.stoppingAtEnd(true);
             });
         }
-        
+
         drive.addSequential(driveOvershoot);
         drive.addSequential(driveVision);
         drive.addSequential(driveFinal);
-        
+
         if (extra == AutoExtra.COLLECT) {
             whileDriving.addSequential(new TurretReZero());
             whileDriving.addSequential((new SetCollectorAngle(Collector.COLLECT_POSITION)));
@@ -112,7 +111,7 @@ public class TwoGearSegment extends CommandGroup {
 
         approach.addParallel(drive);
         approach.addParallel(whileDriving);
-        
+
         this.addSequential(approach);
         this.addSequential(atEnd);
     }

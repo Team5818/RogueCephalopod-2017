@@ -110,9 +110,9 @@ public class DriveAtRatio extends Command {
             currRatio = leftVel / rightVel;
         }
 
-        double anglePower = 0.0; 
-        if(!Double.isNaN(Robot.runningRobot.track.getCurrentAngle())){
-           anglePower = Robot.runningRobot.track.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
+        double anglePower = 0.0;
+        if (!Double.isNaN(Robot.runningRobot.track.getCurrentAngle())) {
+            anglePower = Robot.runningRobot.track.getCurrentAngle() / BotConstants.CAMERA_FOV * camMultiplier * 2.0;
         }
 
         double target = targetRatio;
@@ -124,7 +124,7 @@ public class DriveAtRatio extends Command {
         }
 
         leftPowMult = 1.0;
-        rightPowMult = currRatio / Math.pow(target,1.5);
+        rightPowMult = currRatio / Math.pow(target, 1.5);
 
         Vector2d driveVec = new Vector2d(leftPowMult, rightPowMult);
         driveVec = driveVec.normalize(maxPow);
