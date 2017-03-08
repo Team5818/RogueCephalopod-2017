@@ -100,6 +100,7 @@ public class AutoSegment extends CommandGroup {
         drive.addSequential(driveFinal);
         
         if (extra == AutoExtra.COLLECT) {
+            whileDriving.addSequential(new TurretReZero());
             whileDriving.addSequential((new SetCollectorAngle(Collector.COLLECT_POSITION)));
             whileDriving.addSequential(new CollectGear(.5, 1));
         } else if (extra == AutoExtra.PLACE) {
