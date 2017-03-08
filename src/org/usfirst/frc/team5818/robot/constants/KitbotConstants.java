@@ -14,5 +14,10 @@ public class KitbotConstants extends Constants {
     public double turretCenter() {
         return 1689.0;
     }
+    
+    @Override
+    public double encoderScale(){
+        return 4.0 / 44.815;
+    }
 
 }

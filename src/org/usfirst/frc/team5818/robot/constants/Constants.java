@@ -4,25 +4,27 @@ import edu.wpi.first.wpilibj.Preferences;
 
 public abstract class Constants {
 
-    private static final String NO_ROBOT = "No robot-id preference configured!";
+    private static final String COMP_BOT = "rogue-cephalopod";
     public static final Constants Constant;
     static {
-        String robotId = Preferences.getInstance().getString("robot-id", NO_ROBOT);
+        String robotId = Preferences.getInstance().getString("robot-id", COMP_BOT);
         switch (robotId) {
             case "kitbot":
                 Constant = new KitbotConstants();
                 break;
-            case "arronax":
-                Constant = new ArronaxConstants();
+            case "rogue-cephalopod":
+                Constant = new RogueCephalopod();
                 break;
             default:
-                throw new IllegalStateException(NO_ROBOT);
+                throw new IllegalStateException("Illegal robot ID!!");
         }
     }
 
     public abstract double turretScale();
 
     public abstract double turretCenter();
+    
+    public abstract double encoderScale();
 
     public final double maxPower() {
         return 1.0;

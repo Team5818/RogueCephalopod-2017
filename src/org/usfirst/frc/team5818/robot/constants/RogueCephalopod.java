@@ -1,8 +1,8 @@
 package org.usfirst.frc.team5818.robot.constants;
 
-public final class ArronaxConstants extends Constants {
+public final class RogueCephalopod extends Constants {
 
-    ArronaxConstants() {
+    RogueCephalopod() {
     }
 
     @Override
@@ -13,6 +13,11 @@ public final class ArronaxConstants extends Constants {
     @Override
     public double turretCenter() {
         return 1920;
+    }
+    
+    @Override
+    public double encoderScale(){
+        return 4.0 * 120.0 / 3624.0;
     }
 
 }
