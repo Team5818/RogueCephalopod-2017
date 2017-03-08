@@ -1,13 +1,16 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
+
 import org.usfirst.frc.team5818.robot.RobotMap;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Collector extends Subsystem {
+
+    private static final double MAX_POWER = Constant.maxPower();
 
     private CANTalon topRoller;
     private CANTalon botRoller;
@@ -18,11 +21,11 @@ public class Collector extends Subsystem {
     }
 
     public void setTopPower(double x) {
-        topRoller.set(x * BotConstants.MAX_POWER);
+        topRoller.set(x * MAX_POWER);
     }
 
     public void setBotPower(double x) {
-        botRoller.set(x * BotConstants.MAX_POWER);
+        botRoller.set(x * MAX_POWER);
     }
 
     public void stop() {

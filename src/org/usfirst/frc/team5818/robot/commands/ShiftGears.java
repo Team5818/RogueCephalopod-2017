@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
+import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,10 +9,10 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ShiftGears extends Command {
 
     private DriveTrain train;
-    private boolean gear;
+    private Gear gear;
     private static double SHIFT_TIME = .5;
 
-    public ShiftGears(boolean g) {
+    public ShiftGears(Gear g) {
         train = Robot.runningRobot.driveTrain;
         gear = g;
         setTimeout(SHIFT_TIME);

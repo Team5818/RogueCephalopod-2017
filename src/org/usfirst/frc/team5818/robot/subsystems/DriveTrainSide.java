@@ -1,7 +1,8 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
+import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
+
 import org.usfirst.frc.team5818.robot.RobotMap;
-import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
@@ -14,6 +15,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
+
+    private static final double MAX_POWER = Constant.maxPower();
 
     public static final double L_VEL_KP = 0.015; // NEEDS TUNING
     public static final double L_VEL_KI = 0.0; // NEEDS TUNING
@@ -33,10 +36,8 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     public static final double R_DIST_KI = 0.0001; // NEEDS TUNING
     public static final double R_DIST_KD = 0.0; // NEEDS TUNING
 
-    public static final double LEFT_ENC_SCALE = 4.0 / 44.815;// 4.0 * 120.0 /
-                                                             // 182358.0;
-    public static final double RIGHT_ENC_SCALE = 4.0 / 44.815;// 4.0 * 120.0 /
-                                                              // 1208.0;
+    public static final double LEFT_ENC_SCALE = Constant.encoderScale();
+    public static final double RIGHT_ENC_SCALE = Constant.encoderScale();
 
     private CANTalon motorNoEnc;
     private CANTalon motorEnc;
@@ -91,9 +92,9 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
         if (distController.isEnabled()) {
             distController.disable();
         }
-        motorNoEnc.set(numIn * BotConstants.MAX_POWER);
-        motorEnc.set(numIn * BotConstants.MAX_POWER);
-        motor2NoEnc.set(numIn * BotConstants.MAX_POWER);
+        motorNoEnc.set(numIn * MAX_POWER);
+        motorEnc.set(numIn * MAX_POWER);
+        motor2NoEnc.set(numIn * MAX_POWER);
     }
 
     public double getSidePosition() {
@@ -113,9 +114,9 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     public void pidWrite(double val) {
-        motorEnc.set(val * BotConstants.MAX_POWER);
-        motorNoEnc.set(val * BotConstants.MAX_POWER);
-        motor2NoEnc.set(val * BotConstants.MAX_POWER);
+        motorEnc.set(val * MAX_POWER);
+        motorNoEnc.set(val * MAX_POWER);
+        motor2NoEnc.set(val * MAX_POWER);
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.usfirst.frc.team5818.robot.subsystems;
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
+import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
@@ -143,8 +144,8 @@ public class DriveTrain extends Subsystem {
         this.setPowerLeftRight(0, 0);
     }
 
-    public void shiftGears(boolean gear) {
-        shifter.set(gear);
+    public void shiftGears(Gear gear) {
+        shifter.set(gear == Gear.LOW);
     }
 
     @Override
