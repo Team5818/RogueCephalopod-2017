@@ -31,7 +31,6 @@ public class TurretSmallAdjustment extends Command {
             return turr.getAngle() >= targetAngle - .5;
         } else {
             return turr.getAngle() <= targetAngle + .5;
-
         }
     }
 

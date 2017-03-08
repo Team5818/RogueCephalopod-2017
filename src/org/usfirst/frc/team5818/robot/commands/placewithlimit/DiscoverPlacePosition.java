@@ -16,7 +16,7 @@ public class DiscoverPlacePosition extends Command {
     private State state;
     private State next;
     private double waitTimestamp;
-    private double power;
+    private double targetAngle;
     private int loopCount = 0;
 
     public DiscoverPlacePosition() {
@@ -32,7 +32,6 @@ public class DiscoverPlacePosition extends Command {
     @Override
     protected void initialize() {
         state = State.EXTEND;
-        power = 0.4;
         loopCount = 0;
     }
 
@@ -57,15 +56,18 @@ public class DiscoverPlacePosition extends Command {
                 break;
             case TURN_TURRET:
                 // turn turret and stop later
-                turr.setPower(power);
+                final double angleSign = Math.signum(loopCount - 1);
+                targetAngle = turr.getAngle() + (angleSign * 2.5 * (loopCount + 1));
+                turr.setPower(angleSign * .3);
                 loopCount++;
-                power *= -1;
-                waitThenRunState(30 * (loopCount + 1), State.STOP_TURRET);
+                state = State.STOP_TURRET;
                 break;
             case STOP_TURRET:
                 // stop turret and extend
-                turr.setPower(0);
-                state = State.EXTEND;
+                if ((targetAngle - .5) < turr.getAngle() && turr.getAngle() < (targetAngle + .5)) {
+                    turr.setPower(0);
+                    state = State.EXTEND;
+                }
                 break;
             case FINISHED:
                 break;
