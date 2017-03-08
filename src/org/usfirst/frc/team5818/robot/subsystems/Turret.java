@@ -35,9 +35,6 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     private Solenoid puncher;
     private Solenoid extender;
-    private Solenoid leftMini;
-    private Solenoid rightMini;
-    private Side currentMini;
 
     public Turret() {
         motor = new CANTalon(RobotMap.TURR_MOTOR);
@@ -48,9 +45,6 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         angleController.setAbsoluteTolerance(0.3);
         puncher = new Solenoid(RobotMap.TURRET_PUNCHER_SOLENOID);
         extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);
-        leftMini = new Solenoid(RobotMap.LEFT_MINI_SOLENOID);
-        rightMini = new Solenoid(RobotMap.RIGHT_MINI_SOLENOID);
-        currentMini = Side.LEFT;
     }
 
     public void setPower(double x) {
@@ -119,26 +113,6 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     public void punch(boolean on) {
         puncher.set(on);
-    }
-
-    public void leftMini(boolean on) {
-        leftMini.set(on);
-    }
-
-    public void rightMini(boolean on) {
-        rightMini.set(on);
-    }
-
-    public void currentMini(boolean on) {
-        if (currentMini.equals(Side.LEFT)) {
-            leftMini(on);
-        } else if (currentMini.equals(Side.RIGHT)) {
-            rightMini(on);
-        }
-    }
-
-    public void switchCurrentMini(Side s) {
-        currentMini = s;
     }
 
     @Override
