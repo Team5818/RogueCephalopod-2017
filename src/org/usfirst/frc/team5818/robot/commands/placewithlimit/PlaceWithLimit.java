@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5818.robot.commands.placewithlimit;
 
+import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.commands.QuickPlace;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -15,7 +16,8 @@ public class PlaceWithLimit extends CommandGroup {
 
     @Override
     protected void end() {
-        if (discoverPlacePosition.isCenterPlace()) {
+        double angle = Robot.runningRobot.turret.getAngle();
+        if (Math.abs(angle) < 45) {
             new PlaceGearLimit().start();
         } else {
             new QuickPlace().start();

@@ -84,8 +84,4 @@ public class DiscoverPlacePosition extends Command {
         return state == null || state == State.FINISHED;
     }
 
-    public boolean isCenterPlace() {
-        return loopCount == 0;
-    }
-
 }
