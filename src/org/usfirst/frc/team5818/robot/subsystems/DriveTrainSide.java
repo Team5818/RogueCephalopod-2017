@@ -3,7 +3,6 @@ package org.usfirst.frc.team5818.robot.subsystems;
 import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
 
 import org.usfirst.frc.team5818.robot.RobotMap;
-import org.usfirst.frc.team5818.robot.constants.Constants;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
@@ -37,8 +36,8 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
     public static final double R_DIST_KI = 0.0001; // NEEDS TUNING
     public static final double R_DIST_KD = 0.0; // NEEDS TUNING
 
-    public static final double LEFT_ENC_SCALE = Constants.Constant.encoderScale();
-    public static final double RIGHT_ENC_SCALE = Constants.Constant.encoderScale();
+    public static final double LEFT_ENC_SCALE = Constant.encoderScale();
+    public static final double RIGHT_ENC_SCALE = Constant.encoderScale();
 
     private CANTalon motorNoEnc;
     private CANTalon motorEnc;
