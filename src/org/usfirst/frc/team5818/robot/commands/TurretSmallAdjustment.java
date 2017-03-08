@@ -10,8 +10,8 @@ public class TurretSmallAdjustment extends Command {
     private Turret turr = Robot.runningRobot.turret;
     private double targetAngle;
     private double startAngle;
-    
-    public TurretSmallAdjustment(double ang){
+
+    public TurretSmallAdjustment(double ang) {
         targetAngle = ang;
     }
 
