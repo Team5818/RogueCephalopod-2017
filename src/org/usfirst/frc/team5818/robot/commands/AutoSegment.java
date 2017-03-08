@@ -9,6 +9,7 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class AutoSegment extends CommandGroup {
     
@@ -104,6 +105,7 @@ public class AutoSegment extends CommandGroup {
         } else if (extra == AutoExtra.PLACE) {
             whileDriving.addSequential(new SetCollectorAngle(Collector.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true));
+            atEnd.addSequential(new TimedCommand(0.5));
             atEnd.addSequential(new PlaceWithLimit());
         }
 
