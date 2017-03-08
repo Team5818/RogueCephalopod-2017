@@ -4,8 +4,6 @@ package org.usfirst.frc.team5818.robot;
 import org.usfirst.frc.team5818.robot.autos.OneGearAuto;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
-import org.usfirst.frc.team5818.robot.commands.DriveForwardBackPID;
-import org.usfirst.frc.team5818.robot.commands.DrivePIDDistance;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
