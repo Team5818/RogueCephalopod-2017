@@ -4,7 +4,6 @@ import java.util.Vector;
 import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team5818.robot.TestingTalon;
-import org.usfirst.frc.team5818.robot.commands.ChangeMini;
 import org.usfirst.frc.team5818.robot.commands.ControlMotor;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 import org.usfirst.frc.team5818.robot.commands.FullExtention;
@@ -84,10 +83,6 @@ public class Driver {
         Button gear = Buttons.TURRET.get(7);
         gear.whenPressed(new GearMode());
         gear.whenReleased(new TapeMode());
-
-        Button rightMini = Buttons.TURRET.get(8);
-        rightMini.whenPressed(new ChangeMini(Side.RIGHT));
-        rightMini.whenReleased(new ChangeMini(Side.LEFT));
 
         Button codriverControl = Buttons.TURRET.get(1);
         codriverControl.whenPressed(new OverrideControlCommand(JS_COLLECTOR));
