@@ -10,10 +10,10 @@ import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
+import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.Climber;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
-import org.usfirst.frc.team5818.robot.subsystems.CollectorRollers;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
@@ -39,9 +39,9 @@ public class Robot extends IterativeRobot {
 
     public DriveTrain driveTrain;
     public Driver driver;
-    public Collector collector;
-    public CollectorRollers roll;
-    public VisionTracker track;
+    public Arm arm;
+    public Collector collect;
+    public VisionTracker vision;
     public Turret turret;
     public Climber climb;
     public CameraController camCont;
@@ -62,10 +62,10 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         runningRobot = this;
         driveTrain = new DriveTrain();
-        track = new VisionTracker();
+        vision = new VisionTracker();
         turret = new Turret();
-        roll = new CollectorRollers();
-        collector = new Collector();
+        collect = new Collector();
+        arm = new Arm();
         climb = new Climber();
         chooser = new SendableChooser<>();
         camCont = new CameraController();
@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Place With Limit", new PlaceWithLimit());
         chooser.addObject("Two Gear", new SlowTwoGearAuto());
         SmartDashboard.putData("Auto mode", chooser);
-        track.start();
+        vision.start();
     }
 
     /**
@@ -92,7 +92,7 @@ public class Robot extends IterativeRobot {
         if (requireAllSubsystems.isRunning()) {
             requireAllSubsystems.cancel();
         }
-        collector.setBrakeMode(true);
+        arm.setBrakeMode(true);
     }
 
     @Override
@@ -159,7 +159,7 @@ public class Robot extends IterativeRobot {
         printSmartDash();
         driver.teleopPeriodic();
         /* check arm for exceeding disable position */
-        if (collector.getPosition() >= Collector.TURRET_RESET_POSITION) {
+        if (arm.getPosition() >= Arm.TURRET_RESET_POSITION) {
             runTurretOverrides();
         }
         Scheduler.getInstance().run();
@@ -191,12 +191,12 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("VisDrive", driveTrain.isVisionDriving());
         SmartDashboard.putBoolean("Passed Target", driveTrain.passedTarget());
         SmartDashboard.putBoolean("Turret Limit Switch", turret.getLimit());
-        SmartDashboard.putNumber("Gear X:", track.getCurrentAngle());
+        SmartDashboard.putNumber("Gear X:", vision.getCurrentAngle());
         SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
         SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
         SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
-        SmartDashboard.putNumber("Bot Current", roll.getBotCurrent());
-        SmartDashboard.putNumber("Arm Pos", collector.getPosition());
+        SmartDashboard.putNumber("Bot Current", collect.getBotCurrent());
+        SmartDashboard.putNumber("Arm Pos", arm.getPosition());
         SmartDashboard.putNumber("left drive encoder", driveTrain.getLeftSide().getSidePosition());
         SmartDashboard.putNumber("right drive encoder", driveTrain.getRightSide().getSidePosition());
         SmartDashboard.putNumber("left encoder raw", driveTrain.getLeftSide().getRawPos());

@@ -16,7 +16,7 @@ public class CameraController extends Subsystem {
     private double frontExposure;
 
     public CameraController() {
-        rPi = Robot.runningRobot.track.getRasPi();
+        rPi = Robot.runningRobot.vision.getRasPi();
         currCam = Camera.CAM_TAPE;
         frontExposure = CAMERA_EXPOSURE_LOW;
     }

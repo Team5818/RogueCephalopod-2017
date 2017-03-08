@@ -2,8 +2,6 @@ package org.usfirst.frc.team5818.robot.utils;
 
 import org.usfirst.frc.team5818.robot.Robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public enum RatioDriveCalculator implements DriveCalculator {
 
     INSTANCE;

@@ -2,31 +2,31 @@ package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
-import org.usfirst.frc.team5818.robot.subsystems.Collector;
+import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
 
-public class CollectorControlCommand extends ControlCommand {
+public class ArmControlCommand extends ControlCommand {
 
-    private final Collector coll = Robot.runningRobot.collector;
+    private final Arm arm = Robot.runningRobot.arm;
 
-    public CollectorControlCommand() {
+    public ArmControlCommand() {
         super(js(driver -> driver.JS_COLLECTOR));
-        requires(coll);
+        requires(arm);
     }
 
     @Override
     protected void initialize() {
-        coll.setBrakeMode(true);
+        arm.setBrakeMode(true);
     }
 
     @Override
     protected void setPower() {
-        coll.setPower(MathUtil.adjustDeadband(driver.JS_COLLECTOR, Driver.DEADBAND_VEC).getY());
+        arm.setPower(MathUtil.adjustDeadband(driver.JS_COLLECTOR, Driver.DEADBAND_VEC).getY());
     }
 
     @Override
     protected void setZero() {
-        coll.setPower(0);
+        arm.setPower(0);
     }
 
 }

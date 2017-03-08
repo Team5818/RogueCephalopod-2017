@@ -9,19 +9,19 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TapeMode extends Command {
 
     private CameraController cont;
-    private VisionTracker track;
+    private VisionTracker vision;
 
     public TapeMode() {
         cont = Robot.runningRobot.camCont;
-        track = Robot.runningRobot.track;
+        vision = Robot.runningRobot.vision;
         requires(cont);
-        requires(track);
+        requires(vision);
     }
 
     @Override
     protected void initialize() {
         cont.enterTapeMode();
-        track.setLightsOn(true);
+        vision.setLightsOn(true);
     }
 
     @Override

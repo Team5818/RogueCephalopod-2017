@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5818.robot.utils;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public enum RadiusDriveCalculator implements DriveCalculator {
 
     INSTANCE;

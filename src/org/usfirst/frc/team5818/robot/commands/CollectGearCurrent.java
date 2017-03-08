@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
-import org.usfirst.frc.team5818.robot.subsystems.CollectorRollers;
+import org.usfirst.frc.team5818.robot.subsystems.Collector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,7 +10,7 @@ public class CollectGearCurrent extends Command {
     private static final double DEFAULT_CURRENT_THRESH = 6.0;
     private double currThresh;
     private double power;
-    private final CollectorRollers collectorRollers = Robot.runningRobot.roll;
+    private final Collector collect = Robot.runningRobot.collect;
 
     public CollectGearCurrent(double thresh, double pow, double timeout) {
         setTimeout(timeout);
@@ -24,19 +24,19 @@ public class CollectGearCurrent extends Command {
 
     @Override
     protected void initialize() {
-        collectorRollers.setTopPower(power);
-        collectorRollers.setBotPower(power);
+        collect.setTopPower(power);
+        collect.setBotPower(power);
     }
 
     @Override
     protected void execute() {
-        collectorRollers.setTopPower(power);
-        collectorRollers.setBotPower(power);
+        collect.setTopPower(power);
+        collect.setBotPower(power);
     }
 
     @Override
     protected boolean isFinished() {
-        return collectorRollers.getBotCurrent() > currThresh || isTimedOut();
+        return collect.getBotCurrent() > currThresh || isTimedOut();
     }
 
 }

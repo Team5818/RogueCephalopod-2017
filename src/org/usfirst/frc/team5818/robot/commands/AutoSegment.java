@@ -6,7 +6,7 @@ import org.usfirst.frc.team5818.robot.constants.AutoExtra;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.Side;
-import org.usfirst.frc.team5818.robot.subsystems.Collector;
+import org.usfirst.frc.team5818.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
@@ -100,10 +100,10 @@ public class AutoSegment extends CommandGroup {
 
         if (extra == AutoExtra.COLLECT) {
             whileDriving.addSequential(new TurretSmallAdjustment(0));
-            whileDriving.addSequential((new SetCollectorAngle(Collector.COLLECT_POSITION)));
+            whileDriving.addSequential((new SetArmAngle(Arm.COLLECT_POSITION)));
             whileDriving.addSequential(new CollectGear(.5, 1));
         } else if (extra == AutoExtra.PLACE) {
-            whileDriving.addSequential(new SetCollectorAngle(Collector.LOAD_POSITION));
+            whileDriving.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true));
             atEnd.addSequential(new TimedCommand(0.5));
             atEnd.addSequential(new PlaceWithLimit());

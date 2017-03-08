@@ -9,19 +9,19 @@ import edu.wpi.first.wpilibj.command.Command;
 public class GearMode extends Command {
 
     private CameraController cont;
-    private VisionTracker track;
+    private VisionTracker vision;
 
     public GearMode() {
         cont = Robot.runningRobot.camCont;
-        track = Robot.runningRobot.track;
+        vision = Robot.runningRobot.vision;
         requires(cont);
-        requires(track);
+        requires(vision);
     }
 
     @Override
     protected void initialize() {
         cont.enterGearMode();
-        track.setLightsOn(false);
+        vision.setLightsOn(false);
     }
 
     @Override

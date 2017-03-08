@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
-import org.usfirst.frc.team5818.robot.subsystems.Collector;
+import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurretMoveToZero extends Command {
 
-    private final Collector collector = Robot.runningRobot.collector;
+    private final Arm arm = Robot.runningRobot.arm;
     private final Turret turret = Robot.runningRobot.turret;
 
     public TurretMoveToZero() {
@@ -26,7 +26,7 @@ public class TurretMoveToZero extends Command {
 
     @Override
     protected boolean isFinished() {
-        return collector.getPosition() < Collector.TURRET_RESET_POSITION;
+        return arm.getPosition() < Arm.TURRET_RESET_POSITION;
     }
 
 }

@@ -3,7 +3,6 @@ package org.usfirst.frc.team5818.robot.subsystems;
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.commands.TurretControlCommand;
 import org.usfirst.frc.team5818.robot.constants.BotConstants;
-import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
