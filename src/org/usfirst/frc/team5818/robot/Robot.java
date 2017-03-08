@@ -74,8 +74,9 @@ public class Robot extends IterativeRobot {
         driver = new Driver();
         turretZero = new TurretMoveToZero();
         requireAllSubsystems = new RequireAllSubsystems();
-        chooser.addObject("One Gear Auto", new OneGearAuto(Side.LEFT));
+        chooser.addObject("One Gear Auto (Left)", new OneGearAuto(Side.LEFT));
         chooser.addObject("One Gear Auto (Center)", new OneGearAuto(Side.CENTER));
+        chooser.addObject("One Gear Auto (Right)", new OneGearAuto(Side.RIGHT));
         chooser.addObject("Three Gear Auto", new ThreeGearAuto());
         chooser.addObject("Place With Limit", new PlaceWithLimit());
         chooser.addObject("Two Gear", new SlowTwoGearAuto());
