@@ -10,9 +10,13 @@ public class SetCollectorPower extends Command {
     private final double power;
     private final CollectorRollers roll = Robot.runningRobot.roll;
 
+    public SetCollectorPower(boolean ejectForwards, double pow, double timeout) {
+        setTimeout(timeout);
+        power = ejectForwards ? pow : -pow;
+    }
+    
     public SetCollectorPower(boolean ejectForwards) {
-        setTimeout(1);
-        power = ejectForwards ? 0.7 : -0.7;
+    	this(ejectForwards, 0.7, 1);
     }
 
     @Override
