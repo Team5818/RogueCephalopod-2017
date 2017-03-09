@@ -3,6 +3,7 @@ package org.usfirst.frc.team5818.robot.autos;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.TwoGearSegment;
+import org.usfirst.frc.team5818.robot.commands.uTurn;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.AutoExtra;
 import org.usfirst.frc.team5818.robot.constants.Direction;
@@ -19,6 +20,7 @@ public class SlowTwoGearAuto extends CommandGroup {
     private TapeMode tapeMode1;
     private GearMode gearMode;
     private TapeMode tapeMode2;
+    private uTurn turn;
 
     public SlowTwoGearAuto() {
         setInterruptible(false);
@@ -29,6 +31,8 @@ public class SlowTwoGearAuto extends CommandGroup {
         moveToGear = new TwoGearSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT, .5);
         tapeMode2 = new TapeMode();
         moveToPeg = new TwoGearSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.PLACE, .5);
+        
+        turn = new uTurn(96, 0.7, Side.LEFT);
 
         this.addSequential(tapeMode1);
         this.addSequential(moveForward);
@@ -38,6 +42,7 @@ public class SlowTwoGearAuto extends CommandGroup {
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
+        this.addSequential(turn);
     }
 
 }

@@ -3,6 +3,7 @@ package org.usfirst.frc.team5818.robot.autos;
 import org.usfirst.frc.team5818.robot.commands.AutoSegment;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
+import org.usfirst.frc.team5818.robot.commands.uTurn;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.AutoExtra;
 import org.usfirst.frc.team5818.robot.constants.Direction;
@@ -24,6 +25,7 @@ public class ThreeGearAuto extends CommandGroup {
     private AutoSegment moveToGear2;
     private TapeMode tapeMode3;
     private AutoSegment moveToPeg2;
+    private uTurn turn;
 
     public ThreeGearAuto() {
         setInterruptible(false);
@@ -39,6 +41,7 @@ public class ThreeGearAuto extends CommandGroup {
         moveToGear2 = new AutoSegment(Direction.FORWARD, Side.RIGHT, AutoExtra.COLLECT, .7);
         tapeMode3 = new TapeMode();
         moveToPeg2 = new AutoSegment(Direction.BACKWARD, Side.RIGHT, AutoExtra.PLACE, .7);
+        turn = new uTurn(96, 0.7, Side.LEFT);
 
         this.addSequential(tapeMode1);
         this.addSequential(moveForward);
@@ -52,6 +55,7 @@ public class ThreeGearAuto extends CommandGroup {
         this.addSequential(moveToGear2);
         this.addSequential(tapeMode3);
         this.addSequential(moveToPeg2);
+        this.addSequential(turn);
     }
 
 }
