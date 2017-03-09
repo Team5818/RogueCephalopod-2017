@@ -67,7 +67,7 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     public double getPosition() {
         double pos = rightMotorTal.getPulseWidthPosition();
         if (pos > 3000) {
-            return 4096 - pos;
+            return pos - 4096;
         }
         return pos;
     }
