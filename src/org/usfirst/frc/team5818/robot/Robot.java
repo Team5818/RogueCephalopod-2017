@@ -2,6 +2,7 @@
 package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.autos.OneGearAuto;
+import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
@@ -72,12 +73,14 @@ public class Robot extends IterativeRobot {
         driver = new Driver();
         turretZero = new TurretMoveToZero();
         requireAllSubsystems = new RequireAllSubsystems();
-        chooser.addObject("One Gear Auto (Left)", new OneGearAuto(Side.LEFT));
-        chooser.addObject("One Gear Auto (Center)", new OneGearAuto(Side.CENTER));
-        chooser.addObject("One Gear Auto (Right)", new OneGearAuto(Side.RIGHT));
-        chooser.addObject("Three Gear Auto", new ThreeGearAuto());
+        chooser.addObject("One Gear Auto (Left)", new OneGearAuto(Side.LEFT, false));
+        chooser.addObject("One Gear Auto (Center)", new OneGearAuto(Side.CENTER, false));
+        chooser.addObject("One Gear Auto (Right)", new OneGearAuto(Side.RIGHT, false));
+        chooser.addObject("One Gear From Two Gear Auto", new OneGearButFromTwoGearAuto());
+        chooser.addObject("Three Gear Auto", new ThreeGearAuto(false));
         chooser.addObject("Place With Limit", new PlaceWithLimit());
-        chooser.addObject("Two Gear", new SlowTwoGearAuto());
+        chooser.addObject("Two Gear left", new SlowTwoGearAuto(false, Side.LEFT));
+        chooser.addObject("Two Gear right", new SlowTwoGearAuto(false, Side.RIGHT));
         SmartDashboard.putData("Auto mode", chooser);
         vision.start();
     }

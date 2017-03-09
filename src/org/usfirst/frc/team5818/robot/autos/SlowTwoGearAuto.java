@@ -3,6 +3,7 @@ package org.usfirst.frc.team5818.robot.autos;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.TwoGearSegment;
+import org.usfirst.frc.team5818.robot.commands.UTurn;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.AutoExtra;
 import org.usfirst.frc.team5818.robot.constants.Direction;
@@ -19,16 +20,19 @@ public class SlowTwoGearAuto extends CommandGroup {
     private TapeMode tapeMode1;
     private GearMode gearMode;
     private TapeMode tapeMode2;
+    private UTurn turn;
 
-    public SlowTwoGearAuto() {
+    public SlowTwoGearAuto(boolean uTurn, Side side) {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, .5);
+        moveForward = new TwoGearSegment(Direction.BACKWARD, side, null, .5);
 
         gearMode = new GearMode();
-        moveToGear = new TwoGearSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT, .5);
+        moveToGear = new TwoGearSegment(Direction.FORWARD, side, AutoExtra.COLLECT, .5);
         tapeMode2 = new TapeMode();
-        moveToPeg = new TwoGearSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.PLACE, .5);
+        moveToPeg = new TwoGearSegment(Direction.BACKWARD, side, AutoExtra.PLACE, .5);
+        
+        turn = new UTurn(96, 0.7, Side.LEFT);
 
         this.addSequential(tapeMode1);
         this.addSequential(moveForward);
@@ -38,6 +42,9 @@ public class SlowTwoGearAuto extends CommandGroup {
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
+        if (uTurn) {
+			this.addSequential(turn);
+        }
     }
 
 }
