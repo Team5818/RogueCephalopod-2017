@@ -1,15 +1,12 @@
 package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
+import org.usfirst.frc.team5818.robot.constants.Side;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class uTurn extends CommandGroup {
 	private static final double BOT_WIDTH = 32.0; // guess
-	public enum Side {
-		LEFT,
-		RIGHT
-	}
 	private DriveAtRatio turn;
 	
 	public uTurn(double insideRadius, double power, Side side) {
