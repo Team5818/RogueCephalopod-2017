@@ -17,6 +17,7 @@ import org.usfirst.frc.team5818.robot.commands.CoRiverControlCommand;
 import org.usfirst.frc.team5818.robot.commands.PutGearInTurret;
 import org.usfirst.frc.team5818.robot.commands.SetArmAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
+import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
@@ -103,6 +104,10 @@ public class Driver {
         
         Button codriverControl = Buttons.TURRET.get(1);
         codriverControl.whenPressed(new CoRiverControlCommand(JS_COLLECTOR));
+        
+        Button extendTurret = Buttons.TURRET.get(2);
+        extendTurret.whenPressed(new SetExtendTurret(true));
+        extendTurret.whenReleased(new FullExtention(false));
 
         Button turretMinus90 = Buttons.COLLECTOR.get(5);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
