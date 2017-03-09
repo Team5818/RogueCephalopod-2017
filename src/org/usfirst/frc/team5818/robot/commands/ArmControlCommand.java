@@ -13,6 +13,7 @@ public class ArmControlCommand extends ControlCommand {
     private Joystick joystick;
     
     public ArmControlCommand(Joystick joy) {
+        super(joy);
         joystick = joy;
         requires(arm);
     }

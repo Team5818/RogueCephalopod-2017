@@ -36,6 +36,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
     private Solenoid extender;
 
     public Turret() {
+        pot = new AnalogInput(Constant.turretPot());
         motor = new CANTalon(RobotMap.TURR_MOTOR);
         motor.setInverted(true);
         angleController = new BetterPIDController(kP, kI, kD, this, this);
