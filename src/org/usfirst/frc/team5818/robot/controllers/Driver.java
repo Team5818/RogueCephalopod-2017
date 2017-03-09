@@ -94,9 +94,9 @@ public class Driver {
         manualArm.whenPressed(new ArmControlCommand(JS_COLLECTOR));
         manualArm.whenReleased(new SetArmAngle(Arm.MID_POSITION));
         
-        Button gear = Buttons.TURRET.get(7);
-        gear.whenPressed(new GearMode());
-        gear.whenReleased(new TapeMode());
+        Button tape = Buttons.TURRET.get(7);
+        tape.whenPressed(new TapeMode());
+        tape.whenReleased(new GearMode());
         
         Button climbMode = Buttons.TURRET.get(5);
         climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
