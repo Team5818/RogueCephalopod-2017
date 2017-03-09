@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
-    private static final double kP = 0.0004;// tune me pls
+    private static final double kP = 0.0006;// tune me pls
     private static final double kI = 0.0000;
-    private static final double kD = 0.0;
+    private static final double kD = 0.00005;
 
     public static final double COLLECT_POSITION = -632;
     public static final double MID_POSITION = 854;
