@@ -2,6 +2,7 @@
 package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.autos.OneGearAuto;
+import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
@@ -75,6 +76,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("One Gear Auto (Left)", new OneGearAuto(Side.LEFT));
         chooser.addObject("One Gear Auto (Center)", new OneGearAuto(Side.CENTER));
         chooser.addObject("One Gear Auto (Right)", new OneGearAuto(Side.RIGHT));
+        chooser.addObject("One Gear From Two Gear Auto", new OneGearButFromTwoGearAuto());
         chooser.addObject("Three Gear Auto", new ThreeGearAuto());
         chooser.addObject("Place With Limit", new PlaceWithLimit());
         chooser.addObject("Two Gear", new SlowTwoGearAuto());
