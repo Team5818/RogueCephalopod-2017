@@ -14,6 +14,7 @@ public class PutGearInTurret extends CommandGroup {
         this.addSequential(new SetTurretAngle(0));
         this.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
         this.addSequential(new SetCollectorPower(true, 0.7, 5));
+        requires(Robot.runningRobot.arm);
         setInterruptible(true);
     }
 
@@ -21,5 +22,10 @@ public class PutGearInTurret extends CommandGroup {
     protected void end() {
         collect.setBotPower(0);
         collect.setTopPower(0);
+    }
+    
+    @Override
+    protected void interrupted(){
+        end();
     }
 }
