@@ -5,6 +5,7 @@ import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
@@ -12,12 +13,12 @@ import org.usfirst.frc.team5818.robot.utils.Vectors;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class OverrideControlCommand extends ControlCommand {
+public class CoRiverControlCommand extends ControlCommand {
 
     private final DriveTrain driveTrain = Robot.runningRobot.driveTrain;
     private final Joystick js;
 
-    public OverrideControlCommand(Joystick joystick) {
+    public CoRiverControlCommand(Joystick joystick) {
         super(joystick);
         js = joystick;
         requires(driveTrain);
@@ -28,7 +29,7 @@ public class OverrideControlCommand extends ControlCommand {
         Vector2d driveVector = Vectors.fromJoystick(js, true);
         driveVector = MathUtil.adjustDeadband(driveVector, Driver.DEADBAND_VEC);
         RadiusDriveCalculator.INSTANCE.setQuick(Math.abs(js.getTwist()) > Driver.TWIST_DEADBAND || driveVector.getY() == 0);
-        Vector2d controlVector = driver.driveCalc.compute(driveVector);
+        Vector2d controlVector = ArcadeDriveCalculator.INSTANCE.compute(driveVector);
         switch (driver.dMode) {
             case POWER:
                 driveTrain.setPowerLeftRight(controlVector);

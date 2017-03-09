@@ -13,7 +13,7 @@ import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 import org.usfirst.frc.team5818.robot.commands.FullExtention;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.MoveArmCollect;
-import org.usfirst.frc.team5818.robot.commands.OverrideControlCommand;
+import org.usfirst.frc.team5818.robot.commands.CoRiverControlCommand;
 import org.usfirst.frc.team5818.robot.commands.PutGearInTurret;
 import org.usfirst.frc.team5818.robot.commands.SetArmAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
@@ -102,7 +102,7 @@ public class Driver {
         climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
         
         Button codriverControl = Buttons.TURRET.get(1);
-        codriverControl.whenPressed(new OverrideControlCommand(JS_COLLECTOR));
+        codriverControl.whenPressed(new CoRiverControlCommand(JS_COLLECTOR));
 
         Button turretMinus90 = Buttons.COLLECTOR.get(5);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
