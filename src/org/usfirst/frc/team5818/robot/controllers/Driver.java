@@ -91,10 +91,10 @@ public class Driver {
         spitGear.whileHeld(new SetCollectorPower(false));
         
         //REMOVE AFTER TESTING COMPLETE
-        Button armLowTest = Buttons.TURN.get(3);
+        Button armLowTest = Buttons.TURN.get(4);
         armLowTest.whenPressed(new SetArmAngle(Arm.COLLECT_POSITION));
 
-        Button armHighTest = Buttons.TURN.get(4);
+        Button armHighTest = Buttons.TURN.get(3);
         armHighTest.whenPressed(new SetArmAngle(Arm.LOAD_POSITION));
         //REMOVE AFTER TESTING COMPLETE
 
