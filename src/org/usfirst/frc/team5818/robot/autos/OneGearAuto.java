@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5818.robot.autos;
 
-import org.usfirst.frc.team5818.robot.commands.uTurn;
+import org.usfirst.frc.team5818.robot.commands.UTurn;
 import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.Camera;
@@ -43,7 +43,7 @@ public class OneGearAuto extends CommandGroup {
             b.stoppingAtEnd(true);
         }));
         this.addSequential(new PlaceWithLimit());
-        this.addSequential(new uTurn(96, 0.7, Side.LEFT));
+        this.addSequential(new UTurn(96, 0.7, Side.LEFT));
     }
 
     private void addCurve(int sideMultiplier) {
