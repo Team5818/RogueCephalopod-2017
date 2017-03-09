@@ -114,8 +114,6 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     }
 
     @Override
-    protected void initDefaultCommand() {
-        setDefaultCommand(new ArmControlCommand());
-    }
+    protected void initDefaultCommand() {}
 
 }
