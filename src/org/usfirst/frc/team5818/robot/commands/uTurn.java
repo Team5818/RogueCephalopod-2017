@@ -5,11 +5,11 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class uTurn extends CommandGroup {
+public class UTurn extends CommandGroup {
 	private static final double BOT_WIDTH = 32.0; // guess
 	private DriveAtRatio turn;
 	
-	public uTurn(double insideRadius, double power, Side side) {
+	public UTurn(double insideRadius, double power, Side side) {
 		turn = DriveAtRatio.withDeadReckon(t -> {
 			// side == the side that the robot goes to from the perspective of the driver
 			if (side == Side.LEFT) {
@@ -20,7 +20,7 @@ public class uTurn extends CommandGroup {
 				throw new IllegalArgumentException("side must be either left or right");
 			}
 			t.inches(insideRadius + (BOT_WIDTH / 2) * Math.PI);
-			t.maxPower(-1 * power);
+			t.maxPower(power);
 			t.stoppingAtEnd(false);
 		});
 		this.addSequential(turn);
