@@ -69,11 +69,7 @@ public class TwoGearSegment extends CommandGroup {
                     b.inches(16);
                 }
                 b.maxPower(-maxPower);
-                if (side == Side.LEFT) {
-                    b.targetRatio(1.6);
-                } else {
-                    b.targetRatio(1.0 / 1.2);
-                }
+                b.targetRatio(1.6);
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
