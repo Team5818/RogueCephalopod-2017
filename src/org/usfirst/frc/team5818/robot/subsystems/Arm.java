@@ -23,8 +23,8 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     public static final double TURRET_RESET_POSITION = 1500;
     public static final double NINETY_DEGREES = 1198;
     public static final double LOAD_POSITION = 2035;
-    public static final double angleScale = .04277;
-    public static final double angleOffset = 11.21385 - 16.3;
+    public static final double angleScale = 80.5/1830.0;
+    public static final double angleOffset = 37.30109 - 16.3;
     public static final double holdPower = .055;
 
     private CANTalon leftMotorTal;
