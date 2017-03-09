@@ -184,6 +184,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void testPeriodic() {
+        printSmartDash();
         Scheduler.getInstance().run();
     }
 
