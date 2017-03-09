@@ -13,7 +13,7 @@ import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 import org.usfirst.frc.team5818.robot.commands.FullExtention;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.MoveArmCollect;
-import org.usfirst.frc.team5818.robot.commands.OverrideControlCommand;
+import org.usfirst.frc.team5818.robot.commands.CoRiverControlCommand;
 import org.usfirst.frc.team5818.robot.commands.PutGearInTurret;
 import org.usfirst.frc.team5818.robot.commands.SetArmAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
@@ -28,6 +28,7 @@ import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
+import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.RatioDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.SchedulerAccess;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
@@ -61,7 +62,7 @@ public class Driver {
         JS_COLLECTOR = new Joystick(Constant.joystickCollector());
 
         dMode = DriveMode.POWER;
-        driveCalc = RatioDriveCalculator.INSTANCE;// RadiusDriveCalculator.INSTANCE;
+        driveCalc = RadiusDriveCalculator.INSTANCE;
     }
 
     public void setupTeleopButtons() {
@@ -72,7 +73,7 @@ public class Driver {
 
         Button switchDriveMode = Buttons.FW_BACK.get(7);
         switchDriveMode.whenPressed(new SwitchDriveMode(ArcadeDriveCalculator.INSTANCE));
-        switchDriveMode.whenReleased(new SwitchDriveMode(RatioDriveCalculator.INSTANCE));
+        switchDriveMode.whenReleased(new SwitchDriveMode(RadiusDriveCalculator.INSTANCE));
 
         Button collectGear = Buttons.TURN.get(1);
         collectGear.whenPressed(new MoveArmCollect());
@@ -93,15 +94,15 @@ public class Driver {
         manualArm.whenPressed(new ArmControlCommand(JS_COLLECTOR));
         manualArm.whenReleased(new SetArmAngle(Arm.MID_POSITION));
         
-        Button gear = Buttons.TURRET.get(7);
-        gear.whenPressed(new GearMode());
-        gear.whenReleased(new TapeMode());
+        Button tape = Buttons.TURRET.get(7);
+        tape.whenPressed(new TapeMode());
+        tape.whenReleased(new GearMode());
         
         Button climbMode = Buttons.TURRET.get(5);
         climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
         
         Button codriverControl = Buttons.TURRET.get(1);
-        codriverControl.whenPressed(new OverrideControlCommand(JS_COLLECTOR));
+        codriverControl.whenPressed(new CoRiverControlCommand(JS_COLLECTOR));
 
         Button turretMinus90 = Buttons.COLLECTOR.get(5);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
