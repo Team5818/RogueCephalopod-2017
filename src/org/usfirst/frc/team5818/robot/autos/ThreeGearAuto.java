@@ -27,7 +27,7 @@ public class ThreeGearAuto extends CommandGroup {
     private AutoSegment moveToPeg2;
     private UTurn turn;
 
-    public ThreeGearAuto() {
+    public ThreeGearAuto(boolean uTurn) {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
         moveForward = new AutoSegment(Direction.BACKWARD, Side.CENTER, null, .7);
@@ -55,7 +55,9 @@ public class ThreeGearAuto extends CommandGroup {
         this.addSequential(moveToGear2);
         this.addSequential(tapeMode3);
         this.addSequential(moveToPeg2);
-        this.addSequential(turn);
+        if (uTurn) {
+			this.addSequential(turn);
+        }
     }
 
 }

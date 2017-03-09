@@ -22,15 +22,15 @@ public class SlowTwoGearAuto extends CommandGroup {
     private TapeMode tapeMode2;
     private UTurn turn;
 
-    public SlowTwoGearAuto() {
+    public SlowTwoGearAuto(boolean uTurn, Side side) {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, .5);
+        moveForward = new TwoGearSegment(Direction.BACKWARD, side, null, .5);
 
         gearMode = new GearMode();
-        moveToGear = new TwoGearSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT, .5);
+        moveToGear = new TwoGearSegment(Direction.FORWARD, side, AutoExtra.COLLECT, .5);
         tapeMode2 = new TapeMode();
-        moveToPeg = new TwoGearSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.PLACE, .5);
+        moveToPeg = new TwoGearSegment(Direction.BACKWARD, side, AutoExtra.PLACE, .5);
         
         turn = new UTurn(96, 0.7, Side.LEFT);
 
@@ -42,7 +42,9 @@ public class SlowTwoGearAuto extends CommandGroup {
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
-        this.addSequential(turn);
+        if (uTurn) {
+			this.addSequential(turn);
+        }
     }
 
 }
