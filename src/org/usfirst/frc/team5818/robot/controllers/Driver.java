@@ -93,8 +93,11 @@ public class Driver {
         //REMOVE AFTER TESTING COMPLETE
         Button armLowTest = Buttons.TURN.get(4);
         armLowTest.whenPressed(new SetArmAngle(Arm.COLLECT_POSITION));
-
-        Button armHighTest = Buttons.TURN.get(3);
+        
+        Button armMidTest = Buttons.TURN.get(3);
+        armMidTest.whenPressed(new SetArmAngle(Arm.MID_POSITION));
+        
+        Button armHighTest = Buttons.TURN.get(6);
         armHighTest.whenPressed(new SetArmAngle(Arm.LOAD_POSITION));
         //REMOVE AFTER TESTING COMPLETE
 
