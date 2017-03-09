@@ -89,6 +89,14 @@ public class Driver {
 
         Button spitGear = Buttons.TURN.get(7);
         spitGear.whileHeld(new SetCollectorPower(false));
+        
+        //REMOVE AFTER TESTING COMPLETE
+        Button armLowTest = Buttons.TURN.get(3);
+        armLowTest.whenPressed(new SetArmAngle(Arm.COLLECT_POSITION));
+
+        Button armHighTest = Buttons.TURN.get(4);
+        armHighTest.whenPressed(new SetArmAngle(Arm.LOAD_POSITION));
+        //REMOVE AFTER TESTING COMPLETE
 
         Button manualArm = Buttons.TURRET.get(8);
         manualArm.whenPressed(new ArmControlCommand(JS_COLLECTOR));
