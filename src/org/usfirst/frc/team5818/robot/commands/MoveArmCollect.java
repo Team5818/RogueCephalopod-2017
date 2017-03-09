@@ -10,8 +10,6 @@ public class MoveArmCollect extends CommandGroup {
     private CommandGroup moveArm;
 
     public MoveArmCollect() {
-        requires(Robot.runningRobot.arm);
-        setInterruptible(true);
         moveArm = new CommandGroup();
         moveArm.addParallel(new CollectGear());
         moveArm.addParallel(new SetArmAngle(Arm.COLLECT_POSITION));
