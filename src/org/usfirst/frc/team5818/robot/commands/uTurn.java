@@ -11,10 +11,11 @@ public class uTurn extends CommandGroup {
 	
 	public uTurn(double insideRadius, double power, Side side) {
 		turn = DriveAtRatio.withDeadReckon(t -> {
+			// side == the side that the robot goes to from the perspective of the driver
 			if (side == Side.LEFT) {
-				t.targetRatio(((BOT_WIDTH + insideRadius) / insideRadius));
-			} else if (side == Side.RIGHT) {
 				t.targetRatio(insideRadius / (BOT_WIDTH + insideRadius));
+			} else if (side == Side.RIGHT) {
+				t.targetRatio(((BOT_WIDTH + insideRadius) / insideRadius));
 			} else {
 				throw new IllegalArgumentException("side must be either left or right");
 			}
