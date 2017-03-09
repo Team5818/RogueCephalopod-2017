@@ -14,6 +14,7 @@ import org.usfirst.frc.team5818.robot.commands.FullExtention;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.MoveArmCollect;
 import org.usfirst.frc.team5818.robot.commands.CoRiverControlCommand;
+import org.usfirst.frc.team5818.robot.commands.CollectGear;
 import org.usfirst.frc.team5818.robot.commands.PutGearInTurret;
 import org.usfirst.frc.team5818.robot.commands.SetArmAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
@@ -82,11 +83,19 @@ public class Driver {
         Button raiseArm = Buttons.TURN.get(2);
         raiseArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
         
-        Button shiftLow = Buttons.TURN.get(8);
-        shiftLow.whenPressed(new ShiftGears(Gear.LOW));
+//        Button shiftLow = Buttons.TURN.get(8);
+//        shiftLow.whenPressed(new ShiftGears(Gear.LOW));
+//
+//        Button shiftHigh = Buttons.TURN.get(5);
+//        shiftHigh.whenPressed(new ShiftGears(Gear.HIGH));
+        
+        //Remove After Testing Complete
+        Button collectTest = Buttons.TURN.get(8);
+        collectTest.whenPressed(new CollectGear());
 
-        Button shiftHigh = Buttons.TURN.get(5);
-        shiftHigh.whenPressed(new ShiftGears(Gear.HIGH));
+        Button loadTest = Buttons.TURN.get(5);
+        loadTest.whenPressed(new SetCollectorPower(true));
+        //Remove After Testing Complete
 
         Button spitGear = Buttons.TURN.get(7);
         spitGear.whileHeld(new SetCollectorPower(false));
