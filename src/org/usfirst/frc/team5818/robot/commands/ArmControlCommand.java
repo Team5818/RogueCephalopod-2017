@@ -5,12 +5,15 @@ import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 public class ArmControlCommand extends ControlCommand {
 
     private final Arm arm = Robot.runningRobot.arm;
-
-    public ArmControlCommand() {
-        super(js(driver -> driver.JS_COLLECTOR));
+    private Joystick joystick;
+    
+    public ArmControlCommand(Joystick joy) {
+        joystick = joy;
         requires(arm);
     }
 
@@ -21,7 +24,7 @@ public class ArmControlCommand extends ControlCommand {
 
     @Override
     protected void setPower() {
-        arm.setPower(MathUtil.adjustDeadband(driver.JS_COLLECTOR, Driver.DEADBAND_VEC).getY());
+        arm.setPower(MathUtil.adjustDeadband(joystick, Driver.DEADBAND_VEC).getY());
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.Vector;
 import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team5818.robot.TestingTalon;
+import org.usfirst.frc.team5818.robot.commands.ArmControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ControlMotor;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
@@ -88,15 +89,19 @@ public class Driver {
         Button spitGear = Buttons.TURN.get(7);
         spitGear.whileHeld(new SetCollectorPower(false));
 
+        Button manualArm = Buttons.TURRET.get(8);
+        manualArm.whenPressed(new ArmControlCommand(JS_COLLECTOR));
+        manualArm.whenReleased(new SetArmAngle(Arm.MID_POSITION));
+        
         Button gear = Buttons.TURRET.get(7);
         gear.whenPressed(new GearMode());
         gear.whenReleased(new TapeMode());
-
-        Button codriverControl = Buttons.TURRET.get(1);
-        codriverControl.whenPressed(new OverrideControlCommand(JS_COLLECTOR));
         
         Button climbMode = Buttons.TURRET.get(5);
         climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
+        
+        Button codriverControl = Buttons.TURRET.get(1);
+        codriverControl.whenPressed(new OverrideControlCommand(JS_COLLECTOR));
 
         Button turretMinus90 = Buttons.COLLECTOR.get(5);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
