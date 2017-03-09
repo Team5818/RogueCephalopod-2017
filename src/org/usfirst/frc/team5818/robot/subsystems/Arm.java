@@ -20,7 +20,8 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     public static final double COLLECT_POSITION = -632;
     public static final double MID_POSITION = 854;
-    public static final double TURRET_RESET_POSITION = 2000;
+    public static final double TURRET_RESET_POSITION = 1500;
+    public static final double NINETY_DEGREES = 1198;
     public static final double LOAD_POSITION = 2035;
     public static final double angleScale = .04277;
     public static final double angleOffset = 11.21385 - 16.3;
@@ -64,7 +65,11 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     }
 
     public double getPosition() {
-        return rightMotorTal.getPulseWidthPosition();
+        double pos = rightMotorTal.getPulseWidthPosition();
+        if (pos > 3000) {
+            return 4096 - pos;
+        }
+        return pos;
     }
 
     public BetterPIDController getAnglePID() {
@@ -114,6 +119,7 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     }
 
     @Override
-    protected void initDefaultCommand() {}
+    protected void initDefaultCommand() {
+    }
 
 }
