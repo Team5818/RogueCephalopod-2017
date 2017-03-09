@@ -13,8 +13,10 @@ public class uTurn extends CommandGroup {
 		turn = DriveAtRatio.withDeadReckon(t -> {
 			if (side == Side.LEFT) {
 				t.targetRatio(((BOT_WIDTH + insideRadius) / insideRadius));
-			} else {
+			} else if (side == Side.RIGHT) {
 				t.targetRatio(insideRadius / (BOT_WIDTH + insideRadius));
+			} else {
+				throw new IllegalArgumentException("side must be either left or right");
 			}
 			t.inches(insideRadius + (BOT_WIDTH / 2) * Math.PI);
 			t.maxPower(-1 * power);
