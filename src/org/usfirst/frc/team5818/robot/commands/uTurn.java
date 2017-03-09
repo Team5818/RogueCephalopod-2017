@@ -12,7 +12,7 @@ public class uTurn extends CommandGroup {
 	}
 	private DriveAtRatio turn;
 	
-	public uTurn(double insideRadius, double ratio, double power, Side side) {
+	public uTurn(double insideRadius, double power, Side side) {
 		turn = DriveAtRatio.withDeadReckon(t -> {
 			if (side == Side.LEFT) {
 				t.targetRatio(((BOT_WIDTH + insideRadius) / insideRadius));
