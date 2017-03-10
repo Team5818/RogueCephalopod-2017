@@ -65,7 +65,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motor2NoEnc.setInverted(false);
             velController = new BetterPIDController(L_VEL_KP, L_VEL_KI, L_VEL_KD, L_VEL_KF, this, this);
             distController = new BetterPIDController(L_DIST_KP, L_DIST_KI, L_DIST_KD, this, this);
-            enc = new Encoder(7, 6, true, Encoder.EncodingType.k4X);
+            enc = new Encoder(9, 8, true, Encoder.EncodingType.k4X);
             enc.setDistancePerPulse(LEFT_ENC_SCALE);
             enc.setMaxPeriod(0.1);
         } else {
@@ -77,7 +77,7 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motor2NoEnc.setInverted(true);
             velController = new BetterPIDController(R_VEL_KP, R_VEL_KI, R_VEL_KD, R_VEL_KF, this, this);
             distController = new BetterPIDController(R_DIST_KP, R_DIST_KI, R_DIST_KD, this, this);
-            enc = new Encoder(9, 8, false, Encoder.EncodingType.k4X);
+            enc = new Encoder(7, 6, false, Encoder.EncodingType.k4X);
             enc.setDistancePerPulse(RIGHT_ENC_SCALE);
             enc.setMaxPeriod(0.1);
         }

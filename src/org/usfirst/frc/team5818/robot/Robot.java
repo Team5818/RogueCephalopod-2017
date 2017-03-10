@@ -208,5 +208,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("right drive encoder", driveTrain.getRightSide().getSidePosition());
         SmartDashboard.putNumber("left encoder raw", driveTrain.getLeftSide().getRawPos());
         SmartDashboard.putNumber("right encoder raw", driveTrain.getRightSide().getRawPos());
+        SmartDashboard.putNumber("leftVel", driveTrain.getLeftSide().getSideVelocity());
+        SmartDashboard.putNumber("rightVel", driveTrain.getRightSide().getSideVelocity());
     }
 }

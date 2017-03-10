@@ -68,12 +68,12 @@ public class DriveAtRatio extends Command {
             useVision = false;
             useSanic = false;
         } else if (camera.equals(Camera.CAM_GEARS)) {
-            camMultiplier = -1;
+            camMultiplier = 1;
             maxPow = -Math.abs(maxPow);
             useVision = true;
             useSanic = false;
         } else if (camera.equals(Camera.CAM_TAPE)) {
-            camMultiplier = 1;
+            camMultiplier = -1;
             maxPow = Math.abs(maxPow);
             useVision = true;
             useSanic = false;
@@ -131,6 +131,8 @@ public class DriveAtRatio extends Command {
         Vector2d driveVec = new Vector2d(leftPowMult, rightPowMult);
         driveVec = driveVec.normalize(maxPow);
 
+        SmartDashboard.putNumber("PowerLeft", driveVec.getX());
+        SmartDashboard.putNumber("PowerRight", driveVec.getY());
         Robot.runningRobot.driveTrain.setPowerLeftRight(driveVec);
 
     }
