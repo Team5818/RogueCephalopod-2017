@@ -8,30 +8,28 @@ import java.util.function.DoubleSupplier;
 import org.usfirst.frc.team5818.robot.TestingTalon;
 import org.usfirst.frc.team5818.robot.commands.ArmControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
+import org.usfirst.frc.team5818.robot.commands.CoRiverControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ControlMotor;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 import org.usfirst.frc.team5818.robot.commands.FullExtention;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.MoveArmCollect;
-import org.usfirst.frc.team5818.robot.commands.CoRiverControlCommand;
-import org.usfirst.frc.team5818.robot.commands.CollectGear;
 import org.usfirst.frc.team5818.robot.commands.PutGearInTurret;
 import org.usfirst.frc.team5818.robot.commands.SetArmAngle;
-import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
 import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
+import org.usfirst.frc.team5818.robot.commands.SpitGear;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
-import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
+import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
-import org.usfirst.frc.team5818.robot.utils.RatioDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.SchedulerAccess;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
@@ -79,59 +77,59 @@ public class Driver {
 
         Button collectGear = Buttons.TURN.get(1);
         collectGear.whenPressed(new MoveArmCollect());
-        
+
         Button raiseArm = Buttons.TURN.get(2);
         raiseArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
-        
+
         Button shiftLow = Buttons.TURN.get(8);
         shiftLow.whenPressed(new ShiftGears(Gear.LOW));
 
         Button shiftHigh = Buttons.TURN.get(5);
         shiftHigh.whenPressed(new ShiftGears(Gear.HIGH));
-        
-        //Remove After Testing Complete
-//        Button collectTest = Buttons.TURN.get(8);
-//        collectTest.whenPressed(new CollectGear());
-//
-//        Button loadTest = Buttons.TURN.get(5);
-//        loadTest.whileHeld(new SetCollectorPower(true, .7, 1000));
-        //Remove After Testing Complete
+
+        // Remove After Testing Complete
+        // Button collectTest = Buttons.TURN.get(8);
+        // collectTest.whenPressed(new CollectGear());
+        //
+        // Button loadTest = Buttons.TURN.get(5);
+        // loadTest.whileHeld(new SetCollectorPower(true, .7, 1000));
+        // Remove After Testing Complete
 
         Button spitGear = Buttons.TURN.get(7);
-        spitGear.whileHeld(new SetCollectorPower(false));
-        
-        //REMOVE AFTER TESTING COMPLETE
-//        Button armLowTest = Buttons.TURN.get(4);
-//        armLowTest.whenPressed(new SetArmAngle(Arm.COLLECT_POSITION));
-//        
-//        Button armMidTest = Buttons.TURN.get(3);
-//        armMidTest.whenPressed(new SetArmAngle(Arm.MID_POSITION));
-//        
-//        Button armHighTest = Buttons.TURN.get(6);
-//        armHighTest.whenPressed(new SetArmAngle(Arm.LOAD_POSITION));
-        //REMOVE AFTER TESTING COMPLETE
+        spitGear.whileHeld(new SpitGear());
+
+        // REMOVE AFTER TESTING COMPLETE
+        // Button armLowTest = Buttons.TURN.get(4);
+        // armLowTest.whenPressed(new SetArmAngle(Arm.COLLECT_POSITION));
+        //
+        // Button armMidTest = Buttons.TURN.get(3);
+        // armMidTest.whenPressed(new SetArmAngle(Arm.MID_POSITION));
+        //
+        // Button armHighTest = Buttons.TURN.get(6);
+        // armHighTest.whenPressed(new SetArmAngle(Arm.LOAD_POSITION));
+        // REMOVE AFTER TESTING COMPLETE
 
         Button manualArm = Buttons.TURRET.get(8);
         manualArm.whenPressed(new ArmControlCommand(JS_COLLECTOR));
         manualArm.whenReleased(new SetArmAngle(Arm.MID_POSITION));
-        
+
         Button tape = Buttons.TURRET.get(7);
         tape.whenPressed(new TapeMode());
         tape.whenReleased(new GearMode());
-        
+
         Button climbMode = Buttons.TURRET.get(5);
         climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
-        
+
         Button codriverControl = Buttons.TURRET.get(1);
         codriverControl.whenPressed(new CoRiverControlCommand(JS_COLLECTOR));
-        
+
         Button extendTurret = Buttons.TURRET.get(2);
         extendTurret.whenPressed(new SetExtendTurret(true));
         extendTurret.whenReleased(new FullExtention(false));
 
         Button coDriverMidArm = Buttons.COLLECTOR.get(1);
         coDriverMidArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
-        
+
         Button turretMinus90 = Buttons.COLLECTOR.get(5);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
 
@@ -147,9 +145,10 @@ public class Driver {
         Button fullExtend = Buttons.COLLECTOR.get(7);
         fullExtend.whenPressed(new FullExtention(true));
         fullExtend.whenReleased(new FullExtention(false));
-        
+
         Button loadGear = Buttons.COLLECTOR.get(6);
         loadGear.whenPressed(new PutGearInTurret());
+        loadGear.whenReleased(new SetArmAngle(Arm.MID_POSITION));
     }
 
     public void setupTestButtons() {
