@@ -172,8 +172,12 @@ public class Driver {
             right.pidWrite(i);
         }));
         // Rollers Talons 10 & 11
-        Buttons.COLLECTOR.get(2).whenPressed(new ControlMotor(collectorY, TestingTalon.TOP_ROLLER.talon));
-        Buttons.COLLECTOR.get(3).whenPressed(new ControlMotor(collectorY, TestingTalon.BOT_ROLLER.talon));
+        final CANTalon top = TestingTalon.TOP_ROLLER.talon;
+        final CANTalon bot = TestingTalon.BOT_ROLLER.talon;
+        Buttons.COLLECTOR.get(2).whenPressed(new ControlMotor(collectorY, i -> {
+            top.pidWrite(i);
+            bot.pidWrite(i);
+        }));
         // Climber Talons 12-15
         for (int i = 0; i < 4; i++) {
             // add 3 for arm/roll motors and one for the correct button offset
