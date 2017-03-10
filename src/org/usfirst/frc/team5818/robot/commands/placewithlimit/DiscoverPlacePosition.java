@@ -60,7 +60,12 @@ public class DiscoverPlacePosition extends Command {
                 break;
             case TURN_TURRET:
                 // turn turret and stop later
-                final double angleSign = Math.signum(loopCount - 1);
+                final double angleSign;
+                if (loopCount == 0) {
+                    angleSign = 1;
+                } else /* if (loopCount == 1) */ {
+                    angleSign = -1;
+                }
                 startAngle = angle;
                 targetAngle = startAngle + (angleSign * 2.5 * (loopCount + 1));
                 SmartDashboard.putNumber("DPPAngle", targetAngle);
