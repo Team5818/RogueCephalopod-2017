@@ -162,14 +162,15 @@ public class Robot extends IterativeRobot {
         printSmartDash();
         driver.teleopPeriodic();
         /* check arm for exceeding disable position */
-        if (turretSafetyChecks && arm.getPosition() >= Arm.TURRET_RESET_POSITION) {
+        if (arm.getPosition() >= Arm.TURRET_RESET_POSITION) {
             runTurretOverrides();
         }
+        
         Scheduler.getInstance().run();
     }
 
     public void runTurretOverrides() {
-        if (!turretZero.isRunning()) {
+        if (turretSafetyChecks && !turretZero.isRunning()) {
             turretZero.start();
         }
     }
