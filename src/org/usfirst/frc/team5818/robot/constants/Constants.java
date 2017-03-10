@@ -23,7 +23,7 @@ public abstract class Constants {
     public abstract double turretScale();
 
     public abstract double turretCenter();
-    
+
     public abstract double encoderScale();
 
     public final double maxPower() {

@@ -7,7 +7,6 @@ import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.RadiusDriveCalculator;
-import org.usfirst.frc.team5818.robot.utils.RatioDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 import org.usfirst.frc.team5818.robot.utils.Vectors;
 

@@ -11,7 +11,7 @@ public class ArmControlCommand extends ControlCommand {
 
     private final Arm arm = Robot.runningRobot.arm;
     private Joystick joystick;
-    
+
     public ArmControlCommand(Joystick joy) {
         super(joy);
         joystick = joy;

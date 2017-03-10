@@ -114,7 +114,7 @@ public class DriveAtRatio extends Command {
 
         double anglePower = 0.0;
         if (!Double.isNaN(Robot.runningRobot.vision.getCurrentAngle())) {
-           anglePower = Robot.runningRobot.vision.getCurrentAngle() / CAMERA_FOV * camMultiplier * 2.0;
+            anglePower = Robot.runningRobot.vision.getCurrentAngle() / CAMERA_FOV * camMultiplier * 2.0;
         }
 
         double target = targetRatio;

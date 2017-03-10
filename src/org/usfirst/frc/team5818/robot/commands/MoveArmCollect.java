@@ -16,15 +16,15 @@ public class MoveArmCollect extends CommandGroup {
         this.addSequential(moveArm);
         this.addSequential(new SetArmAngle(Arm.MID_POSITION));
     }
-    
+
     @Override
-    protected void end(){
+    protected void end() {
         Robot.runningRobot.collect.setBotPower(0.0);
         Robot.runningRobot.collect.setTopPower(0.0);
     }
-    
+
     @Override
-    protected void interrupted(){
+    protected void interrupted() {
         end();
     }
 }

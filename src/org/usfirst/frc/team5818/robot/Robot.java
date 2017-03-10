@@ -167,7 +167,7 @@ public class Robot extends IterativeRobot {
         if (arm.getPosition() >= Arm.TURRET_RESET_POSITION) {
             runTurretOverrides();
         }
-        
+
         Scheduler.getInstance().run();
     }
 

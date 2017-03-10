@@ -3,7 +3,6 @@ package org.usfirst.frc.team5818.robot.commands;
 import org.usfirst.frc.team5818.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class StartClimbControlCommand extends Command {
 
@@ -23,8 +22,7 @@ public class StartClimbControlCommand extends Command {
                 break;
             case START_CCC:
             default:
-                SmartDashboard.putString("StartCCC", "Starting CCC");
-                new ClimbControlCommand(Robot.runningRobot.driver.JS_TURRET).start();
+                new ClimbMode().start();
                 state = State.FINISHED;
                 break;
         }

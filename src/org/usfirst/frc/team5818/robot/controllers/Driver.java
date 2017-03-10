@@ -7,7 +7,6 @@ import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team5818.robot.TestingTalon;
 import org.usfirst.frc.team5818.robot.commands.ArmControlCommand;
-import org.usfirst.frc.team5818.robot.commands.ClimbControlCommand;
 import org.usfirst.frc.team5818.robot.commands.CoRiverControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ControlMotor;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
@@ -151,7 +150,7 @@ public class Driver {
         Button loadGear = Buttons.COLLECTOR.get(6);
         loadGear.whenPressed(new PutGearInTurret());
         loadGear.whenReleased(new SetCollectorPower(false, 0, 0.5));
-//        loadGear.whenReleased(new SetArmAngle(Arm.MID_POSITION));
+        // loadGear.whenReleased(new SetArmAngle(Arm.MID_POSITION));
     }
 
     public void setupTestButtons() {
