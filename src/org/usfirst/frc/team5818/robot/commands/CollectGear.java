@@ -11,7 +11,7 @@ public class CollectGear extends CommandGroup {
     Collector collect;
 
     public CollectGear() {
-        this(.5, 10);
+        this(.7, 10);
     }
 
     public CollectGear(double initialTimeout, double currentTimeout) {

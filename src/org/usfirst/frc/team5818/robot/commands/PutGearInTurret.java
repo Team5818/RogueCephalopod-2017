@@ -4,16 +4,19 @@ import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PutGearInTurret extends CommandGroup {
 
     Collector collect = Robot.runningRobot.collect;
 
     public PutGearInTurret() {
+        setInterruptible(false);
         this.addSequential(new SetTurretAngle(0));
         this.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
-        this.addSequential(new SetCollectorPower(true, 0.7, 5));
+        this.addSequential(new SetCollectorPower(true, 0.7, 1));
     }
 
     @Override

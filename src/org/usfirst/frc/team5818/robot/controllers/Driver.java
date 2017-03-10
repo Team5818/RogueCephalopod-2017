@@ -83,32 +83,32 @@ public class Driver {
         Button raiseArm = Buttons.TURN.get(2);
         raiseArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
         
-//        Button shiftLow = Buttons.TURN.get(8);
-//        shiftLow.whenPressed(new ShiftGears(Gear.LOW));
-//
-//        Button shiftHigh = Buttons.TURN.get(5);
-//        shiftHigh.whenPressed(new ShiftGears(Gear.HIGH));
+        Button shiftLow = Buttons.TURN.get(8);
+        shiftLow.whenPressed(new ShiftGears(Gear.LOW));
+
+        Button shiftHigh = Buttons.TURN.get(5);
+        shiftHigh.whenPressed(new ShiftGears(Gear.HIGH));
         
         //Remove After Testing Complete
-        Button collectTest = Buttons.TURN.get(8);
-        collectTest.whenPressed(new CollectGear());
-
-        Button loadTest = Buttons.TURN.get(5);
-        loadTest.whenPressed(new SetCollectorPower(true));
+//        Button collectTest = Buttons.TURN.get(8);
+//        collectTest.whenPressed(new CollectGear());
+//
+//        Button loadTest = Buttons.TURN.get(5);
+//        loadTest.whileHeld(new SetCollectorPower(true, .7, 1000));
         //Remove After Testing Complete
 
         Button spitGear = Buttons.TURN.get(7);
         spitGear.whileHeld(new SetCollectorPower(false));
         
         //REMOVE AFTER TESTING COMPLETE
-        Button armLowTest = Buttons.TURN.get(4);
-        armLowTest.whenPressed(new SetArmAngle(Arm.COLLECT_POSITION));
-        
-        Button armMidTest = Buttons.TURN.get(3);
-        armMidTest.whenPressed(new SetArmAngle(Arm.MID_POSITION));
-        
-        Button armHighTest = Buttons.TURN.get(6);
-        armHighTest.whenPressed(new SetArmAngle(Arm.LOAD_POSITION));
+//        Button armLowTest = Buttons.TURN.get(4);
+//        armLowTest.whenPressed(new SetArmAngle(Arm.COLLECT_POSITION));
+//        
+//        Button armMidTest = Buttons.TURN.get(3);
+//        armMidTest.whenPressed(new SetArmAngle(Arm.MID_POSITION));
+//        
+//        Button armHighTest = Buttons.TURN.get(6);
+//        armHighTest.whenPressed(new SetArmAngle(Arm.LOAD_POSITION));
         //REMOVE AFTER TESTING COMPLETE
 
         Button manualArm = Buttons.TURRET.get(8);
@@ -129,6 +129,9 @@ public class Driver {
         extendTurret.whenPressed(new SetExtendTurret(true));
         extendTurret.whenReleased(new FullExtention(false));
 
+        Button coDriverMidArm = Buttons.COLLECTOR.get(1);
+        coDriverMidArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
+        
         Button turretMinus90 = Buttons.COLLECTOR.get(5);
         turretMinus90.whenPressed(new SetTurretAngle(-90.0));
 
@@ -147,8 +150,6 @@ public class Driver {
         
         Button loadGear = Buttons.COLLECTOR.get(6);
         loadGear.whenPressed(new PutGearInTurret());
-        loadGear.whenReleased(new SetArmAngle(Arm.MID_POSITION));
-
     }
 
     public void setupTestButtons() {
