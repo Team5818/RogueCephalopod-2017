@@ -19,6 +19,7 @@ public class PutGearInTurret extends CommandGroup {
     @Override
     protected void initialize() {
         Robot.runningRobot.turretSafetyChecks = false;
+        Robot.runningRobot.turretZero.cancel();
     }
 
     @Override
