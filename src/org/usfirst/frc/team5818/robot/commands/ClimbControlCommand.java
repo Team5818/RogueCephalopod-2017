@@ -26,7 +26,7 @@ public class ClimbControlCommand extends ControlCommand {
     protected void setPower() {
         // SmartDashboard.putString("CCC", "setPower to " +
         // MathUtil.adjustDeadband(js, Driver.DEADBAND_VEC).getY());
-        climb.setPower(MathUtil.adjustDeadband(js, Driver.DEADBAND_VEC).getY());
+        climb.setPower(Math.abs(MathUtil.adjustDeadband(js, Driver.DEADBAND_VEC).getY()));
         turret.setPower(0.0);
     }
 
