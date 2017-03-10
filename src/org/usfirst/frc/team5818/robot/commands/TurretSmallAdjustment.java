@@ -12,6 +12,7 @@ public class TurretSmallAdjustment extends Command {
     private double startAngle;
 
     public TurretSmallAdjustment(double ang) {
+        setTimeout(0.5);
         requires(turr);
         targetAngle = ang;
     }
@@ -28,11 +29,9 @@ public class TurretSmallAdjustment extends Command {
 
     @Override
     protected boolean isFinished() {
-        if (startAngle < targetAngle) {
-            return turr.getAngle() >= targetAngle - .5;
-        } else {
-            return turr.getAngle() <= targetAngle + .5;
-        }
+        boolean passedTarget1 = startAngle <= targetAngle && (targetAngle - .5) <= turr.getAngle();
+        boolean passedTarget2 = targetAngle <= startAngle && turr.getAngle() <= (targetAngle + .5);
+        return passedTarget1 || passedTarget2 || isTimedOut();
     }
 
     @Override
