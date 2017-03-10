@@ -13,7 +13,7 @@ public class PutGearInTurret extends CommandGroup {
     public PutGearInTurret() {
         this.addSequential(new SetTurretAngle(0));
         this.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
-        this.addSequential(new SetCollectorPower(true, 0.7, 1));
+        this.addSequential(new SetCollectorPower(true, 0.7, 1000));
     }
     
     @Override
