@@ -56,13 +56,13 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             throw new IllegalArgumentException("A drive train may not be in the center");
         }
         this.side = side;
-        if (side == Side.LEFT) {
+        if (side == Side.RIGHT) {
             motorNoEnc = new CANTalon(RobotMap.L_TALON);
             motorEnc = new CANTalon(RobotMap.L_TALON_ENC);
             motor2NoEnc = new CANTalon(RobotMap.L_TALON_2);
-            motorNoEnc.setInverted(true);
-            motorEnc.setInverted(false);
-            motor2NoEnc.setInverted(true);
+            motorNoEnc.setInverted(false);
+            motorEnc.setInverted(true);
+            motor2NoEnc.setInverted(false);
             velController = new BetterPIDController(L_VEL_KP, L_VEL_KI, L_VEL_KD, L_VEL_KF, this, this);
             distController = new BetterPIDController(L_DIST_KP, L_DIST_KI, L_DIST_KD, this, this);
             enc = new Encoder(7, 6, true, Encoder.EncodingType.k4X);
@@ -72,9 +72,9 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motorNoEnc = new CANTalon(RobotMap.R_TALON);
             motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
             motor2NoEnc = new CANTalon(RobotMap.R_TALON_2);
-            motorNoEnc.setInverted(false);
-            motorEnc.setInverted(true);
-            motor2NoEnc.setInverted(false);
+            motorNoEnc.setInverted(true);
+            motorEnc.setInverted(false);
+            motor2NoEnc.setInverted(true);
             velController = new BetterPIDController(R_VEL_KP, R_VEL_KI, R_VEL_KD, R_VEL_KF, this, this);
             distController = new BetterPIDController(R_DIST_KP, R_DIST_KI, R_DIST_KD, this, this);
             enc = new Encoder(9, 8, false, Encoder.EncodingType.k4X);

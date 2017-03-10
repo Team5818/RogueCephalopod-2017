@@ -52,7 +52,7 @@ public class TwoGearSegment extends CommandGroup {
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
                 b.inches(39);
                 b.maxPower(maxPower);
-                b.maxRatio(2.0);
+                b.maxRatio(1.5);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
@@ -78,12 +78,12 @@ public class TwoGearSegment extends CommandGroup {
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
                 if (side == Side.CENTER) {
-                    b.inches(69);
+                    b.inches(75);
                 } else {
                     b.inches(47);
                 }
                 b.maxPower(-maxPower);
-                b.maxRatio(3.0);
+                b.maxRatio(1.5);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {

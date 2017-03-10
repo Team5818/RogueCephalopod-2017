@@ -5,6 +5,7 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DiscoverPlacePosition extends Command {
 
@@ -16,11 +17,13 @@ public class DiscoverPlacePosition extends Command {
     private State state;
     private State next;
     private double waitTimestamp;
+    private double startAngle;
     private double targetAngle;
     private int loopCount = 0;
 
     public DiscoverPlacePosition() {
         turr = Robot.runningRobot.turret;
+        requires(turr);
     }
 
     private void waitThenRunState(long millis, State nextState) {
@@ -37,6 +40,7 @@ public class DiscoverPlacePosition extends Command {
 
     @Override
     protected void execute() {
+        double angle = turr.getAngle();
         switch (state) {
             case EXTEND:
                 // extend and check limit later
@@ -57,14 +61,19 @@ public class DiscoverPlacePosition extends Command {
             case TURN_TURRET:
                 // turn turret and stop later
                 final double angleSign = Math.signum(loopCount - 1);
-                targetAngle = turr.getAngle() + (angleSign * 2.5 * (loopCount + 1));
+                startAngle = turr.getAngle();
+                targetAngle = angle + (angleSign * 2.5 * (loopCount + 1));
+                SmartDashboard.putNumber("DPPAngle", targetAngle);
                 turr.setPower(angleSign * .3);
                 loopCount++;
                 state = State.STOP_TURRET;
                 break;
             case STOP_TURRET:
                 // stop turret and extend
-                if ((targetAngle - .5) < turr.getAngle() && turr.getAngle() < (targetAngle + .5)) {
+                boolean passedTarget1 = startAngle < targetAngle && targetAngle < angle;
+                boolean passedTarget2 = angle < targetAngle && targetAngle < startAngle;
+                if (passedTarget1 || passedTarget2) {
+                    SmartDashboard.putNumber("DPPAngleEnd", angle);
                     turr.setPower(0);
                     state = State.EXTEND;
                 }

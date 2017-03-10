@@ -12,6 +12,7 @@ public class TurretSmallAdjustment extends Command {
     private double startAngle;
 
     public TurretSmallAdjustment(double ang) {
+        requires(turr);
         targetAngle = ang;
     }
 
@@ -22,7 +23,7 @@ public class TurretSmallAdjustment extends Command {
 
     @Override
     protected void execute() {
-        turr.setPower(.3 * Math.signum(startAngle - targetAngle));
+        turr.setPower(.3 * Math.signum(targetAngle - startAngle));
     }
 
     @Override

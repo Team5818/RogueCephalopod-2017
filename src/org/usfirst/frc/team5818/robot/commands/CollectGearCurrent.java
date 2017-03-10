@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class CollectGearCurrent extends Command {
 
-    private static final double DEFAULT_CURRENT_THRESH = 8.0;
+    private static final double DEFAULT_CURRENT_THRESH = 5;
     private double currThresh;
     private double power;
     private final Collector collect = Robot.runningRobot.collect;

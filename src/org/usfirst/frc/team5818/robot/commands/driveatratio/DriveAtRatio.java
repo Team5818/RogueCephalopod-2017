@@ -68,13 +68,13 @@ public class DriveAtRatio extends Command {
             useVision = false;
             useSanic = false;
         } else if (camera.equals(Camera.CAM_GEARS)) {
-            camMultiplier = 1;
-            maxPow = Math.abs(maxPow);
+            camMultiplier = -1;
+            maxPow = -Math.abs(maxPow);
             useVision = true;
             useSanic = false;
         } else if (camera.equals(Camera.CAM_TAPE)) {
-            camMultiplier = -1;
-            maxPow = -Math.abs(maxPow);
+            camMultiplier = 1;
+            maxPow = Math.abs(maxPow);
             useVision = true;
             useSanic = false;
         } else if (camera.equals(Camera.ULTRASANIC)) {
@@ -126,7 +126,7 @@ public class DriveAtRatio extends Command {
         }
 
         leftPowMult = 1.0;
-        rightPowMult = currRatio / Math.pow(target, 1.5);
+        rightPowMult = currRatio / Math.pow(target, 1);
 
         Vector2d driveVec = new Vector2d(leftPowMult, rightPowMult);
         driveVec = driveVec.normalize(maxPow);

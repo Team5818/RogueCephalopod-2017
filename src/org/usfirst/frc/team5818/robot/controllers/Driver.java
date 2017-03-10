@@ -16,10 +16,12 @@ import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.MoveArmCollect;
 import org.usfirst.frc.team5818.robot.commands.PutGearInTurret;
 import org.usfirst.frc.team5818.robot.commands.SetArmAngle;
+import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
 import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.SpitGear;
+import org.usfirst.frc.team5818.robot.commands.StartClimbControlCommand;
 import org.usfirst.frc.team5818.robot.commands.SwitchDriveMode;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
@@ -118,7 +120,7 @@ public class Driver {
         tape.whenReleased(new GearMode());
 
         Button climbMode = Buttons.TURRET.get(5);
-        climbMode.whenPressed(new ClimbControlCommand(JS_TURRET));
+        climbMode.whenPressed(new StartClimbControlCommand());
 
         Button codriverControl = Buttons.TURRET.get(1);
         codriverControl.whenPressed(new CoRiverControlCommand(JS_COLLECTOR));
@@ -148,7 +150,8 @@ public class Driver {
 
         Button loadGear = Buttons.COLLECTOR.get(6);
         loadGear.whenPressed(new PutGearInTurret());
-        loadGear.whenReleased(new SetArmAngle(Arm.MID_POSITION));
+        loadGear.whenReleased(new SetCollectorPower(false, 0, 0.5));
+//        loadGear.whenReleased(new SetArmAngle(Arm.MID_POSITION));
     }
 
     public void setupTestButtons() {

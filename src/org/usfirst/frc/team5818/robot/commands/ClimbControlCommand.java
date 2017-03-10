@@ -7,6 +7,7 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClimbControlCommand extends ControlCommand {
 
@@ -16,20 +17,22 @@ public class ClimbControlCommand extends ControlCommand {
 
     public ClimbControlCommand(Joystick joystick) {
         super(joystick);
+        setInterruptible(false);
         js = joystick;
         requires(climb);
         requires(turret);
-        setInterruptible(false);
     }
 
     @Override
     protected void setPower() {
+        SmartDashboard.putString("CCC", "setPower to " + MathUtil.adjustDeadband(js, Driver.DEADBAND_VEC).getY());
         climb.setPower(MathUtil.adjustDeadband(js, Driver.DEADBAND_VEC).getY());
         turret.setPower(0.0);
     }
 
     @Override
     protected void setZero() {
+        SmartDashboard.putString("CCC", "setZero");
         climb.setPower(0.0);
         turret.setPower(0.0);
     }

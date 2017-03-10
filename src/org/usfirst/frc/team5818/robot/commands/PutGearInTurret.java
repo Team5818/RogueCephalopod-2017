@@ -15,7 +15,7 @@ public class PutGearInTurret extends CommandGroup {
         this.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
         this.addSequential(new SetCollectorPower(true, 0.7, 1000));
     }
-    
+
     @Override
     protected void initialize() {
         Robot.runningRobot.turretSafetyChecks = false;

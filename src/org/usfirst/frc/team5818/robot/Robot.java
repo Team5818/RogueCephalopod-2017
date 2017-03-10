@@ -23,6 +23,7 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -74,6 +75,7 @@ public class Robot extends IterativeRobot {
         driver = new Driver();
         turretZero = new TurretMoveToZero();
         requireAllSubsystems = new RequireAllSubsystems();
+        chooser.addObject("Do Nothing Auto", new TimedCommand(15));
         chooser.addObject("One Gear Auto (Left)", new OneGearAuto(Side.LEFT));
         chooser.addObject("One Gear Auto (Center)", new OneGearAuto(Side.CENTER));
         chooser.addObject("One Gear Auto (Right)", new OneGearAuto(Side.RIGHT));
@@ -126,9 +128,9 @@ public class Robot extends IterativeRobot {
          */
 
         // schedule the autonomous command (example)
+        driveTrain.shiftGears(Gear.LOW);
         if (autonomousCommand != null)
             autonomousCommand.start();
-        driveTrain.shiftGears(Gear.LOW);
     }
 
     /**
