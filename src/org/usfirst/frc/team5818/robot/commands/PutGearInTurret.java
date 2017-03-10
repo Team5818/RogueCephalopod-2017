@@ -4,9 +4,7 @@ import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PutGearInTurret extends CommandGroup {
 
@@ -18,15 +16,21 @@ public class PutGearInTurret extends CommandGroup {
         this.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
         this.addSequential(new SetCollectorPower(true, 0.7, 1));
     }
+    
+    @Override
+    protected void initialize() {
+        Robot.runningRobot.turretSafetyChecks = false;
+    }
 
     @Override
     protected void end() {
+        Robot.runningRobot.turretSafetyChecks = false;
         collect.setBotPower(0);
         collect.setTopPower(0);
     }
-    
+
     @Override
-    protected void interrupted(){
+    protected void interrupted() {
         end();
     }
 }

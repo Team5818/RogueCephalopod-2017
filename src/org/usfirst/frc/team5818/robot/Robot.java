@@ -47,6 +47,7 @@ public class Robot extends IterativeRobot {
     public Climber climb;
     public CameraController camCont;
     public TurretMoveToZero turretZero;
+    public boolean turretSafetyChecks = true;
 
     private RequireAllSubsystems requireAllSubsystems;
 
@@ -161,7 +162,7 @@ public class Robot extends IterativeRobot {
         printSmartDash();
         driver.teleopPeriodic();
         /* check arm for exceeding disable position */
-        if (arm.getPosition() >= Arm.TURRET_RESET_POSITION) {
+        if (turretSafetyChecks && arm.getPosition() >= Arm.TURRET_RESET_POSITION) {
             runTurretOverrides();
         }
         Scheduler.getInstance().run();
