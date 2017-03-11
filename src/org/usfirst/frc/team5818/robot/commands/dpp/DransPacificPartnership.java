@@ -2,9 +2,9 @@ package org.usfirst.frc.team5818.robot.commands.dpp;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
+import org.usfirst.frc.team5818.robot.commands.frc.ConditionalCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class DransPacificPartnership extends CommandGroup {
@@ -40,5 +40,5 @@ public class DransPacificPartnership extends CommandGroup {
     protected boolean isFinished() {
         return super.isFinished() || isTimedOut() || Robot.runningRobot.turret.getLimit();
     }
-    
+
 }
