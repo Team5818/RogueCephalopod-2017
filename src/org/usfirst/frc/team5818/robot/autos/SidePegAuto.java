@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class SidePegAuto extends CommandGroup {
 
-    public SidePegAuto() {
+    public SidePegAuto(double angle) {
         addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(69.55);
             b.maxPower(.5);
@@ -17,19 +17,19 @@ public class SidePegAuto extends CommandGroup {
             b.stoppingAtEnd(true);
         }));
         addSequential(DriveAtRatio.withSpin(b -> {
-            b.angle(60);
+            b.angle(angle);
             b.rotation(Side.LEFT);
             b.maxPower(.5);
             b.stoppingAtEnd(true);
         }));
         addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
-            b.inches(81.0);
+            b.inches(65.5);
             b.maxPower(.5);
             b.maxRatio(3.0);
             b.stoppingAtEnd(false);
         }));
         addSequential(DriveAtRatio.withDeadReckon(b -> {
-            b.inches(9);
+            b.inches(7);
             b.maxPower(.5);
             b.targetRatio(1.0);
             b.stoppingAtEnd(true);
