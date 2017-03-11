@@ -17,14 +17,16 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     private static final double kI = 0.0000;
     private static final double kD = 0.00005;
 
+    private static final double COLLECT_ANGLE = 11;
+    
     public static final double COLLECT_POSITION = 2617;
     public static final double MID_POSITION = COLLECT_POSITION + 1454;
     public static final double NINETY_DEGREES = 4450;
     public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
     public static final double LOAD_POSITION = 5425;
-    public static final double angleScale = 79.0 / 1833.0;
-    public static final double angleOffset = -101.78941625750136 - 16.3;
-    public static final double holdPower = .055;
+    public static final double ANGLE_SCALE = (90 - COLLECT_ANGLE) / (NINETY_DEGREES - COLLECT_POSITION);
+    public static final double ANGLE_OFFSET = -101.78941625750136 - 16.3;
+    public static final double HOLD_POWER = .055;
 
     private CANTalon leftMotorTal;
     private CANTalon rightMotorTal;
@@ -100,8 +102,8 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     }
 
     public double getIdlePower() {
-        SmartDashboard.putNumber("Arm Angle", Math.toRadians((getPosition() * angleScale + angleOffset)));
-        return holdPower * Math.cos(Math.toRadians((getPosition() * angleScale + angleOffset)));
+        SmartDashboard.putNumber("Arm Angle", Math.toRadians((getPosition() * ANGLE_SCALE + ANGLE_OFFSET)));
+        return HOLD_POWER * Math.cos(Math.toRadians((getPosition() * ANGLE_SCALE + ANGLE_OFFSET)));
     }
 
     @Override
