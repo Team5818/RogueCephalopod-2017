@@ -17,13 +17,14 @@ public class PlaceGearLimit extends CommandGroup {
         this.addSequential(new TimedCommand(0.6));
         this.addSequential(new SetExtendTurret(false));
         this.addSequential(new SetPunchTurret(false));
-        this.addSequential(new ConditionalCommand(new TurretSmallAdjustment(0)) {
-
-            @Override
-            protected boolean condition() {
-                return Math.abs(Robot.runningRobot.turret.getAngle()) < 10;
-            }
-        });
+        addSequential(new TurretSmallAdjustment(0));
+//        this.addSequential(new ConditionalCommand(new TurretSmallAdjustment(0)) {
+//
+//            @Override
+//            protected boolean condition() {
+//                return Math.abs(Robot.runningRobot.turret.getAngle()) < 10;
+//            }
+//        });
     }
 
 }

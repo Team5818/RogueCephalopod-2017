@@ -11,6 +11,7 @@ public class DransPacificPartnership extends CommandGroup {
 
     public DransPacificPartnership() {
         this(0);
+        setTimeout(1);
     }
 
     DransPacificPartnership(int loopCount) {
@@ -35,4 +36,9 @@ public class DransPacificPartnership extends CommandGroup {
         });
     }
 
+    @Override
+    protected boolean isFinished() {
+        return super.isFinished() || isTimedOut() || Robot.runningRobot.turret.getLimit();
+    }
+    
 }

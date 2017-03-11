@@ -1,8 +1,16 @@
 package org.usfirst.frc.team5818.robot.commands.debug;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class BreakpointCommand extends InstantCommand {
+public class BreakpointCommand extends Command {
+
+    private final String name;
+
+    public BreakpointCommand(String name) {
+        setTimeout(1);
+        this.name = name;
+    }
 
     @SuppressWarnings({ "unchecked", "unused" })
     private <T> T getGroupAs() {
@@ -11,6 +19,7 @@ public class BreakpointCommand extends InstantCommand {
 
     @Override
     protected void initialize() {
+        SmartDashboard.putString("Message", name);
         super.initialize();
     }
 
@@ -27,5 +36,10 @@ public class BreakpointCommand extends InstantCommand {
     protected void interrupted() {
         super.interrupted();
     };
+
+    @Override
+    protected boolean isFinished() {
+        return isTimedOut();
+    }
 
 }
