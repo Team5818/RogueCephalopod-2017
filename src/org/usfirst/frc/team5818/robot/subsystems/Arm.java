@@ -18,9 +18,10 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     private static final double kD = 0.00005;
 
     private static final double COLLECT_ANGLE = 11;
-    
+
     public static final double COLLECT_POSITION = 2617;
-    public static final double MID_POSITION = COLLECT_POSITION + 1454;
+    public static final double CLIMB_POSITION = 4050;
+    public static final double MID_POSITION = 4242;
     public static final double NINETY_DEGREES = 4450;
     public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
     public static final double LOAD_POSITION = 5425;
@@ -33,6 +34,9 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     public PIDSourceType pidType = PIDSourceType.kDisplacement;
     public BetterPIDController anglePID;
+
+    private double limitLow = COLLECT_POSITION;
+    private double limitHigh = LOAD_POSITION;
 
     public Arm() {
         leftMotorTal = new CANTalon(RobotMap.ARM_TALON_L);
@@ -106,11 +110,19 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
         return HOLD_POWER * Math.cos(Math.toRadians((getPosition() * ANGLE_SCALE + ANGLE_OFFSET)));
     }
 
+    public void setLimitLow(double limitLow) {
+        this.limitLow = limitLow;
+    }
+
+    public void setLimitHigh(double limitHigh) {
+        this.limitHigh = limitHigh;
+    }
+
     @Override
     public void pidWrite(double x) {
-        if (getPosition() <= COLLECT_POSITION) {
+        if (getPosition() <= limitLow) {
             x = Math.max(x, 0);
-        } else if (getPosition() >= LOAD_POSITION) {
+        } else if (getPosition() >= limitHigh) {
             x = Math.min(x, 0);
         }
         leftMotorTal.set(x + getIdlePower());

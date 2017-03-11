@@ -8,6 +8,7 @@ public class ClimbMode extends CommandGroup {
 
     public ClimbMode() {
         setInterruptible(false);
+        addSequential(new SetClimbArmLimit());
         addParallel(new ClimbControlCommand(Robot.runningRobot.driver.JS_TURRET));
         addParallel(new ArmControlCommand(Robot.runningRobot.driver.JS_COLLECTOR));
     }
