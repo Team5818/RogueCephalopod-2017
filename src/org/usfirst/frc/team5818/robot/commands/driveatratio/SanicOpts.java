@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.commands.driveatratio;
 
 import org.usfirst.frc.team5818.robot.constants.Camera;
+import org.usfirst.frc.team5818.robot.constants.Side;
 
 import com.google.auto.value.AutoValue;
 
@@ -29,6 +30,11 @@ public abstract class SanicOpts implements DriveAtRatioOptions {
         return Camera.ULTRASANIC;
     }
 
+    @Override
+    public final Side getRotation(){
+        return Side.CENTER;
+    }
+    
     @Override
     public abstract double getInches();
 

@@ -6,10 +6,10 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
-public abstract class DeadReckonOpts implements DriveAtRatioOptions {
+public abstract class SpinOpts implements DriveAtRatioOptions {
 
     public static Builder builder() {
-        return new AutoValue_DeadReckonOpts.Builder();
+        return new AutoValue_SpinOpts.Builder();
     }
 
     @AutoValue.Builder
@@ -18,16 +18,16 @@ public abstract class DeadReckonOpts implements DriveAtRatioOptions {
         Builder inches(double value);
 
         Builder maxPower(double value);
-
-        Builder targetRatio(double value);
+        
+        Builder rotation(Side value);
 
         Builder stoppingAtEnd(boolean value);
 
-        DeadReckonOpts build();
+        SpinOpts build();
 
     }
 
-    DeadReckonOpts() {
+    SpinOpts() {
     }
 
     @Override
@@ -35,10 +35,8 @@ public abstract class DeadReckonOpts implements DriveAtRatioOptions {
         return Camera.NONE;
     }
     
-    @Override
-    public final Side getRotation(){
-        return Side.CENTER;
-    }
+    @Override 
+    public abstract Side getRotation();
 
     @Override
     public abstract double getInches();
@@ -52,7 +50,9 @@ public abstract class DeadReckonOpts implements DriveAtRatioOptions {
     }
 
     @Override
-    public abstract double getTargetRatio();
+    public final double getTargetRatio(){
+        return 1.0;
+    }
 
     @Override
     public abstract boolean isStoppingAtEnd();

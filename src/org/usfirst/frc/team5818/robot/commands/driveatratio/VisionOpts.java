@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import org.usfirst.frc.team5818.robot.constants.Camera;
+import org.usfirst.frc.team5818.robot.constants.Side;
 
 import com.google.auto.value.AutoValue;
 
@@ -51,6 +52,11 @@ public abstract class VisionOpts implements DriveAtRatioOptions {
     @Override
     public final double getTargetRatio() {
         return 1.0;
+    }
+    
+    @Override
+    public final Side getRotation(){
+        return Side.CENTER;
     }
 
     @Override

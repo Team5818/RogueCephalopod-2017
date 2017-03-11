@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.Camera;
+import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
@@ -52,8 +53,12 @@ public class DriveAtRatio extends Command {
     private CameraController cont;
     private Camera camera;
     private boolean useSanic;
+    private Side spinSide;
+    private double leftSpinMult;
+    private double rightSpinMult;
 
     private DriveAtRatio(DriveAtRatioOptions opts) {
+        spinSide = opts.getRotation();
         camera = opts.getCamera();
         inches = opts.getInches();
         maxPow = opts.getMaxPower();
@@ -82,6 +87,19 @@ public class DriveAtRatio extends Command {
             useVision = false;
             useSanic = true;
 
+        }
+        
+        if(spinSide.equals(Side.LEFT)){
+            leftSpinMult = -1;
+            rightSpinMult = 1;
+        }
+        else if(spinSide.equals(Side.RIGHT)){
+            leftSpinMult = 1;
+            rightSpinMult = -1;
+        }
+        else{
+            leftSpinMult = 1;
+            rightSpinMult = 1;
         }
 
         stopAtEnd = opts.isStoppingAtEnd();
@@ -128,7 +146,7 @@ public class DriveAtRatio extends Command {
         leftPowMult = 1.0;
         rightPowMult = currRatio / Math.pow(target, 1);
 
-        Vector2d driveVec = new Vector2d(leftPowMult, rightPowMult);
+        Vector2d driveVec = new Vector2d(leftSpinMult*leftPowMult, rightSpinMult*rightPowMult);
         driveVec = driveVec.normalize(maxPow);
 
         SmartDashboard.putNumber("PowerLeft", driveVec.getX());
