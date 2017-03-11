@@ -35,7 +35,7 @@ public class TwoGearSegment extends CommandGroup {
             radius = rat;
             dist1 = 30;
         } else if (side.equals(Side.LEFT)) {
-            radius = 1.0 / rat;
+            radius = 1.0 / (rat + .5);
             dist1 = 30;
         } else {
             radius = 1.0;

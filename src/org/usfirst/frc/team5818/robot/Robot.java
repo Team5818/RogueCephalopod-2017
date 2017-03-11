@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team5818.robot;
 
+import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.OneGearAuto;
 import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
@@ -77,13 +78,11 @@ public class Robot extends IterativeRobot {
         turretZero = new TurretMoveToZero();
         requireAllSubsystems = new RequireAllSubsystems();
         chooser.addObject("Do Nothing Auto", new TimedCommand(15));
-        chooser.addObject("One Gear Auto (Left)", new OneGearAuto(Side.LEFT));
-        chooser.addObject("One Gear Auto (Center)", new OneGearAuto(Side.CENTER));
-        chooser.addObject("One Gear Auto (Right)", new OneGearAuto(Side.RIGHT));
         chooser.addObject("One Gear Auto From Two Gear", new OneGearButFromTwoGearAuto());
         chooser.addObject("Three Gear Auto", new ThreeGearAuto());
         chooser.addObject("Place With Limit", new PlaceWithLimit());
-        chooser.addObject("Two Gear", new SlowTwoGearAuto());
+        chooser.addObject("Two Gear (Right)", new SlowTwoGearAuto());
+ //       chooser.addObject("Two Gear (Left)", new NotPeteyTwoGearAuto());
         chooser.addObject("Side Gear Auto", new SidePegAuto(180));
         SmartDashboard.putData("Auto mode", chooser);
         vision.start();
@@ -120,7 +119,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousInit() {
-        autonomousCommand = chooser.getSelected();
+        autonomousCommand = new SlowTwoGearAuto();//  = chooser.getSelected();
 
         /*
          * String autoSelected = SmartDashboard.getString("Auto Selector",
