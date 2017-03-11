@@ -7,11 +7,9 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class SidePegAuto extends CommandGroup{
+public class SidePegAuto extends CommandGroup {
 
-    
-    
-    public SidePegAuto(){
+    public SidePegAuto() {
         addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(69.55);
             b.maxPower(.5);
