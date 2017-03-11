@@ -26,6 +26,8 @@ public abstract class Constants {
 
     public abstract double encoderScale();
 
+    public abstract double wheelToWheelWidth();
+
     public final double maxPower() {
         return 1.0;
     }

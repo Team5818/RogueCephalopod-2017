@@ -6,9 +6,9 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 public interface DriveAtRatioOptions {
 
     Camera getCamera();
-    
+
     Side getRotation();
-    
+
     double getInches();
 
     double getMaxPower();
@@ -26,7 +26,7 @@ public interface DriveAtRatioOptions {
     default boolean isUsingVision() {
         return getCamera() == Camera.CAM_TAPE || getCamera() == Camera.CAM_GEARS;
     }
-    
+
     default boolean isSpinning() {
         return getRotation() == Side.LEFT || getRotation() == Side.RIGHT;
     }

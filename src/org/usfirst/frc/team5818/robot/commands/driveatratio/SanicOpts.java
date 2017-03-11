@@ -31,10 +31,10 @@ public abstract class SanicOpts implements DriveAtRatioOptions {
     }
 
     @Override
-    public final Side getRotation(){
+    public final Side getRotation() {
         return Side.CENTER;
     }
-    
+
     @Override
     public abstract double getInches();
 

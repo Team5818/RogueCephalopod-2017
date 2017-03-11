@@ -4,6 +4,11 @@ public final class RogueCephalopod extends Constants {
 
     RogueCephalopod() {
     }
+    
+    @Override
+    public double wheelToWheelWidth() {
+        return 27.25;
+    }
 
     @Override
     public double turretScale() {

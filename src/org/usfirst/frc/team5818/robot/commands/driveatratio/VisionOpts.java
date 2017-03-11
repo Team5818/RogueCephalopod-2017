@@ -53,9 +53,9 @@ public abstract class VisionOpts implements DriveAtRatioOptions {
     public final double getTargetRatio() {
         return 1.0;
     }
-    
+
     @Override
-    public final Side getRotation(){
+    public final Side getRotation() {
         return Side.CENTER;
     }
 

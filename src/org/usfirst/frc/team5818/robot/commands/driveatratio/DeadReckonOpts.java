@@ -34,9 +34,9 @@ public abstract class DeadReckonOpts implements DriveAtRatioOptions {
     public final Camera getCamera() {
         return Camera.NONE;
     }
-    
+
     @Override
-    public final Side getRotation(){
+    public final Side getRotation() {
         return Side.CENTER;
     }
 

@@ -88,16 +88,14 @@ public class DriveAtRatio extends Command {
             useSanic = true;
 
         }
-        
-        if(spinSide.equals(Side.LEFT)){
+
+        if (spinSide.equals(Side.LEFT)) {
             leftSpinMult = -1;
             rightSpinMult = 1;
-        }
-        else if(spinSide.equals(Side.RIGHT)){
+        } else if (spinSide.equals(Side.RIGHT)) {
             leftSpinMult = 1;
             rightSpinMult = -1;
-        }
-        else{
+        } else {
             leftSpinMult = 1;
             rightSpinMult = 1;
         }
@@ -146,7 +144,7 @@ public class DriveAtRatio extends Command {
         leftPowMult = 1.0;
         rightPowMult = currRatio / Math.pow(target, 1);
 
-        Vector2d driveVec = new Vector2d(leftSpinMult*leftPowMult, rightSpinMult*rightPowMult);
+        Vector2d driveVec = new Vector2d(leftSpinMult * leftPowMult, rightSpinMult * rightPowMult);
         driveVec = driveVec.normalize(maxPow);
 
         SmartDashboard.putNumber("PowerLeft", driveVec.getX());

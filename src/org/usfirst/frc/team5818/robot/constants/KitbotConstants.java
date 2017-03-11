@@ -6,6 +6,11 @@ public class KitbotConstants extends Constants {
     }
 
     @Override
+    public double wheelToWheelWidth() {
+        return 0;
+    }
+
+    @Override
     public double turretScale() {
         return 0.05535;
     }

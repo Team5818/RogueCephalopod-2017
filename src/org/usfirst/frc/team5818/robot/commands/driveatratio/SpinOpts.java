@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5818.robot.commands.driveatratio;
 
+import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
+
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Side;
 
@@ -15,10 +17,15 @@ public abstract class SpinOpts implements DriveAtRatioOptions {
     @AutoValue.Builder
     public interface Builder {
 
+        default Builder angle(double deg) {
+            double rad = Math.toRadians(deg);
+            return inches(rad * Constant.wheelToWheelWidth() / 2.0);
+        }
+
         Builder inches(double value);
 
         Builder maxPower(double value);
-        
+
         Builder rotation(Side value);
 
         Builder stoppingAtEnd(boolean value);
@@ -34,8 +41,8 @@ public abstract class SpinOpts implements DriveAtRatioOptions {
     public final Camera getCamera() {
         return Camera.NONE;
     }
-    
-    @Override 
+
+    @Override
     public abstract Side getRotation();
 
     @Override
@@ -50,7 +57,7 @@ public abstract class SpinOpts implements DriveAtRatioOptions {
     }
 
     @Override
-    public final double getTargetRatio(){
+    public final double getTargetRatio() {
         return 1.0;
     }
 
