@@ -8,6 +8,7 @@ import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
+import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -30,7 +31,7 @@ public class DriveAtRatio extends Command {
         config.accept(b);
         return new DriveAtRatio(b.build());
     }
-    
+
     public static DriveAtRatio withSpin(Consumer<SpinOpts.Builder> config) {
         SpinOpts.Builder b = SpinOpts.builder();
         config.accept(b);
@@ -59,11 +60,13 @@ public class DriveAtRatio extends Command {
     private CameraController cont;
     private Camera camera;
     private boolean useSanic;
+    private boolean useSpin;
     private Side spinSide;
     private double leftSpinMult;
     private double rightSpinMult;
 
     private DriveAtRatio(DriveAtRatioOptions opts) {
+        useSpin = opts.isSpinning();
         spinSide = opts.getRotation();
         camera = opts.getCamera();
         inches = opts.getInches();
@@ -115,7 +118,11 @@ public class DriveAtRatio extends Command {
         SmartDashboard.putNumber("Vision Angle", Robot.runningRobot.vision.getCurrentAngle());
         leftPowMult = 1;
         rightPowMult = 1;
-        avStart = Robot.runningRobot.driveTrain.getAverageDistance();
+        if (useSpin) {
+            avStart = Robot.runningRobot.driveTrain.getAbsAverageDistance();
+        } else {
+            avStart = Robot.runningRobot.driveTrain.getAverageDistance();
+        }
 
         if (camera.equals(Camera.CAM_TAPE)) {
             cont.enterTapeMode();
@@ -168,14 +175,20 @@ public class DriveAtRatio extends Command {
 
     @Override
     protected boolean isFinished() {
-        boolean passedTarget =
-                Math.abs(Robot.runningRobot.driveTrain.getAverageDistance() - avStart) >= Math.abs(inches);
+        final DriveTrain dt = Robot.runningRobot.driveTrain;
+        double distance;
+        if (useSpin) {
+            distance = dt.getAbsAverageDistance();
+        } else {
+            distance = dt.getAverageDistance();
+        }
+
+        boolean passedTarget = Math.abs(distance - avStart) >= Math.abs(inches);
         if (useSanic) {
             boolean sonicThresh = Robot.runningRobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
             return isTimedOut() || passedTarget || sonicThresh;
         }
         return isTimedOut() || passedTarget;
-
     }
 
 }

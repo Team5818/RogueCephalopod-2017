@@ -3,6 +3,7 @@ package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.autos.OneGearAuto;
 import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
+import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
@@ -83,6 +84,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Three Gear Auto", new ThreeGearAuto());
         chooser.addObject("Place With Limit", new PlaceWithLimit());
         chooser.addObject("Two Gear", new SlowTwoGearAuto());
+        chooser.addObject("Side Gear Auto", new SidePegAuto(180));
         SmartDashboard.putData("Auto mode", chooser);
         vision.start();
     }
@@ -154,6 +156,7 @@ public class Robot extends IterativeRobot {
         driveTrain.getRightSide().resetEnc();
         driveTrain.shiftGears(Gear.LOW);
         driver.setupTeleopButtons();
+        camCont.enterGearMode();
     }
 
     /**

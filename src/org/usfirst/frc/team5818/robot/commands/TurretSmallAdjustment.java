@@ -29,8 +29,8 @@ public class TurretSmallAdjustment extends Command {
 
     @Override
     protected boolean isFinished() {
-        boolean passedTarget1 = startAngle <= targetAngle && (targetAngle - .5) <= turr.getAngle();
-        boolean passedTarget2 = targetAngle <= startAngle && turr.getAngle() <= (targetAngle + .5);
+        boolean passedTarget1 = startAngle <= targetAngle && (targetAngle - .3) <= turr.getAngle();
+        boolean passedTarget2 = targetAngle <= startAngle && turr.getAngle() <= (targetAngle + .3);
         return passedTarget1 || passedTarget2 || isTimedOut();
     }
 
