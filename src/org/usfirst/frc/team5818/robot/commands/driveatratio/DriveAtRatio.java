@@ -30,6 +30,12 @@ public class DriveAtRatio extends Command {
         config.accept(b);
         return new DriveAtRatio(b.build());
     }
+    
+    public static DriveAtRatio withSpin(Consumer<SpinOpts.Builder> config) {
+        SpinOpts.Builder b = SpinOpts.builder();
+        config.accept(b);
+        return new DriveAtRatio(b.build());
+    }
 
     // fast
     public static DriveAtRatio withSanic(Consumer<SanicOpts.Builder> config) {
