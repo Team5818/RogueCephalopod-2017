@@ -22,6 +22,7 @@ public class DiscoverPlacePosition extends Command {
     private int loopCount = 0;
 
     public DiscoverPlacePosition() {
+        setTimeout(2);
         turr = Robot.runningRobot.turret;
         requires(turr);
     }
@@ -89,13 +90,14 @@ public class DiscoverPlacePosition extends Command {
             default:
                 if (Timer.getFPGATimestamp() > waitTimestamp) {
                     state = next;
+                    next = null;
                 }
         }
     }
 
     @Override
     protected boolean isFinished() {
-        return state == null || state == State.FINISHED;
+        return state == null || state == State.FINISHED || isTimedOut();
     }
 
 }
