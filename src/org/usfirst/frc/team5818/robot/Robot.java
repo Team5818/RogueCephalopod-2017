@@ -1,7 +1,10 @@
 
 package org.usfirst.frc.team5818.robot;
 
+import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.OneGearAuto;
+import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
+import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
@@ -22,6 +25,7 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,6 +50,7 @@ public class Robot extends IterativeRobot {
     public Climber climb;
     public CameraController camCont;
     public TurretMoveToZero turretZero;
+    public boolean turretSafetyChecks = true;
 
     private RequireAllSubsystems requireAllSubsystems;
 
@@ -72,12 +77,13 @@ public class Robot extends IterativeRobot {
         driver = new Driver();
         turretZero = new TurretMoveToZero();
         requireAllSubsystems = new RequireAllSubsystems();
-        chooser.addObject("One Gear Auto (Left)", new OneGearAuto(Side.LEFT));
-        chooser.addObject("One Gear Auto (Center)", new OneGearAuto(Side.CENTER));
-        chooser.addObject("One Gear Auto (Right)", new OneGearAuto(Side.RIGHT));
+        chooser.addObject("Do Nothing Auto", new TimedCommand(15));
+        chooser.addObject("One Gear Auto From Two Gear", new OneGearButFromTwoGearAuto());
         chooser.addObject("Three Gear Auto", new ThreeGearAuto());
         chooser.addObject("Place With Limit", new PlaceWithLimit());
-        chooser.addObject("Two Gear", new SlowTwoGearAuto());
+        chooser.addObject("Two Gear (Right)", new SlowTwoGearAuto());
+ //       chooser.addObject("Two Gear (Left)", new NotPeteyTwoGearAuto());
+        chooser.addObject("Side Gear Auto", new SidePegAuto(180));
         SmartDashboard.putData("Auto mode", chooser);
         vision.start();
     }
@@ -113,7 +119,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousInit() {
-        autonomousCommand = chooser.getSelected();
+        autonomousCommand = new SlowTwoGearAuto();//  = chooser.getSelected();
 
         /*
          * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -123,9 +129,9 @@ public class Robot extends IterativeRobot {
          */
 
         // schedule the autonomous command (example)
+        driveTrain.shiftGears(Gear.LOW);
         if (autonomousCommand != null)
             autonomousCommand.start();
-        driveTrain.shiftGears(Gear.LOW);
     }
 
     /**
@@ -149,6 +155,7 @@ public class Robot extends IterativeRobot {
         driveTrain.getRightSide().resetEnc();
         driveTrain.shiftGears(Gear.LOW);
         driver.setupTeleopButtons();
+        camCont.enterGearMode();
     }
 
     /**
@@ -162,11 +169,12 @@ public class Robot extends IterativeRobot {
         if (arm.getPosition() >= Arm.TURRET_RESET_POSITION) {
             runTurretOverrides();
         }
+
         Scheduler.getInstance().run();
     }
 
     public void runTurretOverrides() {
-        if (!turretZero.isRunning()) {
+        if (turretSafetyChecks && !turretZero.isRunning()) {
             turretZero.start();
         }
     }
@@ -202,5 +210,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("right drive encoder", driveTrain.getRightSide().getSidePosition());
         SmartDashboard.putNumber("left encoder raw", driveTrain.getLeftSide().getRawPos());
         SmartDashboard.putNumber("right encoder raw", driveTrain.getRightSide().getRawPos());
+        SmartDashboard.putNumber("leftVel", driveTrain.getLeftSide().getSideVelocity());
+        SmartDashboard.putNumber("rightVel", driveTrain.getRightSide().getSideVelocity());
     }
 }

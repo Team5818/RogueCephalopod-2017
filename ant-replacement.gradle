@@ -64,7 +64,7 @@ if (!project.hasProperty('teamNumber')) {
 
 ext.teamNumberInt = project.property('teamNumber') as Integer
 
-ext.noDnsIp = '169.254.204.184'
+ext.noDnsIp = project.hasProperty('noDnsIp') ? project.property('noDnsIp') : '169.254.204.184'
 
 List<String> getStaticIps() {
     if (project.hasProperty("staticIP")) {
@@ -205,6 +205,7 @@ void defineDeployTask(Object project, boolean debug) {
         group taskGroup
         description "Deploys the jar to the robot. ${debug ? 'Waits' : 'Does not wait'} for a debugger."
         ext.jarFile = project.shadowJar.archivePath
+        ext.netConsoleHost = "${project.wpilibAntDir}/netconsole-host"
         ext.commandFile = "${project.wpilibAntDir}/robot${debug ? 'Debug' : ''}Command"
         ext.natives = files(fileTree("libs/native").files)
         ext.nativesTarget = "/usr/local/frc/lib"
@@ -221,6 +222,10 @@ void defineDeployTask(Object project, boolean debug) {
             session(remotes.robotAdmin) {
                 println "Copying natives"
                 put from: natives, into: nativesTarget
+                //put from: netConsoleHost, into: "/usr/local/frc/bin/"
+                //execute 'chmod +x /usr/local/frc/bin/netconsole-host'
+                execute 'chmod -R +x /usr/local/frc/lib'
+                execute 'ldconfig', ignoreError: true
             }
             session(remotes.robot) {
                 println "Copying jar"

@@ -13,7 +13,7 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class SlowTwoGearAuto extends CommandGroup {
+public class NotPeteyTwoGearAuto extends CommandGroup {
 
     private TwoGearSegment moveForward;
     private TwoGearSegment moveToGear;
@@ -22,15 +22,15 @@ public class SlowTwoGearAuto extends CommandGroup {
     private GearMode gearMode;
     private TapeMode tapeMode2;
 
-    public SlowTwoGearAuto() {
+    public NotPeteyTwoGearAuto() {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
         moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.95);
 
         gearMode = new GearMode();
-        moveToGear = new TwoGearSegment(Direction.FORWARD, Side.RIGHT, AutoExtra.COLLECT, -.75);
+        moveToGear = new TwoGearSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT, -.75);
         tapeMode2 = new TapeMode();
-        moveToPeg = new TwoGearSegment(Direction.BACKWARD, Side.RIGHT, AutoExtra.PLACE, -.9);
+        moveToPeg = new TwoGearSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.PLACE, -.9);
 
         this.addSequential(new ShiftGears(Gear.LOW, .2));
         this.addSequential(tapeMode1);

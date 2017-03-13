@@ -13,9 +13,13 @@ public class ShiftGears extends Command {
     private static double SHIFT_TIME = .5;
 
     public ShiftGears(Gear g) {
+        this(g, SHIFT_TIME);
+    }
+    
+    public ShiftGears(Gear g, double timeout) {
         train = Robot.runningRobot.driveTrain;
         gear = g;
-        setTimeout(SHIFT_TIME);
+        setTimeout(timeout);
     }
 
     @Override

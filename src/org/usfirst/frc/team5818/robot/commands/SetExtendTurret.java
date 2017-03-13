@@ -3,9 +3,9 @@ package org.usfirst.frc.team5818.robot.commands;
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class SetExtendTurret extends Command {
+public class SetExtendTurret extends InstantCommand {
 
     private Turret turr;
     private boolean on;
@@ -21,8 +21,4 @@ public class SetExtendTurret extends Command {
         turr.extend(on);
     }
 
-    @Override
-    protected boolean isFinished() {
-        return true;
-    }
 }

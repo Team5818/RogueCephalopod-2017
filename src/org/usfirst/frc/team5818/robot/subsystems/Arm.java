@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
 import org.usfirst.frc.team5818.robot.RobotMap;
-import org.usfirst.frc.team5818.robot.commands.ArmControlCommand;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
@@ -18,20 +17,26 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     private static final double kI = 0.0000;
     private static final double kD = 0.00005;
 
-    public static final double COLLECT_POSITION = -632;
-    public static final double MID_POSITION = 854;
-    public static final double TURRET_RESET_POSITION = 1500;
-    public static final double NINETY_DEGREES = 1198;
-    public static final double LOAD_POSITION = 2035;
-    public static final double angleScale = 80.5/1830.0;
-    public static final double angleOffset = 37.30109 - 16.3;
-    public static final double holdPower = .055;
+    private static final double COLLECT_ANGLE = 11;
+
+    public static final double COLLECT_POSITION = 2789;
+    public static final double CLIMB_POSITION = 4222;
+    public static final double MID_POSITION = 4414;
+    public static final double NINETY_DEGREES = 4622;
+    public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
+    public static final double LOAD_POSITION = 5475;
+    public static final double ANGLE_SCALE = (90 - COLLECT_ANGLE) / (NINETY_DEGREES - COLLECT_POSITION);
+    public static final double ANGLE_OFFSET = (COLLECT_ANGLE - (COLLECT_POSITION * ANGLE_SCALE)) - 16.3;
+    public static final double HOLD_POWER = .055;
 
     private CANTalon leftMotorTal;
     private CANTalon rightMotorTal;
 
     public PIDSourceType pidType = PIDSourceType.kDisplacement;
     public BetterPIDController anglePID;
+
+    private double limitLow = COLLECT_POSITION;
+    private double limitHigh = LOAD_POSITION;
 
     public Arm() {
         leftMotorTal = new CANTalon(RobotMap.ARM_TALON_L);
@@ -66,8 +71,8 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     public double getPosition() {
         double pos = rightMotorTal.getPulseWidthPosition();
-        if (pos > 3000) {
-            return pos - 4096;
+        if (pos < 2000) {
+            return pos + 4096;
         }
         return pos;
     }
@@ -101,15 +106,23 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     }
 
     public double getIdlePower() {
-        SmartDashboard.putNumber("Arm Angle", Math.toRadians((getPosition() * angleScale + angleOffset)));
-        return holdPower * Math.cos(Math.toRadians((getPosition() * angleScale + angleOffset)));
+        SmartDashboard.putNumber("Arm Angle", Math.toRadians((getPosition() * ANGLE_SCALE + ANGLE_OFFSET)));
+        return HOLD_POWER * Math.cos(Math.toRadians((getPosition() * ANGLE_SCALE + ANGLE_OFFSET)));
+    }
+
+    public void setLimitLow(double limitLow) {
+        this.limitLow = limitLow;
+    }
+
+    public void setLimitHigh(double limitHigh) {
+        this.limitHigh = limitHigh;
     }
 
     @Override
     public void pidWrite(double x) {
-        if (getPosition() <= COLLECT_POSITION) {
+        if (getPosition() <= limitLow) {
             x = Math.max(x, 0);
-        } else if (getPosition() >= LOAD_POSITION) {
+        } else if (getPosition() >= limitHigh) {
             x = Math.min(x, 0);
         }
         leftMotorTal.set(x + getIdlePower());

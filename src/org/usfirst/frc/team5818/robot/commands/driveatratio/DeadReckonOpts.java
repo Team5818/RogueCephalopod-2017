@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.commands.driveatratio;
 
 import org.usfirst.frc.team5818.robot.constants.Camera;
+import org.usfirst.frc.team5818.robot.constants.Side;
 
 import com.google.auto.value.AutoValue;
 
@@ -32,6 +33,11 @@ public abstract class DeadReckonOpts implements DriveAtRatioOptions {
     @Override
     public final Camera getCamera() {
         return Camera.NONE;
+    }
+
+    @Override
+    public final Side getRotation() {
+        return Side.CENTER;
     }
 
     @Override

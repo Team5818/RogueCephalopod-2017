@@ -13,17 +13,24 @@ public class PutGearInTurret extends CommandGroup {
     public PutGearInTurret() {
         this.addSequential(new SetTurretAngle(0));
         this.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
-        this.addSequential(new SetCollectorPower(true, 0.7, 5));
+        this.addSequential(new SetCollectorPower(true, 0.7, 1000));
+    }
+
+    @Override
+    protected void initialize() {
+        Robot.runningRobot.turretSafetyChecks = false;
+        Robot.runningRobot.turretZero.cancel();
     }
 
     @Override
     protected void end() {
+        Robot.runningRobot.turretSafetyChecks = false;
         collect.setBotPower(0);
         collect.setTopPower(0);
     }
-    
+
     @Override
-    protected void interrupted(){
+    protected void interrupted() {
         end();
     }
 }

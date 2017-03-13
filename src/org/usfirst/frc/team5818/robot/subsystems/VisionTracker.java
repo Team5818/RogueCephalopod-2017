@@ -4,6 +4,8 @@ import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
 
 import org.usfirst.frc.team5818.robot.RobotMap;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
@@ -33,6 +35,8 @@ public class VisionTracker extends Subsystem implements Runnable {
     }
 
     public void start() {
+        UsbCamera cam = CameraServer.getInstance().startAutomaticCapture();
+        cam.setResolution(320, 200);
         Thread thread = new Thread(this);
         thread.start();
     }

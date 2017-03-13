@@ -119,6 +119,10 @@ public class DriveTrain extends Subsystem {
         return (left.getSidePosition() + right.getSidePosition()) / 2;
     }
 
+    public double getAbsAverageDistance() {
+        return (Math.abs(left.getSidePosition()) + Math.abs(right.getSidePosition())) / 2;
+    }
+
     public void setCoastMode() {
         left.setCoastMode();
         right.setCoastMode();

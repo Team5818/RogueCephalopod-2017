@@ -11,14 +11,14 @@ public class CollectGear extends CommandGroup {
     Collector collect;
 
     public CollectGear() {
-        this(.5, 10);
+        this(.7, 10);
     }
 
     public CollectGear(double initialTimeout, double currentTimeout) {
         collect = Robot.runningRobot.collect;
         this.addSequential(new TimedCommand(initialTimeout));
         this.addSequential(new CollectGearCurrent(.7, currentTimeout));
-        this.addSequential(new TimedCommand(.3));
+        this.addSequential(new TimedCommand(.1));
     }
 
     @Override
@@ -31,6 +31,11 @@ public class CollectGear extends CommandGroup {
     protected void end() {
         collect.setBotPower(0.0);
         collect.setTopPower(0.0);
+    }
+
+    @Override
+    protected void interrupted() {
+        end();
     }
 
 }

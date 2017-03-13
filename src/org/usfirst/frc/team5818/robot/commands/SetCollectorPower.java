@@ -11,6 +11,7 @@ public class SetCollectorPower extends Command {
     private final Collector collect = Robot.runningRobot.collect;
 
     public SetCollectorPower(boolean ejectForwards, double pow, double timeout) {
+        requires(collect);
         setTimeout(timeout);
         power = ejectForwards ? pow : -pow;
     }

@@ -5,6 +5,7 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DiscoverPlacePosition extends Command {
 
@@ -16,11 +17,14 @@ public class DiscoverPlacePosition extends Command {
     private State state;
     private State next;
     private double waitTimestamp;
+    private double startAngle;
     private double targetAngle;
     private int loopCount = 0;
 
     public DiscoverPlacePosition() {
+        setTimeout(2);
         turr = Robot.runningRobot.turret;
+        requires(turr);
     }
 
     private void waitThenRunState(long millis, State nextState) {
@@ -37,11 +41,12 @@ public class DiscoverPlacePosition extends Command {
 
     @Override
     protected void execute() {
+        double angle = turr.getAngle();
         switch (state) {
             case EXTEND:
                 // extend and check limit later
                 turr.extend(true);
-                waitThenRunState(350, State.CHECK_LIMIT);
+                waitThenRunState(450, State.CHECK_LIMIT);
                 break;
             case CHECK_LIMIT:
                 // check limit
@@ -56,15 +61,25 @@ public class DiscoverPlacePosition extends Command {
                 break;
             case TURN_TURRET:
                 // turn turret and stop later
-                final double angleSign = Math.signum(loopCount - 1);
-                targetAngle = turr.getAngle() + (angleSign * 2.5 * (loopCount + 1));
+                final double angleSign;
+                if (loopCount == 0) {
+                    angleSign = 1;
+                } else /* if (loopCount == 1) */ {
+                    angleSign = -1;
+                }
+                startAngle = angle;
+                targetAngle = startAngle + (angleSign * 2.5 * (loopCount + 1));
+                SmartDashboard.putNumber("DPPAngle", targetAngle);
                 turr.setPower(angleSign * .3);
                 loopCount++;
                 state = State.STOP_TURRET;
                 break;
             case STOP_TURRET:
                 // stop turret and extend
-                if ((targetAngle - .5) < turr.getAngle() && turr.getAngle() < (targetAngle + .5)) {
+                boolean passedTarget1 = startAngle < targetAngle && targetAngle < angle;
+                boolean passedTarget2 = angle < targetAngle && targetAngle < startAngle;
+                if (passedTarget1 || passedTarget2) {
+                    SmartDashboard.putNumber("DPPAngleEnd", angle);
                     turr.setPower(0);
                     state = State.EXTEND;
                 }
@@ -75,13 +90,14 @@ public class DiscoverPlacePosition extends Command {
             default:
                 if (Timer.getFPGATimestamp() > waitTimestamp) {
                     state = next;
+                    next = null;
                 }
         }
     }
 
     @Override
     protected boolean isFinished() {
-        return state == null || state == State.FINISHED;
+        return state == null || state == State.FINISHED || isTimedOut();
     }
 
 }

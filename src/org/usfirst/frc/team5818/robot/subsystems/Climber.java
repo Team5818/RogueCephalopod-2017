@@ -17,6 +17,7 @@ public class Climber extends Subsystem {
         left1 = new CANTalon(RobotMap.LEFT_CLIMB_TALON_1);
         // left2 = new CANTalon(RobotMap.LEFT_CLIMB_TALON_2);
         right1 = new CANTalon(RobotMap.RIGHT_CLIMB_TALON_1);
+        right1.setInverted(true);
         // right2 = new CANTalon(RobotMap.RIGHT_CLIMB_TALON_2);
     }
 
