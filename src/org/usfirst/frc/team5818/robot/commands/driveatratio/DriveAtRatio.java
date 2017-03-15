@@ -171,8 +171,8 @@ public class DriveAtRatio extends Command {
         rightPowMult = currRatio / Math.pow(target, 1);
 
         Vector2d driveVec = new Vector2d(leftSpinMult * leftPowMult, rightSpinMult * rightPowMult);
-        if (isProfiling) {
-            driveVec = driveVec.normalize(minPower + powerSlope * distance);
+        if (isProfiling){ 
+            driveVec = driveVec.normalize(Math.min(minPower + powerSlope * distance, maxPow));
         } else {
             driveVec = driveVec.normalize(maxPow);
         }
