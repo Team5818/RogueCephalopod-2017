@@ -1,0 +1,74 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name "gradle plugins"
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            name "central snapshots"
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+
+    dependencies {
+        classpath group: 'com.techshroom', name: 'Aversion', version: '3.0.0'
+    }
+}
+plugins {
+  id "net.ltgt.apt" version "0.9"
+}
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'aversion-util'
+
+util {
+    javaVersion = '1.8'
+}
+idea.project.languageLevel = util.javaVersion
+
+repositories {
+    mavenCentral()
+    maven {
+        name "central snapshots"
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+    maven {
+        name "local files"
+        url "libs"
+    }
+}
+
+dependencies {
+    compile group: 'edu.wpi', name: 'cscore', version: 'NONE'
+    compile group: 'edu.wpi', name: 'CTRLib', version: 'NONE'
+    compile group: 'edu.wpi', name: 'NetworkTables', version: 'NONE'
+    compile group: 'edu.wpi', name: 'opencv', version: 'NONE'
+    compile group: 'edu.wpi', name: 'WPILib', version: 'NONE'
+
+	compileOnly group: 'com.google.auto.value', name: 'auto-value', version: '1.4-rc2'
+    apt group: 'com.google.auto.value', name: 'auto-value', version: '1.4-rc2'
+
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+// Add eclipse FRC nature
+eclipse.project.file.beforeMerged { proj ->
+    proj.natures.add('edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature')
+}
+
+sourceSets.main.java.srcDirs = ['src']
+sourceSets.main.resources.srcDirs = ['src']
+
+configure([compileJava, compileTestJava]) {
+    options.compilerArgs += ['-Xlint:all', '-Xlint:-path']
+    options.deprecation = true
+    options.encoding = 'UTF-8'
+    options.incremental = true
+    options.fork = true
+}
+
+ext.packageNumber = '5818'
+ext.teamNumber = project.findProperty('teamNumber') ?: packageNumber
+apply from: 'ant-replacement.gradle', to: project
