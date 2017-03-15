@@ -52,6 +52,16 @@ public abstract class DeadReckonOpts implements DriveAtRatioOptions {
     }
 
     @Override
+    public final double getAccel(){
+        return 0.0;
+    }
+    
+    @Override
+    public final double getMinPower(){
+        return 0.0;
+    }
+    
+    @Override
     public abstract double getTargetRatio();
 
     @Override

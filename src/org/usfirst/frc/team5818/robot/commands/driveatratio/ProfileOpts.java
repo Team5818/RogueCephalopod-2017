@@ -1,40 +1,37 @@
 package org.usfirst.frc.team5818.robot.commands.driveatratio;
 
-import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
-
+import org.usfirst.frc.team5818.robot.commands.driveatratio.DeadReckonOpts.Builder;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Side;
 
 import com.google.auto.value.AutoValue;
 
 @AutoValue
-public abstract class SpinOpts implements DriveAtRatioOptions {
-
+public abstract class ProfileOpts implements DriveAtRatioOptions {
     public static Builder builder() {
-        return new AutoValue_SpinOpts.Builder();
+        return new AutoValue_ProfileOpts.Builder();
     }
 
     @AutoValue.Builder
     public interface Builder {
 
-        default Builder angle(double deg) {
-            double rad = Math.toRadians(deg);
-            return inches(rad * Constant.wheelToWheelWidth() / 2.0);
-        }
-
         Builder inches(double value);
+        
+        Builder minPower(double value);
+        
+        Builder accel(double value);
 
         Builder maxPower(double value);
 
-        Builder rotation(Side value);
+        Builder targetRatio(double value);
 
         Builder stoppingAtEnd(boolean value);
 
-        SpinOpts build();
+        ProfileOpts build();
 
     }
 
-    SpinOpts() {
+    ProfileOpts() {
     }
 
     @Override
@@ -43,7 +40,9 @@ public abstract class SpinOpts implements DriveAtRatioOptions {
     }
 
     @Override
-    public abstract Side getRotation();
+    public final Side getRotation() {
+        return Side.CENTER;
+    }
 
     @Override
     public abstract double getInches();
@@ -55,23 +54,10 @@ public abstract class SpinOpts implements DriveAtRatioOptions {
     public final double getMaxRatio() {
         return 1.0;
     }
-    
-    @Override
-    public final double getAccel(){
-        return 0.0;
-    }
-    
-    @Override
-    public final double getMinPower(){
-        return 0.0;
-    }
 
     @Override
-    public final double getTargetRatio() {
-        return 1.0;
-    }
+    public abstract double getTargetRatio();
 
     @Override
     public abstract boolean isStoppingAtEnd();
-
 }

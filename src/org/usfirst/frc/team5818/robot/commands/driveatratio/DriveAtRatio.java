@@ -26,6 +26,12 @@ public class DriveAtRatio extends Command {
         return new DriveAtRatio(b.build());
     }
 
+    public static DriveAtRatio withPRofile(Consumer<ProfileOpts.Builder> config) {
+        ProfileOpts.Builder b = ProfileOpts.builder();
+        config.accept(b);
+        return new DriveAtRatio(b.build());
+    }
+
     public static DriveAtRatio withVision(Camera camera, Consumer<VisionOpts.Builder> config) {
         VisionOpts.Builder b = VisionOpts.builder(camera);
         config.accept(b);
@@ -64,8 +70,14 @@ public class DriveAtRatio extends Command {
     private Side spinSide;
     private double leftSpinMult;
     private double rightSpinMult;
+    private double powerSlope;
+    private double minPower;
+    private boolean isProfiling;
 
     private DriveAtRatio(DriveAtRatioOptions opts) {
+        isProfiling = opts.isProfiling();
+        minPower = opts.getMinPower();
+        powerSlope = opts.getAccel();
         useSpin = opts.isSpinning();
         spinSide = opts.getRotation();
         camera = opts.getCamera();
@@ -135,6 +147,7 @@ public class DriveAtRatio extends Command {
     public void execute() {
         leftVel = Math.abs(Robot.runningRobot.driveTrain.left.getSideVelocity());
         rightVel = Math.abs(Robot.runningRobot.driveTrain.right.getSideVelocity());
+        double distance = Robot.runningRobot.driveTrain.getAverageDistance();
         double currRatio = targetRatio;
 
         if (leftVel != 0 && rightVel != 0) {
@@ -158,7 +171,11 @@ public class DriveAtRatio extends Command {
         rightPowMult = currRatio / Math.pow(target, 1);
 
         Vector2d driveVec = new Vector2d(leftSpinMult * leftPowMult, rightSpinMult * rightPowMult);
-        driveVec = driveVec.normalize(maxPow);
+        if (isProfiling) {
+            driveVec = driveVec.normalize(minPower + powerSlope * distance);
+        } else {
+            driveVec = driveVec.normalize(maxPow);
+        }
 
         SmartDashboard.putNumber("PowerLeft", driveVec.getX());
         SmartDashboard.putNumber("PowerRight", driveVec.getY());
