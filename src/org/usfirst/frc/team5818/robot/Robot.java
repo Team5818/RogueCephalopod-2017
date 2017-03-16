@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Three Gear Auto", new ThreeGearAuto());
         chooser.addObject("Place With Limit", new PlaceWithLimit());
         chooser.addObject("Two Gear (Right)", new SlowTwoGearAuto());
- //       chooser.addObject("Two Gear (Left)", new NotPeteyTwoGearAuto());
+        // chooser.addObject("Two Gear (Left)", new NotPeteyTwoGearAuto());
         chooser.addObject("Side Gear Auto", new SidePegAuto(180));
         SmartDashboard.putData("Auto mode", chooser);
         vision.start();
@@ -119,7 +119,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousInit() {
-        autonomousCommand = new SlowTwoGearAuto();//  = chooser.getSelected();
+        autonomousCommand = new SlowTwoGearAuto();// = chooser.getSelected();
 
         /*
          * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -200,7 +200,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("VisDrive", driveTrain.isVisionDriving());
         SmartDashboard.putBoolean("Passed Target", driveTrain.passedTarget());
         SmartDashboard.putBoolean("Turret Limit Switch", turret.getLimit());
-        SmartDashboard.putBoolean("Collector Limit Switch",collect.isLimitTriggered());
+        SmartDashboard.putBoolean("Collector Limit Switch", collect.isLimitTriggered());
         SmartDashboard.putNumber("Gear X:", vision.getCurrentAngle());
         SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
         SmartDashboard.putNumber("Turret Angle:", turret.getAngle());

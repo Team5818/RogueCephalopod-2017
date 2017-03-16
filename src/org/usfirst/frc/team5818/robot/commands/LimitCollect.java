@@ -5,15 +5,15 @@ import org.usfirst.frc.team5818.robot.subsystems.Collector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class LimitCollect extends Command{
-    
+public class LimitCollect extends Command {
+
     private double power;
     private final Collector collect = Robot.runningRobot.collect;
-
 
     public LimitCollect(double pow, double timeout) {
         power = pow;
         setTimeout(timeout);
+        requires(collect);
     }
 
     @Override

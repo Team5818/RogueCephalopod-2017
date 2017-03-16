@@ -43,8 +43,8 @@ public class Collector extends Subsystem {
     public double getBotCurrent() {
         return botRoller.getOutputCurrent();
     }
-    
-    public boolean isLimitTriggered(){
+
+    public boolean isLimitTriggered() {
         return limitSwitch.get();
     }
 
