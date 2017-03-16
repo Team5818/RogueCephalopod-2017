@@ -67,6 +67,11 @@ public abstract class SpinOpts implements DriveAtRatioOptions {
     }
 
     @Override
+    public double getVisionOffset(){
+        return 0.0;
+    }
+    
+    @Override
     public final double getTargetRatio() {
         return 1.0;
     }

@@ -54,6 +54,11 @@ public abstract class ProfileOpts implements DriveAtRatioOptions {
     public final double getMaxRatio() {
         return 1.0;
     }
+    
+    @Override
+    public double getVisionOffset(){
+        return 0.0;
+    }
 
     @Override
     public abstract double getTargetRatio();

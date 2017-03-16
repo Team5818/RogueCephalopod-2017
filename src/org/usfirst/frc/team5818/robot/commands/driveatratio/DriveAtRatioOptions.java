@@ -15,6 +15,8 @@ public interface DriveAtRatioOptions {
     
     double getMinPower();
     
+    double getVisionOffset();
+    
     double getAccel();
 
     double getMaxRatio();

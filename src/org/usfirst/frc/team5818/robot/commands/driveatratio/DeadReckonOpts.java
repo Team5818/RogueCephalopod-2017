@@ -18,7 +18,7 @@ public abstract class DeadReckonOpts implements DriveAtRatioOptions {
         Builder inches(double value);
 
         Builder maxPower(double value);
-
+        
         Builder targetRatio(double value);
 
         Builder stoppingAtEnd(boolean value);
@@ -59,6 +59,11 @@ public abstract class DeadReckonOpts implements DriveAtRatioOptions {
     @Override
     public final double getMinPower(){
         return 0.0;
+    }
+    
+    @Override
+    public final double getVisionOffset(){
+        return 0;
     }
     
     @Override

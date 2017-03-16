@@ -73,8 +73,10 @@ public class DriveAtRatio extends Command {
     private double powerSlope;
     private double minPower;
     private boolean isProfiling;
+    private double visOffset;
 
     private DriveAtRatio(DriveAtRatioOptions opts) {
+        visOffset = opts.getVisionOffset();
         isProfiling = opts.isProfiling();
         minPower = opts.getMinPower();
         powerSlope = opts.getAccel();
@@ -156,7 +158,7 @@ public class DriveAtRatio extends Command {
 
         double anglePower = 0.0;
         if (!Double.isNaN(Robot.runningRobot.vision.getCurrentAngle())) {
-            anglePower = Robot.runningRobot.vision.getCurrentAngle() / CAMERA_FOV * camMultiplier * 2.0;
+            anglePower = (Robot.runningRobot.vision.getCurrentAngle() + visOffset)/ CAMERA_FOV * camMultiplier * 2.0;
         }
 
         double target = targetRatio;

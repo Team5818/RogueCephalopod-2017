@@ -54,6 +54,7 @@ public class SideTwoGearSegment extends CommandGroup {
                 b.maxPower(maxPower);
                 b.maxRatio(3);
                 b.stoppingAtEnd(false);
+                b.visionOffset(0.0);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
                 b.inches(17);
@@ -89,6 +90,7 @@ public class SideTwoGearSegment extends CommandGroup {
                     b.inches(60);
                 }
                 b.maxPower(-maxPower);
+                b.visionOffset(20.0);
                 b.maxRatio(3);
                 b.stoppingAtEnd(false);
             });

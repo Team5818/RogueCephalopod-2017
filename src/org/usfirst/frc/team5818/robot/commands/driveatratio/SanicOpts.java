@@ -57,6 +57,11 @@ public abstract class SanicOpts implements DriveAtRatioOptions {
     }
 
     @Override
+    public double getVisionOffset(){
+        return 0.0;
+    }
+    
+    @Override
     public abstract double getTargetRatio();
 
     @Override
