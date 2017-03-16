@@ -6,6 +6,7 @@ import org.usfirst.frc.team5818.robot.RobotMap;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Collector extends Subsystem {
@@ -14,10 +15,12 @@ public class Collector extends Subsystem {
 
     private CANTalon topRoller;
     private CANTalon botRoller;
+    private DigitalInput limitSwitch;
 
     public Collector() {
         topRoller = new CANTalon(RobotMap.TOP_COLLECTOR_ROLLER);
         botRoller = new CANTalon(RobotMap.BOT_COLLECTOR_ROLLER);
+        limitSwitch = new DigitalInput(RobotMap.COLLECTOR_LIMIT_SWITCH);
     }
 
     public void setTopPower(double x) {
@@ -39,6 +42,10 @@ public class Collector extends Subsystem {
 
     public double getBotCurrent() {
         return botRoller.getOutputCurrent();
+    }
+    
+    public boolean isLimitTriggered(){
+        return limitSwitch.get();
     }
 
     @Override

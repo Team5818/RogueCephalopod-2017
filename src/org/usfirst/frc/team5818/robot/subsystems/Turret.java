@@ -40,7 +40,7 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         motor = new CANTalon(RobotMap.TURR_MOTOR);
         motor.setInverted(true);
         angleController = new BetterPIDController(kP, kI, kD, this, this);
-        limitSwitch = new DigitalInput(5);
+        limitSwitch = new DigitalInput(RobotMap.TURRET_LIMIT_SWITCH);
         angleController.setAbsoluteTolerance(0.3);
         puncher = new Solenoid(RobotMap.TURRET_PUNCHER_SOLENOID);
         extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);
