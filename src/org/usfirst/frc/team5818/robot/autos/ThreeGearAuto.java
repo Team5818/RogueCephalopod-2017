@@ -48,10 +48,14 @@ public class ThreeGearAuto extends CommandGroup {
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
+        this.addSequential(new TimedCommand(.5));
+        this.addSequential(new PlaceWithLimit());
         this.addSequential(gearMode2);
         this.addSequential(moveToGear2);
         this.addSequential(tapeMode3);
         this.addSequential(moveToPeg2);
+        this.addSequential(new TimedCommand(.5));
+        this.addSequential(new PlaceWithLimit());
     }
 
 }
