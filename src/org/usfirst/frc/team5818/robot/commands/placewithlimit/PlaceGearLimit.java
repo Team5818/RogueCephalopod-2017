@@ -24,10 +24,9 @@ public class PlaceGearLimit extends CommandGroup {
             }
         });
         this.addSequential(new SetExtendTurret(true));
-        this.addSequential(new SetPunchTurret(true));
-        this.addSequential(new TimedCommand(0.6));
+        this.addSequential(new SetPunchTurret(true,.6));
         this.addSequential(new SetExtendTurret(false));
-        this.addSequential(new SetPunchTurret(false));
+        this.addSequential(new SetPunchTurret(false,.01));
         this.addSequential(new InstantCommand() {
 
             @Override

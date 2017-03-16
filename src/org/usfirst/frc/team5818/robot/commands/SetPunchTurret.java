@@ -10,19 +10,25 @@ public class SetPunchTurret extends Command {
     private Turret turr;
     private boolean on;
 
-    public SetPunchTurret(boolean b) {
+    public SetPunchTurret(boolean b, double timeout) {
         turr = Robot.runningRobot.turret;
         requires(turr);
         on = b;
+        setTimeout(timeout);
     }
 
     @Override
     protected void initialize() {
         turr.punch(on);
     }
+    
+    @Override
+    protected void execute(){
+        turr.punch(on);
+    }
 
     @Override
     protected boolean isFinished() {
-        return true;
+        return isTimedOut();
     }
 }
