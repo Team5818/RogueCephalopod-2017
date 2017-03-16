@@ -6,10 +6,10 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
-public abstract class SanicOpts implements DriveAtRatioOptions {
+public abstract class ProfileOpts implements DriveAtRatioOptions {
 
     public static Builder builder() {
-        return new AutoValue_SanicOpts.Builder();
+        return new AutoValue_ProfileOpts.Builder();
     }
 
     @AutoValue.Builder
@@ -17,12 +17,21 @@ public abstract class SanicOpts implements DriveAtRatioOptions {
 
         Builder inches(double value);
 
+        Builder minPower(double value);
+
+        Builder accel(double value);
+
         Builder maxPower(double value);
 
         Builder targetRatio(double value);
 
-        SanicOpts build();
+        Builder stoppingAtEnd(boolean value);
 
+        ProfileOpts build();
+
+    }
+
+    ProfileOpts() {
     }
 
     @Override
@@ -35,8 +44,11 @@ public abstract class SanicOpts implements DriveAtRatioOptions {
     public abstract double getTargetRatio();
 
     @Override
+    public abstract boolean isStoppingAtEnd();
+
+    @Override
     public final Camera getCamera() {
-        return Camera.ULTRASANIC;
+        return Camera.NONE;
     }
 
     @Override
@@ -50,23 +62,8 @@ public abstract class SanicOpts implements DriveAtRatioOptions {
     }
 
     @Override
-    public final double getAccel() {
-        return 0.0;
-    }
-
-    @Override
-    public final double getMinPower() {
-        return 0.0;
-    }
-
-    @Override
     public double getVisionOffset() {
         return 0.0;
-    }
-
-    @Override
-    public final boolean isStoppingAtEnd() {
-        return true;
     }
 
 }

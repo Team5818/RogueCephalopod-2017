@@ -15,7 +15,7 @@ public class ShiftGears extends Command {
     public ShiftGears(Gear g) {
         this(g, SHIFT_TIME);
     }
-    
+
     public ShiftGears(Gear g, double timeout) {
         train = Robot.runningRobot.driveTrain;
         gear = g;

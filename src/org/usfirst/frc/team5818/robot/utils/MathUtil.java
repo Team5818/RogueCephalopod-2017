@@ -8,6 +8,14 @@ public class MathUtil {
         return (Math.abs(v) < limit) ? v : limit * (v < 0 ? -1 : 1);
     }
 
+    public static double absMin(double a, double b) {
+        if (Math.abs(a) <= Math.abs(b)) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+
     public static boolean outOfDeadband(Joystick joy, double band) {
         if (Math.abs(joy.getX()) > band || Math.abs(joy.getY()) > band) {
             return true;

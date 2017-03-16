@@ -38,7 +38,7 @@ public class RobotMap {
     public static final int TURRET_PUNCHER_SOLENOID = 2;
     public static final int SHIFTER_SOLENOID = 5;
     public static final int LED_SOLENOID = 6;
-    
+
     public static final int TURRET_LIMIT_SWITCH = 5;
     public static final int COLLECTOR_LIMIT_SWITCH = 4;
 
