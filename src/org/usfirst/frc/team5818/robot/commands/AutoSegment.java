@@ -97,7 +97,7 @@ public class AutoSegment extends CommandGroup {
         if (extra == AutoExtra.COLLECT) {
             whileDriving.addSequential(new TurretSmallAdjustment(0));
             whileDriving.addSequential((new SetArmAngle(Arm.COLLECT_POSITION)));
-            whileDriving.addSequential(new CollectGear(1));
+            whileDriving.addSequential(new CollectGear(5));
         } else if (extra == AutoExtra.PLACE) {
             whileDriving.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true));
