@@ -66,19 +66,20 @@ public class SideTwoGearSegment extends CommandGroup {
             driveOvershoot = DriveAtRatio.withProfile(b -> {
                 if (side == Side.CENTER) {
                     b.inches(75);
+                    b.minPower(-.15);
+                    b.accel(-.5 / 30.0);
                 } else {
                     b.inches(16);
+                    b.minPower(-maxPower);
+                    b.accel(0.0);
                 }
                 b.maxPower(-maxPower);
-                b.minPower(-.15);
-                b.accel(-.5/30.0);
                 double rat2 = 2;
                 if (side == Side.LEFT) {
                     b.targetRatio(rat2);
-                } else if(side == Side.RIGHT){
+                } else if (side == Side.RIGHT) {
                     b.targetRatio(1.0 / rat2);
-                }
-                else{
+                } else {
                     b.targetRatio(1.0);
                 }
                 b.stoppingAtEnd(false);
@@ -94,9 +95,11 @@ public class SideTwoGearSegment extends CommandGroup {
                 b.maxRatio(3);
                 b.stoppingAtEnd(false);
             });
-            driveFinal = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(5);
+            driveFinal = DriveAtRatio.withProfile(b -> {
+                b.inches(10);
                 b.maxPower(-maxPower);
+                b.minPower(-maxPower);
+                b.accel(maxPower / 10.0);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
             });

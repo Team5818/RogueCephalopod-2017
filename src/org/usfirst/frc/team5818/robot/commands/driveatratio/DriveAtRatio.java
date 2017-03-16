@@ -9,6 +9,7 @@ import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -174,7 +175,7 @@ public class DriveAtRatio extends Command {
 
         Vector2d driveVec = new Vector2d(leftSpinMult * leftPowMult, rightSpinMult * rightPowMult);
         if (isProfiling){ 
-            driveVec = driveVec.normalize(Math.min(minPower + powerSlope * distance, maxPow));
+            driveVec = driveVec.normalize(MathUtil.absMin(minPower + powerSlope * distance, maxPow));
         } else {
             driveVec = driveVec.normalize(maxPow);
         }
