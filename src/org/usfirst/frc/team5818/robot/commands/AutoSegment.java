@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
-import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.AutoExtra;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
@@ -9,7 +8,6 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class AutoSegment extends CommandGroup {
 

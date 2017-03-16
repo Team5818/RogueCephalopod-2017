@@ -1,8 +1,6 @@
 
 package org.usfirst.frc.team5818.robot;
 
-import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.OneGearAuto;
 import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
@@ -11,7 +9,6 @@ import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.Gear;
-import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;

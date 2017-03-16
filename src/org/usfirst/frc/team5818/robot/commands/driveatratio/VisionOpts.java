@@ -30,7 +30,7 @@ public abstract class VisionOpts implements DriveAtRatioOptions {
         public abstract Builder maxPower(double value);
 
         public abstract Builder maxRatio(double value);
-        
+
         public abstract Builder visionOffset(double offset);
 
         public abstract Builder stoppingAtEnd(boolean value);
@@ -53,29 +53,28 @@ public abstract class VisionOpts implements DriveAtRatioOptions {
 
     @Override
     public abstract double getVisionOffset();
-    
+
+    @Override
+    public abstract boolean isStoppingAtEnd();
+
     @Override
     public final double getAccel() {
         return 0;
     }
-    
+
     @Override
-    public final Side getRotation(){
+    public final Side getRotation() {
         return Side.CENTER;
     }
-    
+
     @Override
     public final double getTargetRatio() {
         return 1.0;
     }
-    
+
     @Override
     public final double getMinPower() {
         return 0.0;
     }
 
-    @Override
-    public abstract boolean isStoppingAtEnd();
-
 }
-

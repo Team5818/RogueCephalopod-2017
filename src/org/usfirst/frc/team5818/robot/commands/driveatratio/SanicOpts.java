@@ -26,6 +26,15 @@ public abstract class SanicOpts implements DriveAtRatioOptions {
     }
 
     @Override
+    public abstract double getInches();
+
+    @Override
+    public abstract double getMaxPower();
+
+    @Override
+    public abstract double getTargetRatio();
+
+    @Override
     public final Camera getCamera() {
         return Camera.ULTRASANIC;
     }
@@ -36,33 +45,24 @@ public abstract class SanicOpts implements DriveAtRatioOptions {
     }
 
     @Override
-    public abstract double getInches();
-
-    @Override
-    public abstract double getMaxPower();
-
-    @Override
     public final double getMaxRatio() {
         return 1.0;
     }
-    
+
     @Override
-    public final double getAccel(){
-        return 0.0;
-    }
-    
-    @Override
-    public final double getMinPower(){
+    public final double getAccel() {
         return 0.0;
     }
 
     @Override
-    public double getVisionOffset(){
+    public final double getMinPower() {
         return 0.0;
     }
-    
+
     @Override
-    public abstract double getTargetRatio();
+    public double getVisionOffset() {
+        return 0.0;
+    }
 
     @Override
     public final boolean isStoppingAtEnd() {

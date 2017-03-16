@@ -38,11 +38,6 @@ public abstract class SpinOpts implements DriveAtRatioOptions {
     }
 
     @Override
-    public final Camera getCamera() {
-        return Camera.NONE;
-    }
-
-    @Override
     public abstract Side getRotation();
 
     @Override
@@ -52,31 +47,36 @@ public abstract class SpinOpts implements DriveAtRatioOptions {
     public abstract double getMaxPower();
 
     @Override
+    public abstract boolean isStoppingAtEnd();
+
+    @Override
+    public final Camera getCamera() {
+        return Camera.NONE;
+    }
+
+    @Override
     public final double getMaxRatio() {
         return 1.0;
     }
-    
+
     @Override
-    public final double getAccel(){
-        return 0.0;
-    }
-    
-    @Override
-    public final double getMinPower(){
+    public final double getAccel() {
         return 0.0;
     }
 
     @Override
-    public double getVisionOffset(){
+    public final double getMinPower() {
         return 0.0;
     }
-    
+
+    @Override
+    public final double getVisionOffset() {
+        return 0.0;
+    }
+
     @Override
     public final double getTargetRatio() {
         return 1.0;
     }
-
-    @Override
-    public abstract boolean isStoppingAtEnd();
 
 }

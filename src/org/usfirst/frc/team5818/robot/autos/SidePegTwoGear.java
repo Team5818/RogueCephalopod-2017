@@ -5,7 +5,6 @@ import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.SideTwoGearSegment;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
-import org.usfirst.frc.team5818.robot.commands.TwoGearSegment;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.AutoExtra;
 import org.usfirst.frc.team5818.robot.constants.Direction;
@@ -15,7 +14,8 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class SidePegTwoGear extends CommandGroup{
+public class SidePegTwoGear extends CommandGroup {
+
     private SideTwoGearSegment moveForward;
     private SideTwoGearSegment moveToGear;
     private SideTwoGearSegment moveToPeg;

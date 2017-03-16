@@ -12,11 +12,11 @@ public interface DriveAtRatioOptions {
     double getInches();
 
     double getMaxPower();
-    
+
     double getMinPower();
-    
+
     double getVisionOffset();
-    
+
     double getAccel();
 
     double getMaxRatio();
@@ -36,8 +36,8 @@ public interface DriveAtRatioOptions {
     default boolean isSpinning() {
         return getRotation() == Side.LEFT || getRotation() == Side.RIGHT;
     }
-    
-    default boolean isProfiling(){
+
+    default boolean isProfiling() {
         return getAccel() != 0;
     }
 
