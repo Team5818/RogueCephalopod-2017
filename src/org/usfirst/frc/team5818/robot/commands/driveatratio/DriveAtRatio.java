@@ -26,7 +26,7 @@ public class DriveAtRatio extends Command {
         return new DriveAtRatio(b.build());
     }
 
-    public static DriveAtRatio withPRofile(Consumer<ProfileOpts.Builder> config) {
+    public static DriveAtRatio withProfile(Consumer<ProfileOpts.Builder> config) {
         ProfileOpts.Builder b = ProfileOpts.builder();
         config.accept(b);
         return new DriveAtRatio(b.build());
