@@ -132,13 +132,13 @@ public class Driver {
         coDriverMidArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
 
         Button turretMinus90 = Buttons.COLLECTOR.get(5);
-        turretMinus90.whenPressed(new SetTurretAngle(-75.0));
+        turretMinus90.whenPressed(new SetTurretAngle(-60.0));
 
         Button turretZero = Buttons.COLLECTOR.get(4);
         turretZero.whenPressed(new SetTurretAngle(-0.0));
 
         Button turret90 = Buttons.COLLECTOR.get(3);
-        turret90.whenPressed(new SetTurretAngle(75.0));
+        turret90.whenPressed(new SetTurretAngle(60.0));
 
         Button deploy = Buttons.COLLECTOR.get(8);
         deploy.whenPressed(new PlaceWithLimit());

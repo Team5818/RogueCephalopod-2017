@@ -49,7 +49,7 @@ public class SideTwoGearSegment extends CommandGroup {
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
-                b.inches(75);
+                b.inches(65);
                 b.maxPower(maxPower);
                 b.maxRatio(3);
                 b.stoppingAtEnd(false);
@@ -62,15 +62,15 @@ public class SideTwoGearSegment extends CommandGroup {
                 b.stoppingAtEnd(true);
             });
         } else {
-            driveOvershoot = DriveAtRatio.withProfile(b -> {
+            driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
                 if (side == Side.CENTER) {
-                    b.inches(90);
-                    b.minPower(-.15);
-                    b.accel(-.5 / 30.0);
+                    b.inches(88);
+//                    b.minPower(-.15);
+//                    b.accel(-.5 / 30.0);
                 } else {
                     b.inches(16);
-                    b.minPower(-maxPower);
-                    b.accel(0.0);
+//                    b.minPower(-maxPower);
+//                    b.accel(0.0);
                 }
                 b.maxPower(-maxPower);
                 double rat2 = 2;
@@ -87,18 +87,18 @@ public class SideTwoGearSegment extends CommandGroup {
                 if (side == Side.CENTER) {
                     b.inches(0);
                 } else {
-                    b.inches(75);
+                    b.inches(70);
                 }
                 b.maxPower(-maxPower);
                 b.visionOffset(20.0);
                 b.maxRatio(3);
                 b.stoppingAtEnd(false);
             });
-            driveFinal = DriveAtRatio.withProfile(b -> {
+            driveFinal = DriveAtRatio.withDeadReckon(b -> {
                 b.inches(10);
                 b.maxPower(-maxPower);
-                b.minPower(-maxPower);
-                b.accel(maxPower / 10.0);
+//                b.minPower(-maxPower);
+//                b.accel(maxPower / 10.0);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
             });

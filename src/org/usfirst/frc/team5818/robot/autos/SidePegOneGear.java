@@ -14,7 +14,7 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class SidePegTwoGear extends CommandGroup {
+public class SidePegOneGear extends CommandGroup {
 
     private SideTwoGearSegment moveForward;
     private SideTwoGearSegment moveToGear;
@@ -23,19 +23,20 @@ public class SidePegTwoGear extends CommandGroup {
     private GearMode gearMode;
     private TapeMode tapeMode2;
 
-    public SidePegTwoGear() {
+    public SidePegOneGear(Side side) {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
         moveForward = new SideTwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.9);
 
         gearMode = new GearMode();
-        moveToGear = new SideTwoGearSegment(Direction.FORWARD, Side.RIGHT, AutoExtra.COLLECT, -.75);
+        moveToGear = new SideTwoGearSegment(Direction.FORWARD, side, AutoExtra.COLLECT, -.75);
         tapeMode2 = new TapeMode();
-        moveToPeg = new SideTwoGearSegment(Direction.BACKWARD, Side.RIGHT, AutoExtra.PLACE, -.9);
+        moveToPeg = new SideTwoGearSegment(Direction.BACKWARD, side, AutoExtra.PLACE, -.9);
 
+        final double angle = (side == Side.LEFT ? 1 : -1) * 60.0;
         this.addSequential(new ShiftGears(Gear.LOW, .2));
         this.addSequential(tapeMode1);
-        this.addSequential(new SetTurretAngle(-60.0));
+        this.addSequential(new SetTurretAngle(angle));
         this.addSequential(moveForward);
         this.addSequential(new TimedCommand(1.0));
         this.addSequential(new PlaceWithLimit());
@@ -43,7 +44,7 @@ public class SidePegTwoGear extends CommandGroup {
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
-        this.addSequential(new SetTurretAngle(-60.0));
+        this.addSequential(new SetTurretAngle(angle));
         this.addSequential(new TimedCommand(1.0));
         this.addSequential(new PlaceWithLimit());
     }

@@ -2,6 +2,7 @@
 package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
+import org.usfirst.frc.team5818.robot.autos.SidePegOneGear;
 import org.usfirst.frc.team5818.robot.autos.SidePegTwoGear;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
@@ -9,6 +10,7 @@ import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.Gear;
+import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
@@ -82,6 +84,8 @@ public class Robot extends IterativeRobot {
         // chooser.addObject("Two Gear (Left)", new NotPeteyTwoGearAuto());
         // chooser.addObject("Side Gear Auto", new SidePegAuto(180));
         chooser.addObject("Side Two Gear Auto (Right)", new SidePegTwoGear());
+        chooser.addObject("Side One Gear Auto (Left)", new SidePegOneGear(Side.LEFT));
+        chooser.addObject("Side One Gear Auto (Right)", new SidePegOneGear(Side.RIGHT));
         chooser.addObject("Deploy Gear", new PlaceWithLimit());
         SmartDashboard.putData("Auto mode", chooser);
         vision.start();
