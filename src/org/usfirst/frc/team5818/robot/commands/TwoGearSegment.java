@@ -13,20 +13,16 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class TwoGearSegment extends CommandGroup {
 
     private double maxPower;
-    private CommandGroup approach;
     private CommandGroup drive;
     private CommandGroup whileDriving;
-    private CommandGroup atEnd;
     private DriveAtRatio driveOvershoot;
     private DriveAtRatio driveVision;
     private DriveAtRatio driveFinal;
 
     public TwoGearSegment(Direction dir, Side side, AutoExtra extra, double maxPow) {
         maxPower = maxPow;
-        approach = new CommandGroup();
         drive = new CommandGroup();
         whileDriving = new CommandGroup();
-        atEnd = new CommandGroup();
 
         double rat = 1.6;
         double radius;
@@ -107,14 +103,10 @@ public class TwoGearSegment extends CommandGroup {
             whileDriving.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true, .7, 1.75));
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));
-            atEnd.addSequential(new PlaceWithLimit());
         }
 
-        approach.addParallel(drive);
-        approach.addParallel(whileDriving);
-
-        this.addSequential(approach);
-        this.addSequential(atEnd);
+        this.addParallel(drive);
+        this.addParallel(whileDriving);
     }
 
 }

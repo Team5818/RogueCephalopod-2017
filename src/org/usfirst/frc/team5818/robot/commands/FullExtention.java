@@ -6,7 +6,7 @@ public class FullExtention extends CommandGroup {
 
     public FullExtention(boolean on) {
         this.addSequential(new SetExtendTurret(on));
-        this.addSequential(new SetPunchTurret(on));
+        this.addSequential(new SetPunchTurret(on, .01));
 
     }
 
