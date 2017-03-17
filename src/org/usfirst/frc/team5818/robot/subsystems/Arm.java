@@ -121,11 +121,11 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     public void pidWrite(double x) {
-//        if (getPosition() <= limitLow) {
-//            x = Math.max(x, 0);
-//        } else if (getPosition() >= limitHigh) {
-//            x = Math.min(x, 0);
-//        }
+        if (getPosition() <= limitLow) {
+            x = Math.max(x, 0);
+        } else if (getPosition() >= limitHigh) {
+            x = Math.min(x, 0);
+        }
         leftMotorTal.set(x + getIdlePower());
         rightMotorTal.set(x + getIdlePower());
         SmartDashboard.putNumber("Arm Power", x);
