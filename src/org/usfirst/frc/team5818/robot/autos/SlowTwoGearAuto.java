@@ -43,6 +43,7 @@ public class SlowTwoGearAuto extends CommandGroup {
         this.addSequential(moveToPeg);
         // this.addSequential(new TimedCommand(.5));
         this.addSequential(new PlaceWithLimit());
+        this.addSequential(new PlaceWithLimit());
     }
 
 }

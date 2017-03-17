@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.Camera;
-import org.usfirst.frc.team5818.robot.constants.Side;
+import org.usfirst.frc.team5818.robot.constants.Spin;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
@@ -68,7 +68,7 @@ public class DriveAtRatio extends Command {
     private Camera camera;
     private boolean useSanic;
     private boolean useSpin;
-    private Side spinSide;
+    private Spin spinSide;
     private double leftSpinMult;
     private double rightSpinMult;
     private double powerSlope;
@@ -117,10 +117,10 @@ public class DriveAtRatio extends Command {
             useSanic = false;
         }
 
-        if (spinSide.equals(Side.LEFT)) {
+        if (spinSide == Spin.CLOCKWISE) {
             leftSpinMult = -1;
             rightSpinMult = 1;
-        } else if (spinSide.equals(Side.RIGHT)) {
+        } else if (spinSide == Spin.COUNTERCW) {
             leftSpinMult = 1;
             rightSpinMult = -1;
         } else {

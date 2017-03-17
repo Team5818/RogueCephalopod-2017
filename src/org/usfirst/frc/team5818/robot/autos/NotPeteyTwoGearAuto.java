@@ -43,6 +43,7 @@ public class NotPeteyTwoGearAuto extends CommandGroup {
         this.addSequential(moveToPeg);
         this.addSequential(new TimedCommand(0.5));
         this.addSequential(new PlaceWithLimit());
+        this.addSequential(new PlaceWithLimit());
     }
 
 }

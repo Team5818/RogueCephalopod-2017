@@ -10,6 +10,7 @@ import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.Side;
+import org.usfirst.frc.team5818.robot.constants.Spin;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -17,6 +18,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class SidePegAuto extends CommandGroup {
 
     public SidePegAuto(double angle, Side side) {
+        Spin spin;
+        if (side == Side.LEFT) {
+            spin = Spin.COUNTERCW;
+        } else {
+            spin = Spin.CLOCKWISE;
+        }
         final double initDrive = 69.55;
         addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(initDrive);
@@ -26,7 +33,7 @@ public class SidePegAuto extends CommandGroup {
         }));
         addSequential(DriveAtRatio.withSpin(b -> {
             b.angle(angle);
-            b.rotation(side);
+            b.rotation(spin);
             b.maxPower(-.5);
             b.stoppingAtEnd(true);
         }));
@@ -54,7 +61,7 @@ public class SidePegAuto extends CommandGroup {
         }));
         driveToGear.addSequential(DriveAtRatio.withSpin(b -> {
             b.angle(angle);
-            b.rotation(side.other());
+            b.rotation(spin.theOtherWay());
             b.maxPower(0.5);
             b.stoppingAtEnd(true);
         }));
@@ -83,7 +90,7 @@ public class SidePegAuto extends CommandGroup {
         }));
         driveToPeg.addSequential(DriveAtRatio.withSpin(b -> {
             b.angle(angle);
-            b.rotation(side);
+            b.rotation(spin);
             b.maxPower(-.5);
             b.stoppingAtEnd(true);
         }));
@@ -106,7 +113,7 @@ public class SidePegAuto extends CommandGroup {
         loadGear.addSequential(new SetCollectorPower(true, 1.0, 1.75));
         loadGear.addSequential(new SetArmAngle(Arm.MID_POSITION));
         onToPeg.addParallel(loadGear);
-        
+
         addSequential(onToPeg);
         addSequential(new PlaceWithLimit());
     }

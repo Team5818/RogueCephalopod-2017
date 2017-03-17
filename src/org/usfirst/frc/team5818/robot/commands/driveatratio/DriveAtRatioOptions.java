@@ -1,13 +1,13 @@
 package org.usfirst.frc.team5818.robot.commands.driveatratio;
 
 import org.usfirst.frc.team5818.robot.constants.Camera;
-import org.usfirst.frc.team5818.robot.constants.Side;
+import org.usfirst.frc.team5818.robot.constants.Spin;
 
 public interface DriveAtRatioOptions {
 
     Camera getCamera();
 
-    Side getRotation();
+    Spin getRotation();
 
     double getInches();
 
@@ -34,7 +34,7 @@ public interface DriveAtRatioOptions {
     }
 
     default boolean isSpinning() {
-        return getRotation() == Side.LEFT || getRotation() == Side.RIGHT;
+        return getRotation() != null;
     }
 
     default boolean isProfiling() {

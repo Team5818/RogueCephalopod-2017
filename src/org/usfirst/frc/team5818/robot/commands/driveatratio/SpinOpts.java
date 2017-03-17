@@ -3,7 +3,7 @@ package org.usfirst.frc.team5818.robot.commands.driveatratio;
 import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
 
 import org.usfirst.frc.team5818.robot.constants.Camera;
-import org.usfirst.frc.team5818.robot.constants.Side;
+import org.usfirst.frc.team5818.robot.constants.Spin;
 
 import com.google.auto.value.AutoValue;
 
@@ -26,7 +26,7 @@ public abstract class SpinOpts implements DriveAtRatioOptions {
 
         Builder maxPower(double value);
 
-        Builder rotation(Side value);
+        Builder rotation(Spin value);
 
         Builder stoppingAtEnd(boolean value);
 
@@ -38,7 +38,7 @@ public abstract class SpinOpts implements DriveAtRatioOptions {
     }
 
     @Override
-    public abstract Side getRotation();
+    public abstract Spin getRotation();
 
     @Override
     public abstract double getInches();
