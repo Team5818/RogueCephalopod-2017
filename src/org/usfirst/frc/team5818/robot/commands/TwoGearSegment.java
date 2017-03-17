@@ -82,7 +82,7 @@ public class TwoGearSegment extends CommandGroup {
                     b.inches(44);
                 }
                 b.maxPower(-maxPower);
-                b.maxRatio(3);
+                b.maxRatio(5);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5818.robot.autos;
 
 import org.usfirst.frc.team5818.robot.commands.CollectGear;
-import org.usfirst.frc.team5818.robot.commands.PutGearInTurret;
 import org.usfirst.frc.team5818.robot.commands.SetArmAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
 import org.usfirst.frc.team5818.robot.commands.TurretSmallAdjustment;
@@ -27,25 +26,25 @@ public class SidePegAuto extends CommandGroup {
         final double initDrive = 69.55;
         addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(initDrive);
-            b.maxPower(-.5);
+            b.maxPower(.5);
             b.targetRatio(1.0);
             b.stoppingAtEnd(true);
         }));
         addSequential(DriveAtRatio.withSpin(b -> {
             b.angle(angle);
             b.rotation(spin);
-            b.maxPower(-.5);
+            b.maxPower(.5);
             b.stoppingAtEnd(true);
         }));
         addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
             b.inches(65.5);
-            b.maxPower(-.5);
+            b.maxPower(.5);
             b.maxRatio(3.0);
             b.stoppingAtEnd(false);
         }));
         addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(7);
-            b.maxPower(-.5);
+            b.maxPower(.5);
             b.targetRatio(1.0);
             b.stoppingAtEnd(true);
         }));
@@ -55,19 +54,19 @@ public class SidePegAuto extends CommandGroup {
         CommandGroup driveToGear = new CommandGroup();
         driveToGear.addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(30);
-            b.maxPower(.5);
+            b.maxPower(-.5);
             b.targetRatio(1.0);
             b.stoppingAtEnd(true);
         }));
         driveToGear.addSequential(DriveAtRatio.withSpin(b -> {
             b.angle(angle);
             b.rotation(spin.theOtherWay());
-            b.maxPower(0.5);
+            b.maxPower(-0.5);
             b.stoppingAtEnd(true);
         }));
         driveToGear.addSequential(DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
             b.inches(initDrive + 5);
-            b.maxPower(0.5);
+            b.maxPower(-0.5);
             b.maxRatio(2);
             b.stoppingAtEnd(true);
         }));
@@ -78,31 +77,31 @@ public class SidePegAuto extends CommandGroup {
         onDriveBack.addParallel(new TurretSmallAdjustment(0.0));
         onDriveBack.addParallel(new CollectGear(1, 5));
 
-        addSequential(onDriveBack);
+        // addSequential(onDriveBack);
 
         CommandGroup onToPeg = new CommandGroup();
         CommandGroup driveToPeg = new CommandGroup();
         driveToPeg.addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(initDrive);
-            b.maxPower(-.5);
+            b.maxPower(.5);
             b.targetRatio(side.adjustRatio(1.5, Direction.BACKWARD));
             b.stoppingAtEnd(true);
         }));
         driveToPeg.addSequential(DriveAtRatio.withSpin(b -> {
             b.angle(angle);
             b.rotation(spin);
-            b.maxPower(-.5);
+            b.maxPower(.5);
             b.stoppingAtEnd(true);
         }));
         driveToPeg.addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
             b.inches(65.5);
-            b.maxPower(-.5);
+            b.maxPower(.5);
             b.maxRatio(3.0);
             b.stoppingAtEnd(false);
         }));
         driveToPeg.addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(7);
-            b.maxPower(-.5);
+            b.maxPower(.5);
             b.targetRatio(1.0);
             b.stoppingAtEnd(true);
         }));
@@ -114,7 +113,7 @@ public class SidePegAuto extends CommandGroup {
         loadGear.addSequential(new SetArmAngle(Arm.MID_POSITION));
         onToPeg.addParallel(loadGear);
 
-        addSequential(onToPeg);
-        addSequential(new PlaceWithLimit());
+        // addSequential(onToPeg);
+        // addSequential(new PlaceWithLimit());
     }
 }
