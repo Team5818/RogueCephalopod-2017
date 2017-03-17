@@ -11,12 +11,12 @@ public class CollectGear extends CommandGroup {
     Collector collect;
 
     public CollectGear() {
-        this(1000);
+        this(.7, 1000);
     }
 
-    public CollectGear(double limitTimeout) {
+    public CollectGear(double pow, double limitTimeout) {
         collect = Robot.runningRobot.collect;
-        this.addSequential(new LimitCollect(.7, limitTimeout));
+        this.addSequential(new LimitCollect(pow, limitTimeout));
         // this.addSequential(new TimedCommand(.5));
         // this.addSequential(new CollectGearCurrent(.7, limitTimeout));
         this.addSequential(new TimedCommand(.10));
