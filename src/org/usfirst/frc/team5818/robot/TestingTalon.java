@@ -20,4 +20,9 @@ public enum TestingTalon {
     TestingTalon(int talonId) {
         this.talon = new CANTalon(talonId);
     }
+
+    static {
+        // Invert some talons
+        RIGHT_ARM.talon.setInverted(true);
+    }
 }

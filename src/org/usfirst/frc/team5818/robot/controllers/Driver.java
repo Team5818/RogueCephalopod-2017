@@ -64,6 +64,8 @@ public class Driver {
 
         dMode = DriveMode.POWER;
         driveCalc = RadiusDriveCalculator.INSTANCE;
+        // init talons in TestingTalon
+        System.err.println(TestingTalon.class.getName());
     }
 
     public void setupTeleopButtons() {

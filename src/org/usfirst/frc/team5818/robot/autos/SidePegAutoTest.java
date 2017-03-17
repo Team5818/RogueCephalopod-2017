@@ -4,6 +4,7 @@ import org.usfirst.frc.team5818.robot.commands.CollectGear;
 import org.usfirst.frc.team5818.robot.commands.SetArmAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
 import org.usfirst.frc.team5818.robot.commands.SpinWithVision;
+import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.TurretSmallAdjustment;
 import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
@@ -14,17 +15,18 @@ import org.usfirst.frc.team5818.robot.constants.Spin;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class SidePegAuto extends CommandGroup {
+public class SidePegAutoTest extends CommandGroup {
 
-    public SidePegAuto(double angle, Side side) {
+    public SidePegAutoTest(double angle, Side side) {
         Spin spin;
         if (side == Side.LEFT) {
             spin = Spin.COUNTERCW;
         } else {
             spin = Spin.CLOCKWISE;
         }
-        final double initDrive = 91;
+        final double initDrive = 60;
         addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(initDrive);
             b.maxPower(.5);
@@ -33,13 +35,14 @@ public class SidePegAuto extends CommandGroup {
         }));
         addSequential(new SpinWithVision(angle, 20, spin, Camera.CAM_TAPE));
         addSequential(DriveAtRatio.withSpin(b -> {
-            b.angle(5);
+            b.angle(10);
             b.maxPower(.5);
             b.rotation(spin);
             b.stoppingAtEnd(true);
         }));
+        addSequential(new TimedCommand(.5));
         addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
-            b.inches(20);
+            b.inches(55);
             b.maxPower(.5);
             b.maxRatio(3.0);
             b.stoppingAtEnd(false);
