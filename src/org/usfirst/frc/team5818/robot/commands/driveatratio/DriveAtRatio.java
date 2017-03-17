@@ -110,7 +110,11 @@ public class DriveAtRatio extends Command {
             camMultiplier = 0;
             useVision = false;
             useSanic = true;
-
+        } else if (useSpin) {
+            maxPow = Math.abs(maxPow);
+            camMultiplier = 0;
+            useVision = false;
+            useSanic = false;
         }
 
         if (spinSide.equals(Side.LEFT)) {

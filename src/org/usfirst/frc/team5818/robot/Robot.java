@@ -1,9 +1,9 @@
 
 package org.usfirst.frc.team5818.robot;
 
+import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.SidePegOneGear;
-import org.usfirst.frc.team5818.robot.autos.SidePegTwoGear;
+import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
@@ -80,13 +80,16 @@ public class Robot extends IterativeRobot {
         chooser.addObject("One Gear Auto From Two Gear", new OneGearButFromTwoGearAuto());
         chooser.addObject("Three Gear Auto", new ThreeGearAuto());
         chooser.addObject("Place With Limit", new PlaceWithLimit());
-        chooser.addObject("Two Gear (Right)", new SlowTwoGearAuto());
-        // chooser.addObject("Two Gear (Left)", new NotPeteyTwoGearAuto());
-        // chooser.addObject("Side Gear Auto", new SidePegAuto(180));
-        chooser.addObject("Side Two Gear Auto (Right)", new SidePegTwoGear());
-        chooser.addObject("Side One Gear Auto (Left)", new SidePegOneGear(Side.LEFT));
-        chooser.addObject("Side One Gear Auto (Right)", new SidePegOneGear(Side.RIGHT));
-        chooser.addObject("Deploy Gear", new PlaceWithLimit());
+        chooser.addObject("Center Two Gear (Gear Right)", new SlowTwoGearAuto());
+        chooser.addObject("Center Two Gear (Gear Left)", new NotPeteyTwoGearAuto());
+        chooser.addObject("Side Gear Auto (Bot Left)", new SidePegAuto(180, Side.RIGHT));
+        chooser.addObject("Side Gear Auto (Bot Right)", new SidePegAuto(180, Side.LEFT));
+        // chooser.addObject("Side Two Gear Auto (Right)", new
+        // SidePegTwoGear());
+        // chooser.addObject("Side One Gear Auto (Left)", new
+        // SidePegOneGear(Side.LEFT));
+        // chooser.addObject("Side One Gear Auto (Right)", new
+        // SidePegOneGear(Side.RIGHT));
         SmartDashboard.putData("Auto mode", chooser);
         vision.start();
         SmartDashboard.putNumber("RIArmAngle", arm.getPosition());
@@ -160,6 +163,7 @@ public class Robot extends IterativeRobot {
         driveTrain.shiftGears(Gear.LOW);
         driver.setupTeleopButtons();
         camCont.enterGearMode();
+        vision.setLightsOn(false);
     }
 
     /**

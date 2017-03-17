@@ -23,6 +23,7 @@ public class TwoGearSegment extends CommandGroup {
         drive = new CommandGroup();
         whileDriving = new CommandGroup();
 
+        final double leftRatAdd = 1.0;
         double rat = 1.6;
         double radius;
         double dist1;
@@ -30,7 +31,7 @@ public class TwoGearSegment extends CommandGroup {
             radius = rat;
             dist1 = 30;
         } else if (side.equals(Side.LEFT)) {
-            radius = 1.0 / (rat + .5);
+            radius = 1.0 / (rat + leftRatAdd);
             dist1 = 30;
         } else {
             radius = 1.0;
@@ -45,13 +46,13 @@ public class TwoGearSegment extends CommandGroup {
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
-                b.inches(53);
+                b.inches(58);
                 b.maxPower(maxPower);
-                b.maxRatio(3);
+                b.maxRatio(3.5);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(17);
+                b.inches(12);
                 b.maxPower((maxPower * 2) / 3);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
@@ -61,12 +62,12 @@ public class TwoGearSegment extends CommandGroup {
                 if (side == Side.CENTER) {
                     b.inches(0);
                 } else {
-                    b.inches(16);
+                    b.inches(26);
                 }
                 b.maxPower(-maxPower);
                 double rat2 = 2;
                 if (side == Side.LEFT) {
-                    b.targetRatio(rat2);
+                    b.targetRatio(rat2 - .5);
                 } else {
                     b.targetRatio(1.0 / rat2);
                 }
@@ -76,7 +77,7 @@ public class TwoGearSegment extends CommandGroup {
                 if (side == Side.CENTER) {
                     b.inches(75);
                 } else {
-                    b.inches(54);
+                    b.inches(44);
                 }
                 b.maxPower(-maxPower);
                 b.maxRatio(3);
@@ -97,7 +98,7 @@ public class TwoGearSegment extends CommandGroup {
         if (extra == AutoExtra.COLLECT) {
             whileDriving.addSequential((new SetArmAngle(Arm.COLLECT_POSITION)));
             whileDriving.addSequential(new TurretSmallAdjustment(0.0));
-            whileDriving.addSequential(new CollectGear(.7, 5));
+            whileDriving.addSequential(new CollectGear(1, 5));
         } else if (extra == AutoExtra.PLACE) {
             whileDriving.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true, 1.0, 1.75));
