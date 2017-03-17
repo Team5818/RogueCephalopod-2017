@@ -25,7 +25,7 @@ public class SlowTwoGearAuto extends CommandGroup {
     public SlowTwoGearAuto() {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.95);
+        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.9);
 
         gearMode = new GearMode();
         moveToGear = new TwoGearSegment(Direction.FORWARD, Side.RIGHT, AutoExtra.COLLECT, -.75);
@@ -41,7 +41,7 @@ public class SlowTwoGearAuto extends CommandGroup {
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
-        this.addSequential(new TimedCommand(.5));
+        // this.addSequential(new TimedCommand(.5));
         this.addSequential(new PlaceWithLimit());
     }
 
