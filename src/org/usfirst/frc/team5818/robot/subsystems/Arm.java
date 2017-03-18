@@ -25,7 +25,7 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     public static final double NINETY_DEGREES = 3280;
     public static final double SLOT_COLLECT_POSITION = NINETY_DEGREES;
     public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
-    public static final double LOAD_POSITION = 3995;
+    public static final double LOAD_POSITION = 4000;
     public static final double ANGLE_SCALE = (90 - COLLECT_ANGLE) / (NINETY_DEGREES - COLLECT_POSITION);
     public static final double ANGLE_OFFSET = (COLLECT_ANGLE - (COLLECT_POSITION * ANGLE_SCALE)) - 16.3;
     public static final double HOLD_POWER = .055;

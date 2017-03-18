@@ -54,7 +54,7 @@ public class TwoGearSegment extends CommandGroup {
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(12);
+                b.inches(8);
                 b.maxPower((maxPower * 2) / 3);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
@@ -62,7 +62,7 @@ public class TwoGearSegment extends CommandGroup {
         } else {
             if (side != Side.CENTER) {
                 driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
-                    b.inches(26);
+                    b.inches(24);
                     b.maxPower(-maxPower);
                     double rat2 = 2;
                     if (side == Side.LEFT) {
