@@ -42,19 +42,19 @@ public class TwoGearSegment extends CommandGroup {
 
         if (dir.equals(Direction.FORWARD)) {
             driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(4);
+                b.inches(12);
                 b.maxPower(maxPower);
                 b.targetRatio(radius);
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
-                b.inches(58);
+                b.inches(54);
                 b.maxPower(maxPower);
                 b.maxRatio(3.5);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(8);
+                b.inches(4);
                 b.maxPower((maxPower * 2) / 3);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
@@ -102,6 +102,8 @@ public class TwoGearSegment extends CommandGroup {
             whileDriving.addSequential(new TurretSmallAdjustment(0.0));
             whileDriving.addSequential(new CollectGear(1, 5));
         } else if (extra == AutoExtra.PLACE) {
+            whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));
+//            whileDriving.addSequential(new SetTurretAngle(0));
             whileDriving.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true, 1.0, 1.5));
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));

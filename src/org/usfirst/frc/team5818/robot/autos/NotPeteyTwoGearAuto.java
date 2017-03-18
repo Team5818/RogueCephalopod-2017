@@ -37,6 +37,7 @@ public class NotPeteyTwoGearAuto extends CommandGroup {
         this.addSequential(moveForward);
         this.addSequential(new TimedCommand(0.5));
         this.addSequential(new PlaceWithLimit());
+        this.addSequential(new PlaceWithLimit());
         this.addSequential(gearMode);
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);

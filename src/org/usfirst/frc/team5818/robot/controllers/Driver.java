@@ -150,7 +150,7 @@ public class Driver {
         fullExtend.whenReleased(new FullExtention(false));
 
         Button loadGear = Buttons.COLLECTOR.get(6);
-        loadGear.whenPressed(new PutGearInTurret());
+        loadGear.whenPressed(new PutGearInTurret.Start());
         loadGear.whenReleased(new SetCollectorPower(false, 0, 0.5));
         // loadGear.whenReleased(new SetArmAngle(Arm.MID_POSITION));
     }

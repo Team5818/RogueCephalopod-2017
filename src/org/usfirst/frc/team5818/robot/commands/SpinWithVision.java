@@ -8,7 +8,6 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class SpinWithVision extends CommandGroup {
 
@@ -30,7 +29,6 @@ public class SpinWithVision extends CommandGroup {
             b.maxPower(pow);
             b.stoppingAtEnd(true);
         }));
-        addSequential(new TimedCommand(.5));
         addSequential(visionSpinArea = DriveAtRatio.withSpin(b -> {
             b.angle(last);
             b.rotation(spin);

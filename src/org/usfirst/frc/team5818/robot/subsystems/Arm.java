@@ -19,13 +19,13 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     private static final double COLLECT_ANGLE = 11;
 
-    public static final double COLLECT_POSITION = 1150;
-    public static final double CLIMB_POSITION = 2600;
+    public static final double COLLECT_POSITION = 1110;
+    public static final double CLIMB_POSITION = 2675;
     public static final double MID_POSITION = 3072;
     public static final double NINETY_DEGREES = 3280;
     public static final double SLOT_COLLECT_POSITION = NINETY_DEGREES;
     public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
-    public static final double LOAD_POSITION = 4000;
+    public static final double LOAD_POSITION = 4100;
     public static final double ANGLE_SCALE = (90 - COLLECT_ANGLE) / (NINETY_DEGREES - COLLECT_POSITION);
     public static final double ANGLE_OFFSET = (COLLECT_ANGLE - (COLLECT_POSITION * ANGLE_SCALE)) - 16.3;
     public static final double HOLD_POWER = .055;
@@ -72,9 +72,9 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     public double getPosition() {
         double pos = rightMotorTal.getPulseWidthPosition();
-//        if (pos < 2000) {
-//            return pos + 4096;
-//        }
+        if (pos < 1000) {
+            return pos + 4096;
+        }
         return pos;
     }
 

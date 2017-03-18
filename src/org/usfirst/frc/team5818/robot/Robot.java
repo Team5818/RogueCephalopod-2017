@@ -3,9 +3,7 @@ package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.ScrapAuto;
 import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
-import org.usfirst.frc.team5818.robot.autos.SidePegAutoTest;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
