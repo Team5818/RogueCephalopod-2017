@@ -25,7 +25,7 @@ public class TwoGearSegment extends CommandGroup {
         drive = new CommandGroup();
         whileDriving = new CommandGroup();
 
-        final double leftRatAdd = 1.0;
+        final double leftRatAdd = .8;
         double rat = 1.6;
         double radius;
         double dist1;
