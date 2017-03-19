@@ -98,9 +98,9 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     public void pidWrite(double x) {
-        if (getAngle() > 100) {
+        if (getAngle() > 60) {
             x = Math.min(x, 0);
-        } else if (getAngle() < -100) {
+        } else if (getAngle() < -60) {
             x = Math.max(0, x);
         }
         motor.set(x);

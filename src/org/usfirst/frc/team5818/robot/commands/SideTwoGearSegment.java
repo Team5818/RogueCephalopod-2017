@@ -43,34 +43,34 @@ public class SideTwoGearSegment extends CommandGroup {
 
         if (dir.equals(Direction.FORWARD)) {
             driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(4);
+                b.inches(15);
                 b.maxPower(maxPower);
                 b.targetRatio(radius);
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
-                b.inches(60);
+                b.inches(65);
                 b.maxPower(maxPower);
                 b.maxRatio(3);
                 b.stoppingAtEnd(false);
                 b.visionOffset(0.0);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(17);
+                b.inches(15);
                 b.maxPower((maxPower * 2) / 3);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
             });
         } else {
-            driveOvershoot = DriveAtRatio.withProfile(b -> {
+            driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
                 if (side == Side.CENTER) {
-                    b.inches(75);
-                    b.minPower(-.15);
-                    b.accel(-.5 / 30.0);
+                    b.inches(88);
+//                    b.minPower(-.15);
+//                    b.accel(-.5 / 30.0);
                 } else {
                     b.inches(16);
-                    b.minPower(-maxPower);
-                    b.accel(0.0);
+//                    b.minPower(-maxPower);
+//                    b.accel(0.0);
                 }
                 b.maxPower(-maxPower);
                 double rat2 = 2;
@@ -87,18 +87,18 @@ public class SideTwoGearSegment extends CommandGroup {
                 if (side == Side.CENTER) {
                     b.inches(0);
                 } else {
-                    b.inches(60);
+                    b.inches(70);
                 }
                 b.maxPower(-maxPower);
                 b.visionOffset(20.0);
                 b.maxRatio(3);
                 b.stoppingAtEnd(false);
             });
-            driveFinal = DriveAtRatio.withProfile(b -> {
+            driveFinal = DriveAtRatio.withDeadReckon(b -> {
                 b.inches(10);
                 b.maxPower(-maxPower);
-                b.minPower(-maxPower);
-                b.accel(maxPower / 10.0);
+//                b.minPower(-maxPower);
+//                b.accel(maxPower / 10.0);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
             });
@@ -111,7 +111,7 @@ public class SideTwoGearSegment extends CommandGroup {
         if (extra == AutoExtra.COLLECT) {
             whileDriving.addSequential((new SetArmAngle(Arm.COLLECT_POSITION)));
             whileDriving.addSequential(new SetTurretAngle(0.0));
-            whileDriving.addSequential(new CollectGear(5));
+            whileDriving.addSequential(new CollectGear(.7, 5));
         } else if (extra == AutoExtra.PLACE) {
             whileDriving.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true, 1.0, 1.75));

@@ -26,7 +26,7 @@ public class SidePegTwoGear extends CommandGroup {
     public SidePegTwoGear() {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new SideTwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.95);
+        moveForward = new SideTwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.9);
 
         gearMode = new GearMode();
         moveToGear = new SideTwoGearSegment(Direction.FORWARD, Side.RIGHT, AutoExtra.COLLECT, -.75);
@@ -35,7 +35,7 @@ public class SidePegTwoGear extends CommandGroup {
 
         this.addSequential(new ShiftGears(Gear.LOW, .2));
         this.addSequential(tapeMode1);
-        this.addSequential(new SetTurretAngle(30.0));
+        this.addSequential(new SetTurretAngle(-60.0));
         this.addSequential(moveForward);
         this.addSequential(new TimedCommand(1.0));
         this.addSequential(new PlaceWithLimit());
@@ -43,7 +43,7 @@ public class SidePegTwoGear extends CommandGroup {
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
-        this.addSequential(new SetTurretAngle(30.0));
+        this.addSequential(new SetTurretAngle(-60.0));
         this.addSequential(new TimedCommand(1.0));
         this.addSequential(new PlaceWithLimit());
     }

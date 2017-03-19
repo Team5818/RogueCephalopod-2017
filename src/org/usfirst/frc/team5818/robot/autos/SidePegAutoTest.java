@@ -4,6 +4,7 @@ import org.usfirst.frc.team5818.robot.commands.CollectGear;
 import org.usfirst.frc.team5818.robot.commands.SetArmAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
 import org.usfirst.frc.team5818.robot.commands.SpinWithVision;
+import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.TurretSmallAdjustment;
 import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
@@ -14,42 +15,41 @@ import org.usfirst.frc.team5818.robot.constants.Spin;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class SidePegAuto extends CommandGroup {
+public class SidePegAutoTest extends CommandGroup {
 
-    public SidePegAuto(double angle, Side side) {
+    public SidePegAutoTest(double angle, Side side) {
         Spin spin;
         if (side == Side.LEFT) {
             spin = Spin.COUNTERCW;
         } else {
             spin = Spin.CLOCKWISE;
         }
-        final double initDrive = 91;
-        final double straightPower = .7;
-        final double spinPower = .5;
-        final double curvePower = .5;
+        final double initDrive = 60;
         addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(initDrive);
-            b.maxPower(straightPower);
+            b.maxPower(.5);
             b.targetRatio(1.0);
             b.stoppingAtEnd(true);
         }));
         addSequential(new SpinWithVision(angle, 20, spin, Camera.CAM_TAPE));
         addSequential(DriveAtRatio.withSpin(b -> {
-            b.angle(5);
-            b.maxPower(spinPower);
+            b.angle(10);
+            b.maxPower(.5);
             b.rotation(spin);
             b.stoppingAtEnd(true);
         }));
+        addSequential(new TimedCommand(.5));
         addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
-            b.inches(20);
-            b.maxPower(spinPower);
+            b.inches(55);
+            b.maxPower(.5);
             b.maxRatio(3.0);
             b.stoppingAtEnd(false);
         }));
         addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(5);
-            b.maxPower(straightPower);
+            b.maxPower(.5);
             b.targetRatio(1.0);
             b.stoppingAtEnd(true);
         }));
@@ -59,19 +59,19 @@ public class SidePegAuto extends CommandGroup {
         CommandGroup driveToGear = new CommandGroup();
         driveToGear.addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(30);
-            b.maxPower(-straightPower);
+            b.maxPower(-.5);
             b.targetRatio(1.0);
             b.stoppingAtEnd(true);
         }));
         driveToGear.addSequential(DriveAtRatio.withSpin(b -> {
             b.angle(angle);
             b.rotation(spin.theOtherWay());
-            b.maxPower(-spinPower);
+            b.maxPower(-0.5);
             b.stoppingAtEnd(true);
         }));
         driveToGear.addSequential(DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
             b.inches(initDrive + 5);
-            b.maxPower(-curvePower);
+            b.maxPower(-0.5);
             b.maxRatio(2);
             b.stoppingAtEnd(true);
         }));
@@ -88,25 +88,25 @@ public class SidePegAuto extends CommandGroup {
         CommandGroup driveToPeg = new CommandGroup();
         driveToPeg.addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(initDrive);
-            b.maxPower(curvePower);
+            b.maxPower(.5);
             b.targetRatio(side.adjustRatio(1.5, Direction.BACKWARD));
             b.stoppingAtEnd(true);
         }));
         driveToPeg.addSequential(DriveAtRatio.withSpin(b -> {
             b.angle(angle);
             b.rotation(spin);
-            b.maxPower(spinPower);
+            b.maxPower(.5);
             b.stoppingAtEnd(true);
         }));
         driveToPeg.addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
             b.inches(65.5);
-            b.maxPower(curvePower);
+            b.maxPower(.5);
             b.maxRatio(3.0);
             b.stoppingAtEnd(false);
         }));
         driveToPeg.addSequential(DriveAtRatio.withDeadReckon(b -> {
             b.inches(7);
-            b.maxPower(straightPower);
+            b.maxPower(.5);
             b.targetRatio(1.0);
             b.stoppingAtEnd(true);
         }));

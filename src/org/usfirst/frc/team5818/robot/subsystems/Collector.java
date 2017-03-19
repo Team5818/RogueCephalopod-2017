@@ -45,7 +45,7 @@ public class Collector extends Subsystem {
     }
 
     public boolean isLimitTriggered() {
-        return limitSwitch.get();
+        return !limitSwitch.get();
     }
 
     @Override

@@ -25,7 +25,7 @@ public class NotPeteyTwoGearAuto extends CommandGroup {
     public NotPeteyTwoGearAuto() {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.95);
+        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.90);
 
         gearMode = new GearMode();
         moveToGear = new TwoGearSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT, -.75);
@@ -35,13 +35,15 @@ public class NotPeteyTwoGearAuto extends CommandGroup {
         this.addSequential(new ShiftGears(Gear.LOW, .2));
         this.addSequential(tapeMode1);
         this.addSequential(moveForward);
-        this.addSequential(new TimedCommand(1.0));
+        this.addSequential(new TimedCommand(0.5));
+        this.addSequential(new PlaceWithLimit());
         this.addSequential(new PlaceWithLimit());
         this.addSequential(gearMode);
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
-        this.addSequential(new TimedCommand(1.0));
+        // this.addSequential(new TimedCommand(0.5));
+        this.addSequential(new PlaceWithLimit());
         this.addSequential(new PlaceWithLimit());
     }
 

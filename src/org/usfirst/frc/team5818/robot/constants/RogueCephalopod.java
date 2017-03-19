@@ -17,7 +17,7 @@ public final class RogueCephalopod extends Constants {
 
     @Override
     public double turretCenter() {
-        return 1920;
+        return 1921;
     }
 
     @Override

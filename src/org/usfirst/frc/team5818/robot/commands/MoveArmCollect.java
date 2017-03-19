@@ -11,7 +11,7 @@ public class MoveArmCollect extends CommandGroup {
 
     public MoveArmCollect() {
         moveArm = new CommandGroup();
-        moveArm.addParallel(new CollectGear());
+        moveArm.addParallel(new CollectGear(1, 1000));
         moveArm.addParallel(new SetArmAngle(Arm.COLLECT_POSITION));
         this.addSequential(moveArm);
         this.addSequential(new SetArmAngle(Arm.MID_POSITION));

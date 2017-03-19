@@ -6,13 +6,12 @@ import java.util.function.Consumer;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.Camera;
-import org.usfirst.frc.team5818.robot.constants.Side;
+import org.usfirst.frc.team5818.robot.constants.Spin;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -58,7 +57,7 @@ public class DriveAtRatio extends Command {
     private double rightPowMult;
     private double leftVel;
     private double rightVel;
-    private double avStart;
+    private Vector2d avStart;
     private double targetRatio;
     private boolean stopAtEnd;
     private int camMultiplier;
@@ -68,7 +67,7 @@ public class DriveAtRatio extends Command {
     private Camera camera;
     private boolean useSanic;
     private boolean useSpin;
-    private Side spinSide;
+    private Spin spinSide;
     private double leftSpinMult;
     private double rightSpinMult;
     private double powerSlope;
@@ -110,13 +109,17 @@ public class DriveAtRatio extends Command {
             camMultiplier = 0;
             useVision = false;
             useSanic = true;
-
+        } else if (useSpin) {
+            maxPow = Math.abs(maxPow);
+            camMultiplier = 0;
+            useVision = false;
+            useSanic = false;
         }
 
-        if (spinSide.equals(Side.LEFT)) {
+        if (spinSide == Spin.CLOCKWISE) {
             leftSpinMult = -1;
             rightSpinMult = 1;
-        } else if (spinSide.equals(Side.RIGHT)) {
+        } else if (spinSide == Spin.COUNTERCW) {
             leftSpinMult = 1;
             rightSpinMult = -1;
         } else {
@@ -129,14 +132,13 @@ public class DriveAtRatio extends Command {
 
     @Override
     public void initialize() {
-        DriverStation.reportError("Begining the drive", false);
         SmartDashboard.putNumber("Vision Angle", Robot.runningRobot.vision.getCurrentAngle());
         leftPowMult = 1;
         rightPowMult = 1;
         if (useSpin) {
-            avStart = Robot.runningRobot.driveTrain.getAbsAverageDistance();
+            avStart = Robot.runningRobot.driveTrain.getDistance().abs();
         } else {
-            avStart = Robot.runningRobot.driveTrain.getAverageDistance();
+            avStart = Robot.runningRobot.driveTrain.getDistance();
         }
 
         if (camera.equals(Camera.CAM_TAPE)) {
@@ -150,7 +152,7 @@ public class DriveAtRatio extends Command {
     public void execute() {
         leftVel = Math.abs(Robot.runningRobot.driveTrain.left.getSideVelocity());
         rightVel = Math.abs(Robot.runningRobot.driveTrain.right.getSideVelocity());
-        double distance = Robot.runningRobot.driveTrain.getAverageDistance();
+        Vector2d distance = Robot.runningRobot.driveTrain.getDistance();
         double currRatio = targetRatio;
 
         if (leftVel != 0 && rightVel != 0) {
@@ -175,7 +177,7 @@ public class DriveAtRatio extends Command {
 
         Vector2d driveVec = new Vector2d(leftSpinMult * leftPowMult, rightSpinMult * rightPowMult);
         if (isProfiling) {
-            driveVec = driveVec.normalize(MathUtil.absMin(minPower + powerSlope * distance, maxPow));
+            driveVec = driveVec.normalize(MathUtil.absMin(minPower + powerSlope * distance.average(), maxPow));
         } else {
             driveVec = driveVec.normalize(maxPow);
         }
@@ -196,14 +198,19 @@ public class DriveAtRatio extends Command {
     @Override
     protected boolean isFinished() {
         final DriveTrain dt = Robot.runningRobot.driveTrain;
-        double distance;
+        Vector2d distance;
+        boolean passedTarget;
+
+        double absIn = Math.abs(inches);
         if (useSpin) {
-            distance = dt.getAbsAverageDistance();
+            distance = dt.getDistance().abs();
+            passedTarget = Math.abs(distance.getX() - avStart.getX()) >= absIn
+                    || Math.abs(distance.getY() - avStart.getY()) >= absIn;
         } else {
-            distance = dt.getAverageDistance();
+            distance = dt.getDistance();
+            passedTarget = Math.abs(distance.average() - avStart.average()) >= absIn;
         }
 
-        boolean passedTarget = Math.abs(distance - avStart) >= Math.abs(inches);
         if (useSanic) {
             boolean sonicThresh = Robot.runningRobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
             return isTimedOut() || passedTarget || sonicThresh;
