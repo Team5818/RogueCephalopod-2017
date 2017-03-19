@@ -220,12 +220,12 @@ void defineDeployTask(Object project, boolean debug) {
     task.doLast {
         ssh.run {
             session(remotes.robotAdmin) {
-                println "Copying natives"
-                put from: natives, into: nativesTarget
+                //println "Copying natives"
+                //put from: natives, into: nativesTarget
                 //put from: netConsoleHost, into: "/usr/local/frc/bin/"
                 //execute 'chmod +x /usr/local/frc/bin/netconsole-host'
-                execute 'chmod -R +x /usr/local/frc/lib'
-                execute 'ldconfig', ignoreError: true
+                //execute 'chmod -R +x /usr/local/frc/lib'
+                //execute 'ldconfig', ignoreError: true
             }
             session(remotes.robot) {
                 println "Copying jar"

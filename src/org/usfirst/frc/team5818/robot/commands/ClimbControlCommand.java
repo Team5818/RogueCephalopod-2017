@@ -19,7 +19,8 @@ public class ClimbControlCommand extends ControlCommand {
         setInterruptible(false);
         js = joystick;
         requires(climb);
-        requires(turret);
+        requires(turret.rotator);
+        requires(turret.deployer);
     }
 
     @Override

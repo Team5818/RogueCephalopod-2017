@@ -24,7 +24,7 @@ public class DiscoverPlacePosition extends Command {
     public DiscoverPlacePosition() {
         setTimeout(2);
         turr = Robot.runningRobot.turret;
-        requires(turr);
+        requires(turr.rotator);
     }
 
     private void waitThenRunState(long millis, State nextState) {

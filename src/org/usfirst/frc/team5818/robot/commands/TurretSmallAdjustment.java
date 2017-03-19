@@ -13,7 +13,7 @@ public class TurretSmallAdjustment extends Command {
 
     public TurretSmallAdjustment(double ang) {
         setTimeout(0.5);
-        requires(turr);
+        requires(turr.rotator);
         targetAngle = ang;
     }
 

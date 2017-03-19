@@ -15,7 +15,7 @@ public class TurretMoveToZero extends Command {
     private final Turret turret = Robot.runningRobot.turret;
 
     public TurretMoveToZero() {
-        requires(turret);
+        requires(turret.rotator);
         setInterruptible(false);
     }
 

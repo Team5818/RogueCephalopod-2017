@@ -12,7 +12,7 @@ public class SetPunchTurret extends Command {
 
     public SetPunchTurret(boolean b, double timeout) {
         turr = Robot.runningRobot.turret;
-        requires(turr);
+        requires(turr.deployer);
         on = b;
         setTimeout(timeout);
     }

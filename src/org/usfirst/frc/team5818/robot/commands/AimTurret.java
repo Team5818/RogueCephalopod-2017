@@ -36,7 +36,7 @@ public class AimTurret extends Command {
         turr = Robot.runningRobot.turret;
         vision = Robot.runningRobot.vision;
         cont = Robot.runningRobot.camCont;
-        requires(turr);
+        requires(turr.rotator);
         requires(vision);
         requires(cont);
     }
