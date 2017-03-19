@@ -25,7 +25,7 @@ public class TwoGearSegment extends CommandGroup {
         drive = new CommandGroup();
         whileDriving = new CommandGroup();
 
-        final double leftRatAdd = .8;
+        final double leftRatAdd = 1.0;
         double rat = 1.6;
         double radius;
         double dist1;
@@ -66,7 +66,7 @@ public class TwoGearSegment extends CommandGroup {
                     b.maxPower(-maxPower);
                     double rat2 = 2;
                     if (side == Side.LEFT) {
-                        b.targetRatio(rat2 - .5);
+                        b.targetRatio(rat2 - .6);
                     } else {
                         b.targetRatio(1.0 / rat2);
                     }
