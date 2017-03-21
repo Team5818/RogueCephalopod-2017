@@ -44,12 +44,6 @@ public class DriveAtRatio extends Command {
         return new DriveAtRatio(b.build());
     }
 
-    // fast
-    public static DriveAtRatio withSanic(Consumer<SanicOpts.Builder> config) {
-        SanicOpts.Builder b = SanicOpts.builder();
-        config.accept(b);
-        return new DriveAtRatio(b.build());
-    }
 
     private double inches;
     private double maxPow;
@@ -65,7 +59,6 @@ public class DriveAtRatio extends Command {
     private double maxRatio;
     private CameraController cont;
     private Camera camera;
-    private boolean useSanic;
     private boolean useSpin;
     private Spin spinSide;
     private double leftSpinMult;
@@ -94,26 +87,21 @@ public class DriveAtRatio extends Command {
         if (camera.equals(Camera.NONE)) {
             camMultiplier = 0;
             useVision = false;
-            useSanic = false;
         } else if (camera.equals(Camera.CAM_GEARS)) {
             camMultiplier = 1;
             maxPow = -Math.abs(maxPow);
             useVision = true;
-            useSanic = false;
         } else if (camera.equals(Camera.CAM_TAPE)) {
             camMultiplier = -1;
             maxPow = Math.abs(maxPow);
             useVision = true;
-            useSanic = false;
         } else if (camera.equals(Camera.ULTRASANIC)) {
             camMultiplier = 0;
             useVision = false;
-            useSanic = true;
         } else if (useSpin) {
             maxPow = Math.abs(maxPow);
             camMultiplier = 0;
             useVision = false;
-            useSanic = false;
         }
 
         if (spinSide == Spin.CLOCKWISE) {
@@ -211,10 +199,6 @@ public class DriveAtRatio extends Command {
             passedTarget = Math.abs(distance.average() - avStart.average()) >= absIn;
         }
 
-        if (useSanic) {
-            boolean sonicThresh = Robot.runningRobot.driveTrain.readSanic() < MIN_SONIC_RANGE;
-            return isTimedOut() || passedTarget || sonicThresh;
-        }
         return isTimedOut() || passedTarget;
     }
 

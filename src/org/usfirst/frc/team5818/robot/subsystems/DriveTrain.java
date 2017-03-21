@@ -6,62 +6,43 @@ import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
+import edu.wpi.first.wpilibj.SPI;
+
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrain extends Subsystem {
 
     public DriveTrainSide left;
     public DriveTrainSide right;
-    private Ultrasonic sanic;
     private Compressor comp;
     private Solenoid shifter;
     private boolean visionDriving = false;
     private double visionThresh = 0.0;
     private double maxPower = 1.0;
-    private boolean greaterThan = false;
+    private AHRS gyro;
 
     public DriveTrain() {
+        gyro = new AHRS(I2C.Port.kMXP);
         left = new DriveTrainSide(Side.LEFT);
         right = new DriveTrainSide(Side.RIGHT);
-        sanic = new Ultrasonic(0, 1);
         comp = new Compressor();
         shifter = new Solenoid(RobotMap.SHIFTER_SOLENOID);
         comp.start();
         setBrakeMode();
-        enableSanic();
     }
 
-    public Ultrasonic getSanic() {
-        return sanic;
+    public AHRS getGyro(){
+        return gyro;
     }
-
-    public void enableSanic() {
-        sanic.setAutomaticMode(true);
-    }
-
-    public double readSanic() {
-        return sanic.getRangeInches();
-    }
-
-    public String askSanic() {
-        int idx = (int) Math.random() * 4;
-        switch (idx) {
-            case 0:
-                return "Gotta go fast!";
-            case 1:
-                return "Sanic's my name!";
-            case 2:
-                return "Speed's my game!";
-            case 3:
-                return "Stop hating on sanic!";
-            default:
-                return "You're too slooooowww!!";
-        }
+    
+    public double getGyroHeading(){
+        return Math.toRadians(gyro.getAngle());
     }
 
     public void setPowerLeftRight(double lpow, double rpow) {
