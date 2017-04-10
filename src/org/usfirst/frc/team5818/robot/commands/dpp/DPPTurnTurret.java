@@ -15,7 +15,7 @@ class DPPTurnTurret extends Command {
     private double targetAngle;
 
     DPPTurnTurret(int loopCount) {
-        requires(turret);
+        requires(turret.rotator);
         this.loopCount = loopCount;
     }
 

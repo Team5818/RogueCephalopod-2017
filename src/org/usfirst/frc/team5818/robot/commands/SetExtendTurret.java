@@ -12,7 +12,7 @@ public class SetExtendTurret extends InstantCommand {
 
     public SetExtendTurret(boolean b) {
         turr = Robot.runningRobot.turret;
-        requires(turr);
+        requires(turr.deployer);
         on = b;
     }
 

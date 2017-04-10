@@ -16,7 +16,22 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Turret extends Subsystem implements PIDSource, PIDOutput {
+public class Turret implements PIDSource, PIDOutput {
+
+    private static final class Rotator extends Subsystem {
+
+        @Override
+        protected void initDefaultCommand() {
+            setDefaultCommand(new TurretControlCommand());
+        }
+    }
+
+    private static final class Deployer extends Subsystem {
+
+        @Override
+        protected void initDefaultCommand() {
+        }
+    }
 
     public static final double kP = 0.03;
     public static final double kI = 0.0;
@@ -24,6 +39,9 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
 
     public static final double CENTER_OFFSET = Constant.turretCenter();
     public static final double POT_SCALE = Constant.turretScale();
+
+    public final Subsystem rotator = new Rotator();
+    public final Subsystem deployer = new Deployer();
 
     private CANTalon motor;
 
@@ -114,8 +132,4 @@ public class Turret extends Subsystem implements PIDSource, PIDOutput {
         puncher.set(on);
     }
 
-    @Override
-    protected void initDefaultCommand() {
-        setDefaultCommand(new TurretControlCommand());
-    }
 }

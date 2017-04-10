@@ -11,7 +11,7 @@ public class TurretControlCommand extends ControlCommand {
 
     public TurretControlCommand() {
         super(js(driver -> driver.JS_TURRET));
-        requires(turret);
+        requires(turret.rotator);
     }
 
     @Override

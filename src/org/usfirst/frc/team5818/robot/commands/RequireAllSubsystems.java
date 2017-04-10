@@ -11,7 +11,8 @@ public class RequireAllSubsystems extends Command {
         requires(Robot.runningRobot.climb);
         requires(Robot.runningRobot.arm);
         requires(Robot.runningRobot.collect);
-        requires(Robot.runningRobot.turret);
+        requires(Robot.runningRobot.turret.rotator);
+        requires(Robot.runningRobot.turret.deployer);
         setInterruptible(false);
     }
 
