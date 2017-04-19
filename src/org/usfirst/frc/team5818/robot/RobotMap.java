@@ -25,9 +25,9 @@ public class RobotMap {
     public static final int TURR_MOTOR = 7;
     public static final int ARM_TALON_L = 8;
     public static final int ARM_TALON_R = 9;
-    public static final int ARM_POT = 2;
     public static final int TOP_COLLECTOR_ROLLER = 10;
     public static final int BOT_COLLECTOR_ROLLER = 11;
+    public static final int ARM_POT = 1;
 
     public static final int[] CLIMB_TALONS = { 12, 13, 14, 16 };
     public static final int LEFT_CLIMB_TALON_1 = CLIMB_TALONS[2];

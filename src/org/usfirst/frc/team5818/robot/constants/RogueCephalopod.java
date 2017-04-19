@@ -27,11 +27,11 @@ public final class RogueCephalopod extends Constants {
     
     @Override
     public double maxVelocityIPS(){
-        return 216.0;
+        return 180.0;
     }
     
     @Override
     public double maxAccelIPS2(){
-        return 216.0/3;
+        return 300;
     }
 }
