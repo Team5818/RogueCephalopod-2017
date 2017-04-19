@@ -18,6 +18,7 @@ import org.usfirst.frc.team5818.robot.subsystems.Climber;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
+import org.usfirst.frc.team5818.robot.subsystems.Lidar;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
@@ -48,6 +49,7 @@ public class Robot extends IterativeRobot {
     public Turret turret;
     public Climber climb;
     public CameraController camCont;
+    public Lidar lidar;
     public TurretMoveToZero turretZero;
     public boolean turretSafetyChecks = true;
 
@@ -73,6 +75,7 @@ public class Robot extends IterativeRobot {
         climb = new Climber();
         chooser = new SendableChooser<>();
         camCont = new CameraController();
+        lidar = new Lidar();
         driver = new Driver();
         turretZero = new TurretMoveToZero();
         requireAllSubsystems = new RequireAllSubsystems();
@@ -113,6 +116,7 @@ public class Robot extends IterativeRobot {
             requireAllSubsystems.cancel();
         }
         arm.setBrakeMode(true);
+        lidar.startSweeping();
     }
 
     @Override
@@ -213,6 +217,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void printSmartDash() {
+        SmartDashboard.putString("DB/String 1", "" + lidar.getCurrentScan());
         SmartDashboard.putBoolean("VisDrive", driveTrain.isVisionDriving());
         SmartDashboard.putBoolean("Passed Target", driveTrain.passedTarget());
         SmartDashboard.putBoolean("Turret Limit Switch", turret.getLimit());

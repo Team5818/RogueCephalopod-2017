@@ -11,3 +11,5 @@
 ```
                                            
 Rivera Robotics' real code for 2017.
+
+You'll need to install [libsweep](https://github.com/scanse/sweep-sdk/tree/master/libsweep) on the robot for the LIDAR code to work.

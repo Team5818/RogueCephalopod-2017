@@ -46,6 +46,7 @@ dependencies {
     compile group: 'edu.wpi', name: 'NetworkTables', version: 'NONE'
     compile group: 'edu.wpi', name: 'opencv', version: 'NONE'
     compile group: 'edu.wpi', name: 'WPILib', version: 'NONE'
+    compile group: 'io.scanse.sweep', name: 'jsweep', version: '0.1.0'
 
 	compileOnly group: 'com.google.auto.value', name: 'auto-value', version: '1.4-rc2'
     apt group: 'com.google.auto.value', name: 'auto-value', version: '1.4-rc2'
