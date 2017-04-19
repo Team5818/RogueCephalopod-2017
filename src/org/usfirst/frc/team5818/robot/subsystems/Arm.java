@@ -5,6 +5,7 @@ import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -13,9 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
-    private static final double kP = 0.0006;// tune me pls
-    private static final double kI = 0.0000;
-    private static final double kD = 0.00005;
+    private static final double kP = 0.0006/2.0;
+    private static final double kI = 0.0000/2.0;
+    private static final double kD = 0.00005/2.0;
 
     private static final double COLLECT_ANGLE = 11;
 
@@ -32,7 +33,8 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     private CANTalon leftMotorTal;
     private CANTalon rightMotorTal;
-
+    
+    private AnalogInput armPot; 
     public PIDSourceType pidType = PIDSourceType.kDisplacement;
     public BetterPIDController anglePID;
 
@@ -40,6 +42,7 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     private double limitHigh = LOAD_POSITION;
 
     public Arm() {
+        armPot = new AnalogInput(RobotMap.ARM_POT);
         leftMotorTal = new CANTalon(RobotMap.ARM_TALON_L);
         leftMotorTal.setInverted(false);
         leftMotorTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
@@ -71,10 +74,10 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     }
 
     public double getPosition() {
-        double pos = rightMotorTal.getPulseWidthPosition();
-        if (pos < 1000) {
-            return pos + 4096;
-        }
+        double pos = armPot.getValue();//rightMotorTal.getPulseWidthPosition();
+//        if (pos < 1000) {
+//            return pos + 4096;
+//        }
         return pos;
     }
 
@@ -121,11 +124,11 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     public void pidWrite(double x) {
-        if (getPosition() <= limitLow) {
-            x = Math.max(x, 0);
-        } else if (getPosition() >= limitHigh) {
-            x = Math.min(x, 0);
-        }
+//        if (getPosition() <= limitLow) {
+//            x = Math.max(x, 0);
+//        } else if (getPosition() >= limitHigh) {
+//            x = Math.min(x, 0);
+//        }
         leftMotorTal.set(x + getIdlePower());
         rightMotorTal.set(x + getIdlePower());
         SmartDashboard.putNumber("Arm Power", x);

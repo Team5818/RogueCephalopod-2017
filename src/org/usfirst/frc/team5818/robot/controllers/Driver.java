@@ -126,11 +126,14 @@ public class Driver {
         Button codriverControl = Buttons.TURRET.get(1);
         codriverControl.whenPressed(new CoRiverControlCommand(JS_COLLECTOR));
 
-        Button extendTurret = Buttons.TURRET.get(2);
-        extendTurret.whenPressed(new SetExtendTurret(true));
-        extendTurret.whenReleased(new FullExtention(false));
+        Button deploy = Buttons.TURRET.get(2);
+        deploy.whenPressed(new PlaceWithLimit());
+        
+        Button loadGear = Buttons.COLLECTOR.get(1);
+        loadGear.whenPressed(new PutGearInTurret.Start());
+        loadGear.whenReleased(new SetCollectorPower(false, 0, 0.5));;
 
-        Button coDriverMidArm = Buttons.COLLECTOR.get(1);
+        Button coDriverMidArm = Buttons.COLLECTOR.get(2);
         coDriverMidArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
 
         Button turretMinus90 = Buttons.COLLECTOR.get(5);
@@ -142,17 +145,13 @@ public class Driver {
         Button turret90 = Buttons.COLLECTOR.get(3);
         turret90.whenPressed(new SetTurretAngle(60.0));
 
-        Button deploy = Buttons.COLLECTOR.get(8);
-        deploy.whenPressed(new PlaceWithLimit());
-
         Button fullExtend = Buttons.COLLECTOR.get(7);
         fullExtend.whenPressed(new FullExtention(true));
         fullExtend.whenReleased(new FullExtention(false));
+        
+        Button coSpit = Buttons.COLLECTOR.get(6);
+        coSpit.whileHeld(new SpitGear());
 
-        Button loadGear = Buttons.COLLECTOR.get(6);
-        loadGear.whenPressed(new PutGearInTurret.Start());
-        loadGear.whenReleased(new SetCollectorPower(false, 0, 0.5));
-        // loadGear.whenReleased(new SetArmAngle(Arm.MID_POSITION));
     }
 
     public void setupTestButtons() {
