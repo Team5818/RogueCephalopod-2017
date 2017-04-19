@@ -44,4 +44,16 @@ public class MathUtil {
         double percentIn = (in - lowIn) / (highIn - lowIn);
         return percentIn * (highOut - lowOut) + lowOut;
     }
+    
+    public static double wrapAngleRad(double angle)
+    {
+        while (angle >= Math.PI) {
+          angle -= 2.0 * Math.PI;
+        }
+        while (angle < -Math.PI) {
+          angle += 2.0 * Math.PI;
+        }
+        return angle;
+     }
+    
 }

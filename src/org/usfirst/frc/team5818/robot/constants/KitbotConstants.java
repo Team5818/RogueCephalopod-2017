@@ -7,7 +7,7 @@ public class KitbotConstants extends Constants {
 
     @Override
     public double wheelToWheelWidth() {
-        return 0;
+        return 24;
     }
 
     @Override
@@ -23,6 +23,16 @@ public class KitbotConstants extends Constants {
     @Override
     public double encoderScale() {
         return 4.0 / 44.815;
+    }
+    
+    @Override
+    public double maxVelocityIPS(){
+        return 120.0;
+    }
+    
+    @Override
+    public double maxAccelIPS2(){
+        return 200;
     }
 
 }

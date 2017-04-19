@@ -46,6 +46,9 @@ dependencies {
     compile group: 'edu.wpi', name: 'NetworkTables', version: 'NONE'
     compile group: 'edu.wpi', name: 'opencv', version: 'NONE'
     compile group: 'edu.wpi', name: 'WPILib', version: 'NONE'
+    compile group: 'com.kuailabs', name: 'navx_frc', version: 'NONE'
+    
+    compile group: 'org.jfree', name: 'jfreechart', version: '1.0.19'
 
 	compileOnly group: 'com.google.auto.value', name: 'auto-value', version: '1.4-rc2'
     apt group: 'com.google.auto.value', name: 'auto-value', version: '1.4-rc2'

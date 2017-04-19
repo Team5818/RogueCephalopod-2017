@@ -3,12 +3,22 @@ package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
+import org.usfirst.frc.team5818.robot.autos.PitTestSideGear;
+import org.usfirst.frc.team5818.robot.autos.ProfileSideGear;
 import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
+import org.usfirst.frc.team5818.robot.autos.TestProfileCurves;
+import org.usfirst.frc.team5818.robot.autos.ProfileTwoGear;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
+import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
+import org.usfirst.frc.team5818.robot.commands.ScanForTarget;
+import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
+import org.usfirst.frc.team5818.robot.commands.SpinWithProfileVision;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
 import org.usfirst.frc.team5818.robot.commands.fromscratch.PlaceGearForAndrew;
+import org.usfirst.frc.team5818.robot.constants.Camera;
+import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
@@ -76,6 +86,7 @@ public class Robot extends IterativeRobot {
         driver = new Driver();
         turretZero = new TurretMoveToZero();
         requireAllSubsystems = new RequireAllSubsystems();
+        //Old Autos -- Same as Ventura
         chooser.addObject("Do Nothing Auto", new TimedCommand(15));
         chooser.addObject("One Gear Auto From Two Gear", new OneGearButFromTwoGearAuto());
         chooser.addObject("Three Gear Auto", new ThreeGearAuto());
@@ -84,6 +95,26 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Center Two Gear (Gear Left)", new NotPeteyTwoGearAuto());
         chooser.addObject("Side Gear Auto (Bot Left)", new SidePegAuto(60, Side.RIGHT));
         chooser.addObject("Side Gear Auto (Bot Right)", new SidePegAuto(60, Side.LEFT));
+        
+        //Profile Testing Routines
+        chooser.addObject("Test Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.FORWARD, true));
+        chooser.addObject("Test Backward Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
+        chooser.addObject("Test Profile Spin", new SpinWithProfile(Math.PI/2.0, true, false));
+        chooser.addObject("Test Profile Curving", new TestProfileCurves());
+        chooser.addObject("VisionSpin", new SpinWithProfileVision(true, Camera.CAM_GEARS));
+        chooser.addObject("Pit-Testable Side Gear", new PitTestSideGear());
+        
+        //Profiled Autos
+        chooser.addObject("Profile Side Gear Bot-Right", new ProfileSideGear(Side.RIGHT));
+        chooser.addObject("Profile Side Gear Bot-Left", new ProfileSideGear(Side.LEFT));
+        chooser.addObject("Profile Two Gear mid-left", new ProfileTwoGear(85,Side.LEFT));
+        chooser.addObject("Profile Two Gear mid-right", new ProfileTwoGear(85,Side.RIGHT));
+
+
+
+        
+
+        //
         // chooser.addObject("Side Gear Auto (Bot TEST)", new
         // SidePegAutoTest(180, Side.LEFT));
         // chooser.addObject("SPIN (60)", new ScrapAuto(60));
@@ -100,6 +131,7 @@ public class Robot extends IterativeRobot {
 
         //
         driveTrain.shiftGears(Gear.LOW);
+        driveTrain.getGyro().reset();
     }
 
     /**
@@ -213,14 +245,12 @@ public class Robot extends IterativeRobot {
     }
 
     public void printSmartDash() {
-        SmartDashboard.putBoolean("VisDrive", driveTrain.isVisionDriving());
-        SmartDashboard.putBoolean("Passed Target", driveTrain.passedTarget());
         SmartDashboard.putBoolean("Turret Limit Switch", turret.getLimit());
         SmartDashboard.putBoolean("Collector Limit Switch", collect.isLimitTriggered());
+        SmartDashboard.putNumber("Gyro heading", driveTrain.getGyroHeading());
         SmartDashboard.putNumber("Gear X:", vision.getCurrentAngle());
         SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
         SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
-        SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
         SmartDashboard.putNumber("Bot Current", collect.getBotCurrent());
         SmartDashboard.putNumber("Arm Pos", arm.getPosition());
         SmartDashboard.putNumber("left drive encoder", driveTrain.getLeftSide().getSidePosition());
