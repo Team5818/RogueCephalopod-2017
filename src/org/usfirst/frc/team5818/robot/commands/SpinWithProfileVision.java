@@ -33,7 +33,7 @@ public class SpinWithProfileVision extends Command {
     boolean stoppingAtEnd;
     double angle;
     double kTurn = 1.5/Math.PI;
-    double kSmall = .3/Math.PI;
+    double kSmall = 0.0;//.3/Math.PI;
     int loopCount;
     int camMultiplier;
 
