@@ -32,7 +32,7 @@ public class SpinUntilTargetInFOV extends Command {
     boolean fieldCentered;
     double angle;
     double kTurn = 1.5/Math.PI;
-    double kSmall = .5/Math.PI;
+    double kSmall = .3/Math.PI;
     int loopCount;
 
     public SpinUntilTargetInFOV(double ang) {
@@ -72,9 +72,9 @@ public class SpinUntilTargetInFOV extends Command {
             }
         }
 
-        followerLeft = new TrajectoryFollower(.06, 1.0 / Constants.Constant.maxVelocityIPS(),
+        followerLeft = new TrajectoryFollower(.06, .5 / Constants.Constant.maxVelocityIPS(),
                 0.3 / Constants.Constant.maxAccelIPS2(), leftProfile, Side.LEFT);
-        followerRight = new TrajectoryFollower(.06, 1.0 / Constants.Constant.maxVelocityIPS(),
+        followerRight = new TrajectoryFollower(.06, .5 / Constants.Constant.maxVelocityIPS(),
                 0.3 / Constants.Constant.maxAccelIPS2(), rightProfile, Side.RIGHT);
 
         reset();

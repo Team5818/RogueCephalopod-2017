@@ -100,12 +100,12 @@ public class TwoGearSegment extends CommandGroup {
         if (extra == AutoExtra.COLLECT) {
             whileDriving.addSequential((new SetArmAngle(Arm.COLLECT_POSITION)));
             whileDriving.addSequential(new TurretSmallAdjustment(0.0));
-            whileDriving.addSequential(new CollectGear(1, 5));
+            whileDriving.addSequential(new CollectGear(.75, 5));
         } else if (extra == AutoExtra.PLACE) {
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));
 //            whileDriving.addSequential(new SetTurretAngle(0));
             whileDriving.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
-            whileDriving.addSequential(new SetCollectorPower(true, 1.0, 1.5));
+            whileDriving.addSequential(new SetCollectorPower(true, 1.0, 1.0));
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));
         }
 

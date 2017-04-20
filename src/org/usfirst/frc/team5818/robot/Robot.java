@@ -9,6 +9,7 @@ import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.TestProfileCurves;
 import org.usfirst.frc.team5818.robot.autos.ProfileTwoGear;
+import org.usfirst.frc.team5818.robot.autos.ScrapAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
 import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
@@ -103,6 +104,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Test Profile Curving", new TestProfileCurves());
         chooser.addObject("VisionSpin", new SpinWithProfileVision(true, Camera.CAM_GEARS));
         chooser.addObject("Pit-Testable Side Gear", new PitTestSideGear());
+        chooser.addObject("Scrap", new ScrapAuto());
         
         //Profiled Autos
         chooser.addObject("Profile Side Gear Bot-Right", new ProfileSideGear(Side.RIGHT));

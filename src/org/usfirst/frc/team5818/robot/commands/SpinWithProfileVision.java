@@ -33,7 +33,7 @@ public class SpinWithProfileVision extends Command {
     boolean stoppingAtEnd;
     double angle;
     double kTurn = 1.5/Math.PI;
-    double kSmall = 1.5/Math.PI;
+    double kSmall = .3/Math.PI;
     int loopCount;
     int camMultiplier;
 
@@ -62,8 +62,8 @@ public class SpinWithProfileVision extends Command {
         double deltaHeading = goalHeading - curHeading;
         double distance = Math.abs(deltaHeading * Constants.Constant.wheelToWheelWidth()/2);
 
-        Trajectory leftProfile = TrajectoryGenerator.generate(.4 * Constants.Constant.maxVelocityIPS(),
-                .3 * Constants.Constant.maxAccelIPS2(), .02, 0.0, curHeading, Math.abs(distance), 0.0,
+        Trajectory leftProfile = TrajectoryGenerator.generate(.2 * Constants.Constant.maxVelocityIPS(),
+                .1 * Constants.Constant.maxAccelIPS2(), .02, 0.0, curHeading, Math.abs(distance), 0.0,
                 goalHeading);
         Trajectory rightProfile = leftProfile.copy();
 
