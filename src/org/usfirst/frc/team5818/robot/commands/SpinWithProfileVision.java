@@ -33,7 +33,7 @@ public class SpinWithProfileVision extends Command {
     boolean stoppingAtEnd;
     double angle;
     double kTurn = 1.5/Math.PI;
-    double kSmall = 0.0;//.3/Math.PI;
+    double kSmall = 4.5/Math.PI;
     int loopCount;
     int camMultiplier;
 
@@ -52,78 +52,30 @@ public class SpinWithProfileVision extends Command {
     }
 
     protected void initialize() {
-        loopCount = 0;
-        double curHeading = driveTrain.getGyroHeading();
-        double visAngle = vision.getCurrentAngle();
-        double goalHeading = curHeading;
-        if(!Double.isNaN(visAngle)){
-            goalHeading = driveTrain.getGyroHeading() - camMultiplier*Math.toRadians(vision.getCurrentAngle())*.95;
-        }
-        double deltaHeading = goalHeading - curHeading;
-        double distance = Math.abs(deltaHeading * Constants.Constant.wheelToWheelWidth()/2);
 
-        Trajectory leftProfile = TrajectoryGenerator.generate(.2 * Constants.Constant.maxVelocityIPS(),
-                .1 * Constants.Constant.maxAccelIPS2(), .02, 0.0, curHeading, Math.abs(distance), 0.0,
-                goalHeading);
-        Trajectory rightProfile = leftProfile.copy();
-
-        if (Math.abs(deltaHeading) > Math.toRadians(minDeltaHeading)) {
-            if (deltaHeading > 0) {
-                leftProfile.scale(-1.0);
-                rightProfile.scale(1.0);
-            } else {
-                leftProfile.scale(1.0);
-                rightProfile.scale(-1.0);
-            }
-        }
-
-        followerLeft = new TrajectoryFollower(.06, 1.0 / Constants.Constant.maxVelocityIPS(),
-                0.3 / Constants.Constant.maxAccelIPS2(), leftProfile, Side.LEFT);
-        followerRight = new TrajectoryFollower(.06, 1.0 / Constants.Constant.maxVelocityIPS(),
-                0.3 / Constants.Constant.maxAccelIPS2(), rightProfile, Side.RIGHT);
-
-        reset();
     }
 
-    public void reset() {
-        followerLeft.reset();
-        followerRight.reset();
-        driveTrain.resetEncs();
-    }
-
-    public int getFollowerCurrentSegment() {
-        return followerLeft.getCurrentSegment();
-    }
-
-    public int getNumSegments() {
-        return followerLeft.getNumSegments();
-    }
+//    public void reset() {
+//        followerLeft.reset();
+//        followerRight.reset();
+//        driveTrain.resetEncs();
+//    }
+//
+//    public int getFollowerCurrentSegment() {
+//        return followerLeft.getCurrentSegment();
+//    }
+//
+//    public int getNumSegments() {
+//        return followerLeft.getNumSegments();
+//    }
 
     protected void execute() {
-        loopCount++;
-        double distanceL = driveTrain.getLeftSide().getSidePosition();
-        double distanceR = driveTrain.getRightSide().getSidePosition();
-
-        double speedLeft = followerLeft.calculate(-distanceL);
-        double speedRight = followerRight.calculate(-distanceR);
-
-        double goalHeading = followerLeft.getHeading();
-        double observedHeading = driveTrain.getGyroHeading();
-
-        double angleDiffRads = MathUtil.wrapAngleRad(goalHeading - observedHeading);
-        
-        
         double turn = 0;
-        if(followerLeft.isFinishedTrajectory()){
-            double visAng = vision.getCurrentAngle();
+        double visAng = vision.getCurrentAngle();
             if(!Double.isNaN(visAng)){
-                turn = kSmall*Math.toRadians(vision.getCurrentAngle())*camMultiplier; 
+                turn = kSmall*Math.toRadians(vision.getCurrentAngle())*camMultiplier;
             }
-        }
-        else{
-            turn = kTurn * angleDiffRads;  
-        }
-        driveTrain.setPowerLeftRight(speedLeft - turn, speedRight + turn);
+        driveTrain.setPowerLeftRight(- turn, + turn);
         
         aligned = Math.abs(vision.getCurrentAngle()) < 1;
         
@@ -137,7 +89,7 @@ public class SpinWithProfileVision extends Command {
 
     @Override
     protected boolean isFinished() {
-        return alignedCounter > 3;
+        return alignedCounter > 3 || isTimedOut();
     }
 
     @Override

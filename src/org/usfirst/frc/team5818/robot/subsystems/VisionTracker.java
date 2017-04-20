@@ -35,8 +35,6 @@ public class VisionTracker extends Subsystem implements Runnable {
     }
 
     public void start() {
-        UsbCamera cam = CameraServer.getInstance().startAutomaticCapture();
-        cam.setResolution(320, 200);
         Thread thread = new Thread(this);
         thread.start();
     }
@@ -46,7 +44,7 @@ public class VisionTracker extends Subsystem implements Runnable {
         try {
             output += (char) (rasPi.read(1)[0] & 0xFF);
         } catch (Exception e) {
-            DriverStation.reportError("could not receive", false);
+            //DriverStation.reportError("could not receive", false);
             return;
         }
         if (output.equals("\n")) {
