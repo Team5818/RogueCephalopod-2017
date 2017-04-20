@@ -34,7 +34,7 @@ public class ProfileSideGear extends CommandGroup{
             b.inches(75);
             b.maxPower(.7);
             b.maxRatio(3.0);
-            b.stoppingAtEnd(false);
+            b.stoppingAtEnd(true);
         }));
         this.addSequential(new TimedCommand(.5));
         addSequential(new PlaceWithLimit());
