@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team5818.robot;
 
+import org.usfirst.frc.team5818.robot.autos.DownField1Gear;
 import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.PitTestSideGear;
@@ -111,6 +112,9 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Profile Side Gear Bot-Left", new ProfileSideGear(Side.LEFT));
         chooser.addObject("Profile Two Gear mid-left", new ProfileTwoGear(85,Side.LEFT));
         chooser.addObject("Profile Two Gear mid-right", new ProfileTwoGear(85,Side.RIGHT));
+        chooser.addObject("Down Field 1 Gear Right", new DownField1Gear(Side.RIGHT));
+        chooser.addObject("Down Field 1 Gear Left", new DownField1Gear(Side.LEFT));
+
 
 
 

@@ -75,7 +75,7 @@ public class SpinWithProfileVision extends Command {
             if(!Double.isNaN(visAng)){
                 turn = kSmall*Math.toRadians(vision.getCurrentAngle())*camMultiplier;
             }
-        driveTrain.setPowerLeftRight(- turn, + turn);
+        driveTrain.setPowerLeftRight( -turn, + turn);
         
         aligned = Math.abs(vision.getCurrentAngle()) < 1;
         
