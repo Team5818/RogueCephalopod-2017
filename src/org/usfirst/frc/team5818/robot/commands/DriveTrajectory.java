@@ -67,7 +67,7 @@ public class DriveTrajectory extends Command {
         double deltaHeading = goalHeading - curHeading;
         double radius = Math.abs(Math.abs(distance) / (deltaHeading));
 
-        Trajectory leftProfile = TrajectoryGenerator.generate(.5 * Constants.Constant.maxVelocityIPS(),
+        Trajectory leftProfile = TrajectoryGenerator.generate(.8 * Constants.Constant.maxVelocityIPS(),
                 .8 * Constants.Constant.maxAccelIPS2(), .02, initialVel, curHeading, Math.abs(distance), goalVel,
                 goalHeading);
         Trajectory rightProfile = leftProfile.copy();
