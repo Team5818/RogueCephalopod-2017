@@ -28,7 +28,7 @@ public class ProfileSideGear extends CommandGroup{
         }
         addSequential(new TapeMode());
         addSequential(new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
-        addSequential(new SpinWithProfile(angleMult*Math.toRadians(50.0), true, true));
+        addSequential(new SpinWithProfile(angleMult*Math.toRadians(40.0), true, true));
         addSequential(new SpinWithProfileVision(true, Camera.CAM_TAPE));
         addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
             b.inches(70);
