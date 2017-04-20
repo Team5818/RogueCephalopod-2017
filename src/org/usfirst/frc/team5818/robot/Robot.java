@@ -168,6 +168,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousInit() {
+        driveTrain.getGyro().reset();
         autonomousCommand = chooser.getSelected();
 
         /*
