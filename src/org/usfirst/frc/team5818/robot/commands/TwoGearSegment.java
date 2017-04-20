@@ -48,13 +48,13 @@ public class TwoGearSegment extends CommandGroup {
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
-                b.inches(54);
+                b.inches(56);
                 b.maxPower(maxPower);
                 b.maxRatio(3.5);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(4);
+                b.inches(6);
                 b.maxPower((maxPower * 2) / 3);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
@@ -62,7 +62,7 @@ public class TwoGearSegment extends CommandGroup {
         } else {
             if (side != Side.CENTER) {
                 driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
-                    b.inches(24);
+                    b.inches(28);
                     b.maxPower(-maxPower);
                     double rat2 = 2;
                     if (side == Side.LEFT) {
