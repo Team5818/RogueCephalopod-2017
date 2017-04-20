@@ -31,9 +31,15 @@ public class ProfileSideGear extends CommandGroup{
         addSequential(new SpinWithProfile(angleMult*Math.toRadians(50.0), true, true));
         addSequential(new SpinWithProfileVision(true, Camera.CAM_TAPE));
         addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
-            b.inches(75);
+            b.inches(70);
             b.maxPower(.7);
             b.maxRatio(3.0);
+            b.stoppingAtEnd(true);
+        }));
+        addSequential(DriveAtRatio.withDeadReckon(b -> {
+            b.inches(5);
+            b.maxPower(.7);
+            b.targetRatio(1);
             b.stoppingAtEnd(true);
         }));
         this.addSequential(new TimedCommand(.5));
