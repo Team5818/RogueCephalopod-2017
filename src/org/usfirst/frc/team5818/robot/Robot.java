@@ -106,7 +106,8 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Test Profile Spin", new SpinWithProfile(Math.PI/2.0, true, false));
         chooser.addObject("Test Profile Curving", new TestProfileCurves());
         chooser.addObject("VisionSpin", new SpinWithProfileVision(true, Camera.CAM_GEARS));
-        chooser.addObject("Pit-Testable Side Gear", new PitTestSideGear(Side.LEFT));
+        chooser.addObject("Pit-Testable Side Gear Left", new PitTestSideGear(Side.LEFT));
+        chooser.addObject("Pit-Testable Side Gear Right", new PitTestSideGear(Side.RIGHT));
         chooser.addObject("Scrap", new ScrapAuto());
         chooser.addObject("Scrap2", new FindTarget(Spin.CLOCKWISE, 30));
 
