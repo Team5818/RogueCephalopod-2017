@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.autos;
 
 import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
+import org.usfirst.frc.team5818.robot.commands.FindTarget;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfileVision;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
@@ -9,6 +10,7 @@ import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.Side;
+import org.usfirst.frc.team5818.robot.constants.Spin;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
@@ -19,18 +21,21 @@ public class PitTestSideGear extends CommandGroup{
     int angleMult;
     
     public PitTestSideGear(Side turnSide){
+        Spin s;
         if(turnSide == Side.LEFT){
+            s = Spin.COUNTERCW;
             angleMult = -1;
+            
         }
         else{
+            s = Spin.CLOCKWISE;
             angleMult = 1;
         }
         addSequential(new TapeMode());
-        addSequential(new DriveTrajectory(24, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
-        addSequential(new SpinWithProfile(angleMult*Math.toRadians(160.0), true, true));
-        addSequential(new SpinWithProfileVision(true, Camera.CAM_TAPE));
+        addSequential(new DriveTrajectory(36, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
+        addSequential(new FindTarget(s, 120));
         addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
-            b.inches(24);
+            b.inches(36);
             b.maxPower(.7);
             b.maxRatio(3.0);
             b.stoppingAtEnd(true);

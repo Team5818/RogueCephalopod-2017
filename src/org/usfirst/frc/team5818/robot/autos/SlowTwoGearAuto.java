@@ -35,7 +35,8 @@ public class SlowTwoGearAuto extends CommandGroup {
         this.addSequential(new ShiftGears(Gear.LOW, .2));
         this.addSequential(tapeMode1);
         this.addSequential(moveForward);
-        this.addSequential(new TimedCommand(.5));
+        this.addSequential(new TimedCommand(.2));
+        this.addSequential(new PlaceWithLimit());
         this.addSequential(new PlaceWithLimit());
         this.addSequential(gearMode);
         this.addSequential(moveToGear);

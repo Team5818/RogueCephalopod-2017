@@ -81,7 +81,9 @@ public class DriveAtRatio extends Command {
         requires(Robot.runningRobot.driveTrain);
         cont = Robot.runningRobot.camCont;
         requires(cont);
-        //setTimeout(inches / 12);
+        if(maxPow > .2){
+            setTimeout(inches / 12);
+        }
         targetRatio = opts.getTargetRatio(); // Ratio is LEFT/RIGHT
         maxRatio = opts.getMaxRatio();
         if (camera.equals(Camera.NONE)) {

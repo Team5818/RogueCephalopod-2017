@@ -15,7 +15,7 @@ public class FindTarget extends CommandGroup {
     Command visionSpinArea;
     private final VisionTracker vision = Robot.runningRobot.vision;
     
-    public FindTarget(Spin s) {
+    public FindTarget(Spin s, double ang) {
         double mult = 1;
         if(s == Spin.COUNTERCW){
            mult = -1; 
@@ -28,7 +28,7 @@ public class FindTarget extends CommandGroup {
 //            b.stoppingAtEnd(true);
 //        }));
         addSequential(new TapeMode());
-        addSequential(new SpinWithProfile(mult*Math.toRadians(30.0), true, true));
+        addSequential(new SpinWithProfile(mult*Math.toRadians(ang), true, true));
         addSequential(visionSpinArea = DriveAtRatio.withSpin(b -> {
             b.angle(50);
             b.rotation(s);
