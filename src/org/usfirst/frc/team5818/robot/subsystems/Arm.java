@@ -20,13 +20,13 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     private static final double COLLECT_ANGLE = 11;
 
-    public static final double COLLECT_POSITION = 2700;
+    public static final double COLLECT_POSITION = 2740;
     public static final double CLIMB_POSITION = 4326;
     public static final double MID_POSITION = 4445;
     public static final double NINETY_DEGREES = 4875;
     public static final double SLOT_COLLECT_POSITION = NINETY_DEGREES;
     public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
-    public static final double LOAD_POSITION = 5790;
+    public static final double LOAD_POSITION = 5830;
     public static final double ANGLE_SCALE = (90 - COLLECT_ANGLE) / (NINETY_DEGREES - COLLECT_POSITION);
     public static final double ANGLE_OFFSET = (COLLECT_ANGLE - (COLLECT_POSITION * ANGLE_SCALE)) - 16.3;
     public static final double HOLD_POWER = .055;
