@@ -41,7 +41,7 @@ public class DownField1Gear extends CommandGroup {
         }
         setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.5);
+        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.9);
 
         gearMode = new GearMode();
         moveToGear = new TwoGearSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT, -.75);
