@@ -32,19 +32,19 @@ public class SpinWithProfileVision extends Command {
     private VisionTracker vision;
     boolean stoppingAtEnd;
     double angle;
-    double kTurn = 1.5/Math.PI;
-    double kSmall = 3.5/Math.PI;
+    double kTurn = 1.5 / Math.PI;
+    double kSmall = 3.0 / Math.PI;
     int loopCount;
     int camMultiplier;
 
     public SpinWithProfileVision(boolean stop, Camera cam) {
         setTimeout(1.5);
-        if(cam.equals(Camera.CAM_TAPE)){
+        if (cam.equals(Camera.CAM_TAPE)) {
             camMultiplier = 1;
-        }else{
+        } else {
             camMultiplier = -1;
         }
-        
+
         driveTrain = Robot.runningRobot.driveTrain;
         vision = Robot.runningRobot.vision;
         requires(driveTrain);
@@ -55,34 +55,33 @@ public class SpinWithProfileVision extends Command {
 
     }
 
-//    public void reset() {
-//        followerLeft.reset();
-//        followerRight.reset();
-//        driveTrain.resetEncs();
-//    }
-//
-//    public int getFollowerCurrentSegment() {
-//        return followerLeft.getCurrentSegment();
-//    }
-//
-//    public int getNumSegments() {
-//        return followerLeft.getNumSegments();
-//    }
+    // public void reset() {
+    // followerLeft.reset();
+    // followerRight.reset();
+    // driveTrain.resetEncs();
+    // }
+    //
+    // public int getFollowerCurrentSegment() {
+    // return followerLeft.getCurrentSegment();
+    // }
+    //
+    // public int getNumSegments() {
+    // return followerLeft.getNumSegments();
+    // }
 
     protected void execute() {
         double turn = 0;
         double visAng = vision.getCurrentAngle();
-            if(!Double.isNaN(visAng)){
-                turn = kSmall*Math.toRadians(vision.getCurrentAngle())*camMultiplier;
-            }
-        driveTrain.setPowerLeftRight( -turn, + turn);
-        
-        aligned = Math.abs(vision.getCurrentAngle()) < 1;
-        
-        if(aligned){
-            alignedCounter++;
+        if (!Double.isNaN(visAng)) {
+            turn = kSmall * Math.toRadians(visAng) * camMultiplier;
         }
-        else{
+        driveTrain.setPowerLeftRight(-turn, +turn);
+
+        aligned = Math.abs(visAng) < 1;
+
+        if (aligned) {
+            alignedCounter++;
+        } else {
             alignedCounter = 0;
         }
     }

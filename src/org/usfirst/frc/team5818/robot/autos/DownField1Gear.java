@@ -41,7 +41,7 @@ public class DownField1Gear extends CommandGroup {
         }
         setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.90);
+        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.5);
 
         gearMode = new GearMode();
         moveToGear = new TwoGearSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT, -.75);
@@ -51,7 +51,7 @@ public class DownField1Gear extends CommandGroup {
         this.addSequential(new ShiftGears(Gear.LOW, .2));
         this.addSequential(tapeMode1);
         this.addSequential(moveForward);
-        this.addSequential(new TimedCommand(0.2));
+//        this.addSequential(new TimedCommand(0.2));
         this.addSequential(new PlaceWithLimit());
         this.addSequential(new PlaceWithLimit());
 //        this.addSequential(gearMode);
@@ -62,11 +62,11 @@ public class DownField1Gear extends CommandGroup {
 //        this.addSequential(new PlaceWithLimit());
         //this.addSequential(new PlaceWithLimit());
         this.addSequential(new DriveTrajectory(40, 0.0, 0.0, 0.0, Direction.FORWARD, true));
-        this.addSequential(new TimedCommand(waitTime));
-        this.addSequential(new SpinWithProfile(angMult*Math.PI/2.0,true, true));
+        //this.addSequential(new TimedCommand(waitTime));
+        this.addSequential(new SpinWithProfile(angMult*Math.toRadians(80),true, true));
         this.addSequential(new DriveTrajectory(sideDist, 0.0, 0.0, 0.0, Direction.FORWARD, true));
         this.addSequential(new SpinWithProfile(angMult*Math.PI, true, true));
-        this.addSequential(new DriveTrajectory(370, 0.0, 0.0, 0.0, Direction.FORWARD, true));
+        this.addSequential(new DriveTrajectory(370, angMult*Math.PI, 0.0, 0.0, Direction.FORWARD, true));
 
 
     }

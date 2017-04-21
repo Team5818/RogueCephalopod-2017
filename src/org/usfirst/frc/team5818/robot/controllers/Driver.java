@@ -123,8 +123,8 @@ public class Driver {
         Button climbMode = Buttons.TURRET.get(5);
         climbMode.whenPressed(new StartClimbControlCommand());
 
-        Button codriverControl = Buttons.TURRET.get(1);
-        codriverControl.whenPressed(new CoRiverControlCommand(JS_COLLECTOR));
+//        Button codriverControl = Buttons.TURRET.get(1);
+//        codriverControl.whenPressed(new CoRiverControlCommand(JS_COLLECTOR));
 
         Button deploy = Buttons.TURRET.get(2);
         deploy.whenPressed(new PlaceWithLimit());
