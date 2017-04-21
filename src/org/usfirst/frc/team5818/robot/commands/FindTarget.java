@@ -43,7 +43,7 @@ public class FindTarget extends CommandGroup {
     protected boolean isFinished() {
         if (visionSpinArea.isRunning()) {
             double a = vision.getCurrentAngle();
-            if (!Double.isNaN(a) && Math.abs(a) < 3) {
+            if (!Double.isNaN(a) && Math.abs(a) < 4) {
                 return true;
             }
         }
