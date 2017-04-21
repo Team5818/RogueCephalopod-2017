@@ -12,6 +12,7 @@ import org.usfirst.frc.team5818.robot.autos.TestProfileCurves;
 import org.usfirst.frc.team5818.robot.autos.ProfileTwoGear;
 import org.usfirst.frc.team5818.robot.autos.ScrapAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
+import org.usfirst.frc.team5818.robot.autos.TopSecret;
 import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
 import org.usfirst.frc.team5818.robot.commands.FindTarget;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
@@ -119,6 +120,8 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Profile Two Gear mid-right", new ProfileTwoGear(85,Side.RIGHT));
         chooser.addObject("Down Field 1 Gear Right", new DownField1Gear(Side.RIGHT));
         chooser.addObject("Down Field 1 Gear Left", new DownField1Gear(Side.LEFT));
+        chooser.addObject("Shhhhh", new TopSecret());
+
 
 
 
@@ -210,6 +213,8 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null)
             autonomousCommand.cancel();
+        turret.extend(false);
+        turret.punch(false);
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
         driveTrain.shiftGears(Gear.LOW);

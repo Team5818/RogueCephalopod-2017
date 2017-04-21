@@ -24,7 +24,7 @@ public class TopSecret extends CommandGroup{
         turretStuff.addSequential(new TimedCommand(.3));
         turretStuff.addSequential(new SetExtendTurret(false));
         turretStuff.addSequential(new SetPunchTurret(false,0));
-        firstSeg.addParallel(new DriveTrajectory(576, 0.0, 0.0, 0.0, Direction.FORWARD, true));
+        firstSeg.addParallel(new DriveTrajectory(576, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
         firstSeg.addParallel(turretStuff);
         this.addSequential(firstSeg);
         this.addSequential(new SetExtendTurret(true));
