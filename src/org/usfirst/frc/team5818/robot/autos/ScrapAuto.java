@@ -23,7 +23,7 @@ public class ScrapAuto extends CommandGroup {
 //            b.stoppingAtEnd(true);
 //        }));
         addSequential(new TapeMode());
-        addSequential(new SpinWithProfile(Math.toRadians(50.0), true, true));
+        addSequential(new SpinWithProfile(Math.toRadians(40.0), true, true));
         addSequential(new SpinWithProfileVision(true, Camera.CAM_TAPE));
     }
 }
