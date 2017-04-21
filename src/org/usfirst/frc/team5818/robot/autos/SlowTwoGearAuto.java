@@ -1,7 +1,9 @@
 package org.usfirst.frc.team5818.robot.autos;
 
+import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
+import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.TwoGearSegment;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
@@ -45,6 +47,11 @@ public class SlowTwoGearAuto extends CommandGroup {
         // this.addSequential(new TimedCommand(.5));
         this.addSequential(new PlaceWithLimit());
         this.addSequential(new PlaceWithLimit());
+        this.addSequential(new DriveTrajectory(40, 0.0, 0.0, 0.0, Direction.FORWARD, true));
+        this.addSequential(new SpinWithProfile(-Math.PI/2.0,true, true));
+        this.addSequential(new DriveTrajectory(120, 0.0, 0.0, 0.0, Direction.FORWARD, true));
+        this.addSequential(new SpinWithProfile(-Math.PI/2.0,true, true));
+        this.addSequential(new DriveTrajectory(370, 0.0, 0.0, 0.0, Direction.FORWARD, true));
     }
 
 }
