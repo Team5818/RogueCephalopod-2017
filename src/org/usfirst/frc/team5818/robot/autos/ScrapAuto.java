@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class ScrapAuto extends CommandGroup {
 
-    DriveAtRatio visionSpinArea;
     
     public ScrapAuto() {
 //        addSequential(new SpinWithVision(60, 20, Spin.CLOCKWISE, Camera.CAM_TAPE));
@@ -30,4 +29,5 @@ public class ScrapAuto extends CommandGroup {
         //addSequential(new SpinWithProfileVision(true, Camera.CAM_TAPE));
         
     }
+    
 }

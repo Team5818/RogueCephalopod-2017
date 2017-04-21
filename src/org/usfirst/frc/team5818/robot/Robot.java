@@ -13,6 +13,7 @@ import org.usfirst.frc.team5818.robot.autos.ProfileTwoGear;
 import org.usfirst.frc.team5818.robot.autos.ScrapAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
 import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
+import org.usfirst.frc.team5818.robot.commands.FindTarget;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
 import org.usfirst.frc.team5818.robot.commands.ScanForTarget;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
@@ -106,6 +107,8 @@ public class Robot extends IterativeRobot {
         chooser.addObject("VisionSpin", new SpinWithProfileVision(true, Camera.CAM_GEARS));
         chooser.addObject("Pit-Testable Side Gear", new PitTestSideGear(Side.LEFT));
         chooser.addObject("Scrap", new ScrapAuto());
+        chooser.addObject("Scrap2", new FindTarget());
+
         
         //Profiled Autos
         chooser.addObject("Profile Side Gear Bot-Right", new ProfileSideGear(Side.RIGHT));

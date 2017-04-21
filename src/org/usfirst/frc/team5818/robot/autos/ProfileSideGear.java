@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5818.robot.autos;
 
 import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
+import org.usfirst.frc.team5818.robot.commands.FindTarget;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfileVision;
 import org.usfirst.frc.team5818.robot.commands.SpinWithVision;
@@ -20,16 +21,19 @@ public class ProfileSideGear extends CommandGroup{
     int angleMult;
     
     public ProfileSideGear(Side turnSide){
+        Spin s;
         if(turnSide == Side.LEFT){
+            s = Spin.COUNTERCW;
             angleMult = -1;
+            
         }
         else{
+            s = Spin.CLOCKWISE;
             angleMult = 1;
         }
         addSequential(new TapeMode());
         addSequential(new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
-        addSequential(new SpinWithProfile(angleMult*Math.toRadians(40.0), true, true));
-        addSequential(new SpinWithProfileVision(true, Camera.CAM_TAPE));
+        addSequential(new FindTarget(s));
         addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
             b.inches(70);
             b.maxPower(.7);

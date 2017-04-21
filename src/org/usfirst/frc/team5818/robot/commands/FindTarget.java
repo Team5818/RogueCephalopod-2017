@@ -1,23 +1,25 @@
-package org.usfirst.frc.team5818.robot.autos;
+package org.usfirst.frc.team5818.robot.commands;
 
 import org.usfirst.frc.team5818.robot.Robot;
-import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
-import org.usfirst.frc.team5818.robot.commands.SpinWithProfileVision;
-import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.constants.Camera;
+import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.constants.Spin;
 import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class ScrapAuto2 extends CommandGroup {
+public class FindTarget extends CommandGroup {
 
     Command visionSpinArea;
     private final VisionTracker vision = Robot.runningRobot.vision;
     
-    public ScrapAuto2() {
+    public FindTarget(Spin s) {
+        double mult = 1;
+        if(s == Spin.COUNTERCW){
+           mult = -1; 
+        }
 //        addSequential(new SpinWithVision(60, 20, Spin.CLOCKWISE, Camera.CAM_TAPE));
 //        addSequential(DriveAtRatio.withSpin(b -> {
 //            b.angle(5);
@@ -26,11 +28,11 @@ public class ScrapAuto2 extends CommandGroup {
 //            b.stoppingAtEnd(true);
 //        }));
         addSequential(new TapeMode());
-        addSequential(new SpinWithProfile(Math.toRadians(40.0), true, true));
+        addSequential(new SpinWithProfile(mult*Math.toRadians(30.0), true, true));
         addSequential(visionSpinArea = DriveAtRatio.withSpin(b -> {
-            b.angle(20);
-            b.rotation(Spin.CLOCKWISE);
-            b.maxPower(.5);
+            b.angle(50);
+            b.rotation(s);
+            b.maxPower(.2);
             b.stoppingAtEnd(false);
         }));
         //addSequential(new SpinWithProfileVision(true, Camera.CAM_TAPE));
@@ -41,10 +43,15 @@ public class ScrapAuto2 extends CommandGroup {
     protected boolean isFinished() {
         if (visionSpinArea.isRunning()) {
             double a = vision.getCurrentAngle();
-            if (!Double.isNaN(a) && Math.abs(a) < 5) {
+            if (!Double.isNaN(a) && Math.abs(a) < 3) {
                 return true;
             }
         }
         return super.isFinished();
+    }
+    
+    @Override
+    protected void end(){
+        Robot.runningRobot.driveTrain.stop();
     }
 }
