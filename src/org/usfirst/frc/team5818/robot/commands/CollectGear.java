@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class CollectGear extends CommandGroup {
 
+    private final double power;
     Collector collect;
 
     public CollectGear() {
@@ -16,6 +17,7 @@ public class CollectGear extends CommandGroup {
 
     public CollectGear(double pow, double limitTimeout) {
         collect = Robot.runningRobot.collect;
+        power = pow;
         this.addSequential(new LimitCollect(pow, limitTimeout));
         // this.addSequential(new TimedCommand(.5));
         // this.addSequential(new CollectGearCurrent(.7, limitTimeout));
@@ -25,8 +27,8 @@ public class CollectGear extends CommandGroup {
 
     @Override
     protected void initialize() {
-        collect.setBotPower(.7);
-        collect.setTopPower(.7);
+        collect.setBotPower(power);
+        collect.setTopPower(power);
     }
 
     @Override

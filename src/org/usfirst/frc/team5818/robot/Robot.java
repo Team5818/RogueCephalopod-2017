@@ -18,9 +18,11 @@ import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
 import org.usfirst.frc.team5818.robot.commands.FindTarget;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
 import org.usfirst.frc.team5818.robot.commands.ScanForTarget;
+import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfileVision;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
+import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.commands.fromscratch.PlaceGearForAndrew;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
@@ -39,6 +41,7 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -112,6 +115,15 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Pit-Testable Side Gear Right", new PitTestSideGear(Side.RIGHT));
         chooser.addObject("Scrap", new ScrapAuto());
         chooser.addObject("Scrap2", new FindTarget(Spin.CLOCKWISE, 30));
+        CommandGroup g = new CommandGroup();
+        g.addSequential(new ShiftGears(Gear.HIGH));
+        g.addSequential(DriveAtRatio.withDeadReckon(b -> {
+            b.inches(576);
+            b.maxPower(1);
+            b.stoppingAtEnd(true);
+            b.targetRatio(1.0);
+        }));
+        chooser.addObject("Scrap3", g);
 
         
         //Profiled Autos

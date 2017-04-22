@@ -150,7 +150,7 @@ public class Driver {
         fullExtend.whenReleased(new FullExtention(false));
         
         Button coSpit = Buttons.COLLECTOR.get(6);
-        coSpit.whileHeld(new SpitGear());
+        coSpit.whileHeld(new SetCollectorPower(false,.4,1));
 
     }
 

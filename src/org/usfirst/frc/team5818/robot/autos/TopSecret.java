@@ -4,7 +4,9 @@ import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
 import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
 import org.usfirst.frc.team5818.robot.commands.SetPunchTurret;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
+import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.constants.Direction;
+import org.usfirst.frc.team5818.robot.constants.Gear;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
@@ -16,6 +18,7 @@ public class TopSecret extends CommandGroup{
     
     public TopSecret(){
         
+        
         firstSeg = new CommandGroup();
         turretStuff = new CommandGroup();
         turretStuff.addSequential(new SetTurretAngle(60));
@@ -26,6 +29,7 @@ public class TopSecret extends CommandGroup{
         turretStuff.addSequential(new SetPunchTurret(false,0));
         firstSeg.addParallel(new DriveTrajectory(576, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
         firstSeg.addParallel(turretStuff);
+        this.addSequential(new ShiftGears(Gear.HIGH));
         this.addSequential(firstSeg);
         this.addSequential(new SetExtendTurret(true));
         this.addSequential(new SetPunchTurret(true,0));

@@ -50,6 +50,6 @@ public class ProfileSideGear extends CommandGroup{
         addSequential(new PlaceWithLimit());
         addSequential(new DriveTrajectory(28, angleMult*Math.toRadians(60.0), 0.0, 0.0, Direction.FORWARD, true));
         addSequential(new SpinWithProfile(angleMult*Math.PI, true, false));
-        addSequential(new DriveTrajectory(320, angleMult*Math.PI, 0.0, 0.0, Direction.FORWARD, true));
+        addSequential(new DriveTrajectory(320, .9*(angleMult*Math.PI), 0.0, 0.0, Direction.FORWARD, true));
     }
 }
