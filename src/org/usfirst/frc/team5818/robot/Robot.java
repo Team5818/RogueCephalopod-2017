@@ -97,42 +97,42 @@ public class Robot extends IterativeRobot {
         requireAllSubsystems = new RequireAllSubsystems();
         //Old Autos -- Same as Ventura
         chooser.addObject("Do Nothing Auto", new TimedCommand(15));
-        chooser.addObject("One Gear Auto From Two Gear", new OneGearButFromTwoGearAuto());
-        chooser.addObject("Three Gear Auto", new ThreeGearAuto());
-        chooser.addObject("Place With Limit -- Andrew", new PlaceGearForAndrew(0.5));
+//        chooser.addObject("One Gear Auto From Two Gear", new OneGearButFromTwoGearAuto());
+//        chooser.addObject("Three Gear Auto", new ThreeGearAuto());
+//        chooser.addObject("Place With Limit -- Andrew", new PlaceGearForAndrew(0.5));
         chooser.addObject("Center Two Gear (Gear Right)", new SlowTwoGearAuto());
         chooser.addObject("Center Two Gear (Gear Left)", new NotPeteyTwoGearAuto());
-        chooser.addObject("Side Gear Auto (Bot Left)", new SidePegAuto(60, Side.RIGHT));
-        chooser.addObject("Side Gear Auto (Bot Right)", new SidePegAuto(60, Side.LEFT));
+//        chooser.addObject("Side Gear Auto (Bot Left)", new SidePegAuto(60, Side.RIGHT));
+//        chooser.addObject("Side Gear Auto (Bot Right)", new SidePegAuto(60, Side.LEFT));
         
         //Profile Testing Routines
-        chooser.addObject("Test Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.FORWARD, true));
-        chooser.addObject("Test Backward Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
-        chooser.addObject("Test Profile Spin", new SpinWithProfile(Math.PI/2.0, true, false));
-        chooser.addObject("Test Profile Curving", new TestProfileCurves());
-        chooser.addObject("VisionSpin", new SpinWithProfileVision(true, Camera.CAM_GEARS));
-        chooser.addObject("Pit-Testable Side Gear Left", new PitTestSideGear(Side.LEFT));
-        chooser.addObject("Pit-Testable Side Gear Right", new PitTestSideGear(Side.RIGHT));
-        chooser.addObject("Scrap", new ScrapAuto());
-        chooser.addObject("Scrap2", new FindTarget(Spin.CLOCKWISE, 30));
-        CommandGroup g = new CommandGroup();
-        g.addSequential(new ShiftGears(Gear.HIGH));
-        g.addSequential(DriveAtRatio.withDeadReckon(b -> {
-            b.inches(576);
-            b.maxPower(1);
-            b.stoppingAtEnd(true);
-            b.targetRatio(1.0);
-        }));
-        chooser.addObject("Scrap3", g);
+//        chooser.addObject("Test Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.FORWARD, true));
+//        chooser.addObject("Test Backward Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
+//        chooser.addObject("Test Profile Spin", new SpinWithProfile(Math.PI/2.0, true, false));
+//        chooser.addObject("Test Profile Curving", new TestProfileCurves());
+//        chooser.addObject("VisionSpin", new SpinWithProfileVision(true, Camera.CAM_GEARS));
+//        chooser.addObject("Pit-Testable Side Gear Left", new PitTestSideGear(Side.LEFT));
+//        chooser.addObject("Pit-Testable Side Gear Right", new PitTestSideGear(Side.RIGHT));
+//        chooser.addObject("Scrap", new ScrapAuto());
+//        chooser.addObject("Scrap2", new FindTarget(Spin.CLOCKWISE, 30));
+//        CommandGroup g = new CommandGroup();
+//        g.addSequential(new ShiftGears(Gear.HIGH));
+//        g.addSequential(DriveAtRatio.withDeadReckon(b -> {
+//            b.inches(576);
+//            b.maxPower(1);
+//            b.stoppingAtEnd(true);
+//            b.targetRatio(1.0);
+//        }));
+//        chooser.addObject("Scrap3", g);
 
         
         //Profiled Autos
-        chooser.addObject("Profile Side Gear Bot-Right", new ProfileSideGear(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Bot-Left", new ProfileSideGear(Side.LEFT));
-        chooser.addObject("Profile Side Gear Boiler Bot-Right", new ProfileSideGearBoilerSide(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Boiler Bot-Left", new ProfileSideGearBoilerSide(Side.LEFT));
-        chooser.addObject("Profile Two Gear mid-left", new ProfileTwoGear(85,Side.LEFT));
-        chooser.addObject("Profile Two Gear mid-right", new ProfileTwoGear(85,Side.RIGHT));
+        chooser.addObject("Profile Side Gear Field Left", new ProfileSideGear(Side.RIGHT));
+        chooser.addObject("Profile Side Gear Field Right", new ProfileSideGear(Side.LEFT));
+        chooser.addObject("Profile Side Gear Boiler Field Left", new ProfileSideGearBoilerSide(Side.RIGHT));
+        chooser.addObject("Profile Side Gear Boiler Field Right", new ProfileSideGearBoilerSide(Side.LEFT));
+//        chooser.addObject("Profile Two Gear mid-left", new ProfileTwoGear(85,Side.LEFT));
+//        chooser.addObject("Profile Two Gear mid-right", new ProfileTwoGear(85,Side.RIGHT));
         chooser.addObject("Down Field 1 Gear Right", new DownField1Gear(Side.RIGHT));
         chooser.addObject("Down Field 1 Gear Left", new DownField1Gear(Side.LEFT));
         chooser.addObject("Shhhhh", new TopSecret());
