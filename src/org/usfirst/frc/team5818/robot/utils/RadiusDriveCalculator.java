@@ -1,6 +1,9 @@
 package org.usfirst.frc.team5818.robot.utils;
 
 public enum RadiusDriveCalculator implements DriveCalculator {
+    /**
+     * Computes values for "RadiusDrive" (Basically just CheesyDrive)
+     */
 
     INSTANCE;
 

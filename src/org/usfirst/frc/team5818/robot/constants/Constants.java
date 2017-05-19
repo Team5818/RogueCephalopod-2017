@@ -56,9 +56,6 @@ public abstract class Constants {
         return 500;
     }
 
-    public final int turretPot() {
-        return 0;
-    }
 
     public final double cameraFov() {
         return 60;

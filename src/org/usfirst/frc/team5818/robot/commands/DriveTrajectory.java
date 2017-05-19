@@ -12,7 +12,6 @@ import org.usfirst.frc.team5818.robot.utils.TrajectoryFollower;
 import org.usfirst.frc.team5818.robot.utils.TrajectoryGenerator;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * TrajectoryDriveController.java This controller drives the robot along a
@@ -101,12 +100,7 @@ public class DriveTrajectory extends Command {
                 0.3 / Constants.Constant.maxAccelIPS2(), leftProfile, Side.LEFT);
         followerRight = new TrajectoryFollower(.06, 1.0 / Constants.Constant.maxVelocityIPS(),
                 0.3 / Constants.Constant.maxAccelIPS2(), rightProfile, Side.RIGHT);
-        // followerLeft = new TrajectoryFollower(0.0, 0.0 /
-        // Constants.Constant.maxVelocityIPS(),
-        // 0.0 / Constants.Constant.maxAccelIPS2(), leftProfile);
-        // followerRight = new TrajectoryFollower(0.0, 0.0 /
-        // Constants.Constant.maxVelocityIPS(),
-        // 0.0 / Constants.Constant.maxAccelIPS2(), rightProfile);
+
         reset();
     }
 
