@@ -5,6 +5,7 @@ import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -13,26 +14,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
-    private static final double kP = 0.0006;// tune me pls
+    private static final double kP = 0.0006;
     private static final double kI = 0.0000;
-    private static final double kD = 0.00005;
+    private static final double kD = 0.000045;
 
     private static final double COLLECT_ANGLE = 11;
 
-    public static final double COLLECT_POSITION = 1110;
-    public static final double CLIMB_POSITION = 2675;
-    public static final double MID_POSITION = 3072;
-    public static final double NINETY_DEGREES = 3280;
+    public static final double COLLECT_POSITION = -1983;
+    public static final double CLIMB_POSITION = -415;
+    public static final double MID_POSITION = -233;
+    public static final double NINETY_DEGREES = 26;
     public static final double SLOT_COLLECT_POSITION = NINETY_DEGREES;
     public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
-    public static final double LOAD_POSITION = 4100;
+    public static final double LOAD_POSITION = 1000;
     public static final double ANGLE_SCALE = (90 - COLLECT_ANGLE) / (NINETY_DEGREES - COLLECT_POSITION);
     public static final double ANGLE_OFFSET = (COLLECT_ANGLE - (COLLECT_POSITION * ANGLE_SCALE)) - 16.3;
     public static final double HOLD_POWER = .055;
 
     private CANTalon leftMotorTal;
     private CANTalon rightMotorTal;
-
+    
+    private AnalogInput armPot; 
     public PIDSourceType pidType = PIDSourceType.kDisplacement;
     public BetterPIDController anglePID;
 
@@ -40,6 +42,7 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     private double limitHigh = LOAD_POSITION;
 
     public Arm() {
+        armPot = new AnalogInput(RobotMap.ARM_POT);
         leftMotorTal = new CANTalon(RobotMap.ARM_TALON_L);
         leftMotorTal.setInverted(false);
         leftMotorTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
@@ -72,8 +75,8 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     public double getPosition() {
         double pos = rightMotorTal.getPulseWidthPosition();
-        if (pos < 1000) {
-            return pos + 4096;
+        if (pos > 1500) {
+            return pos - 4096;
         }
         return pos;
     }

@@ -48,13 +48,13 @@ public class TwoGearSegment extends CommandGroup {
                 b.stoppingAtEnd(false);
             });
             driveVision = DriveAtRatio.withVision(Camera.CAM_GEARS, b -> {
-                b.inches(54);
+                b.inches(56);
                 b.maxPower(maxPower);
                 b.maxRatio(3.5);
                 b.stoppingAtEnd(false);
             });
             driveFinal = DriveAtRatio.withDeadReckon(b -> {
-                b.inches(4);
+                b.inches(6);
                 b.maxPower((maxPower * 2) / 3);
                 b.targetRatio(1);
                 b.stoppingAtEnd(true);
@@ -62,7 +62,7 @@ public class TwoGearSegment extends CommandGroup {
         } else {
             if (side != Side.CENTER) {
                 driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
-                    b.inches(24);
+                    b.inches(28);
                     b.maxPower(-maxPower);
                     double rat2 = 2;
                     if (side == Side.LEFT) {
@@ -100,12 +100,12 @@ public class TwoGearSegment extends CommandGroup {
         if (extra == AutoExtra.COLLECT) {
             whileDriving.addSequential((new SetArmAngle(Arm.COLLECT_POSITION)));
             whileDriving.addSequential(new TurretSmallAdjustment(0.0));
-            whileDriving.addSequential(new CollectGear(1, 5));
+            whileDriving.addSequential(new CollectGear(.75, 5));
         } else if (extra == AutoExtra.PLACE) {
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));
 //            whileDriving.addSequential(new SetTurretAngle(0));
             whileDriving.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
-            whileDriving.addSequential(new SetCollectorPower(true, 1.0, 1.5));
+            whileDriving.addSequential(new SetCollectorPower(true, 1.0, 1.0));
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));
         }
 

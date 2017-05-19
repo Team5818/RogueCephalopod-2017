@@ -117,7 +117,7 @@ public class SpinWithProfile extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(angle - driveTrain.getGyroHeading()) < .05 || isTimedOut();
+        return Math.abs(goalHeading - driveTrain.getGyroHeading()) < .05 || isTimedOut();
     }
 
     @Override

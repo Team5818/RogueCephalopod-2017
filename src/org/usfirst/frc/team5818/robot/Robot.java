@@ -1,26 +1,34 @@
 
 package org.usfirst.frc.team5818.robot;
 
+import org.usfirst.frc.team5818.robot.autos.DownField1Gear;
 import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.PitTestSideGear;
 import org.usfirst.frc.team5818.robot.autos.ProfileSideGear;
+import org.usfirst.frc.team5818.robot.autos.ProfileSideGearBoilerSide;
 import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
 import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
 import org.usfirst.frc.team5818.robot.autos.TestProfileCurves;
 import org.usfirst.frc.team5818.robot.autos.ProfileTwoGear;
+import org.usfirst.frc.team5818.robot.autos.ScrapAuto;
 import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
+import org.usfirst.frc.team5818.robot.autos.TopSecret;
 import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
+import org.usfirst.frc.team5818.robot.commands.FindTarget;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
 import org.usfirst.frc.team5818.robot.commands.ScanForTarget;
+import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfileVision;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
+import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.commands.fromscratch.PlaceGearForAndrew;
 import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.constants.Side;
+import org.usfirst.frc.team5818.robot.constants.Spin;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
@@ -33,6 +41,7 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -88,27 +97,47 @@ public class Robot extends IterativeRobot {
         requireAllSubsystems = new RequireAllSubsystems();
         //Old Autos -- Same as Ventura
         chooser.addObject("Do Nothing Auto", new TimedCommand(15));
-        chooser.addObject("One Gear Auto From Two Gear", new OneGearButFromTwoGearAuto());
-        chooser.addObject("Three Gear Auto", new ThreeGearAuto());
-        chooser.addObject("Place With Limit -- Andrew", new PlaceGearForAndrew(0.5));
+//        chooser.addObject("One Gear Auto From Two Gear", new OneGearButFromTwoGearAuto());
+//        chooser.addObject("Three Gear Auto", new ThreeGearAuto());
+//        chooser.addObject("Place With Limit -- Andrew", new PlaceGearForAndrew(0.5));
         chooser.addObject("Center Two Gear (Gear Right)", new SlowTwoGearAuto());
         chooser.addObject("Center Two Gear (Gear Left)", new NotPeteyTwoGearAuto());
-        chooser.addObject("Side Gear Auto (Bot Left)", new SidePegAuto(60, Side.RIGHT));
-        chooser.addObject("Side Gear Auto (Bot Right)", new SidePegAuto(60, Side.LEFT));
+//        chooser.addObject("Side Gear Auto (Bot Left)", new SidePegAuto(60, Side.RIGHT));
+//        chooser.addObject("Side Gear Auto (Bot Right)", new SidePegAuto(60, Side.LEFT));
         
         //Profile Testing Routines
-        chooser.addObject("Test Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.FORWARD, true));
-        chooser.addObject("Test Backward Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
-        chooser.addObject("Test Profile Spin", new SpinWithProfile(Math.PI/2.0, true, false));
-        chooser.addObject("Test Profile Curving", new TestProfileCurves());
-        chooser.addObject("VisionSpin", new SpinWithProfileVision(true, Camera.CAM_GEARS));
-        chooser.addObject("Pit-Testable Side Gear", new PitTestSideGear());
+//        chooser.addObject("Test Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.FORWARD, true));
+//        chooser.addObject("Test Backward Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
+//        chooser.addObject("Test Profile Spin", new SpinWithProfile(Math.PI/2.0, true, false));
+//        chooser.addObject("Test Profile Curving", new TestProfileCurves());
+//        chooser.addObject("VisionSpin", new SpinWithProfileVision(true, Camera.CAM_GEARS));
+//        chooser.addObject("Pit-Testable Side Gear Left", new PitTestSideGear(Side.LEFT));
+//        chooser.addObject("Pit-Testable Side Gear Right", new PitTestSideGear(Side.RIGHT));
+//        chooser.addObject("Scrap", new ScrapAuto());
+//        chooser.addObject("Scrap2", new FindTarget(Spin.CLOCKWISE, 30));
+//        CommandGroup g = new CommandGroup();
+//        g.addSequential(new ShiftGears(Gear.HIGH));
+//        g.addSequential(DriveAtRatio.withDeadReckon(b -> {
+//            b.inches(576);
+//            b.maxPower(1);
+//            b.stoppingAtEnd(true);
+//            b.targetRatio(1.0);
+//        }));
+//        chooser.addObject("Scrap3", g);
+
         
         //Profiled Autos
-        chooser.addObject("Profile Side Gear Bot-Right", new ProfileSideGear(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Bot-Left", new ProfileSideGear(Side.LEFT));
-        chooser.addObject("Profile Two Gear mid-left", new ProfileTwoGear(85,Side.LEFT));
-        chooser.addObject("Profile Two Gear mid-right", new ProfileTwoGear(85,Side.RIGHT));
+        chooser.addObject("Profile Side Gear Field Left", new ProfileSideGear(Side.RIGHT));
+        chooser.addObject("Profile Side Gear Field Right", new ProfileSideGear(Side.LEFT));
+        chooser.addObject("Profile Side Gear Boiler Field Left", new ProfileSideGearBoilerSide(Side.RIGHT));
+        chooser.addObject("Profile Side Gear Boiler Field Right", new ProfileSideGearBoilerSide(Side.LEFT));
+//        chooser.addObject("Profile Two Gear mid-left", new ProfileTwoGear(85,Side.LEFT));
+//        chooser.addObject("Profile Two Gear mid-right", new ProfileTwoGear(85,Side.RIGHT));
+        chooser.addObject("Down Field 1 Gear Right", new DownField1Gear(Side.RIGHT));
+        chooser.addObject("Down Field 1 Gear Left", new DownField1Gear(Side.LEFT));
+        chooser.addObject("Shhhhh", new TopSecret());
+
+
 
 
 
@@ -166,6 +195,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousInit() {
+        driveTrain.getGyro().reset();
         autonomousCommand = chooser.getSelected();
 
         /*
@@ -198,6 +228,8 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null)
             autonomousCommand.cancel();
+        turret.extend(false);
+        turret.punch(false);
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
         driveTrain.shiftGears(Gear.LOW);

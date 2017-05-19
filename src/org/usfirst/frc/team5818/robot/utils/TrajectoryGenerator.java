@@ -96,7 +96,6 @@ public class TrajectoryGenerator {
         traj.setSegment(0, first);
         traj.setSegment(traj.getNumSegments() - 1, last);
         double total_heading_change = goal_heading - start_heading;
-        System.err.println(segCount);
         for (int i = 1; i < traj.getNumSegments() - 1; i++) {
             double currTime = i * dt;
             if (currTime <= t_rampup) {
