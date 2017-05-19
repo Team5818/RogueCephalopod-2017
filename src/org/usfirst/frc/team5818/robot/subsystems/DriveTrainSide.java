@@ -16,25 +16,19 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 
-    private static final double MAX_POWER = Constant.maxPower();
+    /**
+     * Subsystem representing one side of the drive base. Capable of velocity or
+     * distance-based PID control.
+     */
+    
+    public static final double VEL_KP = 0.015; 
+    public static final double VEL_KI = 0.0; 
+    public static final double VEL_KD = 0.10;
+    public static final double VEL_KF = 0.025; 
 
-    public static final double L_VEL_KP = 0.015; // NEEDS TUNING
-    public static final double L_VEL_KI = 0.0; // NEEDS TUNING
-    public static final double L_VEL_KD = 0.0; // NEEDS TUNING
-    public static final double L_VEL_KF = 0.0; // NEEDS TUNING
-
-    public static final double L_DIST_KP = 0.005; // NEEDS TUNING
-    public static final double L_DIST_KI = 0.0001; // NEEDS TUNING
-    public static final double L_DIST_KD = 0.0; // NEEDS TUNING
-
-    public static final double R_VEL_KP = 0.001; // NEEDS TUNING
-    public static final double R_VEL_KI = 0.0; // NEEDS TUNING
-    public static final double R_VEL_KD = 0.0; // NEEDS TUNING
-    public static final double R_VEL_KF = 0.0; // NEEDS TUNING
-
-    public static final double R_DIST_KP = 0.005; // NEEDS TUNING
-    public static final double R_DIST_KI = 0.0001; // NEEDS TUNING
-    public static final double R_DIST_KD = 0.0; // NEEDS TUNING
+    public static final double DIST_KP = 0.005;
+    public static final double DIST_KI = 0.0001; 
+    public static final double DIST_KD = 0.0; 
 
     public static final double LEFT_ENC_SCALE = Constant.encoderScale();
     public static final double RIGHT_ENC_SCALE = Constant.encoderScale();
@@ -49,13 +43,11 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 
     public PIDSourceType pidType = PIDSourceType.kDisplacement;
 
-    private Side side;
-
     public DriveTrainSide(Side side) {
+        /*Instantiate different components depending on side*/
         if (side == Side.CENTER) {
-            throw new IllegalArgumentException("A drive train may not be in the center");
+            throw new IllegalArgumentException("A drive side may not be in the center");
         }
-        this.side = side;
         if (side == Side.RIGHT) {
             motorNoEnc = new CANTalon(RobotMap.L_TALON);
             motorEnc = new CANTalon(RobotMap.L_TALON_ENC);
@@ -63,8 +55,8 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motorNoEnc.setInverted(false);
             motorEnc.setInverted(true);
             motor2NoEnc.setInverted(false);
-            velController = new BetterPIDController(L_VEL_KP, L_VEL_KI, L_VEL_KD, L_VEL_KF, this, this);
-            distController = new BetterPIDController(L_DIST_KP, L_DIST_KI, L_DIST_KD, this, this);
+            velController = new BetterPIDController(VEL_KP, VEL_KI, VEL_KD, VEL_KF, this, this);
+            distController = new BetterPIDController(DIST_KP, DIST_KI, DIST_KD, this, this);
             enc = new Encoder(9, 8, true, Encoder.EncodingType.k4X);
             enc.setDistancePerPulse(LEFT_ENC_SCALE);
             enc.setMaxPeriod(0.1);
@@ -75,8 +67,8 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
             motorNoEnc.setInverted(true);
             motorEnc.setInverted(false);
             motor2NoEnc.setInverted(true);
-            velController = new BetterPIDController(R_VEL_KP, R_VEL_KI, R_VEL_KD, R_VEL_KF, this, this);
-            distController = new BetterPIDController(R_DIST_KP, R_DIST_KI, R_DIST_KD, this, this);
+            velController = new BetterPIDController(VEL_KP, VEL_KI, VEL_KD, VEL_KF, this, this);
+            distController = new BetterPIDController(DIST_KP, DIST_KI, DIST_KD, this, this);
             enc = new Encoder(7, 6, false, Encoder.EncodingType.k4X);
             enc.setDistancePerPulse(RIGHT_ENC_SCALE);
             enc.setMaxPeriod(0.1);
@@ -92,9 +84,9 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
         if (distController.isEnabled()) {
             distController.disable();
         }
-        motorNoEnc.set(numIn * MAX_POWER);
-        motorEnc.set(numIn * MAX_POWER);
-        motor2NoEnc.set(numIn * MAX_POWER);
+        motorNoEnc.set(numIn);
+        motorEnc.set(numIn);
+        motor2NoEnc.set(numIn);
     }
 
     public double getSidePosition() {
@@ -114,13 +106,14 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 
     @Override
     public void pidWrite(double val) {
-        motorEnc.set(val * MAX_POWER);
-        motorNoEnc.set(val * MAX_POWER);
-        motor2NoEnc.set(val * MAX_POWER);
+        motorEnc.set(val);
+        motorNoEnc.set(val);
+        motor2NoEnc.set(val);
     }
 
     @Override
     public double pidGet() {
+        /*Return position or velocity depending on current control type*/
         if (pidType == PIDSourceType.kDisplacement) {
             return getSidePosition();
         } else {
@@ -162,10 +155,6 @@ public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
 
     public BetterPIDController getDistController() {
         return distController;
-    }
-
-    public void setMaxPower(double max) {
-        distController.setInputRange(-max, max);
     }
 
     public void resetEnc() {

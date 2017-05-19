@@ -17,17 +17,26 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Turret implements PIDSource, PIDOutput {
+    /**
+     * Subsystem representing turreted gear placer. Has 2-stage
+     * pneumatic extender and turreted base. 
+     */
 
     private static final class Rotator extends Subsystem {
-
+        /**
+         * Rotating portion of turret
+         */
         @Override
         protected void initDefaultCommand() {
+            /*joystick control*/
             setDefaultCommand(new TurretControlCommand());
         }
     }
 
     private static final class Deployer extends Subsystem {
-
+        /**
+         * Gear placing portion of turret
+         */
         @Override
         protected void initDefaultCommand() {
         }
@@ -54,7 +63,7 @@ public class Turret implements PIDSource, PIDOutput {
     private Solenoid extender;
 
     public Turret() {
-        pot = new AnalogInput(Constant.turretPot());
+        pot = new AnalogInput(RobotMap.TURRET_POT);
         motor = new CANTalon(RobotMap.TURR_MOTOR);
         motor.setInverted(true);
         angleController = new BetterPIDController(kP, kI, kD, this, this);
@@ -116,6 +125,7 @@ public class Turret implements PIDSource, PIDOutput {
 
     @Override
     public void pidWrite(double x) {
+        /*soft limits on turret position*/
         if (getAngle() > 60) {
             x = Math.min(x, 0);
         } else if (getAngle() < -60) {
@@ -124,6 +134,7 @@ public class Turret implements PIDSource, PIDOutput {
         motor.set(x);
     }
 
+    /*pneumatics control*/
     public void extend(boolean on) {
         extender.set(on);
     }

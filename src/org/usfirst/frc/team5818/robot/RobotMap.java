@@ -27,7 +27,6 @@ public class RobotMap {
     public static final int ARM_TALON_R = 9;
     public static final int TOP_COLLECTOR_ROLLER = 10;
     public static final int BOT_COLLECTOR_ROLLER = 11;
-    public static final int ARM_POT = 1;
 
     public static final int[] CLIMB_TALONS = { 12, 13, 14, 16 };
     public static final int LEFT_CLIMB_TALON_1 = CLIMB_TALONS[2];
@@ -35,12 +34,17 @@ public class RobotMap {
     public static final int LEFT_CLIMB_TALON_2 = CLIMB_TALONS[0];
     public static final int RIGHT_CLIMB_TALON_2 = CLIMB_TALONS[1];
 
+    //Pneumatics
     public static final int TURRET_EXTENDER_SOLENOID = 1;
     public static final int TURRET_PUNCHER_SOLENOID = 2;
     public static final int SHIFTER_SOLENOID = 5;
     public static final int LED_SOLENOID = 6;
 
+    //Limit Switches
     public static final int TURRET_LIMIT_SWITCH = 5;
     public static final int COLLECTOR_LIMIT_SWITCH = 4;
+    
+    //Potentiometers
+    public static final int TURRET_POT = 0;
 
 }

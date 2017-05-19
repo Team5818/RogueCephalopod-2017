@@ -6,7 +6,6 @@ import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
 import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.utils.Vector2d;
-import edu.wpi.first.wpilibj.SPI;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -17,13 +16,16 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrain extends Subsystem {
+    
+    /**
+     * Subsystem for drivetrain. 6-CIM West Coast drive.
+     * Most logic takes place in DriveTrainSide
+     */
 
     public DriveTrainSide left;
     public DriveTrainSide right;
     private Compressor comp;
     private Solenoid shifter;
-    private boolean visionDriving = false;
-    private double visionThresh = 0.0;
     private double maxPower = 1.0;
     private AHRS gyro;
 
@@ -46,12 +48,6 @@ public class DriveTrain extends Subsystem {
     }
 
     public void setPowerLeftRight(double lpow, double rpow) {
-        if (visionDriving && Robot.runningRobot.camCont.isTape()) {
-            if (passedTarget()) {
-                lpow = 0.0;
-                rpow = 0.0;
-            }
-        }
         left.setPower(lpow * maxPower);
         right.setPower(rpow * maxPower);
     }
@@ -131,28 +127,9 @@ public class DriveTrain extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
+        /*driving logic is here*/
         setDefaultCommand(
                 new DriveControlCommand(Robot.runningRobot.driver.JS_FW_BACK, Robot.runningRobot.driver.JS_TURN));
     }
 
-    public boolean isVisionDriving() {
-        return visionDriving;
-    }
-
-    public void enableVisionDriving(double thresh) {
-        visionDriving = true;
-        visionThresh = thresh;
-    }
-
-    public void disableVisionDriving() {
-        visionDriving = false;
-    }
-
-    public boolean passedTarget() {
-        double currentAngle = Robot.runningRobot.vision.getCurrentAngle();
-        if (currentAngle != Double.NaN) {
-            return (30 - Math.abs(currentAngle)) > visionThresh;
-        }
-        return false;
-    }
 }
