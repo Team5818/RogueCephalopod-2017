@@ -28,16 +28,12 @@ public class TwoGearSegment extends CommandGroup {
         final double leftRatAdd = 1.0;
         double rat = 1.6;
         double radius;
-        double dist1;
         if (side.equals(Side.RIGHT)) {
             radius = rat + .5;
-            dist1 = 30;
         } else if (side.equals(Side.LEFT)) {
             radius = 1.0 / (rat + leftRatAdd);
-            dist1 = 30;
         } else {
             radius = 1.0;
-            dist1 = 0;
         }
 
         if (dir.equals(Direction.FORWARD)) {

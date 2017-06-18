@@ -3,15 +3,12 @@ package org.usfirst.frc.team5818.robot.commands;
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.constants.Constants;
 import org.usfirst.frc.team5818.robot.constants.Side;
-import org.usfirst.frc.team5818.robot.constants.Spin;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.Trajectory;
 import org.usfirst.frc.team5818.robot.utils.TrajectoryFollower;
 import org.usfirst.frc.team5818.robot.utils.TrajectoryGenerator;
-
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * SpinWithProfile.java This controller spins the drivetrain
