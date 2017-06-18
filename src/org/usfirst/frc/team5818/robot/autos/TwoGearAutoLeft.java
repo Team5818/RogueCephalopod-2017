@@ -15,7 +15,7 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class SlowTwoGearAuto extends CommandGroup {
+public class TwoGearAutoLeft extends CommandGroup {
 
     private TwoGearSegment moveForward;
     private TwoGearSegment moveToGear;
@@ -24,34 +24,36 @@ public class SlowTwoGearAuto extends CommandGroup {
     private GearMode gearMode;
     private TapeMode tapeMode2;
 
-    public SlowTwoGearAuto() {
+    public TwoGearAutoLeft() {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.9);
+        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.90);
 
         gearMode = new GearMode();
-        moveToGear = new TwoGearSegment(Direction.FORWARD, Side.RIGHT, AutoExtra.COLLECT, -.75);
+        moveToGear = new TwoGearSegment(Direction.FORWARD, Side.LEFT, AutoExtra.COLLECT, -.75);
         tapeMode2 = new TapeMode();
-        moveToPeg = new TwoGearSegment(Direction.BACKWARD, Side.RIGHT, AutoExtra.PLACE, -.9);
+        moveToPeg = new TwoGearSegment(Direction.BACKWARD, Side.LEFT, AutoExtra.PLACE, -.9);
 
         this.addSequential(new ShiftGears(Gear.LOW, .2));
         this.addSequential(tapeMode1);
         this.addSequential(moveForward);
-        this.addSequential(new TimedCommand(.2));
+        this.addSequential(new TimedCommand(0.2));
         this.addSequential(new PlaceWithLimit());
         this.addSequential(new PlaceWithLimit());
         this.addSequential(gearMode);
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
-        // this.addSequential(new TimedCommand(.5));
+        // this.addSequential(new TimedCommand(0.5));
         this.addSequential(new PlaceWithLimit());
-        this.addSequential(new PlaceWithLimit());
+        //this.addSequential(new PlaceWithLimit());
         this.addSequential(new DriveTrajectory(40, 0.0, 0.0, 0.0, Direction.FORWARD, true));
         this.addSequential(new SpinWithProfile(-Math.PI/2.0,true, true));
         this.addSequential(new DriveTrajectory(120, 0.0, 0.0, 0.0, Direction.FORWARD, true));
         this.addSequential(new SpinWithProfile(-Math.PI/2.0,true, true));
         this.addSequential(new DriveTrajectory(370, 0.0, 0.0, 0.0, Direction.FORWARD, true));
+
+
     }
 
 }

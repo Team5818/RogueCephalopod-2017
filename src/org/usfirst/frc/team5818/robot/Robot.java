@@ -1,12 +1,11 @@
 
 package org.usfirst.frc.team5818.robot;
 
-import org.usfirst.frc.team5818.robot.autos.DownField1Gear;
-import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.ProfileSideGear;
-import org.usfirst.frc.team5818.robot.autos.ProfileSideGearBoilerSide;
-import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.TopSecret;
+import org.usfirst.frc.team5818.robot.autos.DownFieldOneGear;
+import org.usfirst.frc.team5818.robot.autos.TwoGearAutoLeft;
+import org.usfirst.frc.team5818.robot.autos.SideGearOppositeBoiler;
+import org.usfirst.frc.team5818.robot.autos.SideGearBoilerSide;
+import org.usfirst.frc.team5818.robot.autos.TwoGearAutoRight;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
 import org.usfirst.frc.team5818.robot.constants.Gear;
@@ -64,7 +63,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
-        /*Statically instantiate a'' subsystems*/
+        /*Statically instantiate all subsystems*/
         runningRobot = this;
         driveTrain = new DriveTrain();
         vision = new VisionTracker();
@@ -80,17 +79,16 @@ public class Robot extends IterativeRobot {
         
         /*Old Autos -- Same as Ventura*/
         chooser.addObject("Do Nothing Auto", new TimedCommand(15));
-        chooser.addObject("Center Two Gear (Gear Right)", new SlowTwoGearAuto());
-        chooser.addObject("Center Two Gear (Gear Left)", new NotPeteyTwoGearAuto());
+        chooser.addObject("Center Two Gear (Gear Right)", new TwoGearAutoRight());
+        chooser.addObject("Center Two Gear (Gear Left)", new TwoGearAutoLeft());
 
         /*Profiled Autos*/
-        chooser.addObject("Profile Side Gear Field Left", new ProfileSideGear(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Field Right", new ProfileSideGear(Side.LEFT));
-        chooser.addObject("Profile Side Gear Boiler Field Left", new ProfileSideGearBoilerSide(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Boiler Field Right", new ProfileSideGearBoilerSide(Side.LEFT));
-        chooser.addObject("Down Field 1 Gear Right", new DownField1Gear(Side.RIGHT));
-        chooser.addObject("Down Field 1 Gear Left", new DownField1Gear(Side.LEFT));
-        chooser.addObject("Shhhhh", new TopSecret());
+        chooser.addObject("Profile Side Gear Field Left", new SideGearOppositeBoiler(Side.RIGHT));
+        chooser.addObject("Profile Side Gear Field Right", new SideGearOppositeBoiler(Side.LEFT));
+        chooser.addObject("Profile Side Gear Boiler Field Left", new SideGearBoilerSide(Side.RIGHT));
+        chooser.addObject("Profile Side Gear Boiler Field Right", new SideGearBoilerSide(Side.LEFT));
+        chooser.addObject("Down Field 1 Gear Right", new DownFieldOneGear(Side.RIGHT));
+        chooser.addObject("Down Field 1 Gear Left", new DownFieldOneGear(Side.LEFT));
 
         SmartDashboard.putData("Auto mode", chooser);
         

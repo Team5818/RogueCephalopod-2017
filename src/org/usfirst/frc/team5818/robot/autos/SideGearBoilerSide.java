@@ -3,8 +3,6 @@ package org.usfirst.frc.team5818.robot.autos;
 import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
 import org.usfirst.frc.team5818.robot.commands.FindTarget;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
-import org.usfirst.frc.team5818.robot.commands.SpinWithProfileVision;
-import org.usfirst.frc.team5818.robot.commands.SpinWithVision;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
 import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
@@ -16,11 +14,11 @@ import org.usfirst.frc.team5818.robot.constants.Spin;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class ProfileSideGearBoilerSide extends CommandGroup{
+public class SideGearBoilerSide extends CommandGroup{
     
     int angleMult;
     
-    public ProfileSideGearBoilerSide(Side turnSide){
+    public SideGearBoilerSide(Side turnSide){
         Spin s;
         if(turnSide == Side.LEFT){
             s = Spin.COUNTERCW;

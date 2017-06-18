@@ -42,7 +42,6 @@ public class PutGearInTurret extends CommandGroup {
         this.addSequential(new SetTurretAngle(0));
         CommandGroup moveToLoad = new CommandGroup();
         moveToLoad.addParallel(new SetArmAngle(Arm.LOAD_POSITION));
-        // moveToLoad.addParallel(new SetCollectorPower(false, 0.6, 0.4));
         this.addSequential(moveToLoad);
 
         this.addSequential(new SetCollectorPower(true, 0.7, 1000));
