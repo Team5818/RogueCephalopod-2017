@@ -1,50 +1,12 @@
 package org.usfirst.frc.team5818.robot.utils;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-import org.usfirst.frc.team5818.robot.utils.Trajectory.Segment;
-
 /**
  * Factory class for creating Trajectories.
  *
- * @author Jared341
+ * @author jproney
  */
 public class TrajectoryGenerator {
 
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame();
-//        Trajectory leftProfile = TrajectoryGenerator.generate(.5 * 120, .8 * 160, .02, 0, 0, Math.abs(120), 0, 0);
-//        JFreeChart chart = ChartFactory.createXYLineChart("Profile", "Seg #", "Y", createDataset(leftProfile));
-//
-//        frame.add(new ChartPanel(chart));
-//        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-//        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        frame.setVisible(true);
-//    }
-//
-//    private static XYDataset createDataset(Trajectory leftProfile) {
-//        XYSeries dataVel = new XYSeries("vel");
-//        XYSeries dataPos = new XYSeries("pos");
-//        XYSeries dataAcc = new XYSeries("acc");
-//        for (int i = 0; i < leftProfile.getNumSegments(); i++) {
-//            Segment seg = leftProfile.getSegment(i);
-//            dataVel.add(i, seg.vel);
-//            dataPos.add(i, seg.pos);
-//            dataAcc.add(i, seg.acc);
-//        }
-//        XYSeriesCollection dataset = new XYSeriesCollection();
-//        dataset.addSeries(dataVel);
-//        dataset.addSeries(dataPos);
-//        dataset.addSeries(dataAcc);
-//        return dataset;
-//    }
 
     /**
      * Generate a trajectory from a start state to a goal state. The starting
@@ -75,8 +37,6 @@ public class TrajectoryGenerator {
         double x_rampdown = adjusted_max_vel * t_rampdown - .5 * max_acc * t_rampdown * t_rampdown;
         double x_cruise = goal_pos - x_rampdown - x_rampup;
         double t_cruise = x_cruise / adjusted_max_vel;
-
-        //System.err.println(adjusted_max_vel);
 
         // The +.5 is to round to nearest
         int segCount = (int) ((t_rampup + t_rampdown + t_cruise) / dt + .5);

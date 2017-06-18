@@ -153,8 +153,6 @@ public class DriveAtRatio extends Command {
         double visAng = Robot.runningRobot.vision.getCurrentAngle();
         if (!Double.isNaN(visAng)) {
             anglePower = (visAng + visOffset) / CAMERA_FOV * camMultiplier * 2.0;
-//            leftSpinMult = -Math.signum(visAng);
-//            rightSpinMult = Math.signum(visAng);
         }
 
         double target = targetRatio;
