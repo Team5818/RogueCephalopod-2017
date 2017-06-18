@@ -19,8 +19,6 @@ public class CollectGear extends CommandGroup {
         collect = Robot.runningRobot.collect;
         power = pow;
         this.addSequential(new LimitCollect(pow, limitTimeout));
-        // this.addSequential(new TimedCommand(.5));
-        // this.addSequential(new CollectGearCurrent(.7, limitTimeout));
         this.addSequential(new TimedCommand(.10));
         this.addSequential(new SetCollectorPower(false, 0.2, 0.4));
     }

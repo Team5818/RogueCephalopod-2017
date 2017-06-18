@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.command.Command;
  * TrajectoryDriveController.java This controller drives the robot along a
  * specified trajectory.
  * 
- * @author Tom Bottiglieri
  * @author jproney
  */
 public class DriveTrajectory extends Command {

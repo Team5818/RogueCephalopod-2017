@@ -88,27 +88,8 @@ public class Driver {
         Button shiftHigh = Buttons.TURN.get(5);
         shiftHigh.whenPressed(new ShiftGears(Gear.HIGH));
 
-        // Remove After Testing Complete
-        // Button collectTest = Buttons.TURN.get(8);
-        // collectTest.whenPressed(new CollectGear());
-        //
-        // Button loadTest = Buttons.TURN.get(5);
-        // loadTest.whileHeld(new SetCollectorPower(true, .7, 1000));
-        // Remove After Testing Complete
-
         Button spitGear = Buttons.TURN.get(7);
         spitGear.whileHeld(new SpitGear());
-
-        // REMOVE AFTER TESTING COMPLETE
-        // Button armLowTest = Buttons.TURN.get(4);
-        // armLowTest.whenPressed(new SetArmAngle(Arm.COLLECT_POSITION));
-        //
-        // Button armMidTest = Buttons.TURN.get(3);
-        // armMidTest.whenPressed(new SetArmAngle(Arm.MID_POSITION));
-        //
-        // Button armHighTest = Buttons.TURN.get(6);
-        // armHighTest.whenPressed(new SetArmAngle(Arm.LOAD_POSITION));
-        // REMOVE AFTER TESTING COMPLETE
 
         Button manualArm = Buttons.TURRET.get(8);
         manualArm.whenPressed(new ArmControlCommand(JS_COLLECTOR));
@@ -120,9 +101,6 @@ public class Driver {
 
         Button climbMode = Buttons.TURRET.get(5);
         climbMode.whenPressed(new StartClimbControlCommand());
-
-//        Button codriverControl = Buttons.TURRET.get(1);
-//        codriverControl.whenPressed(new CoRiverControlCommand(JS_COLLECTOR));
 
         Button deploy = Buttons.TURRET.get(2);
         deploy.whenPressed(new PlaceWithLimit());

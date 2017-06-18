@@ -20,7 +20,7 @@ public class VisionTracker extends Subsystem implements Runnable {
 
     private SerialPort rasPi;
     private Port port;
-    private volatile double currentAngle = 0.0;//Refernced by > 1 Threads O_o
+    private volatile double currentAngle = 0.0;//Referenced by > 1 Threads O_o
     private String charBuffer = "";
     private Solenoid lightRing;
 
