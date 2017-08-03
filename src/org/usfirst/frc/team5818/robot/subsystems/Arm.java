@@ -58,7 +58,7 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
         slaveTal = new CANTalon(RobotMap.ARM_TALON_L);
         slaveTal.changeControlMode(TalonControlMode.Follower);
         slaveTal.set(RobotMap.ARM_TALON_R);
-        slaveTal.reverseOutput(true);;
+        slaveTal.reverseOutput(true);
         
         /*use absolute encoder for an absolute position*/
         //masterTal.configEncoderCodesPerRev(4096*2);
