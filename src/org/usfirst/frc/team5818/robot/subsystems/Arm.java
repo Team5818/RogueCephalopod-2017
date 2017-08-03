@@ -61,7 +61,7 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
         slaveTal.reverseOutput(true);;
         
         /*use absolute encoder for an absolute position*/
-        masterTal.configEncoderCodesPerRev(4096*2);
+        //masterTal.configEncoderCodesPerRev(4096*2);
         masterTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         masterTal.setF(1023.0/360.0);
         masterTal.setP(0);
