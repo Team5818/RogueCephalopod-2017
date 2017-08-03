@@ -37,7 +37,7 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     public static final double ANGLE_SCALE = (90 - COLLECT_ANGLE) / (NINETY_DEGREES - COLLECT_POSITION);
     public static final double ANGLE_OFFSET = (COLLECT_ANGLE - (COLLECT_POSITION * ANGLE_SCALE)) - 16.3;
     
-    /*Minimum power to keep in from falling at collect angle*/
+    /*Minimum power to keep it from falling at collect angle*/
     public static final double HOLD_POWER = .055;
     
     /*soft limits on arm position*/
