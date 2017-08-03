@@ -219,6 +219,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
         SmartDashboard.putNumber("Bot Current", collect.getBotCurrent());
         SmartDashboard.putNumber("Arm Pos", arm.getPosition());
+        SmartDashboard.putNumber("Arm Raw", arm.getPositionRaw());
+        SmartDashboard.putNumber("Arm Vel", arm.getVeleocity());
+        SmartDashboard.putNumber("Arm error", arm.getError());
         SmartDashboard.putNumber("left drive encoder", driveTrain.getLeftSide().getSidePosition());
         SmartDashboard.putNumber("right drive encoder", driveTrain.getRightSide().getSidePosition());
         SmartDashboard.putNumber("left encoder raw", driveTrain.getLeftSide().getRawPos());

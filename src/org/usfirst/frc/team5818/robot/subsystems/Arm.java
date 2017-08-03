@@ -4,6 +4,7 @@ import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -25,13 +26,13 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     /*Important positions and angles*/
     private static final double COLLECT_ANGLE = 11;
-    public static final double COLLECT_POSITION = -1983;
-    public static final double CLIMB_POSITION = -415;
-    public static final double MID_POSITION = -233;
-    public static final double NINETY_DEGREES = 26;
+    public static final double COLLECT_POSITION = 2371;
+    public static final double CLIMB_POSITION = .93;
+    public static final double MID_POSITION = 3829;
+    public static final double NINETY_DEGREES = 1.0;
     public static final double SLOT_COLLECT_POSITION = NINETY_DEGREES;
     public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
-    public static final double LOAD_POSITION = 1000;
+    public static final double LOAD_POSITION = 1.19;
     
     /*Calculate scales and offsets*/
     public static final double ANGLE_SCALE = (90 - COLLECT_ANGLE) / (NINETY_DEGREES - COLLECT_POSITION);
@@ -45,27 +46,39 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     private double limitHigh = LOAD_POSITION;
 
     /*Talons + PID stuff*/
-    private CANTalon leftMotorTal;
-    private CANTalon rightMotorTal;
+    private CANTalon slaveTal;
+    private CANTalon masterTal;
     public PIDSourceType pidType = PIDSourceType.kDisplacement;
     public BetterPIDController anglePID;
 
 
     public Arm() {
-        leftMotorTal = new CANTalon(RobotMap.ARM_TALON_L);
-        leftMotorTal.setInverted(false);
-        rightMotorTal = new CANTalon(RobotMap.ARM_TALON_R);
-        rightMotorTal.setInverted(true);
+        masterTal = new CANTalon(RobotMap.ARM_TALON_R);
+        masterTal.setInverted(true);
+        slaveTal = new CANTalon(RobotMap.ARM_TALON_L);
+        slaveTal.changeControlMode(TalonControlMode.Follower);
+        slaveTal.set(RobotMap.ARM_TALON_R);
+        slaveTal.reverseOutput(true);;
+        
         /*use absolute encoder for an absolute position*/
-        rightMotorTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
+        masterTal.configEncoderCodesPerRev(4096*2);
+        masterTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
+        masterTal.setF(1023.0/360.0);
+        masterTal.setP(0);
+        masterTal.setI(0);
+        masterTal.setD(0);
+        masterTal.setMotionMagicAcceleration(30);
+        masterTal.setMotionMagicCruiseVelocity(15);
+        masterTal.changeControlMode(TalonControlMode.MotionMagic);
+        
         anglePID = new BetterPIDController(kP, kI, kD, this, this);
         anglePID.setAbsoluteTolerance(0.3);
         setBrakeMode(true);
     }
 
     public void setBrakeMode(boolean mode) {
-        leftMotorTal.enableBrakeMode(mode);
-        rightMotorTal.enableBrakeMode(mode);
+        slaveTal.enableBrakeMode(mode);
+        masterTal.enableBrakeMode(mode);
     }
 
     public void setPower(double x) {
@@ -75,20 +88,32 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
         pidWrite(x);
         SmartDashboard.putNumber("Arn Power", x);
     }
-
-    public void setAngle(double angle) {
-        anglePID.disable();
-        anglePID.setSetpoint(angle);
-        anglePID.enable();
+    
+    public void setManual() {
+        masterTal.changeControlMode(TalonControlMode.PercentVbus);
     }
 
+    public void setAngle(double angle) {
+        //anglePID.disable();
+        //anglePID.setSetpoint(angle);
+        //anglePID.enable();
+        angle = angle/4096.0/2.0;
+        //masterTal.setEncPosition(masterTal.getPulseWidthPosition());
+        masterTal.changeControlMode(TalonControlMode.MotionMagic);
+        masterTal.set(angle);
+    }
+
+    public double getPositionRaw() {
+        return masterTal.getPulseWidthPosition();
+    }
+    
     public double getPosition() {
-        double pos = rightMotorTal.getPulseWidthPosition();
-        /*If arm is outside of possible range, then encoder has wrapped*/
-        if (pos > 1500) {
-            return pos - 4096;
-        }
-        return pos;
+        masterTal.setEncPosition(masterTal.getPulseWidthPosition());
+        return masterTal.getPosition();
+    }
+    
+    public double getVeleocity() {
+        return masterTal.getSpeed();
     }
 
     public BetterPIDController getAnglePID() {
@@ -100,8 +125,8 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
             anglePID.disable();
         }
         setBrakeMode(true);
-        leftMotorTal.set(0);
-        rightMotorTal.set(0);
+        //slaveTal.set(0);
+        masterTal.set(0);
     }
 
     @Override
@@ -132,18 +157,22 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     public void setLimitHigh(double limitHigh) {
         this.limitHigh = limitHigh;
     }
+    
+    public int getError() {
+        return masterTal.getClosedLoopError();
+    }
 
     @Override
     public void pidWrite(double x) {
         /*Obey soft limits*/
-        if (getPosition() <= limitLow) {
-            x = Math.max(x, 0);
-        } else if (getPosition() >= limitHigh) {
-            x = Math.min(x, 0);
-        }
+//        if (getPosition() <= limitLow) {
+//            x = Math.max(x, 0);
+//        } else if (getPosition() >= limitHigh) {
+//            x = Math.min(x, 0);
+//        }
         /*add idle power to prevent arm from falling*/
-        leftMotorTal.set(x + getIdlePower());
-        rightMotorTal.set(x + getIdlePower());
+        //slaveTal.set(x + getIdlePower());
+        masterTal.set(x);
         SmartDashboard.putNumber("Arm Power", x);
 
     }

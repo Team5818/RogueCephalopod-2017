@@ -21,6 +21,7 @@ public class ArmControlCommand extends ControlCommand {
     @Override
     protected void initialize() {
         arm.setBrakeMode(true);
+        arm.setManual();
     }
 
     @Override
