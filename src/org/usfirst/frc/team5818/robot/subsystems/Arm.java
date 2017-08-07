@@ -11,10 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends Subsystem{
     /**
-     * Subsystem for robot's arm. Has 2 775s and a Vex absolute encoder.
+     * Subsystem for robot's arm. Has 2 775 pros and a Vex absolute encoder.
      * Uses Motion Magic to move. 
      */
-    
 
     /*Important positions and angles*/
     public static final double COLLECT_POSITION = 2300;
@@ -46,14 +45,14 @@ public class Arm extends Subsystem{
         slaveTal.reverseOutput(true);
         
         /*Set up motion profiling constants*/
-        masterTal.configEncoderCodesPerRev(4096*2);
+        masterTal.configEncoderCodesPerRev(4096*2);//2:1 sprocket reduction
         masterTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         masterTal.setF(1023.0/360.0);
         masterTal.setP(2.4 * 1023.0 / 1000);
         masterTal.setI(0);
         masterTal.setD(50.0 * 1023.0 / 1000);
         masterTal.setMotionMagicAcceleration(60);
-        masterTal.setMotionMagicCruiseVelocity(40);
+        masterTal.setMotionMagicCruiseVelocity(40);//80% max
         masterTal.changeControlMode(TalonControlMode.MotionMagic);
         
         setBrakeMode(true);
@@ -75,7 +74,7 @@ public class Arm extends Subsystem{
     }
 
     public void setAngle(double angle) {
-        angle = angle/4096.0;
+        angle = angle/4096.0; //inputs in native units, just to make things harder
         DriverStation.reportError("" + angle, false);
         masterTal.setEncPosition(masterTal.getPulseWidthPosition());
         setBrakeMode(false);
