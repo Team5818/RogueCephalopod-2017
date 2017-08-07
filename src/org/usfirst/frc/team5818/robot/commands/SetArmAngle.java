@@ -13,6 +13,7 @@ public class SetArmAngle extends Command {
     private double targetAng;
 
     public SetArmAngle(double angle) {
+        setTimeout(1.5);
         arm = Robot.runningRobot.arm;
         targetAng = angle;
         requires(arm);
@@ -30,11 +31,14 @@ public class SetArmAngle extends Command {
 
     @Override
     protected boolean isFinished() {
-        return true;
+        return isTimedOut();
     }
 
     @Override
     public void end() {
+        arm.setManual();
+        arm.setBrakeMode(true);
+        arm.setPower(0.0);
     }
 
 }
