@@ -6,6 +6,7 @@ import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -26,8 +27,8 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
 
     /*Important positions and angles*/
     private static final double COLLECT_ANGLE = 11;
-    public static final double COLLECT_POSITION = 2371;
-    public static final double CLIMB_POSITION = .93;
+    public static final double COLLECT_POSITION = 2300;
+    public static final double CLIMB_POSITION = 2371;
     public static final double MID_POSITION = 3829;
     public static final double NINETY_DEGREES = 1.0;
     public static final double SLOT_COLLECT_POSITION = NINETY_DEGREES;
@@ -55,20 +56,21 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
     public Arm() {
         masterTal = new CANTalon(RobotMap.ARM_TALON_R);
         masterTal.setInverted(true);
+        masterTal.reverseOutput(true);
         slaveTal = new CANTalon(RobotMap.ARM_TALON_L);
         slaveTal.changeControlMode(TalonControlMode.Follower);
         slaveTal.set(RobotMap.ARM_TALON_R);
         slaveTal.reverseOutput(true);
         
         /*use absolute encoder for an absolute position*/
-        //masterTal.configEncoderCodesPerRev(4096*2);
+        masterTal.configEncoderCodesPerRev(4096*2);
         masterTal.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
         masterTal.setF(1023.0/360.0);
-        masterTal.setP(0);
+        masterTal.setP(2.4 * 1023.0 / 1000);
         masterTal.setI(0);
-        masterTal.setD(0);
-        masterTal.setMotionMagicAcceleration(30);
-        masterTal.setMotionMagicCruiseVelocity(15);
+        masterTal.setD(50.0 * 1023.0 / 1000);
+        masterTal.setMotionMagicAcceleration(60);
+        masterTal.setMotionMagicCruiseVelocity(40);
         masterTal.changeControlMode(TalonControlMode.MotionMagic);
         
         anglePID = new BetterPIDController(kP, kI, kD, this, this);
@@ -97,8 +99,10 @@ public class Arm extends Subsystem implements PIDSource, PIDOutput {
         //anglePID.disable();
         //anglePID.setSetpoint(angle);
         //anglePID.enable();
-        angle = angle/4096.0/2.0;
-        //masterTal.setEncPosition(masterTal.getPulseWidthPosition());
+        angle = angle/4096.0;
+        DriverStation.reportError("" + angle, false);
+        masterTal.setEncPosition(masterTal.getPulseWidthPosition());
+        setBrakeMode(false);
         masterTal.changeControlMode(TalonControlMode.MotionMagic);
         masterTal.set(angle);
     }
