@@ -41,7 +41,7 @@ public class DiscoverPlacePosition extends Command {
 
     @Override
     protected void execute() {
-        double angle = turr.getAngle();
+        double angle = turr.getPosition();
         switch (state) {
             case EXTEND:
                 // extend and check limit later

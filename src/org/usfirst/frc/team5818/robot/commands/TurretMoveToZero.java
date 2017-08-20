@@ -21,8 +21,8 @@ public class TurretMoveToZero extends Command {
 
     @Override
     protected void execute() {
-        if (Math.abs(turret.getAngle()) > .75) {
-            turret.setPower(-.6 * turret.getAngle() / 60);
+        if (Math.abs(turret.getPosition()) > .75) {
+            turret.setPower(-.6 * turret.getPosition() / 60);
         } else {
             turret.setPower(0);
         }

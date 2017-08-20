@@ -8,29 +8,29 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TurretSmallAdjustment extends Command {
 
     private Turret turr = Robot.runningRobot.turret;
-    private double targetAngle;
+    private double targetPosition;
     private double startAngle;
 
     public TurretSmallAdjustment(double ang) {
         setTimeout(0.5);
         requires(turr.rotator);
-        targetAngle = ang;
+        targetPosition = ang;
     }
 
     @Override
     protected void initialize() {
-        startAngle = turr.getAngle();
+        startAngle = turr.getPosition();
     }
 
     @Override
     protected void execute() {
-        turr.setPower(.3 * Math.signum(targetAngle - startAngle));
+        turr.setPower(.3 * Math.signum(targetPosition - startAngle));
     }
 
     @Override
     protected boolean isFinished() {
-        boolean passedTarget1 = startAngle <= targetAngle && (targetAngle - .3) <= turr.getAngle();
-        boolean passedTarget2 = targetAngle <= startAngle && turr.getAngle() <= (targetAngle + .3);
+        boolean passedTarget1 = startAngle <= targetPosition && (targetPosition - .3) <= turr.getPosition();
+        boolean passedTarget2 = targetPosition <= startAngle && turr.getPosition() <= (targetPosition + .3);
         return passedTarget1 || passedTarget2 || isTimedOut();
     }
 

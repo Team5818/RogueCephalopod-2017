@@ -87,6 +87,9 @@ public class Arm extends Subsystem{
     }
     
     public double getPosition() {
+        if(masterTal.getPulseWidthPosition() < COLLECT_POSITION) {
+            masterTal.setPulseWidthPosition(masterTal.getPulseWidthPosition() + 4096);
+        }
         masterTal.setEncPosition(masterTal.getPulseWidthPosition());
         return masterTal.getPosition();
     }

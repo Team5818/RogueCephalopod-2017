@@ -186,9 +186,9 @@ public class Robot extends IterativeRobot {
     }
 
     public void runTurretOverrides() {
-        if (turretSafetyChecks && !turretZero.isRunning()) {
-            turretZero.start();
-        }
+        //if (turretSafetyChecks && !turretZero.isRunning()) {
+        //    turretZero.start();
+        //}
     }
 
     @Override
@@ -215,8 +215,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Collector Limit Switch", collect.isLimitTriggered());
         SmartDashboard.putNumber("Gyro heading", driveTrain.getGyroHeading());
         SmartDashboard.putNumber("Gear X:", vision.getCurrentAngle());
-        SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
-        SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
+        SmartDashboard.putNumber("Turret Pot:", turret.getPositionRaw());
+        SmartDashboard.putNumber("Turret Angle:", turret.getPosition());
         SmartDashboard.putNumber("Bot Current", collect.getBotCurrent());
         SmartDashboard.putNumber("Arm Pos", arm.getPosition());
         SmartDashboard.putNumber("Arm Raw", arm.getPositionRaw());

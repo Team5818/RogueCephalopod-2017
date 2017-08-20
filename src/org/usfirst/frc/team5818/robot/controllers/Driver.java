@@ -25,6 +25,7 @@ import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
+import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
@@ -113,13 +114,13 @@ public class Driver {
         coDriverMidArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
 
         Button turretMinus90 = Buttons.COLLECTOR.get(5);
-        turretMinus90.whenPressed(new SetTurretAngle(-60.0));
+        turretMinus90.whenPressed(new SetTurretAngle(Turret.TURRET_LEFT_POS));
 
         Button turretZero = Buttons.COLLECTOR.get(4);
-        turretZero.whenPressed(new SetTurretAngle(-0.0));
+        turretZero.whenPressed(new SetTurretAngle(Turret.TURRET_CENTER_POS));
 
         Button turret90 = Buttons.COLLECTOR.get(3);
-        turret90.whenPressed(new SetTurretAngle(60.0));
+        turret90.whenPressed(new SetTurretAngle(Turret.TURRET_RIGHT_POS));
 
         Button fullExtend = Buttons.COLLECTOR.get(7);
         fullExtend.whenPressed(new FullExtention(true));
