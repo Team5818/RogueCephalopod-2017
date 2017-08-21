@@ -37,8 +37,8 @@ public class Arm extends Subsystem{
         masterTal = new CANTalon(RobotMap.ARM_TALON_R);
         masterTal.setInverted(true);
         masterTal.reverseOutput(true);
-        masterTal.setForwardSoftLimit(limitHigh);
-        masterTal.setReverseSoftLimit(limitLow);
+        //masterTal.setForwardSoftLimit(limitHigh);
+        //masterTal.setReverseSoftLimit(limitLow);
         slaveTal = new CANTalon(RobotMap.ARM_TALON_L);
         slaveTal.changeControlMode(TalonControlMode.Follower);
         slaveTal.set(RobotMap.ARM_TALON_R);
@@ -87,7 +87,7 @@ public class Arm extends Subsystem{
     }
     
     public double getPosition() {
-        if(masterTal.getPulseWidthPosition() < COLLECT_POSITION) {
+        if(masterTal.getPulseWidthPosition() < 2000) {
             masterTal.setPulseWidthPosition(masterTal.getPulseWidthPosition() + 4096);
         }
         masterTal.setEncPosition(masterTal.getPulseWidthPosition());

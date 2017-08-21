@@ -15,6 +15,7 @@ public class SetTurretAngle extends Command {
     public SetTurretAngle(double ang) {
         turr = Robot.runningRobot.turret;
         requires(turr.rotator);
+        setTimeout(1.5);
         targetAng = ang;
     }
 
@@ -25,7 +26,7 @@ public class SetTurretAngle extends Command {
 
     @Override
     protected boolean isFinished() {
-        return true;
+        return isTimedOut();
     }
 
     @Override

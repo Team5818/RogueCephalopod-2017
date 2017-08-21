@@ -8,14 +8,16 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Turret{
     
-    public static final double TURRET_CENTER_POS = 0.0;
-    public static final double TURRET_LEFT_POS = 0.0;
-    public static final double TURRET_RIGHT_POS = 0.0;
+    public static final double TURRET_CENTER_POS = 485.0;
+    public static final double TURRET_LEFT_POS = 730;
+    public static final double TURRET_RIGHT_POS = 254;
     public static final double TURRET_LEFT_POS_SP = 0.0;
     public static final double TURRET_RIGHT_POS_SP = 0.0;
 
@@ -58,18 +60,18 @@ public class Turret{
     public Turret() {
         motor = new CANTalon(RobotMap.TURR_MOTOR);
         motor.setInverted(true);
-        motor.setForwardSoftLimit(TURRET_RIGHT_POS);
-        motor.setReverseSoftLimit(TURRET_LEFT_POS);
+        motor.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
+        //motor.setReverseSoftLimit(TURRET_RIGHT_POS);
+        //motor.setForwardSoftLimit(TURRET_LEFT_POS);
         
         /*Set up motion profiling constants*/
         motor.configPotentiometerTurns(1);
-        motor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Absolute);
-        motor.setF(0.0);
+        motor.setF(1023.0/55.0);
         motor.setP(0.0);
-        motor.setI(0);
+        motor.setI(0.0);
         motor.setD(0.0);
-        motor.setMotionMagicAcceleration(0.0);
-        motor.setMotionMagicCruiseVelocity(0.0);//80% max
+        motor.setMotionMagicAcceleration(30.0);
+        motor.setMotionMagicCruiseVelocity(30.0);//80% max
         motor.changeControlMode(TalonControlMode.MotionMagic);
         
         limitSwitch = new DigitalInput(RobotMap.TURRET_LIMIT_SWITCH);
@@ -88,9 +90,10 @@ public class Turret{
     }
 
     public void setAngle(double ang) {
-        ang = ang/4096.0; //inputs in native units, just to make things harder
+        ang = ang/1024.0; //inputs in native units, just to make things harder
         motor.changeControlMode(TalonControlMode.MotionMagic);
         motor.set(ang);
+        DriverStation.reportError("" + ang, false);
     }
 
 
