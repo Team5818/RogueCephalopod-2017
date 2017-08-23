@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Turret{
     
-    public static final double TURRET_CENTER_POS = 382.0;
-    public static final double TURRET_LEFT_POS = 574;
-    public static final double TURRET_RIGHT_POS = 254;
+    public static final double TURRET_CENTER_POS = 569.0;
+    public static final double TURRET_LEFT_POS = 785;
+    public static final double TURRET_RIGHT_POS = 315;
     public static final double TURRET_LEFT_POS_SP = 0.0;
     public static final double TURRET_RIGHT_POS_SP = 0.0;
 
@@ -67,10 +67,10 @@ public class Turret{
         /*Set up motion profiling constants*/
         motor.configPotentiometerTurns(1);
         motor.setF(1023.0/100.0);
-        motor.setP(0.0);
+        motor.setP(1023.0/200.0);
         motor.setI(0.0);
         motor.setD(0.0);
-        motor.setMotionMagicAcceleration(160.0);
+        motor.setMotionMagicAcceleration(300.0);
         motor.setMotionMagicCruiseVelocity(80.0);//80% max
         motor.changeControlMode(TalonControlMode.MotionMagic);
         
