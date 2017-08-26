@@ -1,3 +1,5 @@
+// This file intends to replace the build.xml content of FRC.
+// It may need to be updated when FRC build.xml updates occur.
 buildscript {
     repositories {
         mavenCentral()
@@ -31,6 +33,7 @@ ext {
 }
 // === End B properties === //
 
+// Setup a jar
 jar {
     manifest {
         attributes(
@@ -199,6 +202,7 @@ task checkRoboRIO(dependsOn: [checkSysProps, checkJRE]) {
     description 'Checks that the roboRIO is what we expect.'
 }
 
+// Defines deploy tasks for regular and debug deploys.
 void defineDeployTask(Object project, boolean debug) {
     def task = project.tasks.create(name: 'deploy' + (debug ? 'Debug' : ''),
                          dependsOn: [shadowJar, checkRoboRIO]) {
