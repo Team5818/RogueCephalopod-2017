@@ -60,24 +60,12 @@ public class DriveTrain extends Subsystem {
         setPowerLeftRight(vec2.getX(), vec2.getY());
     }
 
-    public void setVelocityLeftRight(double lvel, double rvel) {
-        left.driveVelocity(lvel);
-        right.driveVelocity(rvel);
-    }
-
-    public void setVelocityLeftRight(Vector2d vec2) {
-        setVelocityLeftRight(vec2.getX(), vec2.getY());
-    }
 
     public void driveDistance(double dist) {
         left.driveDistance(dist);
         right.driveDistance(dist);
     }
 
-    public void setPIDSourceType(PIDSourceType type) {
-        left.setPIDSourceType(type);
-        right.setPIDSourceType(type);
-    }
 
     public DriveTrainSide getLeftSide() {
         return left;

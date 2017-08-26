@@ -37,9 +37,6 @@ public class DriveControlCommand extends ControlCommand {
             case POWER:
                 driveTrain.setPowerLeftRight(controlVector);
                 break;
-            case VELOCITY:
-                driveTrain.setVelocityLeftRight(controlVector.scale(MAX_VELOCITY));
-                break;
             default:
                 driveTrain.stop();
                 break;
