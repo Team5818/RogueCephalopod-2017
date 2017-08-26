@@ -20,7 +20,7 @@ public class DiscoverPlacePosition extends Command {
     private int loopCount = 0;
 
     public DiscoverPlacePosition() {
-        setTimeout(2);
+        setTimeout(5);
         turr = Robot.runningRobot.turret;
         requires(turr.rotator);
     }
@@ -48,7 +48,7 @@ public class DiscoverPlacePosition extends Command {
                 break;
             case CHECK_LIMIT:
                 // check limit
-                if (!turr.getLimit() && loopCount < 2) {
+                if (!turr.getLimit() && loopCount <= 2) {
                     // retract and turn turret later
                     turr.extend(false);
                     waitThenRunState(300, State.TURN_TURRET);
@@ -61,15 +61,14 @@ public class DiscoverPlacePosition extends Command {
                 // turn turret and stop later
                 double target;
                 if (loopCount == 0) {
-                    target = Turret.TURRET_CENTER_POS + 100;
+                    target = Turret.TURRET_CENTER_POS + 20;
                 } else /* if (loopCount == 1) */ {
-                    target = Turret.TURRET_CENTER_POS - 100;
+                    target = Turret.TURRET_CENTER_POS - 20;
                 }
                 SmartDashboard.putNumber("DPPAngle", target);
                 turr.setAngle(target);
                 loopCount++;
-                state = State.STOP_TURRET;
-                waitThenRunState(300, State.STOP_TURRET);
+                waitThenRunState(500, State.STOP_TURRET);
                 break;
             case STOP_TURRET:
                 SmartDashboard.putNumber("DPPAngleEnd", angle);
