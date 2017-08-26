@@ -17,8 +17,6 @@ public class DiscoverPlacePosition extends Command {
     private State state;
     private State next;
     private double waitTimestamp;
-    private double startAngle;
-    private double targetAngle;
     private int loopCount = 0;
 
     public DiscoverPlacePosition() {
