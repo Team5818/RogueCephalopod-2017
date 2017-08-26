@@ -7,6 +7,7 @@ import org.usfirst.frc.team5818.robot.autos.SideGearOppositeBoiler;
 import org.usfirst.frc.team5818.robot.autos.SideGearBoilerSide;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAutoRight;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
+import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
 import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.constants.Side;
@@ -47,7 +48,7 @@ public class Robot extends IterativeRobot {
     public Turret turret;
     public Climber climb;
     public CameraController camCont;
-    public TurretMoveToZero turretZero;
+    public SetTurretAngle turretZero;
     public boolean turretSafetyChecks = true;
 
     private RequireAllSubsystems requireAllSubsystems;
@@ -74,7 +75,7 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         camCont = new CameraController();
         driver = new Driver();
-        turretZero = new TurretMoveToZero();
+        turretZero = new SetTurretAngle(Turret.TURRET_CENTER_POS);
         requireAllSubsystems = new RequireAllSubsystems();
         
         /*Old Autos -- Same as Ventura*/
@@ -186,9 +187,9 @@ public class Robot extends IterativeRobot {
     }
 
     public void runTurretOverrides() {
-        //if (turretSafetyChecks && !turretZero.isRunning()) {
-        //    turretZero.start();
-        //}
+        if (turretSafetyChecks && !turretZero.isRunning()) {
+            turretZero.start();
+        }
     }
 
     @Override

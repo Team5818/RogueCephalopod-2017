@@ -61,28 +61,22 @@ public class DiscoverPlacePosition extends Command {
                 break;
             case TURN_TURRET:
                 // turn turret and stop later
-                final double angleSign;
+                double target;
                 if (loopCount == 0) {
-                    angleSign = 1;
+                    target = Turret.TURRET_CENTER_POS + 100;
                 } else /* if (loopCount == 1) */ {
-                    angleSign = -1;
+                    target = Turret.TURRET_CENTER_POS - 100;
                 }
-                startAngle = angle;
-                targetAngle = startAngle + (angleSign * 2.5 * (loopCount + 1));
-                SmartDashboard.putNumber("DPPAngle", targetAngle);
-                turr.setPower(angleSign * .3);
+                SmartDashboard.putNumber("DPPAngle", target);
+                turr.setAngle(target);
                 loopCount++;
                 state = State.STOP_TURRET;
+                waitThenRunState(300, State.STOP_TURRET);
                 break;
             case STOP_TURRET:
-                // stop turret and extend
-                boolean passedTarget1 = startAngle < targetAngle && targetAngle < angle;
-                boolean passedTarget2 = angle < targetAngle && targetAngle < startAngle;
-                if (passedTarget1 || passedTarget2) {
-                    SmartDashboard.putNumber("DPPAngleEnd", angle);
-                    turr.setPower(0);
-                    state = State.EXTEND;
-                }
+                SmartDashboard.putNumber("DPPAngleEnd", angle);
+                turr.setPower(0);
+                state = State.EXTEND;
                 break;
             case FINISHED:
                 break;

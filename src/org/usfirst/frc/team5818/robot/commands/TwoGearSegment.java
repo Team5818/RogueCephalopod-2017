@@ -6,6 +6,7 @@ import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
+import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -95,7 +96,7 @@ public class TwoGearSegment extends CommandGroup {
 
         if (extra == AutoExtra.COLLECT) {
             whileDriving.addSequential((new SetArmAngle(Arm.COLLECT_POSITION)));
-            whileDriving.addSequential(new TurretSmallAdjustment(0.0));
+            whileDriving.addSequential(new SetTurretAngle(Turret.TURRET_CENTER_POS));
             whileDriving.addSequential(new CollectGear(.75, 5));
         } else if (extra == AutoExtra.PLACE) {
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));
