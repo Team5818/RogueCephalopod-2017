@@ -74,7 +74,7 @@ List<String> getStaticIps() {
         return [project.staticIP]
     }
     // Try each of these -- it's cheap
-    def possibleIps = [25, 30, 91]
+    def possibleIps = [2, 25, 30, 91]
     int top = teamNumberInt / 100
     int lower = teamNumberInt % 100
     return (possibleIps.collect { lowBit -> "10.${top}.${lower}.${lowBit}" }) + project.noDnsIp
