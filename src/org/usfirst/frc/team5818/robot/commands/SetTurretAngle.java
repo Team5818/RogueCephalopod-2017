@@ -16,7 +16,7 @@ public class SetTurretAngle extends Command {
         setInterruptible(false);
         turr = Robot.runningRobot.turret;
         requires(turr.rotator);
-        setTimeout(1.5);
+        setTimeout(0.5);
         targetAng = ang;
     }
 
