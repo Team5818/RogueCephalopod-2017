@@ -32,29 +32,34 @@ public class DriveTrainSide{
             slaveTalon1 = new CANTalon(RobotMap.L_TALON);
             slaveTalon2 = new CANTalon(RobotMap.L_TALON_2);
             
+            masterTalon.changeControlMode(TalonControlMode.PercentVbus);
+            slaveTalon1.changeControlMode(TalonControlMode.Follower);
+            slaveTalon2.changeControlMode(TalonControlMode.Follower);
+            
             slaveTalon1.set(RobotMap.L_TALON_ENC);
             slaveTalon2.set(RobotMap.L_TALON_ENC);
             
-            slaveTalon1.setInverted(false);
-            masterTalon.setInverted(true);
-            slaveTalon2.setInverted(false);
+            //slaveTalon1.setInverted(false);
+            //masterTalon.setInverted(true);
+            //slaveTalon2.setInverted(false);
             
         } else {
             slaveTalon1 = new CANTalon(RobotMap.R_TALON);
             masterTalon = new CANTalon(RobotMap.R_TALON_ENC);
             slaveTalon2 = new CANTalon(RobotMap.R_TALON_2);
             
+            masterTalon.changeControlMode(TalonControlMode.PercentVbus);
+            slaveTalon1.changeControlMode(TalonControlMode.Follower);
+            slaveTalon2.changeControlMode(TalonControlMode.Follower);
+            
             slaveTalon1.set(RobotMap.R_TALON_ENC);
             slaveTalon2.set(RobotMap.R_TALON_ENC);
             
-            slaveTalon1.setInverted(true);
-            masterTalon.setInverted(false);
-            slaveTalon2.setInverted(true);
+            //slaveTalon1.setInverted(true);
+            //masterTalon.setInverted(false);
+            //slaveTalon2.setInverted(true);
         }
         
-        masterTalon.changeControlMode(TalonControlMode.PercentVbus);
-        slaveTalon1.changeControlMode(TalonControlMode.Follower);
-        slaveTalon2.changeControlMode(TalonControlMode.Follower);
         
         masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
         masterTalon.configEncoderCodesPerRev(96);
@@ -69,9 +74,7 @@ public class DriveTrainSide{
 
     public void setPower(double numIn) {
         masterTalon.changeControlMode(TalonControlMode.PercentVbus);
-        slaveTalon1.set(numIn);
         masterTalon.set(numIn);
-        slaveTalon2.set(numIn);
     }
     
     public void driveDistance(double dist){
