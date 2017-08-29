@@ -39,9 +39,9 @@ public class DriveTrainSide{
             slaveTalon1.set(RobotMap.L_TALON_ENC);
             slaveTalon2.set(RobotMap.L_TALON_ENC);
             
-            //slaveTalon1.setInverted(false);
-            //masterTalon.setInverted(true);
-            //slaveTalon2.setInverted(false);
+            masterTalon.setInverted(true);
+            slaveTalon1.reverseOutput(true);
+            slaveTalon2.reverseOutput(true);
             
         } else {
             slaveTalon1 = new CANTalon(RobotMap.R_TALON);
@@ -55,9 +55,9 @@ public class DriveTrainSide{
             slaveTalon1.set(RobotMap.R_TALON_ENC);
             slaveTalon2.set(RobotMap.R_TALON_ENC);
             
-            //slaveTalon1.setInverted(true);
-            //masterTalon.setInverted(false);
-            //slaveTalon2.setInverted(true);
+            masterTalon.setInverted(false);
+            slaveTalon1.reverseOutput(true);
+            slaveTalon2.reverseOutput(true);
         }
         
         

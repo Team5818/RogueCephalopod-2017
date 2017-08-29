@@ -20,7 +20,7 @@ public class CollectGear extends CommandGroup {
         power = pow;
         this.addSequential(new LimitCollect(pow, limitTimeout));
         this.addSequential(new TimedCommand(.10));
-        this.addSequential(new SetCollectorPower(false, 0.2, 0.4));
+        this.addSequential(new SetCollectorPower(false, 0.2, 0.2));
     }
 
     @Override
