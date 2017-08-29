@@ -16,13 +16,13 @@ public class Arm extends Subsystem{
      */
 
     /*Important positions and angles*/
-    public static final double COLLECT_POSITION = 2300;
-    public static final double CLIMB_POSITION = 2400;
-    public static final double MID_POSITION = 3829;
-    public static final double NINETY_DEGREES = 3900;
+    public static final double COLLECT_POSITION = 420;
+    public static final double CLIMB_POSITION = 2000;
+    public static final double MID_POSITION = 2200;
+    public static final double NINETY_DEGREES = 2400;
     public static final double SLOT_COLLECT_POSITION = NINETY_DEGREES;
     public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
-    public static final double LOAD_POSITION = 4906;
+    public static final double LOAD_POSITION = 3200;
     
     
     /*soft limits on arm position*/
@@ -88,9 +88,9 @@ public class Arm extends Subsystem{
     }
     
     public double getPosition() {
-        if(masterTal.getPulseWidthPosition() < 2000) {
-            masterTal.setPulseWidthPosition(masterTal.getPulseWidthPosition() + 4096);
-        }
+        //if(masterTal.getPulseWidthPosition() < 2000) {
+            //masterTal.setPulseWidthPosition(masterTal.getPulseWidthPosition() + 4096);
+        //}
         masterTal.setEncPosition(masterTal.getPulseWidthPosition());
         return masterTal.getPosition();
     }
