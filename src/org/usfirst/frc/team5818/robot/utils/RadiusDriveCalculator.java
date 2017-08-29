@@ -20,8 +20,8 @@ public enum RadiusDriveCalculator implements DriveCalculator {
 
         double angularPower;
 
-        if (isQuickTurn || Math.abs(throttle) == 0) {
-            overPower = 1.0;
+        if (isQuickTurn || Math.abs(throttle) < 0.2) {
+            overPower = 1.0 - throttle*5;
             angularPower = wheel;
         } else {
             overPower = 0.0;

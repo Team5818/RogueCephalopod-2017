@@ -65,6 +65,7 @@ public class Arm extends Subsystem{
 
     public void setPower(double x) {
         masterTal.changeControlMode(TalonControlMode.PercentVbus);
+        setBrakeMode(true);
         masterTal.set(x);
         SmartDashboard.putNumber("Arm Power", x);
     }
