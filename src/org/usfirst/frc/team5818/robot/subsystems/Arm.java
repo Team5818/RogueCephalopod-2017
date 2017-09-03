@@ -16,7 +16,7 @@ public class Arm extends Subsystem{
      */
 
     /*Important positions and angles*/
-    public static final double COLLECT_POSITION = 420;
+    public static final double COLLECT_POSITION = 550;
     public static final double CLIMB_POSITION = 2000;
     public static final double MID_POSITION = 2200;
     public static final double NINETY_DEGREES = 2400;
@@ -51,8 +51,8 @@ public class Arm extends Subsystem{
         masterTal.setP(2.4 * 1023.0 / 1000);
         masterTal.setI(0);
         masterTal.setD(50.0 * 1023.0 / 1000);
-        masterTal.setMotionMagicAcceleration(60);
-        masterTal.setMotionMagicCruiseVelocity(40);//80% max
+        masterTal.setMotionMagicAcceleration(40);
+        masterTal.setMotionMagicCruiseVelocity(35);//80% max
         masterTal.changeControlMode(TalonControlMode.MotionMagic);
         
         setBrakeMode(true);
