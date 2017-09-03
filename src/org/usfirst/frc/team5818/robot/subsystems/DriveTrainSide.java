@@ -28,8 +28,24 @@ public class DriveTrainSide{
             throw new IllegalArgumentException("A drive side may not be in the center");
         }
         if (side == Side.RIGHT) {
-            masterTalon = new CANTalon(RobotMap.L_TALON_ENC);
+            masterTalon = new CANTalon(RobotMap.R_TALON_ENC);
+            slaveTalon1 = new CANTalon(RobotMap.R_TALON);
+            slaveTalon2 = new CANTalon(RobotMap.R_TALON_2);
+            
+            masterTalon.changeControlMode(TalonControlMode.PercentVbus);
+            slaveTalon1.changeControlMode(TalonControlMode.Follower);
+            slaveTalon2.changeControlMode(TalonControlMode.Follower);
+            
+            slaveTalon1.set(RobotMap.R_TALON_ENC);
+            slaveTalon2.set(RobotMap.R_TALON_ENC);
+            
+            masterTalon.setInverted(true);
+            slaveTalon1.reverseOutput(true);
+            slaveTalon2.reverseOutput(true);
+            
+        } else {
             slaveTalon1 = new CANTalon(RobotMap.L_TALON);
+            masterTalon = new CANTalon(RobotMap.L_TALON_ENC);
             slaveTalon2 = new CANTalon(RobotMap.L_TALON_2);
             
             masterTalon.changeControlMode(TalonControlMode.PercentVbus);
@@ -41,35 +57,19 @@ public class DriveTrainSide{
             
             masterTalon.setInverted(true);
             slaveTalon1.reverseOutput(true);
-            slaveTalon2.reverseOutput(true);
-            
-        } else {
-            slaveTalon1 = new CANTalon(RobotMap.R_TALON);
-            masterTalon = new CANTalon(RobotMap.R_TALON_ENC);
-            slaveTalon2 = new CANTalon(RobotMap.R_TALON_2);
-            
-            masterTalon.changeControlMode(TalonControlMode.PercentVbus);
-            slaveTalon1.changeControlMode(TalonControlMode.Follower);
-            slaveTalon2.changeControlMode(TalonControlMode.Follower);
-            
-            slaveTalon1.set(RobotMap.R_TALON_ENC);
-            slaveTalon2.set(RobotMap.R_TALON_ENC);
-            
-            masterTalon.setInverted(false);
-            slaveTalon1.reverseOutput(true);
-            slaveTalon2.reverseOutput(true);
+            slaveTalon2.reverseOutput(false);
         }
         
         
         masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
         masterTalon.configEncoderCodesPerRev(96);
    
-        masterTalon.setF(0.0);
+        masterTalon.setF(1023.0/280.0);
         masterTalon.setP(0.0);
         masterTalon.setI(0.0);
         masterTalon.setD(0.0);
-        masterTalon.setMotionMagicAcceleration(0.0);
-        masterTalon.setMotionMagicCruiseVelocity(0.0);
+        masterTalon.setMotionMagicAcceleration(210);
+        masterTalon.setMotionMagicCruiseVelocity(210);
     }
 
     public void setPower(double numIn) {

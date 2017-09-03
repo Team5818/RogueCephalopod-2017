@@ -16,12 +16,12 @@ public class RobotMap {
 
     public static final int[] DRIVE_TALONS = { 1, 2, 3, 4, 5, 6 };
     // Talon numbers; -ENC ones have encoders
-    public static final int L_TALON = DRIVE_TALONS[0];
-    public static final int L_TALON_ENC = DRIVE_TALONS[1];
-    public static final int L_TALON_2 = DRIVE_TALONS[2];
-    public static final int R_TALON = DRIVE_TALONS[3];
-    public static final int R_TALON_ENC = DRIVE_TALONS[4];
-    public static final int R_TALON_2 = DRIVE_TALONS[5];
+    public static final int R_TALON = DRIVE_TALONS[0];
+    public static final int R_TALON_ENC = DRIVE_TALONS[1];
+    public static final int R_TALON_2 = DRIVE_TALONS[2];
+    public static final int L_TALON = DRIVE_TALONS[4];
+    public static final int L_TALON_ENC = DRIVE_TALONS[3];
+    public static final int L_TALON_2 = DRIVE_TALONS[5];
     public static final int TURR_MOTOR = 7;
     public static final int ARM_TALON_L = 8;
     public static final int ARM_TALON_R = 9;
