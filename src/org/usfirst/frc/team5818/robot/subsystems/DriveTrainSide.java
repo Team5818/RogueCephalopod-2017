@@ -6,6 +6,7 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class DriveTrainSide{
 
@@ -18,25 +19,48 @@ public class DriveTrainSide{
     private CANTalon slaveTalon1;
     private CANTalon masterTalon;
     private CANTalon slaveTalon2;
-    private Side mySide;
-    
+
+    public PIDSourceType pidType = PIDSourceType.kDisplacement;
 
     public DriveTrainSide(Side side) {
         /*Instantiate different components depending on side*/
-        mySide = side;
         if (side == Side.CENTER) {
             throw new IllegalArgumentException("A drive side may not be in the center");
         }
         if (side == Side.RIGHT) {
             masterTalon = new CANTalon(RobotMap.R_TALON_ENC);
             slaveTalon1 = new CANTalon(RobotMap.R_TALON);
-            slaveTalon2 = new CANTalon(RobotMap.R_TALON_2);       
+            slaveTalon2 = new CANTalon(RobotMap.R_TALON_2);
+            
+            masterTalon.changeControlMode(TalonControlMode.PercentVbus);
+            slaveTalon1.changeControlMode(TalonControlMode.Follower);
+            slaveTalon2.changeControlMode(TalonControlMode.Follower);
+            
+            slaveTalon1.set(RobotMap.R_TALON_ENC);
+            slaveTalon2.set(RobotMap.R_TALON_ENC);
+            
+            masterTalon.setInverted(true);
+            slaveTalon1.reverseOutput(true);
+            slaveTalon2.reverseOutput(true);
+            
         } else {
             slaveTalon1 = new CANTalon(RobotMap.L_TALON);
             masterTalon = new CANTalon(RobotMap.L_TALON_ENC);
             slaveTalon2 = new CANTalon(RobotMap.L_TALON_2);
+            
+            masterTalon.changeControlMode(TalonControlMode.PercentVbus);
+            slaveTalon1.changeControlMode(TalonControlMode.Follower);
+            slaveTalon2.changeControlMode(TalonControlMode.Follower);
+            
+            slaveTalon1.set(RobotMap.L_TALON_ENC);
+            slaveTalon2.set(RobotMap.L_TALON_ENC);
+            
+            masterTalon.setInverted(true);
+            masterTalon.reverseSensor(true);
+            slaveTalon1.reverseOutput(true);
+            slaveTalon2.reverseOutput(false);
         }
-        configTalons();
+        
         
         masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
         masterTalon.configEncoderCodesPerRev(96);
@@ -50,55 +74,6 @@ public class DriveTrainSide{
         masterTalon.changeControlMode(TalonControlMode.MotionMagic);
     }
 
-    public void configTalons(){
-        if(mySide == Side.RIGHT) {
-            masterTalon.changeControlMode(TalonControlMode.PercentVbus);
-            slaveTalon1.changeControlMode(TalonControlMode.Follower);
-            slaveTalon2.changeControlMode(TalonControlMode.Follower);
-            
-            slaveTalon1.set(RobotMap.R_TALON_ENC);
-            slaveTalon2.set(RobotMap.R_TALON_ENC);
-            
-            masterTalon.setInverted(true);
-            slaveTalon1.reverseOutput(true);
-            slaveTalon2.reverseOutput(true);
-        }
-        else {
-            masterTalon.changeControlMode(TalonControlMode.PercentVbus);
-            slaveTalon1.changeControlMode(TalonControlMode.Follower);
-            slaveTalon2.changeControlMode(TalonControlMode.Follower);
-            
-            slaveTalon1.set(RobotMap.L_TALON_ENC);
-            slaveTalon2.set(RobotMap.L_TALON_ENC);
-            
-            masterTalon.setInverted(true);
-            masterTalon.reverseSensor(true);
-            slaveTalon1.reverseOutput(true);
-            slaveTalon2.reverseOutput(false);
-        }
-    }
-    
-    public void enslaveToOtherSide() {
-        if(mySide == Side.RIGHT) {
-            masterTalon.changeControlMode(TalonControlMode.Follower);
-            slaveTalon1.changeControlMode(TalonControlMode.Follower);
-            slaveTalon2.changeControlMode(TalonControlMode.Follower);
-        
-            masterTalon.set(RobotMap.L_TALON_ENC);
-            slaveTalon1.set(RobotMap.L_TALON_ENC);
-            slaveTalon2.set(RobotMap.L_TALON_ENC);
-        }
-        else{
-            masterTalon.changeControlMode(TalonControlMode.Follower);
-            slaveTalon1.changeControlMode(TalonControlMode.Follower);
-            slaveTalon2.changeControlMode(TalonControlMode.Follower);
-        
-            masterTalon.set(RobotMap.R_TALON_ENC);
-            slaveTalon1.set(RobotMap.R_TALON_ENC);
-            slaveTalon2.set(RobotMap.R_TALON_ENC);
-        }
-    }
-    
     public void setPower(double numIn) {
         masterTalon.changeControlMode(TalonControlMode.PercentVbus);
         masterTalon.set(numIn);
