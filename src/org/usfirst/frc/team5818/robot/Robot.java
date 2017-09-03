@@ -2,6 +2,7 @@
 package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.autos.DownFieldOneGear;
+import org.usfirst.frc.team5818.robot.autos.DriveAuto;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAutoLeft;
 import org.usfirst.frc.team5818.robot.autos.SideGearOppositeBoiler;
 import org.usfirst.frc.team5818.robot.autos.SideGearBoilerSide;
@@ -89,6 +90,8 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Profile Side Gear Boiler Field Right", new SideGearBoilerSide(Side.LEFT));
         chooser.addObject("Down Field 1 Gear Right", new DownFieldOneGear(Side.RIGHT));
         chooser.addObject("Down Field 1 Gear Left", new DownFieldOneGear(Side.LEFT));
+        chooser.addObject("Just Drive", new DriveAuto());
+
 
         SmartDashboard.putData("Auto mode", chooser);
         
@@ -132,8 +135,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         
         driveTrain.getGyro().reset();
-        driveTrain.shiftGears(Gear.LOW);
-
+        driveTrain.shiftGears(Gear.HIGH);
         autonomousCommand = chooser.getSelected();
         if (autonomousCommand != null)
             autonomousCommand.start();

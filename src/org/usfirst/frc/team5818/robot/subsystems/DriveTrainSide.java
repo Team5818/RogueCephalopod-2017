@@ -56,6 +56,7 @@ public class DriveTrainSide{
             slaveTalon2.set(RobotMap.L_TALON_ENC);
             
             masterTalon.setInverted(true);
+            masterTalon.reverseSensor(true);
             slaveTalon1.reverseOutput(true);
             slaveTalon2.reverseOutput(false);
         }
@@ -64,17 +65,26 @@ public class DriveTrainSide{
         masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
         masterTalon.configEncoderCodesPerRev(96);
    
-        masterTalon.setF(1023.0/280.0);
-        masterTalon.setP(0.0);
+        masterTalon.setF(1023.0/453);
+        masterTalon.setP(5.0*1023.0/1000.0);
         masterTalon.setI(0.0);
-        masterTalon.setD(0.0);
-        masterTalon.setMotionMagicAcceleration(210);
-        masterTalon.setMotionMagicCruiseVelocity(210);
+        masterTalon.setD(50.0*1023.0/1000.0);
+        masterTalon.setMotionMagicAcceleration(500.0);
+        masterTalon.setMotionMagicCruiseVelocity(300.0);
+        masterTalon.changeControlMode(TalonControlMode.MotionMagic);
     }
 
     public void setPower(double numIn) {
         masterTalon.changeControlMode(TalonControlMode.PercentVbus);
         masterTalon.set(numIn);
+    }
+    
+    public double getCruiseVel(){
+        return masterTalon.getMotionMagicCruiseVelocity();
+    }
+    
+    public void setCruiseVel(double vel) {
+        masterTalon.setMotionMagicCruiseVelocity(vel);
     }
     
     public void driveDistance(double dist){
@@ -85,7 +95,7 @@ public class DriveTrainSide{
     }
 
     public double getSidePosition() {
-        return masterTalon.getPosition();
+        return masterTalon.getPosition()*DIST_PER_REV;
     }
 
     public double getRawPos() {
