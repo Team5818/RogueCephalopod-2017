@@ -12,6 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -30,7 +31,7 @@ public class DriveTrain extends Subsystem {
     private AHRS gyro;
 
     public DriveTrain() {
-        gyro = new AHRS(I2C.Port.kMXP);
+        gyro = new AHRS(SerialPort.Port.kUSB);
         left = new DriveTrainSide(Side.LEFT);
         right = new DriveTrainSide(Side.RIGHT);
         comp = new Compressor();

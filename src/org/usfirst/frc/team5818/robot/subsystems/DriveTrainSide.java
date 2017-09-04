@@ -83,6 +83,10 @@ public class DriveTrainSide{
         return masterTalon.getMotionMagicCruiseVelocity();
     }
     
+    public double getTargetVel() {
+        return masterTalon.getMotionMagicActTrajVelocity();
+    }
+    
     public void setCruiseVel(double vel) {
         masterTalon.setMotionMagicCruiseVelocity(vel);
     }

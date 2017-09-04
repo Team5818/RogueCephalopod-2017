@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveStraight extends Command{
 
-    private static final double P_TURN = 300.0; 
+    private static final double P_TURN = 250.0; 
     private DriveTrain dt;
     private double distance;
     private double heading;
@@ -43,8 +43,8 @@ public class DriveStraight extends Command{
     
     @Override
     protected boolean isFinished() {
-        // TODO Auto-generated method stub
-        return isTimedOut() || dt.getAvgSidePosition() > (distance - .5);
+        return dt.getAvgSidePosition() > (distance-1.0);// && (isTimedOut() || Math.abs(dt.getLeftSide().getTargetVel()) == 0.0
+                //|| Math.abs(dt.getRightSide().getTargetVel()) == 0.0);
     }
     
     @Override
