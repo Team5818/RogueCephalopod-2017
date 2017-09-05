@@ -6,8 +6,6 @@ package org.usfirst.frc.team5818.robot.utils;
  * @author jproney
  */
 public class TrajectoryGenerator {
-
-
     /**
      * Generate a trajectory from a start state to a goal state. The starting
      * velocity (WARNING: May be ignored)
@@ -47,6 +45,8 @@ public class TrajectoryGenerator {
         first.vel = start_vel;
         first.acc = 0;
         first.dt = dt;
+        first.x = 0.0;
+        first.y = 0.0;
         Trajectory.Segment last = new Trajectory.Segment();
         last.pos = goal_pos;
         last.vel = goal_vel;
@@ -76,6 +76,8 @@ public class TrajectoryGenerator {
             traj.segments[i].heading = start_heading
                     + total_heading_change * (traj.segments[i].pos) / traj.segments[traj.getNumSegments() - 1].pos;
             traj.segments[i].dt = dt;
+            traj.segments[i].y = traj.segments[i].pos;
+            traj.segments[i].x = 0.0;
         }
 
         return traj;

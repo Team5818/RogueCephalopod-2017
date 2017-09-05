@@ -2,12 +2,14 @@ package org.usfirst.frc.team5818.robot.subsystems;
 
 import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
 import org.usfirst.frc.team5818.robot.RobotMap;
+import org.usfirst.frc.team5818.robot.utils.FastLoop;
+
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class VisionTracker extends Subsystem implements Runnable {
+public class VisionTracker extends Subsystem implements FastLoop{
     
     /**
      * Subsystem that manages vision dating coming from Raspberry Pi over Serial.
@@ -36,12 +38,11 @@ public class VisionTracker extends Subsystem implements Runnable {
         return rasPi;
     }
 
-    public void start() {
-        Thread thread = new Thread(this);
-        thread.start();
+    public void setLightsOn(boolean on) {
+        lightRing.set(on);
     }
 
-    public void read() {
+    public void update() {
         /*Repeatedly executes to get serial info from RPi*/
         String output = "";
         try {
@@ -65,25 +66,27 @@ public class VisionTracker extends Subsystem implements Runnable {
         }
     }
 
-    public void setLightsOn(boolean on) {
-        lightRing.set(on);
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            read();
-        }
-
-    }
 
     public double getCurrentAngle() {
         return currentAngle; //Let the world know
     }
 
     @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+
+    @Override
+    public void done() {}
+
+    @Override
+    public void start() {}
+
+    @Override
     protected void initDefaultCommand() {
         // TODO Auto-generated method stub
+        
     }
 
 }

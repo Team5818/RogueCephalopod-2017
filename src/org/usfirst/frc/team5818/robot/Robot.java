@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team5818.robot;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc.team5818.robot.autos.DownFieldOneGear;
 import org.usfirst.frc.team5818.robot.autos.DriveAuto;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAutoLeft;
@@ -20,6 +22,8 @@ import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
+import org.usfirst.frc.team5818.robot.utils.FastLoop;
+import org.usfirst.frc.team5818.robot.utils.LoopRunner;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -44,11 +48,12 @@ public class Robot extends IterativeRobot {
     public Driver driver;
     public Arm arm;
     public Collector collect;
-    public VisionTracker vision;
     public Turret turret;
     public Climber climb;
     public CameraController camCont;
     public SetTurretAngle turretZero;
+    public VisionTracker vision;
+    public LoopRunner runner;
     public boolean turretSafetyChecks = true;
 
     private RequireAllSubsystems requireAllSubsystems;
@@ -78,6 +83,10 @@ public class Robot extends IterativeRobot {
         turretZero = new SetTurretAngle(Turret.TURRET_CENTER_POS);
         requireAllSubsystems = new RequireAllSubsystems();
         
+        ArrayList<FastLoop> list = new ArrayList<FastLoop>();
+        list.add(vision);
+        runner = new LoopRunner(list);
+        
         /*Old Autos -- Same as Ventura*/
         chooser.addObject("Do Nothing Auto", new TimedCommand(15));
         chooser.addObject("Center Two Gear (Gear Right)", new TwoGearAutoRight());
@@ -96,7 +105,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto mode", chooser);
         
         /*Put robot in starting configuration*/
-        vision.start();
+        runner.startThread();
         driveTrain.shiftGears(Gear.LOW);
         driveTrain.getGyro().reset();
     }

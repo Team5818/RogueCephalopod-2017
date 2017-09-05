@@ -38,11 +38,12 @@ public class DriveTrain extends Subsystem {
         shifter = new Solenoid(RobotMap.SHIFTER_SOLENOID);
         comp.start();
         setBrakeMode();
-    }
+   }
 
     public AHRS getGyro(){
         return gyro;
     }
+    
     
     public double getGyroHeading(){
         return Math.toRadians(gyro.getAngle());

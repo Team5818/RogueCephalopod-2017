@@ -5,8 +5,6 @@ package org.usfirst.frc.team5818.robot.utils;
  * Implementation of a Trajectory using arrays as the underlying storage
  * mechanism.
  *
- * @author Jared341
- * @author jproney
  */
 public class Trajectory {
   
