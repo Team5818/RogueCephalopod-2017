@@ -2,6 +2,8 @@ package org.usfirst.frc.team5818.robot.utils;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.Notifier;
+
 public class LoopRunner implements Runnable{
 
     private final ArrayList<FastLoop> loopList;
@@ -54,7 +56,7 @@ public class LoopRunner implements Runnable{
     }
     
     public void startThread() {
-        Thread thread = new Thread(this);
-        thread.start();
+        Notifier notifier = new Notifier(this);
+        notifier.startPeriodic(.005);
     }
 }
