@@ -14,6 +14,7 @@ public class DrivePath implements FastLoop{
 
     private Trajectory trajectoryLeft;
     private Trajectory trajectoryRight;
+    private RequireCommand require;
     private DriveTrain dt;
     private double dtx;
     private double dty;
@@ -25,12 +26,13 @@ public class DrivePath implements FastLoop{
     public DrivePath(Trajectory trajL, Trajectory trajR) {
         trajectoryLeft = trajL;
         trajectoryRight = trajR;
+        require = new RequireCommand();
         dt = Robot.runningRobot.driveTrain;
     }
     
     @Override
     public boolean isFinished() {
-        return false;
+        return segNum > trajectoryLeft.getNumSegments();
     }
 
     @Override
@@ -42,6 +44,8 @@ public class DrivePath implements FastLoop{
         dty = dty + (newDist - encDist)*Math.cos(newHead - heading);
         encDist = newDist;
         heading = newHead;
+        
+        /*take care of trajectories*/
         CANTalon.TrajectoryPoint pointLeft = new CANTalon.TrajectoryPoint();
         CANTalon.TrajectoryPoint pointRight = new CANTalon.TrajectoryPoint();
         pointLeft.position = trajectoryLeft.getSegment(segNum).pos;
@@ -63,7 +67,9 @@ public class DrivePath implements FastLoop{
     }
 
     @Override
-    public void done() {}
+    public void done() {
+        require.stop();
+    }
 
     @Override
     public void start() {
@@ -72,6 +78,7 @@ public class DrivePath implements FastLoop{
         dty = 0.0;
         encDist = 0.0;
         segNum = 0;
+        require.require(dt);
         heading = dt.getGyroHeading();
     }
     
