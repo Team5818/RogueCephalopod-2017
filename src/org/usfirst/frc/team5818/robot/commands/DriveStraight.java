@@ -17,6 +17,7 @@ public class DriveStraight extends Command{
         distance = dist;
         dt = Robot.runningRobot.driveTrain;
         requires(dt);
+        setInterruptible(false);
         setTimeout(10);
     }
     
@@ -29,21 +30,21 @@ public class DriveStraight extends Command{
     
     @Override
     protected void execute(){
-        if(dt.getAvgSidePosition() < 1.0*distance) {
-            double turnPower = P_TURN*(heading - dt.getGyroHeading());
-            dt.getLeftSide().setCruiseVel(baselineVel + turnPower);
-            dt.getRightSide().setCruiseVel(baselineVel - turnPower);
-        }
-        else{
-            dt.getLeftSide().setCruiseVel(baselineVel);
-            dt.getRightSide().setCruiseVel(baselineVel);
-        }
+//        if(dt.getAvgSidePosition() < 1.0*distance) {
+//            double turnPower = P_TURN*(heading - dt.getGyroHeading());
+//            dt.getLeftSide().setCruiseVel(baselineVel + turnPower);
+//            dt.getRightSide().setCruiseVel(baselineVel - turnPower);
+//        }
+//        else{
+//            dt.getLeftSide().setCruiseVel(baselineVel);
+//            dt.getRightSide().setCruiseVel(baselineVel);
+//        }
     }
     
     
     @Override
     protected boolean isFinished() {
-        return dt.getAvgSidePosition() > (distance-1.0);// && (isTimedOut() || Math.abs(dt.getLeftSide().getTargetVel()) == 0.0
+        return isTimedOut(); //dt.getAvgSidePosition() > (distance-1.0);// && (isTimedOut() || Math.abs(dt.getLeftSide().getTargetVel()) == 0.0
                 //|| Math.abs(dt.getRightSide().getTargetVel()) == 0.0);
     }
     

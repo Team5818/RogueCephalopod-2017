@@ -65,10 +65,10 @@ public class DriveTrainSide{
         masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
         masterTalon.configEncoderCodesPerRev(96);
    
-        masterTalon.setF(1023.0/453);
+        masterTalon.setF(1023.0/460.8);
         masterTalon.setP(5.0*1023.0/1000.0);
         masterTalon.setI(0.0);
-        masterTalon.setD(50.0*1023.0/1000.0);
+        masterTalon.setD(0.0);//50.0*1023.0/1000.0);
         masterTalon.setMotionMagicAcceleration(500.0);
         masterTalon.setMotionMagicCruiseVelocity(300.0);
         masterTalon.changeControlMode(TalonControlMode.MotionMagic);
@@ -104,6 +104,10 @@ public class DriveTrainSide{
 
     public double getRawPos() {
         return masterTalon.getEncPosition();
+    }
+    
+    public double getRawSpeed(){
+        return masterTalon.getEncVelocity();
     }
 
     public double getSideVelocity() {
