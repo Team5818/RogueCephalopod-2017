@@ -43,6 +43,17 @@ public class DriveTrainSide{
             slaveTalon1.reverseOutput(true);
             slaveTalon2.reverseOutput(true);
             
+            masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+            masterTalon.configEncoderCodesPerRev(96);
+       
+            masterTalon.setF(1.07*1023.0/460.8);
+            masterTalon.setP(8.0*1023.0/1000.0);
+            masterTalon.setI(0.0);
+            masterTalon.setD(100.0*1023.0/1000.0);
+            masterTalon.setMotionMagicAcceleration(300.0);
+            masterTalon.setMotionMagicCruiseVelocity(300.0);
+            masterTalon.changeControlMode(TalonControlMode.MotionMagic);
+            
         } else {
             slaveTalon1 = new CANTalon(RobotMap.L_TALON);
             masterTalon = new CANTalon(RobotMap.L_TALON_ENC);
@@ -59,19 +70,20 @@ public class DriveTrainSide{
             masterTalon.reverseSensor(true);
             slaveTalon1.reverseOutput(true);
             slaveTalon2.reverseOutput(false);
+            
+            masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+            masterTalon.configEncoderCodesPerRev(96);
+       
+            masterTalon.setF(1.02*1.07*1023.0/460.8);
+            masterTalon.setP(8.0*1023.0/1000.0);
+            masterTalon.setI(0.0);
+            masterTalon.setD(100.0*1023.0/1000.0);
+            masterTalon.setMotionMagicAcceleration(300.0);
+            masterTalon.setMotionMagicCruiseVelocity(300.0);
+            masterTalon.changeControlMode(TalonControlMode.MotionMagic);
         }
         
         
-        masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-        masterTalon.configEncoderCodesPerRev(96);
-   
-        masterTalon.setF(1.07*1023.0/460.8);
-        masterTalon.setP(8.0*1023.0/1000.0);
-        masterTalon.setI(0.0);
-        masterTalon.setD(100.0*1023.0/1000.0);
-        masterTalon.setMotionMagicAcceleration(300.0);
-        masterTalon.setMotionMagicCruiseVelocity(300.0);
-        masterTalon.changeControlMode(TalonControlMode.MotionMagic);
     }
 
     public void setPower(double numIn) {

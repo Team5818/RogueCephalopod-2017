@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class MagicDrive extends Command{
 
-    private static final double P_TURN = 250.0; 
+    private static final double P_TURN = 300.0; 
     private DriveTrain dt;
     private double distance;
     private double heading;
