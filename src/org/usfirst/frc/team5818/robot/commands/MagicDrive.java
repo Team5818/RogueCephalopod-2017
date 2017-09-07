@@ -5,7 +5,7 @@ import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveStraight extends Command{
+public class MagicDrive extends Command{
 
     private static final double P_TURN = 250.0; 
     private DriveTrain dt;
@@ -13,11 +13,10 @@ public class DriveStraight extends Command{
     private double heading;
     private double baselineVel;
     
-    public DriveStraight(double dist) {
+    public MagicDrive(double dist) {
         distance = dist;
         dt = Robot.runningRobot.driveTrain;
         requires(dt);
-        setInterruptible(false);
         setTimeout(10);
     }
     

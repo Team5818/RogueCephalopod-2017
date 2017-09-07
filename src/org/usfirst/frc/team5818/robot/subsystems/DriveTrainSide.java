@@ -65,11 +65,11 @@ public class DriveTrainSide{
         masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
         masterTalon.configEncoderCodesPerRev(96);
    
-        masterTalon.setF(1023.0/460.8);
-        masterTalon.setP(5.0*1023.0/1000.0);
+        masterTalon.setF(1.07*1023.0/460.8);
+        masterTalon.setP(8.0*1023.0/1000.0);
         masterTalon.setI(0.0);
-        masterTalon.setD(0.0);//50.0*1023.0/1000.0);
-        masterTalon.setMotionMagicAcceleration(500.0);
+        masterTalon.setD(100.0*1023.0/1000.0);
+        masterTalon.setMotionMagicAcceleration(300.0);
         masterTalon.setMotionMagicCruiseVelocity(300.0);
         masterTalon.changeControlMode(TalonControlMode.MotionMagic);
     }
@@ -89,6 +89,10 @@ public class DriveTrainSide{
     
     public void setCruiseVel(double vel) {
         masterTalon.setMotionMagicCruiseVelocity(vel);
+    }
+    
+    public int getSideError() {
+        return masterTalon.getClosedLoopError();
     }
     
     public void driveDistance(double dist){

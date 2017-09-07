@@ -233,5 +233,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("rightVel", driveTrain.getRightSide().getSideVelocity());
         SmartDashboard.putNumber("leftVelRaw", driveTrain.getLeftSide().getRawSpeed());
         SmartDashboard.putNumber("rightVelRaw", driveTrain.getRightSide().getRawSpeed());
+        SmartDashboard.putNumber("leftErr", driveTrain.getLeftSide().getSideError());
+        SmartDashboard.putNumber("rightErr", driveTrain.getRightSide().getSideError());
     }
 }
