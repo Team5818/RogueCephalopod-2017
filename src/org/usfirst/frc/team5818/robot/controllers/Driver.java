@@ -6,6 +6,7 @@ import java.util.Vector;
 import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team5818.robot.TestingTalon;
+import org.usfirst.frc.team5818.robot.autos.SpinAuto;
 import org.usfirst.frc.team5818.robot.commands.ArmControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ControlMotor;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
@@ -128,6 +129,9 @@ public class Driver {
         
         Button coSpit = Buttons.COLLECTOR.get(6);
         coSpit.whileHeld(new SetCollectorPower(false,.4,1));
+        
+        Button spin = Buttons.TURN.get(3);
+        spin.whenPressed(new SpinAuto(Math.PI / 2));
 
     }
 

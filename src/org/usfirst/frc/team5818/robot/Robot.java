@@ -5,6 +5,7 @@ import org.usfirst.frc.team5818.robot.autos.DownFieldOneGear;
 import org.usfirst.frc.team5818.robot.autos.DriveAuto;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAutoLeft;
 import org.usfirst.frc.team5818.robot.autos.SideGearOppositeBoiler;
+import org.usfirst.frc.team5818.robot.autos.SpinAuto;
 import org.usfirst.frc.team5818.robot.autos.SideGearBoilerSide;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAutoRight;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
@@ -20,6 +21,7 @@ import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
+import org.usfirst.frc.team5818.robot.utils.MathUtil;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -91,6 +93,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Down Field 1 Gear Right", new DownFieldOneGear(Side.RIGHT));
         chooser.addObject("Down Field 1 Gear Left", new DownFieldOneGear(Side.LEFT));
         chooser.addObject("Just Drive", new DriveAuto());
+        chooser.addObject("spin", new SpinAuto(Math.PI/2.0));
 
 
         SmartDashboard.putData("Auto mode", chooser);
@@ -134,7 +137,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         
-        driveTrain.getGyro().reset();
+        driveTrain.getGyro().zeroYaw();
         driveTrain.shiftGears(Gear.HIGH);
         autonomousCommand = chooser.getSelected();
         if (autonomousCommand != null)
@@ -215,7 +218,7 @@ public class Robot extends IterativeRobot {
         /*Print readings from pretty much every sensor*/
         SmartDashboard.putBoolean("Turret Limit Switch", turret.getLimit());
         SmartDashboard.putBoolean("Collector Limit Switch", collect.isLimitTriggered());
-        SmartDashboard.putNumber("Gyro heading", driveTrain.getGyroHeading());
+        SmartDashboard.putNumber("Gyro heading", MathUtil.wrapAngleRad(driveTrain.getGyroHeading()));
         SmartDashboard.putNumber("Gear X:", vision.getCurrentAngle());
         SmartDashboard.putNumber("Turret Pot:", turret.getPositionRaw());
         SmartDashboard.putNumber("Turret Angle:", turret.getPosition());

@@ -107,10 +107,24 @@ public class DriveTrainSide{
         return masterTalon.getClosedLoopError();
     }
     
+    public void positionControl(){
+    	masterTalon.changeControlMode(CANTalon.TalonControlMode.MotionMagic);
+    }
+    
+    public double getRevs(){
+    	return masterTalon.getPosition();
+    }
+    
     public void driveDistance(double dist){
         double revs = dist/DIST_PER_REV;
         resetEnc();
+        masterTalon.clearMotionProfileTrajectories();
         masterTalon.changeControlMode(TalonControlMode.MotionMagic);
+        masterTalon.set(revs);
+    }
+    
+    public void driveDistanceNoReset(double dist){
+        double revs = dist/DIST_PER_REV;
         masterTalon.set(revs);
     }
 

@@ -67,7 +67,7 @@ public class DriveTrain extends Subsystem {
         right.driveDistance(dist);
     }
 
-
+    
     public DriveTrainSide getLeftSide() {
         return left;
     }
