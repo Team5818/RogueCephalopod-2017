@@ -238,5 +238,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("rightVelRaw", driveTrain.getRightSide().getRawSpeed());
         SmartDashboard.putNumber("leftErr", driveTrain.getLeftSide().getSideError());
         SmartDashboard.putNumber("rightErr", driveTrain.getRightSide().getSideError());
+        SmartDashboard.putBoolean("GyroCalibrating", driveTrain.getGyro().isCalibrating());
     }
 }
