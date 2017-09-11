@@ -10,18 +10,15 @@ import org.usfirst.frc.team5818.robot.utils.Vector2d;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * Subsystem for drivetrain. 6-CIM West Coast drive. Most logic takes place in
+ * DriveTrainSide
+ */
 public class DriveTrain extends Subsystem {
-    
-    /**
-     * Subsystem for drivetrain. 6-CIM West Coast drive.
-     * Most logic takes place in DriveTrainSide
-     */
 
     public DriveTrainSide left;
     public DriveTrainSide right;
@@ -40,11 +37,11 @@ public class DriveTrain extends Subsystem {
         setBrakeMode();
     }
 
-    public AHRS getGyro(){
+    public AHRS getGyro() {
         return gyro;
     }
-    
-    public double getGyroHeading(){
+
+    public double getGyroHeading() {
         return Math.toRadians(gyro.getAngle());
     }
 
@@ -61,13 +58,11 @@ public class DriveTrain extends Subsystem {
         setPowerLeftRight(vec2.getX(), vec2.getY());
     }
 
-
     public void driveDistance(double dist) {
         left.driveDistance(dist);
         right.driveDistance(dist);
     }
 
-    
     public DriveTrainSide getLeftSide() {
         return left;
     }
@@ -116,7 +111,7 @@ public class DriveTrain extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        /*driving logic is here*/
+        /* driving logic is here */
         setDefaultCommand(
                 new DriveControlCommand(Robot.runningRobot.driver.JS_FW_BACK, Robot.runningRobot.driver.JS_TURN));
     }

@@ -8,6 +8,7 @@ import org.usfirst.frc.team5818.robot.utils.MathUtil;
 import org.usfirst.frc.team5818.robot.utils.Trajectory;
 import org.usfirst.frc.team5818.robot.utils.TrajectoryFollower;
 import org.usfirst.frc.team5818.robot.utils.TrajectoryGenerator;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -26,8 +27,8 @@ public class SpinWithProfile extends Command {
     boolean stoppingAtEnd;
     boolean fieldCentered;
     double angle;
-    double kTurn = 1.5/Math.PI;
-    double kSmall = .5/Math.PI;
+    double kTurn = 1.5 / Math.PI;
+    double kSmall = .5 / Math.PI;
     int loopCount;
 
     public SpinWithProfile(double ang, boolean field, boolean stop) {
@@ -42,19 +43,17 @@ public class SpinWithProfile extends Command {
     protected void initialize() {
         loopCount = 0;
         double curHeading = driveTrain.getGyroHeading();
-        if(fieldCentered){
+        if (fieldCentered) {
             goalHeading = angle;
-        }
-        else{
+        } else {
             goalHeading = angle + curHeading;
         }
-        
+
         double deltaHeading = goalHeading - curHeading;
-        double distance = Math.abs(deltaHeading * Constants.Constant.wheelToWheelWidth()/2);
+        double distance = Math.abs(deltaHeading * Constants.Constant.wheelToWheelWidth() / 2);
 
         Trajectory leftProfile = TrajectoryGenerator.generate(.5 * Constants.Constant.maxVelocityIPS(),
-                .8 * Constants.Constant.maxAccelIPS2(), .02, 0.0, curHeading, Math.abs(distance), 0.0,
-                goalHeading);
+                .8 * Constants.Constant.maxAccelIPS2(), .02, 0.0, curHeading, Math.abs(distance), 0.0, goalHeading);
         Trajectory rightProfile = leftProfile.copy();
 
         if (Math.abs(deltaHeading) > Math.toRadians(minDeltaHeading)) {
@@ -101,13 +100,12 @@ public class SpinWithProfile extends Command {
         double observedHeading = driveTrain.getGyroHeading();
 
         double angleDiffRads = MathUtil.wrapAngleRad(goalHeading - observedHeading);
-        
+
         double turn;
-        if(followerLeft.isFinishedTrajectory()){
-            turn = kSmall * angleDiffRads;        
-        }
-        else{
-            turn = kTurn * angleDiffRads;  
+        if (followerLeft.isFinishedTrajectory()) {
+            turn = kSmall * angleDiffRads;
+        } else {
+            turn = kTurn * angleDiffRads;
         }
         driveTrain.setPowerLeftRight(speedLeft - turn, speedRight + turn);
     }

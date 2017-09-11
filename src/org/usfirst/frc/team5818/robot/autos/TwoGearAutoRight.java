@@ -48,9 +48,9 @@ public class TwoGearAutoRight extends CommandGroup {
         this.addSequential(new PlaceWithLimit());
         this.addSequential(new PlaceWithLimit());
         this.addSequential(new DriveTrajectory(40, 0.0, 0.0, 0.0, Direction.FORWARD, true));
-        this.addSequential(new SpinWithProfile(-Math.PI/2.0,true, true));
+        this.addSequential(new SpinWithProfile(-Math.PI / 2.0, true, true));
         this.addSequential(new DriveTrajectory(120, 0.0, 0.0, 0.0, Direction.FORWARD, true));
-        this.addSequential(new SpinWithProfile(-Math.PI/2.0,true, true));
+        this.addSequential(new SpinWithProfile(-Math.PI / 2.0, true, true));
         this.addSequential(new DriveTrajectory(370, 0.0, 0.0, 0.0, Direction.FORWARD, true));
     }
 

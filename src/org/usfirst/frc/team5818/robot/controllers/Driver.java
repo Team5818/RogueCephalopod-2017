@@ -106,10 +106,11 @@ public class Driver {
 
         Button deploy = Buttons.TURRET.get(2);
         deploy.whenPressed(new PlaceWithLimit());
-        
+
         Button loadGear = Buttons.COLLECTOR.get(1);
         loadGear.whenPressed(new PutGearInTurret.Start());
-        loadGear.whenReleased(new SetCollectorPower(false, 0, 0.5));;
+        loadGear.whenReleased(new SetCollectorPower(false, 0, 0.5));
+        ;
 
         Button coDriverMidArm = Buttons.COLLECTOR.get(2);
         coDriverMidArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
@@ -126,10 +127,10 @@ public class Driver {
         Button fullExtend = Buttons.COLLECTOR.get(7);
         fullExtend.whenPressed(new FullExtention(true));
         fullExtend.whenReleased(new FullExtention(false));
-        
+
         Button coSpit = Buttons.COLLECTOR.get(6);
-        coSpit.whileHeld(new SetCollectorPower(false,.4,1));
-        
+        coSpit.whileHeld(new SetCollectorPower(false, .4, 1));
+
         Button spin = Buttons.TURN.get(3);
         spin.whenPressed(new SpinAuto(Math.PI / 2));
 

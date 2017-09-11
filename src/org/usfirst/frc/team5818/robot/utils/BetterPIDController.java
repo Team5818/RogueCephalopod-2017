@@ -56,6 +56,7 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
     protected PIDOutput m_pidOutput;
     java.util.Timer m_controlLoop;
     Timer m_setpointTimer;
+
     /**
      * Tolerance is the type of tolerance used to specify if the PID controller
      * is on target.

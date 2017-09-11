@@ -6,12 +6,12 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * Simple subsystem for collector. Has a top and bottom roller, gear gets sucked
+ * in between rollers
+ */
 public class Climber extends Subsystem {
 
-    /**
-     * Simple subsystem for our climber
-     */
-    
     private CANTalon left1;
     private CANTalon right1;
 

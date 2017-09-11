@@ -1,9 +1,10 @@
 package org.usfirst.frc.team5818.robot.utils;
 
+/**
+ * Computes values for "RadiusDrive" (Basically just CheesyDrive with a little
+ * magic sauce)
+ */
 public enum RadiusDriveCalculator implements DriveCalculator {
-    /**
-     * Computes values for "RadiusDrive" (Basically just CheesyDrive with a little magic sauce)
-     */
 
     INSTANCE;
 
@@ -21,12 +22,12 @@ public enum RadiusDriveCalculator implements DriveCalculator {
         double angularPower;
 
         if (isQuickTurn) {
-            overPower = 1.0 - throttle*5;
+            overPower = 1.0 - throttle * 5;
             angularPower = wheel;
         } else {
             overPower = 0.0;
-            if(Math.abs(throttle) < .2) {
-                overPower = 1.0 - Math.abs(throttle)*5.0;
+            if (Math.abs(throttle) < .2) {
+                overPower = 1.0 - Math.abs(throttle) * 5.0;
             }
             angularPower = Math.abs(throttle) * wheel * kTurnSensitivity;
         }

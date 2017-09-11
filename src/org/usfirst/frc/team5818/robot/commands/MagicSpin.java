@@ -14,7 +14,6 @@ public class MagicSpin extends Command {
     private DriveTrain dt;
     private double angle;
 
-
     public MagicSpin(double ang) {
         dt = Robot.runningRobot.driveTrain;
         requires(dt);
@@ -36,7 +35,6 @@ public class MagicSpin extends Command {
         SmartDashboard.putNumber("spin dist", dist);
         DriverStation.reportError("" + dist, false);
         dt.getLeftSide().driveDistanceNoReset(dt.getLeftSide().getSidePosition() + dist, 200, 200);
-        //dt.getRightSide().driveDistanceNoReset(dt.getRightSide().getSidePosition() - dist);
     }
 
     @Override

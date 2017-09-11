@@ -36,9 +36,9 @@ public class SetArmAngle extends Command {
 
     @Override
     public void end() {
-        //arm.setManual();
-        //arm.setBrakeMode(true);
-        //arm.setPower(0.0);
+        // arm.setManual();
+        // arm.setBrakeMode(true);
+        // arm.setPower(0.0);
     }
 
 }

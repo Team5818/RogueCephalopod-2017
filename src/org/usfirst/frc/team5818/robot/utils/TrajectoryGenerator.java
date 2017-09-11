@@ -7,7 +7,6 @@ package org.usfirst.frc.team5818.robot.utils;
  */
 public class TrajectoryGenerator {
 
-
     /**
      * Generate a trajectory from a start state to a goal state. The starting
      * velocity (WARNING: May be ignored)

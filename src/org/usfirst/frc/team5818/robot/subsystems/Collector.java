@@ -7,12 +7,11 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * Simple subsystem for collector. Has a top and bottom roller, gear gets sucked
+ * in between rollers
+ */
 public class Collector extends Subsystem {
-    
-    /**
-     * Simple subsystem for collector. Has a top and bottom roller, gear gets 
-     * sucked in between rollers
-     */
 
     private CANTalon topRoller;
     private CANTalon botRoller;
@@ -45,7 +44,7 @@ public class Collector extends Subsystem {
         return botRoller.getOutputCurrent();
     }
 
-    /*Limit switch indicates when gear is collected*/
+    /* Limit switch indicates when gear is collected */
     public boolean isLimitTriggered() {
         return !limitSwitch.get();
     }

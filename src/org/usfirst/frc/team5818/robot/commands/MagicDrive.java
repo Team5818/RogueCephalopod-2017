@@ -5,50 +5,35 @@ import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class MagicDrive extends Command{
+public class MagicDrive extends Command {
 
-    private static final double P_TURN = 300.0; 
     private DriveTrain dt;
     private double distance;
-    private double heading;
-    private double baselineVel;
-    
+
     public MagicDrive(double dist) {
         distance = dist;
         dt = Robot.runningRobot.driveTrain;
         requires(dt);
         setTimeout(10);
     }
-    
+
     @Override
     public void initialize() {
         dt.driveDistance(distance);
-        heading = dt.getGyroHeading();
-        baselineVel = dt.getLeftSide().getCruiseVel();
     }
-    
+
     @Override
-    protected void execute(){
-//        if(dt.getAvgSidePosition() < 1.0*distance) {
-//            double turnPower = P_TURN*(heading - dt.getGyroHeading());
-//            dt.getLeftSide().setCruiseVel(baselineVel + turnPower);
-//            dt.getRightSide().setCruiseVel(baselineVel - turnPower);
-//        }
-//        else{
-//            dt.getLeftSide().setCruiseVel(baselineVel);
-//            dt.getRightSide().setCruiseVel(baselineVel);
-//        }
+    protected void execute() {
     }
-    
-    
+
     @Override
     protected boolean isFinished() {
-        return isTimedOut(); //dt.getAvgSidePosition() > (distance-1.0);// && (isTimedOut() || Math.abs(dt.getLeftSide().getTargetVel()) == 0.0
-                //|| Math.abs(dt.getRightSide().getTargetVel()) == 0.0);
+        return Math.abs(dt.getAvgSidePosition() - distance) < .2 && Math.abs(dt.getLeftSide().getSideVelocity()) < 2
+                && Math.abs(dt.getRightSide().getSideVelocity()) < 2;
     }
-    
+
     @Override
-    protected void end(){
+    protected void end() {
         dt.stop();
     }
 

@@ -24,14 +24,14 @@ public class KitbotConstants extends Constants {
     public double encoderScale() {
         return 4.0 / 44.815;
     }
-    
+
     @Override
-    public double maxVelocityIPS(){
+    public double maxVelocityIPS() {
         return 120.0;
     }
-    
+
     @Override
-    public double maxAccelIPS2(){
+    public double maxAccelIPS2() {
         return 200;
     }
 

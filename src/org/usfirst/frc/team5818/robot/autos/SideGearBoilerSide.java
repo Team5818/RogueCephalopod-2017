@@ -14,18 +14,17 @@ import org.usfirst.frc.team5818.robot.constants.Spin;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class SideGearBoilerSide extends CommandGroup{
-    
+public class SideGearBoilerSide extends CommandGroup {
+
     int angleMult;
-    
-    public SideGearBoilerSide(Side turnSide){
+
+    public SideGearBoilerSide(Side turnSide) {
         Spin s;
-        if(turnSide == Side.LEFT){
+        if (turnSide == Side.LEFT) {
             s = Spin.COUNTERCW;
             angleMult = -1;
-            
-        }
-        else{
+
+        } else {
             s = Spin.CLOCKWISE;
             angleMult = 1;
         }
@@ -46,8 +45,8 @@ public class SideGearBoilerSide extends CommandGroup{
         }));
         this.addSequential(new TimedCommand(.5));
         addSequential(new PlaceWithLimit());
-        addSequential(new DriveTrajectory(28, angleMult*Math.toRadians(60.0), 0.0, 0.0, Direction.FORWARD, true));
-        addSequential(new SpinWithProfile(angleMult*Math.PI, true, false));
-        addSequential(new DriveTrajectory(320, angleMult*Math.PI, 0.0, 0.0, Direction.FORWARD, true));
+        addSequential(new DriveTrajectory(28, angleMult * Math.toRadians(60.0), 0.0, 0.0, Direction.FORWARD, true));
+        addSequential(new SpinWithProfile(angleMult * Math.PI, true, false));
+        addSequential(new DriveTrajectory(320, angleMult * Math.PI, 0.0, 0.0, Direction.FORWARD, true));
     }
 }

@@ -3,10 +3,10 @@ package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.autos.DownFieldOneGear;
 import org.usfirst.frc.team5818.robot.autos.DriveAuto;
-import org.usfirst.frc.team5818.robot.autos.TwoGearAutoLeft;
+import org.usfirst.frc.team5818.robot.autos.SideGearBoilerSide;
 import org.usfirst.frc.team5818.robot.autos.SideGearOppositeBoiler;
 import org.usfirst.frc.team5818.robot.autos.SpinAuto;
-import org.usfirst.frc.team5818.robot.autos.SideGearBoilerSide;
+import org.usfirst.frc.team5818.robot.autos.TwoGearAutoLeft;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAutoRight;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
@@ -66,7 +66,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
-        /*Statically instantiate all subsystems*/
+        /* Statically instantiate all subsystems */
         runningRobot = this;
         driveTrain = new DriveTrain();
         vision = new VisionTracker();
@@ -79,13 +79,13 @@ public class Robot extends IterativeRobot {
         driver = new Driver();
         turretZero = new SetTurretAngle(Turret.TURRET_CENTER_POS);
         requireAllSubsystems = new RequireAllSubsystems();
-        
-        /*Old Autos -- Same as Ventura*/
+
+        /* Old Autos -- Same as Ventura */
         chooser.addObject("Do Nothing Auto", new TimedCommand(15));
         chooser.addObject("Center Two Gear (Gear Right)", new TwoGearAutoRight());
         chooser.addObject("Center Two Gear (Gear Left)", new TwoGearAutoLeft());
 
-        /*Profiled Autos*/
+        /* Profiled Autos */
         chooser.addObject("Profile Side Gear Field Left", new SideGearOppositeBoiler(Side.RIGHT));
         chooser.addObject("Profile Side Gear Field Right", new SideGearOppositeBoiler(Side.LEFT));
         chooser.addObject("Profile Side Gear Boiler Field Left", new SideGearBoilerSide(Side.RIGHT));
@@ -93,12 +93,11 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Down Field 1 Gear Right", new DownFieldOneGear(Side.RIGHT));
         chooser.addObject("Down Field 1 Gear Left", new DownFieldOneGear(Side.LEFT));
         chooser.addObject("Just Drive", new DriveAuto());
-        chooser.addObject("spin", new SpinAuto(Math.PI/2.0));
-
+        chooser.addObject("spin", new SpinAuto(Math.PI / 2.0));
 
         SmartDashboard.putData("Auto mode", chooser);
-        
-        /*Put robot in starting configuration*/
+
+        /* Put robot in starting configuration */
         vision.start();
         driveTrain.shiftGears(Gear.LOW);
         driveTrain.getGyro().reset();
@@ -136,7 +135,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousInit() {
-        
+
         driveTrain.getGyro().zeroYaw();
         driveTrain.shiftGears(Gear.HIGH);
         autonomousCommand = chooser.getSelected();
@@ -161,8 +160,8 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null)
             autonomousCommand.cancel();
-        
-        /*Put robot in starting configuration*/
+
+        /* Put robot in starting configuration */
         turret.extend(false);
         turret.punch(false);
         driveTrain.getLeftSide().resetEnc();
@@ -171,7 +170,7 @@ public class Robot extends IterativeRobot {
         camCont.enterGearMode();
         vision.setLightsOn(false);
 
-        /*Put buttons in teleop mode*/
+        /* Put buttons in teleop mode */
         driver.setupTeleopButtons();
     }
 
@@ -201,7 +200,7 @@ public class Robot extends IterativeRobot {
         LiveWindow.run();
         LiveWindow.setEnabled(false);
         requireAllSubsystems.start();
-        /*Put buttons in testing mode*/
+        /* Put buttons in testing mode */
         driver.setupTestButtons();
     }
 
@@ -215,7 +214,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void printSmartDash() {
-        /*Print readings from pretty much every sensor*/
+        /* Print readings from pretty much every sensor */
         SmartDashboard.putBoolean("Turret Limit Switch", turret.getLimit());
         SmartDashboard.putBoolean("Collector Limit Switch", collect.isLimitTriggered());
         SmartDashboard.putNumber("Gyro heading", MathUtil.wrapAngleRad(driveTrain.getGyroHeading()));
