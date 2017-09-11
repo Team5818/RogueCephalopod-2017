@@ -19,11 +19,11 @@ public class DriveTrainSide{
     private CANTalon slaveTalon1;
     private CANTalon masterTalon;
     private CANTalon slaveTalon2;
-
-    public PIDSourceType pidType = PIDSourceType.kDisplacement;
+    private Side mySide;
 
     public DriveTrainSide(Side side) {
         /*Instantiate different components depending on side*/
+        mySide = side;
         if (side == Side.CENTER) {
             throw new IllegalArgumentException("A drive side may not be in the center");
         }
@@ -32,6 +32,19 @@ public class DriveTrainSide{
             slaveTalon1 = new CANTalon(RobotMap.R_TALON);
             slaveTalon2 = new CANTalon(RobotMap.R_TALON_2);
             
+        } else {
+            slaveTalon1 = new CANTalon(RobotMap.L_TALON);
+            masterTalon = new CANTalon(RobotMap.L_TALON_ENC);
+            slaveTalon2 = new CANTalon(RobotMap.L_TALON_2);
+        }
+        
+        configTalons();
+        
+    }
+
+    public void configTalons() {
+        if (mySide == Side.RIGHT) {
+        
             masterTalon.changeControlMode(TalonControlMode.PercentVbus);
             slaveTalon1.changeControlMode(TalonControlMode.Follower);
             slaveTalon2.changeControlMode(TalonControlMode.Follower);
@@ -55,9 +68,6 @@ public class DriveTrainSide{
             masterTalon.changeControlMode(TalonControlMode.MotionMagic);
             
         } else {
-            slaveTalon1 = new CANTalon(RobotMap.L_TALON);
-            masterTalon = new CANTalon(RobotMap.L_TALON_ENC);
-            slaveTalon2 = new CANTalon(RobotMap.L_TALON_2);
             
             masterTalon.changeControlMode(TalonControlMode.PercentVbus);
             slaveTalon1.changeControlMode(TalonControlMode.Follower);
@@ -83,9 +93,21 @@ public class DriveTrainSide{
             masterTalon.changeControlMode(TalonControlMode.MotionMagic);
         }
         
-        
     }
-
+    
+    public void slaveToOtherSide(boolean inverted){
+        if(mySide == Side.RIGHT) {
+            masterTalon.changeControlMode(TalonControlMode.Follower);
+            masterTalon.set(RobotMap.L_TALON_ENC);
+            masterTalon.reverseOutput(inverted);
+        }
+        else{
+            masterTalon.changeControlMode(TalonControlMode.Follower);
+            masterTalon.set(RobotMap.R_TALON_ENC);
+            masterTalon.reverseOutput(inverted);
+        }
+    }
+    
     public void setPower(double numIn) {
         masterTalon.changeControlMode(TalonControlMode.PercentVbus);
         masterTalon.set(numIn);
@@ -126,6 +148,12 @@ public class DriveTrainSide{
     public void driveDistanceNoReset(double dist){
         double revs = dist/DIST_PER_REV;
         masterTalon.set(revs);
+    }
+    
+    public void driveDistanceNoReset(double dist, double acc, double vel){
+        masterTalon.setMotionMagicCruiseVelocity(vel);
+        masterTalon.setMotionMagicAcceleration(acc);
+        driveDistanceNoReset(dist);
     }
 
     public double getSidePosition() {

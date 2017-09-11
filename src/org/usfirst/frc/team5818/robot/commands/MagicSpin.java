@@ -24,7 +24,7 @@ public class MagicSpin extends Command {
     @Override
     protected void initialize() {
         dt.getLeftSide().positionControl();
-        dt.getRightSide().positionControl();
+        dt.getRightSide().slaveToOtherSide(true);
         dt.resetEncs();
     }
 
@@ -35,8 +35,8 @@ public class MagicSpin extends Command {
         double dist = diff / (2.0 * Math.PI) * INCHES_PER_ROTATION;
         SmartDashboard.putNumber("spin dist", dist);
         DriverStation.reportError("" + dist, false);
-        dt.getLeftSide().driveDistanceNoReset(dt.getLeftSide().getSidePosition() + dist);
-        dt.getRightSide().driveDistanceNoReset(dt.getRightSide().getSidePosition() - dist);
+        dt.getLeftSide().driveDistanceNoReset(dt.getLeftSide().getSidePosition() + dist, 200, 200);
+        //dt.getRightSide().driveDistanceNoReset(dt.getRightSide().getSidePosition() - dist);
     }
 
     @Override
