@@ -130,10 +130,6 @@ public class Driver {
 
         Button coSpit = Buttons.COLLECTOR.get(6);
         coSpit.whileHeld(new SetCollectorPower(false, .4, 1));
-
-        Button spin = Buttons.TURN.get(3);
-        spin.whenPressed(new SpinAuto(Math.PI / 2));
-
     }
 
     public void setupTestButtons() {
