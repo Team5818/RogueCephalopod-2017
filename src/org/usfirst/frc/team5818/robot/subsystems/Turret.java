@@ -7,7 +7,6 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -30,7 +29,6 @@ public class Turret {
 
         @Override
         protected void initDefaultCommand() {
-            /* joystick control */
             setDefaultCommand(new TurretControlCommand());
         }
     }
@@ -89,7 +87,6 @@ public class Turret {
                             // harder
         motor.changeControlMode(TalonControlMode.MotionMagic);
         motor.set(ang);
-        DriverStation.reportError("" + ang, false);
     }
 
     public double getPositionRaw() {
@@ -109,7 +106,6 @@ public class Turret {
         motor.changeControlMode(TalonControlMode.PercentVbus);
     }
 
-    /* pneumatics control */
     public void extend(boolean on) {
         extender.set(on);
     }

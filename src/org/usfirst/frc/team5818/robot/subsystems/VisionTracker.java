@@ -21,7 +21,7 @@ public class VisionTracker extends Subsystem implements Runnable {
 
     private SerialPort rasPi;
     private Port port;
-    private volatile double currentAngle = 0.0;// Referenced by > 1 Threads O_o
+    private volatile double currentAngle = 0.0;
     private String charBuffer = "";
     private Solenoid lightRing;
 
@@ -46,25 +46,30 @@ public class VisionTracker extends Subsystem implements Runnable {
         /* Repeatedly executes to get serial info from RPi */
         String output = "";
         try {
-            output += (char) (rasPi.read(1)[0] & 0xFF); // Read 1 character
+            output += (char) (rasPi.read(1)[0] & 0xFF);
         } catch (Exception e) {
             return;
         }
-        if (output.equals("\n")) { // Look for newline delimiter
-            if (charBuffer.length() == 4) {// Make sure we have a full "packet"
+        // Look for newline delimiter
+        if (output.equals("\n")) {
+            // Make sure we have a full "packet"
+            if (charBuffer.length() == 4) {
                 int pixels = Integer.parseInt(charBuffer.substring(0, 4));// parse
                 if (pixels == NO_VISION) {
-                    currentAngle = Double.NaN; // Lets us know we don't have a
-                                               // target
+                    // Lets us know we don't have a
+                    // target
+                    currentAngle = Double.NaN;
                 } else {
                     // Use good-enough linear approximation to convert pixels ->
                     // angles
                     currentAngle = pixels * Constant.cameraFov() / Constant.cameraWidth() / 2.0;
                 }
             }
-            charBuffer = ""; // reset if the "packet" was incomplete
+            // reset if the "packet" was incomplete
+            charBuffer = "";
         } else {
-            charBuffer += output;// keep looking until full "packet" is received
+            // keep looking until full "packet" is received
+            charBuffer += output;
         }
     }
 
@@ -81,7 +86,7 @@ public class VisionTracker extends Subsystem implements Runnable {
     }
 
     public double getCurrentAngle() {
-        return currentAngle; // Let the world know
+        return currentAngle;
     }
 
     @Override

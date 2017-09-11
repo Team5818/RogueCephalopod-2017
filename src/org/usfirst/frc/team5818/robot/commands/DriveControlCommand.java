@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5818.robot.commands;
 
-import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
 
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
@@ -14,7 +13,6 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class DriveControlCommand extends ControlCommand {
 
-    private static final double MAX_VELOCITY = Constant.maxVelocity();
     private final DriveTrain driveTrain = Robot.runningRobot.driveTrain;
     private Joystick throttle;
     private Joystick turning;
