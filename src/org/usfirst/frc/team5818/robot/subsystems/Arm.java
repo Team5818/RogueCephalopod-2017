@@ -16,9 +16,9 @@ public class Arm extends Subsystem{
      */
 
     /*Important positions and angles*/
-    public static final double COLLECT_POSITION = 550;
-    public static final double CLIMB_POSITION = 2000;
-    public static final double MID_POSITION = 2200;
+    public static final double COLLECT_POSITION = 701;
+    public static final double CLIMB_POSITION = 2200;
+    public static final double MID_POSITION = 2366;
     public static final double NINETY_DEGREES = 2400;
     public static final double SLOT_COLLECT_POSITION = NINETY_DEGREES;
     public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
