@@ -110,7 +110,6 @@ public class Driver {
         Button loadGear = Buttons.COLLECTOR.get(1);
         loadGear.whenPressed(new PutGearInTurret.Start());
         loadGear.whenReleased(new SetCollectorPower(false, 0, 0.5));
-        ;
 
         Button coDriverMidArm = Buttons.COLLECTOR.get(2);
         coDriverMidArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
