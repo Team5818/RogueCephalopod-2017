@@ -12,13 +12,11 @@ import org.usfirst.frc.team5818.robot.utils.TrajectoryFollower;
 import org.usfirst.frc.team5818.robot.utils.TrajectoryGenerator;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * TrajectoryDriveController.java This controller drives the robot along a
  * specified trajectory.
  * 
- * @author Tom Bottiglieri
  * @author jproney
  */
 public class DriveTrajectory extends Command {
@@ -35,7 +33,7 @@ public class DriveTrajectory extends Command {
     double goalVel;
     double goalHeading;
     double initialVel;
-    double kTurn = .2/Math.PI;
+    double kTurn = .2 / Math.PI;
     int loopCount;
 
     public DriveTrajectory(double dist, double head, double startVel, double endVel, Direction dir, boolean stop) {
@@ -43,25 +41,24 @@ public class DriveTrajectory extends Command {
         driveTrain = Robot.runningRobot.driveTrain;
         requires(driveTrain);
         direction = dir;
-        if(dir == Direction.FORWARD){
+        if (dir == Direction.FORWARD) {
             directionMultiplier = -1.0;
-        }
-        else{
+        } else {
             directionMultiplier = 1.0;
         }
         goalHeading = head;
         initialVel = startVel;
         stoppingAtEnd = stop;
     }
-    
-    public DriveTrajectory(double dist,double startVel, double endVel, Direction dir, boolean stop){
+
+    public DriveTrajectory(double dist, double startVel, double endVel, Direction dir, boolean stop) {
         this(dist, Integer.MAX_VALUE, startVel, endVel, dir, stop);
     }
 
     protected void initialize() {
         loopCount = 0;
         double curHeading = driveTrain.getGyroHeading();
-        if(goalHeading == Integer.MAX_VALUE){
+        if (goalHeading == Integer.MAX_VALUE) {
             goalHeading = curHeading;
         }
         double deltaHeading = goalHeading - curHeading;
@@ -77,20 +74,18 @@ public class DriveTrajectory extends Command {
 
         if (Math.abs(deltaHeading) > Math.toRadians(minDeltaHeading)) {
             if (deltaHeading > 0) {
-                if(direction == Direction.FORWARD){
+                if (direction == Direction.FORWARD) {
                     leftProfile.scale(faster);
                     rightProfile.scale(slower);
-                }
-                else{
+                } else {
                     leftProfile.scale(slower);
                     rightProfile.scale(faster);
                 }
-            } else if(deltaHeading <= 0){
-                if(direction == Direction.FORWARD){
+            } else if (deltaHeading <= 0) {
+                if (direction == Direction.FORWARD) {
                     leftProfile.scale(slower);
                     rightProfile.scale(faster);
-                }
-                else{
+                } else {
                     leftProfile.scale(faster);
                     rightProfile.scale(slower);
                 }
@@ -101,12 +96,7 @@ public class DriveTrajectory extends Command {
                 0.3 / Constants.Constant.maxAccelIPS2(), leftProfile, Side.LEFT);
         followerRight = new TrajectoryFollower(.06, 1.0 / Constants.Constant.maxVelocityIPS(),
                 0.3 / Constants.Constant.maxAccelIPS2(), rightProfile, Side.RIGHT);
-        // followerLeft = new TrajectoryFollower(0.0, 0.0 /
-        // Constants.Constant.maxVelocityIPS(),
-        // 0.0 / Constants.Constant.maxAccelIPS2(), leftProfile);
-        // followerRight = new TrajectoryFollower(0.0, 0.0 /
-        // Constants.Constant.maxVelocityIPS(),
-        // 0.0 / Constants.Constant.maxAccelIPS2(), rightProfile);
+
         reset();
     }
 
@@ -126,8 +116,8 @@ public class DriveTrajectory extends Command {
 
     protected void execute() {
         loopCount++;
-        double distanceL =  Math.abs(driveTrain.getLeftSide().getSidePosition());
-        double distanceR =  Math.abs(driveTrain.getRightSide().getSidePosition());
+        double distanceL = Math.abs(driveTrain.getLeftSide().getSidePosition());
+        double distanceR = Math.abs(driveTrain.getRightSide().getSidePosition());
 
         double speedLeft = directionMultiplier * followerLeft.calculate(distanceL);
         double speedRight = directionMultiplier * followerRight.calculate(distanceR);
@@ -137,7 +127,7 @@ public class DriveTrajectory extends Command {
 
         double angleDiffRads = MathUtil.wrapAngleRad(goalHeading - observedHeading);
 
-        double turn =  kTurn * angleDiffRads;        
+        double turn = kTurn * angleDiffRads;
         driveTrain.setPowerLeftRight(speedLeft + turn, speedRight - turn);
     }
 

@@ -13,26 +13,25 @@ public class SetTurretAngle extends Command {
     private double targetAng;
 
     public SetTurretAngle(double ang) {
-        setTimeout(1);
+        setInterruptible(false);
         turr = Robot.runningRobot.turret;
         requires(turr.rotator);
+        setTimeout(0.5);
         targetAng = ang;
     }
 
     @Override
     public void initialize() {
-        turr.getAngleController().setAbsoluteTolerance(DEGREES_TOLERANCE);
         turr.setAngle(targetAng);
     }
 
     @Override
     protected boolean isFinished() {
-        return turr.getAngleController().onTarget() || isTimedOut();
+        return isTimedOut();
     }
 
     @Override
     protected void end() {
-        turr.getAngleController().disable();
     }
 
 }

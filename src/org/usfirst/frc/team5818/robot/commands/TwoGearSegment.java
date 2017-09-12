@@ -6,6 +6,7 @@ import org.usfirst.frc.team5818.robot.constants.Camera;
 import org.usfirst.frc.team5818.robot.constants.Direction;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
+import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -28,16 +29,12 @@ public class TwoGearSegment extends CommandGroup {
         final double leftRatAdd = 1.0;
         double rat = 1.6;
         double radius;
-        double dist1;
         if (side.equals(Side.RIGHT)) {
             radius = rat + .5;
-            dist1 = 30;
         } else if (side.equals(Side.LEFT)) {
             radius = 1.0 / (rat + leftRatAdd);
-            dist1 = 30;
         } else {
             radius = 1.0;
-            dist1 = 0;
         }
 
         if (dir.equals(Direction.FORWARD)) {
@@ -99,11 +96,10 @@ public class TwoGearSegment extends CommandGroup {
 
         if (extra == AutoExtra.COLLECT) {
             whileDriving.addSequential((new SetArmAngle(Arm.COLLECT_POSITION)));
-            whileDriving.addSequential(new TurretSmallAdjustment(0.0));
+            whileDriving.addSequential(new SetTurretAngle(Turret.TURRET_CENTER_POS));
             whileDriving.addSequential(new CollectGear(.75, 5));
         } else if (extra == AutoExtra.PLACE) {
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));
-//            whileDriving.addSequential(new SetTurretAngle(0));
             whileDriving.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true, 1.0, 1.0));
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));

@@ -3,6 +3,7 @@ package org.usfirst.frc.team5818.robot.commands;
 import org.usfirst.frc.team5818.robot.Robot;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.subsystems.Collector;
+import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -39,10 +40,9 @@ public class PutGearInTurret extends CommandGroup {
     }
 
     public PutGearInTurret() {
-        this.addSequential(new SetTurretAngle(0));
+        this.addSequential(new SetTurretAngle(Turret.TURRET_CENTER_POS));
         CommandGroup moveToLoad = new CommandGroup();
         moveToLoad.addParallel(new SetArmAngle(Arm.LOAD_POSITION));
-        // moveToLoad.addParallel(new SetCollectorPower(false, 0.6, 0.4));
         this.addSequential(moveToLoad);
 
         this.addSequential(new SetCollectorPower(true, 0.7, 1000));

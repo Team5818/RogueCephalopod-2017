@@ -44,7 +44,6 @@ public class DriveAtRatio extends Command {
         return new DriveAtRatio(b.build());
     }
 
-
     private double inches;
     private double maxPow;
     private double leftPowMult;
@@ -81,7 +80,7 @@ public class DriveAtRatio extends Command {
         requires(Robot.runningRobot.driveTrain);
         cont = Robot.runningRobot.camCont;
         requires(cont);
-        if(maxPow > .2){
+        if (maxPow > .2) {
             setTimeout(inches / 12);
         }
         targetRatio = opts.getTargetRatio(); // Ratio is LEFT/RIGHT
@@ -153,8 +152,6 @@ public class DriveAtRatio extends Command {
         double visAng = Robot.runningRobot.vision.getCurrentAngle();
         if (!Double.isNaN(visAng)) {
             anglePower = (visAng + visOffset) / CAMERA_FOV * camMultiplier * 2.0;
-//            leftSpinMult = -Math.signum(visAng);
-//            rightSpinMult = Math.signum(visAng);
         }
 
         double target = targetRatio;
@@ -167,7 +164,7 @@ public class DriveAtRatio extends Command {
 
         leftPowMult = 1.0;
         rightPowMult = currRatio / Math.pow(target, 1);
-        
+
         Vector2d driveVec = new Vector2d(leftSpinMult * leftPowMult, rightSpinMult * rightPowMult);
         if (isProfiling) {
             driveVec = driveVec.normalize(MathUtil.absMin(minPower + powerSlope * distance.average(), maxPow));

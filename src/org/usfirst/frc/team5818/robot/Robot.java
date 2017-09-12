@@ -1,34 +1,17 @@
 
 package org.usfirst.frc.team5818.robot;
 
-import org.usfirst.frc.team5818.robot.autos.DownField1Gear;
-import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.PitTestSideGear;
-import org.usfirst.frc.team5818.robot.autos.ProfileSideGear;
-import org.usfirst.frc.team5818.robot.autos.ProfileSideGearBoilerSide;
-import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
-import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.TestProfileCurves;
-import org.usfirst.frc.team5818.robot.autos.ProfileTwoGear;
-import org.usfirst.frc.team5818.robot.autos.ScrapAuto;
-import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
-import org.usfirst.frc.team5818.robot.autos.TopSecret;
-import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
-import org.usfirst.frc.team5818.robot.commands.FindTarget;
+import org.usfirst.frc.team5818.robot.autos.DownFieldOneGear;
+import org.usfirst.frc.team5818.robot.autos.DriveAuto;
+import org.usfirst.frc.team5818.robot.autos.SideGearBoilerSide;
+import org.usfirst.frc.team5818.robot.autos.SideGearOppositeBoiler;
+import org.usfirst.frc.team5818.robot.autos.SpinAuto;
+import org.usfirst.frc.team5818.robot.autos.TwoGearAutoLeft;
+import org.usfirst.frc.team5818.robot.autos.TwoGearAutoRight;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
-import org.usfirst.frc.team5818.robot.commands.ScanForTarget;
-import org.usfirst.frc.team5818.robot.commands.ShiftGears;
-import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
-import org.usfirst.frc.team5818.robot.commands.SpinWithProfileVision;
-import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
-import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
-import org.usfirst.frc.team5818.robot.commands.fromscratch.PlaceGearForAndrew;
-import org.usfirst.frc.team5818.robot.constants.Camera;
-import org.usfirst.frc.team5818.robot.constants.Direction;
+import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.constants.Side;
-import org.usfirst.frc.team5818.robot.constants.Spin;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
 import org.usfirst.frc.team5818.robot.subsystems.CameraController;
@@ -38,10 +21,10 @@ import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
+import org.usfirst.frc.team5818.robot.utils.MathUtil;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -67,7 +50,7 @@ public class Robot extends IterativeRobot {
     public Turret turret;
     public Climber climb;
     public CameraController camCont;
-    public TurretMoveToZero turretZero;
+    public SetTurretAngle turretZero;
     public boolean turretSafetyChecks = true;
 
     private RequireAllSubsystems requireAllSubsystems;
@@ -83,6 +66,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
+        /* Statically instantiate all subsystems */
         runningRobot = this;
         driveTrain = new DriveTrain();
         vision = new VisionTracker();
@@ -93,72 +77,28 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         camCont = new CameraController();
         driver = new Driver();
-        turretZero = new TurretMoveToZero();
+        turretZero = new SetTurretAngle(Turret.TURRET_CENTER_POS);
         requireAllSubsystems = new RequireAllSubsystems();
-        //Old Autos -- Same as Ventura
+
+        /* Old Autos -- Same as Ventura */
         chooser.addObject("Do Nothing Auto", new TimedCommand(15));
-//        chooser.addObject("One Gear Auto From Two Gear", new OneGearButFromTwoGearAuto());
-//        chooser.addObject("Three Gear Auto", new ThreeGearAuto());
-//        chooser.addObject("Place With Limit -- Andrew", new PlaceGearForAndrew(0.5));
-        chooser.addObject("Center Two Gear (Gear Right)", new SlowTwoGearAuto());
-        chooser.addObject("Center Two Gear (Gear Left)", new NotPeteyTwoGearAuto());
-//        chooser.addObject("Side Gear Auto (Bot Left)", new SidePegAuto(60, Side.RIGHT));
-//        chooser.addObject("Side Gear Auto (Bot Right)", new SidePegAuto(60, Side.LEFT));
-        
-        //Profile Testing Routines
-//        chooser.addObject("Test Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.FORWARD, true));
-//        chooser.addObject("Test Backward Profile Drive", new DriveTrajectory(70, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
-//        chooser.addObject("Test Profile Spin", new SpinWithProfile(Math.PI/2.0, true, false));
-//        chooser.addObject("Test Profile Curving", new TestProfileCurves());
-//        chooser.addObject("VisionSpin", new SpinWithProfileVision(true, Camera.CAM_GEARS));
-//        chooser.addObject("Pit-Testable Side Gear Left", new PitTestSideGear(Side.LEFT));
-//        chooser.addObject("Pit-Testable Side Gear Right", new PitTestSideGear(Side.RIGHT));
-//        chooser.addObject("Scrap", new ScrapAuto());
-//        chooser.addObject("Scrap2", new FindTarget(Spin.CLOCKWISE, 30));
-//        CommandGroup g = new CommandGroup();
-//        g.addSequential(new ShiftGears(Gear.HIGH));
-//        g.addSequential(DriveAtRatio.withDeadReckon(b -> {
-//            b.inches(576);
-//            b.maxPower(1);
-//            b.stoppingAtEnd(true);
-//            b.targetRatio(1.0);
-//        }));
-//        chooser.addObject("Scrap3", g);
+        chooser.addObject("Center Two Gear (Gear Right)", new TwoGearAutoRight());
+        chooser.addObject("Center Two Gear (Gear Left)", new TwoGearAutoLeft());
 
-        
-        //Profiled Autos
-        chooser.addObject("Profile Side Gear Field Left", new ProfileSideGear(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Field Right", new ProfileSideGear(Side.LEFT));
-        chooser.addObject("Profile Side Gear Boiler Field Left", new ProfileSideGearBoilerSide(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Boiler Field Right", new ProfileSideGearBoilerSide(Side.LEFT));
-//        chooser.addObject("Profile Two Gear mid-left", new ProfileTwoGear(85,Side.LEFT));
-//        chooser.addObject("Profile Two Gear mid-right", new ProfileTwoGear(85,Side.RIGHT));
-        chooser.addObject("Down Field 1 Gear Right", new DownField1Gear(Side.RIGHT));
-        chooser.addObject("Down Field 1 Gear Left", new DownField1Gear(Side.LEFT));
-        chooser.addObject("Shhhhh", new TopSecret());
+        /* Profiled Autos */
+        chooser.addObject("Profile Side Gear Field Left", new SideGearOppositeBoiler(Side.RIGHT));
+        chooser.addObject("Profile Side Gear Field Right", new SideGearOppositeBoiler(Side.LEFT));
+        chooser.addObject("Profile Side Gear Boiler Field Left", new SideGearBoilerSide(Side.RIGHT));
+        chooser.addObject("Profile Side Gear Boiler Field Right", new SideGearBoilerSide(Side.LEFT));
+        chooser.addObject("Down Field 1 Gear Right", new DownFieldOneGear(Side.RIGHT));
+        chooser.addObject("Down Field 1 Gear Left", new DownFieldOneGear(Side.LEFT));
+        chooser.addObject("Just Drive", new DriveAuto());
+        chooser.addObject("spin", new SpinAuto(Math.PI / 2.0));
 
-
-
-
-
-        
-
-        //
-        // chooser.addObject("Side Gear Auto (Bot TEST)", new
-        // SidePegAutoTest(180, Side.LEFT));
-        // chooser.addObject("SPIN (60)", new ScrapAuto(60));
-        // chooser.addObject("SPIN (180)", new ScrapAuto(60));
-        // chooser.addObject("Side Two Gear Auto (Right)", new
-        // SidePegTwoGear());
-        // chooser.addObject("Side One Gear Auto (Left)", new
-        // SidePegOneGear(Side.LEFT));
-        // chooser.addObject("Side One Gear Auto (Right)", new
-        // SidePegOneGear(Side.RIGHT));
         SmartDashboard.putData("Auto mode", chooser);
-        vision.start();
-        SmartDashboard.putNumber("RIArmAngle", arm.getPosition());
 
-        //
+        /* Put robot in starting configuration */
+        vision.start();
         driveTrain.shiftGears(Gear.LOW);
         driveTrain.getGyro().reset();
     }
@@ -195,18 +135,10 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousInit() {
-        driveTrain.getGyro().reset();
+
+        driveTrain.getGyro().zeroYaw();
+        driveTrain.shiftGears(Gear.HIGH);
         autonomousCommand = chooser.getSelected();
-
-        /*
-         * String autoSelected = SmartDashboard.getString("Auto Selector",
-         * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-         * = new MyAutoCommand(); break; case "Default Auto": default:
-         * autonomousCommand = new ExampleCommand(); break; }
-         */
-
-        // schedule the autonomous command (example)
-        driveTrain.shiftGears(Gear.LOW);
         if (autonomousCommand != null)
             autonomousCommand.start();
     }
@@ -228,14 +160,18 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null)
             autonomousCommand.cancel();
+
+        /* Put robot in starting configuration */
         turret.extend(false);
         turret.punch(false);
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
         driveTrain.shiftGears(Gear.LOW);
-        driver.setupTeleopButtons();
         camCont.enterGearMode();
         vision.setLightsOn(false);
+
+        /* Put buttons in teleop mode */
+        driver.setupTeleopButtons();
     }
 
     /**
@@ -264,6 +200,7 @@ public class Robot extends IterativeRobot {
         LiveWindow.run();
         LiveWindow.setEnabled(false);
         requireAllSubsystems.start();
+        /* Put buttons in testing mode */
         driver.setupTestButtons();
     }
 
@@ -277,19 +214,29 @@ public class Robot extends IterativeRobot {
     }
 
     public void printSmartDash() {
+        /* Print readings from pretty much every sensor */
         SmartDashboard.putBoolean("Turret Limit Switch", turret.getLimit());
         SmartDashboard.putBoolean("Collector Limit Switch", collect.isLimitTriggered());
-        SmartDashboard.putNumber("Gyro heading", driveTrain.getGyroHeading());
+        SmartDashboard.putNumber("Gyro heading", MathUtil.wrapAngleRad(driveTrain.getGyroHeading()));
         SmartDashboard.putNumber("Gear X:", vision.getCurrentAngle());
-        SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
-        SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
+        SmartDashboard.putNumber("Turret Pot:", turret.getPositionRaw());
+        SmartDashboard.putNumber("Turret Angle:", turret.getPosition());
+        SmartDashboard.putNumber("Turret Speed:", turret.getVeleocity());
         SmartDashboard.putNumber("Bot Current", collect.getBotCurrent());
         SmartDashboard.putNumber("Arm Pos", arm.getPosition());
+        SmartDashboard.putNumber("Arm Raw", arm.getPositionRaw());
+        SmartDashboard.putNumber("Arm Vel", arm.getVeleocity());
+        SmartDashboard.putNumber("Arm error", arm.getError());
         SmartDashboard.putNumber("left drive encoder", driveTrain.getLeftSide().getSidePosition());
         SmartDashboard.putNumber("right drive encoder", driveTrain.getRightSide().getSidePosition());
         SmartDashboard.putNumber("left encoder raw", driveTrain.getLeftSide().getRawPos());
         SmartDashboard.putNumber("right encoder raw", driveTrain.getRightSide().getRawPos());
         SmartDashboard.putNumber("leftVel", driveTrain.getLeftSide().getSideVelocity());
         SmartDashboard.putNumber("rightVel", driveTrain.getRightSide().getSideVelocity());
+        SmartDashboard.putNumber("leftVelRaw", driveTrain.getLeftSide().getRawSpeed());
+        SmartDashboard.putNumber("rightVelRaw", driveTrain.getRightSide().getRawSpeed());
+        SmartDashboard.putNumber("leftErr", driveTrain.getLeftSide().getSideError());
+        SmartDashboard.putNumber("rightErr", driveTrain.getRightSide().getSideError());
+        SmartDashboard.putBoolean("GyroCalibrating", driveTrain.getGyro().isCalibrating());
     }
 }

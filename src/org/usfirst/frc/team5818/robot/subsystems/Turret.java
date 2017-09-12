@@ -1,23 +1,30 @@
 package org.usfirst.frc.team5818.robot.subsystems;
 
-import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
-
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.commands.TurretControlCommand;
-import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Turret implements PIDSource, PIDOutput {
+/**
+ * Subsystem representing turreted gear placer. Has 2-stage pneumatic extender
+ * and turreted base. Rotates with motion magic.
+ */
+public class Turret {
 
+    public static final double TURRET_CENTER_POS = 569.0;
+    public static final double TURRET_LEFT_POS = 785;
+    public static final double TURRET_RIGHT_POS = 315;
+    public static final double TURRET_LEFT_POS_SP = 0.0;
+    public static final double TURRET_RIGHT_POS_SP = 0.0;
+
+    /**
+     * Rotating portion of turret
+     */
     private static final class Rotator extends Subsystem {
 
         @Override
@@ -26,6 +33,9 @@ public class Turret implements PIDSource, PIDOutput {
         }
     }
 
+    /**
+     * Gear placing portion of turret
+     */
     private static final class Deployer extends Subsystem {
 
         @Override
@@ -33,42 +43,39 @@ public class Turret implements PIDSource, PIDOutput {
         }
     }
 
-    public static final double kP = 0.03;
-    public static final double kI = 0.0;
-    public static final double kD = 0.0;
-
-    public static final double CENTER_OFFSET = Constant.turretCenter();
-    public static final double POT_SCALE = Constant.turretScale();
-
     public final Subsystem rotator = new Rotator();
     public final Subsystem deployer = new Deployer();
 
     private CANTalon motor;
 
-    private PIDSourceType pidType = PIDSourceType.kDisplacement;
-    private BetterPIDController angleController;
-    private AnalogInput pot;
     private DigitalInput limitSwitch;
-
     private Solenoid puncher;
     private Solenoid extender;
 
     public Turret() {
-        pot = new AnalogInput(Constant.turretPot());
         motor = new CANTalon(RobotMap.TURR_MOTOR);
         motor.setInverted(true);
-        angleController = new BetterPIDController(kP, kI, kD, this, this);
+        motor.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
+        // motor.setReverseSoftLimit(TURRET_RIGHT_POS);
+        // motor.setForwardSoftLimit(TURRET_LEFT_POS);
+
+        /* Set up motion profiling constants */
+        motor.configPotentiometerTurns(1);
+        motor.setF(1023.0 / 100.0);
+        motor.setP(1023.0 / 100.0);
+        motor.setI(0.0);
+        motor.setD(0.0);
+        motor.setMotionMagicAcceleration(250.0);
+        motor.setMotionMagicCruiseVelocity(80.0);// 80% max
+        motor.changeControlMode(TalonControlMode.MotionMagic);
+
         limitSwitch = new DigitalInput(RobotMap.TURRET_LIMIT_SWITCH);
-        angleController.setAbsoluteTolerance(0.3);
         puncher = new Solenoid(RobotMap.TURRET_PUNCHER_SOLENOID);
         extender = new Solenoid(RobotMap.TURRET_EXTENDER_SOLENOID);
     }
 
-    public void setPower(double x) {
-        if (angleController.isEnabled()) {
-            angleController.disable();
-        }
-        pidWrite(x);
+    public double getVeleocity() {
+        return motor.getAnalogInVelocity();
     }
 
     public boolean getLimit() {
@@ -76,52 +83,27 @@ public class Turret implements PIDSource, PIDOutput {
     }
 
     public void setAngle(double ang) {
-        angleController.disable();
-        angleController.setSetpoint(ang);
-        angleController.enable();
+        ang = ang / 1024.0; // inputs in native units, just to make things
+                            // harder
+        motor.changeControlMode(TalonControlMode.MotionMagic);
+        motor.set(ang);
     }
 
-    public double getAngle() {
-        double analog = pot.getValue();
-        return ((analog - CENTER_OFFSET) * POT_SCALE);
+    public double getPositionRaw() {
+        return motor.getAnalogInPosition();
     }
 
-    public double getRawCounts() {
-        return pot.getValue();
+    public double getPosition() {
+        return motor.getPosition();
     }
 
-    public BetterPIDController getAngleController() {
-        return angleController;
-    }
-
-    public void stop() {
-        angleController.disable();
-        this.setPower(0);
-    }
-
-    @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
-        pidType = pidSource;
-    }
-
-    @Override
-    public PIDSourceType getPIDSourceType() {
-        return pidType;
-    }
-
-    @Override
-    public double pidGet() {
-        return getAngle();
-    }
-
-    @Override
-    public void pidWrite(double x) {
-        if (getAngle() > 60) {
-            x = Math.min(x, 0);
-        } else if (getAngle() < -60) {
-            x = Math.max(0, x);
-        }
+    public void setPower(double x) {
+        motor.changeControlMode(TalonControlMode.PercentVbus);
         motor.set(x);
+    }
+
+    public void setManual() {
+        motor.changeControlMode(TalonControlMode.PercentVbus);
     }
 
     public void extend(boolean on) {

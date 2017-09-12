@@ -17,12 +17,10 @@ public class DiscoverPlacePosition extends Command {
     private State state;
     private State next;
     private double waitTimestamp;
-    private double startAngle;
-    private double targetAngle;
     private int loopCount = 0;
 
     public DiscoverPlacePosition() {
-        setTimeout(2);
+        setTimeout(5);
         turr = Robot.runningRobot.turret;
         requires(turr.rotator);
     }
@@ -41,7 +39,7 @@ public class DiscoverPlacePosition extends Command {
 
     @Override
     protected void execute() {
-        double angle = turr.getAngle();
+        double angle = turr.getPosition();
         switch (state) {
             case EXTEND:
                 // extend and check limit later
@@ -50,7 +48,7 @@ public class DiscoverPlacePosition extends Command {
                 break;
             case CHECK_LIMIT:
                 // check limit
-                if (!turr.getLimit() && loopCount < 2) {
+                if (!turr.getLimit() && loopCount <= 2) {
                     // retract and turn turret later
                     turr.extend(false);
                     waitThenRunState(300, State.TURN_TURRET);
@@ -61,28 +59,21 @@ public class DiscoverPlacePosition extends Command {
                 break;
             case TURN_TURRET:
                 // turn turret and stop later
-                final double angleSign;
+                double target;
                 if (loopCount == 0) {
-                    angleSign = 1;
+                    target = Turret.TURRET_CENTER_POS + 20;
                 } else /* if (loopCount == 1) */ {
-                    angleSign = -1;
+                    target = Turret.TURRET_CENTER_POS - 20;
                 }
-                startAngle = angle;
-                targetAngle = startAngle + (angleSign * 2.5 * (loopCount + 1));
-                SmartDashboard.putNumber("DPPAngle", targetAngle);
-                turr.setPower(angleSign * .3);
+                SmartDashboard.putNumber("DPPAngle", target);
+                turr.setAngle(target);
                 loopCount++;
-                state = State.STOP_TURRET;
+                waitThenRunState(500, State.STOP_TURRET);
                 break;
             case STOP_TURRET:
-                // stop turret and extend
-                boolean passedTarget1 = startAngle < targetAngle && targetAngle < angle;
-                boolean passedTarget2 = angle < targetAngle && targetAngle < startAngle;
-                if (passedTarget1 || passedTarget2) {
-                    SmartDashboard.putNumber("DPPAngleEnd", angle);
-                    turr.setPower(0);
-                    state = State.EXTEND;
-                }
+                SmartDashboard.putNumber("DPPAngleEnd", angle);
+                turr.setPower(0);
+                state = State.EXTEND;
                 break;
             case FINISHED:
                 break;

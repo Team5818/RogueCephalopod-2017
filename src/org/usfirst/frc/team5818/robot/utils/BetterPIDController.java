@@ -56,8 +56,6 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
     protected PIDOutput m_pidOutput;
     java.util.Timer m_controlLoop;
     Timer m_setpointTimer;
-    private boolean m_freed = false;
-    private boolean m_usingPercentTolerance;
 
     /**
      * Tolerance is the type of tolerance used to specify if the PID controller
@@ -248,7 +246,6 @@ public class BetterPIDController implements PIDInterface, LiveWindowSendable {
     public void free() {
         m_controlLoop.cancel();
         synchronized (this) {
-            m_freed = true;
             m_pidOutput = null;
             m_pidInput = null;
             m_controlLoop = null;

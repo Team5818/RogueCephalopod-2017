@@ -15,7 +15,7 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class SlowTwoGearAuto extends CommandGroup {
+public class TwoGearAutoRight extends CommandGroup {
 
     private TwoGearSegment moveForward;
     private TwoGearSegment moveToGear;
@@ -24,7 +24,7 @@ public class SlowTwoGearAuto extends CommandGroup {
     private GearMode gearMode;
     private TapeMode tapeMode2;
 
-    public SlowTwoGearAuto() {
+    public TwoGearAutoRight() {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
         moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.9);
@@ -44,13 +44,13 @@ public class SlowTwoGearAuto extends CommandGroup {
         this.addSequential(moveToGear);
         this.addSequential(tapeMode2);
         this.addSequential(moveToPeg);
-        // this.addSequential(new TimedCommand(.5));
+        // Drive Down the Field
         this.addSequential(new PlaceWithLimit());
         this.addSequential(new PlaceWithLimit());
         this.addSequential(new DriveTrajectory(40, 0.0, 0.0, 0.0, Direction.FORWARD, true));
-        this.addSequential(new SpinWithProfile(-Math.PI/2.0,true, true));
+        this.addSequential(new SpinWithProfile(-Math.PI / 2.0, true, true));
         this.addSequential(new DriveTrajectory(120, 0.0, 0.0, 0.0, Direction.FORWARD, true));
-        this.addSequential(new SpinWithProfile(-Math.PI/2.0,true, true));
+        this.addSequential(new SpinWithProfile(-Math.PI / 2.0, true, true));
         this.addSequential(new DriveTrajectory(370, 0.0, 0.0, 0.0, Direction.FORWARD, true));
     }
 

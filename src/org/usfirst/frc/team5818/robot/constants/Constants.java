@@ -25,9 +25,9 @@ public abstract class Constants {
     public abstract double turretCenter();
 
     public abstract double encoderScale();
-    
+
     public abstract double maxVelocityIPS();
-    
+
     public abstract double maxAccelIPS2();
 
     public abstract double wheelToWheelWidth();
@@ -54,10 +54,6 @@ public abstract class Constants {
 
     public final double maxVelocity() {
         return 500;
-    }
-
-    public final int turretPot() {
-        return 0;
     }
 
     public final double cameraFov() {

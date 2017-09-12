@@ -24,14 +24,14 @@ public final class RogueCephalopod extends Constants {
     public double encoderScale() {
         return 4.0 * (72.0 / 2180.0);
     }
-    
+
     @Override
-    public double maxVelocityIPS(){
+    public double maxVelocityIPS() {
         return 72.0;
     }
-    
+
     @Override
-    public double maxAccelIPS2(){
+    public double maxAccelIPS2() {
         return 150;
     }
 }
