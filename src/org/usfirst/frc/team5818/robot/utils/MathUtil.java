@@ -133,5 +133,10 @@ public class MathUtil {
         }
         return angle;
     }
+    
+    public static double calculateVisionAngleRadians(double centerToTarget, double centerToCamera, double visAng) {
+        double theta = visAng - Math.asin(centerToCamera/centerToTarget * Math.sin(Math.PI - visAng));
+        return theta;
+    }
 
 }
