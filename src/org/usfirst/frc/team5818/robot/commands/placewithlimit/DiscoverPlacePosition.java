@@ -117,7 +117,7 @@ public class DiscoverPlacePosition extends Command {
 			SmartDashboard.putNumber("DPPAngle", target);
 			turr.setAngle(target);
 			loopCount++;
-			waitThenRunState(500, State.STOP_TURRET);
+                waitThenRunState(300, State.STOP_TURRET);
 			break;
 		case STOP_TURRET:
 			SmartDashboard.putNumber("DPPAngleEnd", angle);
