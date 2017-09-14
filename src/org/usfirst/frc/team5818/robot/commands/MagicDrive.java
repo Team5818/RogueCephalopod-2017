@@ -36,12 +36,15 @@ public class MagicDrive extends Command {
         distance = dist;
         dt = Robot.runningRobot.driveTrain;
         requires(dt);
-        setTimeout(10);
+        setTimeout(4);
     }
 
     @Override
     public void initialize() {
-        dt.driveDistance(distance);
+        dt.getLeftSide().positionControl();
+        dt.getRightSide().positionControl();
+        dt.getLeftSide().driveDistanceNoReset(dt.getLeftSide().getSidePosition() + distance);
+        dt.getRightSide().driveDistanceNoReset(dt.getRightSide().getSidePosition() + distance);
     }
 
     @Override
@@ -50,8 +53,8 @@ public class MagicDrive extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(dt.getAvgSidePosition() - distance) < .2 && Math.abs(dt.getLeftSide().getSideVelocity()) < 2
-                && Math.abs(dt.getRightSide().getSideVelocity()) < 2;
+        return Math.abs(dt.getAvgSidePosition() - distance) < .5 && Math.abs(dt.getLeftSide().getSideVelocity()) < 2
+                && Math.abs(dt.getRightSide().getSideVelocity()) < 2 || isTimedOut();
     }
 
     @Override

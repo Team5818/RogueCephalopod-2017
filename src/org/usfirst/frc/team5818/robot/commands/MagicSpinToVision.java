@@ -9,16 +9,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class MagicSpinToVision extends Command{
+public class MagicSpinToVision extends Command {
 
-    private static final double CENTER_TO_CAMERA = 6.5;
     private static final double INCHES_PER_ROTATION = 100.0;
     private DriveTrain dt;
-    private double distance;
     private VisionTracker vis;
+    private double angle;
 
     public MagicSpinToVision(double distToTarget) {
-        distance = distToTarget;
         dt = Robot.runningRobot.driveTrain;
         requires(dt);
         vis = Robot.runningRobot.vision;
@@ -29,11 +27,18 @@ public class MagicSpinToVision extends Command{
         dt.getLeftSide().positionControl();
         dt.getRightSide().slaveToOtherSide(true);
         dt.resetEncs();
+        double ang = vis.getCurrentAngle();
+        if(!Double.isNaN(ang)) {
+            angle = dt.getGyroHeading() + Math.toRadians(ang);
+         }
+        else {
+            angle = 0.0;
+        }
     }
 
     @Override
     protected void execute() {
-        double diff = MathUtil.calculateVisionAngleRadians(distance, 6.0, Math.toRadians(vis.getCurrentAngle()));
+        double diff = MathUtil.wrapAngleRad(angle - dt.getGyroHeading());
         DriverStation.reportError("" + diff, false);
         double dist = diff / (2.0 * Math.PI) * INCHES_PER_ROTATION;
         SmartDashboard.putNumber("spin dist", dist);
@@ -43,7 +48,7 @@ public class MagicSpinToVision extends Command{
 
     @Override
     protected boolean isFinished() {
-        return MathUtil.calculateVisionAngleRadians(distance, CENTER_TO_CAMERA, Math.toRadians(vis.getCurrentAngle())) < 0.3
+        return Math.abs(MathUtil.wrapAngleRad(angle - dt.getGyroHeading())) < .03
                 && Math.abs(dt.getLeftSide().getSideVelocity()) < 2
                 && Math.abs(dt.getRightSide().getSideVelocity()) < 2;
     }
@@ -52,6 +57,5 @@ public class MagicSpinToVision extends Command{
     protected void end() {
         dt.stop();
     }
-
 
 }

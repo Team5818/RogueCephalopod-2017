@@ -101,7 +101,7 @@ public class DriveTrainSide {
             masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
             masterTalon.configEncoderCodesPerRev(96);
 
-            masterTalon.setF(1.02 * 1.07 * 1023.0 / 460.8);
+            masterTalon.setF(1.05 * 1.07 * 1023.0 / 460.8);
             masterTalon.setP(8.0 * 1023.0 / 1000.0);
             masterTalon.setI(0.0);
             masterTalon.setD(100.0 * 1023.0 / 1000.0);
@@ -156,7 +156,6 @@ public class DriveTrainSide {
     public void driveDistance(double dist) {
         double revs = dist / DIST_PER_REV;
         resetEnc();
-        masterTalon.clearMotionProfileTrajectories();
         masterTalon.changeControlMode(TalonControlMode.MotionMagic);
         masterTalon.set(revs);
     }
