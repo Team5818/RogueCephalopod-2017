@@ -48,12 +48,11 @@ public class CenterOneGearAuto extends CommandGroup {
         this.addSequential(new TimedCommand(.5));
         this.addSequential(tapeMode1);
         this.addSequential(moveForward);
-        this.addSequential(new TimedCommand(1.0));
+        this.addSequential(new TimedCommand(0.3));
         this.addSequential(new PlaceWithLimit());
         this.addSequential(new ShiftGears(Gear.HIGH));
         this.addSequential(new MagicDrive(40.0));
         this.addSequential(new MagicSpin(Math.PI/2));
-        this.addSequential(new TimedCommand(0.5));
         if(side == Side.LEFT) {
             this.addSequential(new MagicDrive(60.0));
         }

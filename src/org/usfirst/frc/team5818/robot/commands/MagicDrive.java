@@ -43,8 +43,8 @@ public class MagicDrive extends Command {
     public void initialize() {
         dt.getLeftSide().positionControl();
         dt.getRightSide().positionControl();
-        dt.getLeftSide().driveDistanceNoReset(dt.getLeftSide().getSidePosition() + distance);
-        dt.getRightSide().driveDistanceNoReset(dt.getRightSide().getSidePosition() + distance);
+        dt.getLeftSide().driveDistanceNoReset(dt.getLeftSide().getSidePosition() + distance, 300, 300);
+        dt.getRightSide().driveDistanceNoReset(dt.getRightSide().getSidePosition() + distance, 300, 300);
     }
 
     @Override

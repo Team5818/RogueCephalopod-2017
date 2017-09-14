@@ -113,7 +113,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Down Field 1 Gear Right", new DownFieldOneGear(Side.RIGHT));
         chooser.addObject("Down Field 1 Gear Left", new DownFieldOneGear(Side.LEFT));
         chooser.addObject("Center Peg", new MagicCenter());
-        chooser.addObject("Center Peg Vision", new CenterOneGearAuto(Side.LEFT));
+        chooser.addObject("Center Peg Vision", new CenterOneGearAuto(Side.RIGHT));
         chooser.addObject("spin", new SpinAuto(Math.PI / 2.0));
 
         SmartDashboard.putData("Auto mode", chooser);
