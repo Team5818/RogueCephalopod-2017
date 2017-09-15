@@ -16,10 +16,11 @@ public class MagicSpinToVision extends Command {
     private VisionTracker vis;
     private double angle;
 
-    public MagicSpinToVision(double distToTarget) {
+    public MagicSpinToVision() {
         dt = Robot.runningRobot.driveTrain;
         requires(dt);
         vis = Robot.runningRobot.vision;
+        setTimeout(1);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class MagicSpinToVision extends Command {
     protected boolean isFinished() {
         return Math.abs(MathUtil.wrapAngleRad(angle - dt.getGyroHeading())) < .03
                 && Math.abs(dt.getLeftSide().getSideVelocity()) < 2
-                && Math.abs(dt.getRightSide().getSideVelocity()) < 2;
+                && Math.abs(dt.getRightSide().getSideVelocity()) < 2 || isTimedOut();
     }
 
     @Override

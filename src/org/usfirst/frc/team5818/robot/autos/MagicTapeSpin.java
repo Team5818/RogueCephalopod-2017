@@ -9,7 +9,7 @@ public class MagicTapeSpin extends CommandGroup{
     
     public MagicTapeSpin() {
         this.addSequential(new TapeMode());
-        this.addSequential(new MagicSpinToVision(72.0));
+        this.addSequential(new MagicSpinToVision());
     }
     
     

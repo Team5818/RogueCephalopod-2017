@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class MagicCenter extends CommandGroup{
     
     public MagicCenter() {
-        this.addSequential(new MagicDrive(-80.0));
-        this.addSequential(new MagicSpin(0.0));
+        this.addSequential(new MagicDrive(-80.0, 300));
+        this.addSequential(new MagicSpin(0.0, 200));
         this.addSequential(new PlaceWithLimit());
     }
     

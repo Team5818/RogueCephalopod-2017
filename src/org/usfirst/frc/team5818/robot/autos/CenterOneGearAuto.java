@@ -43,7 +43,7 @@ public class CenterOneGearAuto extends CommandGroup {
     public CenterOneGearAuto(Side side) {
         setInterruptible(false);
         tapeMode1 = new TapeMode();
-        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.5);
+        moveForward = new TwoGearSegment(Direction.BACKWARD, Side.CENTER, null, -.7);
         this.addSequential(new ShiftGears(Gear.LOW));
         this.addSequential(new TimedCommand(.5));
         this.addSequential(tapeMode1);
@@ -51,16 +51,16 @@ public class CenterOneGearAuto extends CommandGroup {
         this.addSequential(new TimedCommand(0.3));
         this.addSequential(new PlaceWithLimit());
         this.addSequential(new ShiftGears(Gear.HIGH));
-        this.addSequential(new MagicDrive(40.0));
-        this.addSequential(new MagicSpin(Math.PI/2));
+        this.addSequential(new MagicDrive(40.0, 400));
+        this.addSequential(new MagicSpin(Math.PI/2, 300));
         if(side == Side.LEFT) {
-            this.addSequential(new MagicDrive(60.0));
+            this.addSequential(new MagicDrive(120.0, 500));
         }
         else {
-            this.addSequential(new MagicDrive(-60.0));
+            this.addSequential(new MagicDrive(-120.0, 300));
         }
-        this.addSequential(new MagicSpin(Math.PI));
-        this.addSequential(new MagicDrive(500.0));
+        this.addSequential(new MagicSpin(Math.PI, 300));
+        this.addSequential(new MagicDrive(320.0, 500));
     }
 
 }

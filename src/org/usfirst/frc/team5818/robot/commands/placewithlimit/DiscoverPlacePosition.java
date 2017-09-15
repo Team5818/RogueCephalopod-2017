@@ -110,56 +110,16 @@ public class DiscoverPlacePosition extends Command {
 			// turn turret and stop later
 			double target;
 			if (loopCount == 0) {
-        switch (state) {
-            case EXTEND:
-                // extend and check limit later
-                turr.extend(true);
-                waitThenRunState(450, State.CHECK_LIMIT);
-                break;
-            case CHECK_LIMIT:
-                // check limit
-                if (!turr.getLimit() && loopCount <= 2) {
-                    // retract and turn turret later
-                    turr.extend(false);
-                    waitThenRunState(300, State.TURN_TURRET);
-                } else {
-                    // done
-                    state = State.FINISHED;
-                }
-                break;
-            case TURN_TURRET:
-                // turn turret and stop later
-                double target;
-                if (loopCount == 0) {
-                    target = angle + 30;
+				target = angle + 25;
+
 			} else /* if (loopCount == 1) */ {
-                } else /* if (loopCount == 1) */ {
-                    target = angle - 30;
+                    target = angle - 25;
 			}
 			SmartDashboard.putNumber("DPPAngle", target);
 			turr.setAngle(target);
 			loopCount++;
                 }
-                SmartDashboard.putNumber("DPPAngle", target);
-                turr.setAngle(target);
-                loopCount++;
                 waitThenRunState(300, State.STOP_TURRET);
-			break;
-		case STOP_TURRET:
-			SmartDashboard.putNumber("DPPAngleEnd", angle);
-			turr.setPower(0);
-			state = State.EXTEND;
-			break;
-		case FINISHED:
-			break;
-		case WAITING:
-		default:
-			if (Timer.getFPGATimestamp() > waitTimestamp) {
-				state = next;
-				next = null;
-			}
-		}
-	}
                 break;
             case STOP_TURRET:
                 SmartDashboard.putNumber("DPPAngleEnd", angle);

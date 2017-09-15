@@ -23,6 +23,7 @@ import org.usfirst.frc.team5818.robot.autos.CenterOneGearAuto;
 import org.usfirst.frc.team5818.robot.autos.DownFieldOneGear;
 import org.usfirst.frc.team5818.robot.autos.DriveAuto;
 import org.usfirst.frc.team5818.robot.autos.MagicCenter;
+import org.usfirst.frc.team5818.robot.autos.MagicSideGear;
 import org.usfirst.frc.team5818.robot.autos.SideGearBoilerSide;
 import org.usfirst.frc.team5818.robot.autos.SideGearOppositeBoiler;
 import org.usfirst.frc.team5818.robot.autos.SpinAuto;
@@ -114,7 +115,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Down Field 1 Gear Left", new DownFieldOneGear(Side.LEFT));
         chooser.addObject("Center Peg", new MagicCenter());
         chooser.addObject("Center Peg Vision", new CenterOneGearAuto(Side.RIGHT));
-        chooser.addObject("spin", new SpinAuto(Math.PI / 2.0));
+        chooser.addObject("Side Gear Blue Opposite", new MagicSideGear(MagicSideGear.Position.BLUE_OPPOSITE));
 
         SmartDashboard.putData("Auto mode", chooser);
 
