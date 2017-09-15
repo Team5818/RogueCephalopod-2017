@@ -47,6 +47,7 @@ public class MoveArmCollect extends CommandGroup {
     protected void end() {
         Robot.runningRobot.collect.setBotPower(0.0);
         Robot.runningRobot.collect.setTopPower(0.0);
+        Robot.runningRobot.vision.setLightsOn(false);
     }
 
     @Override

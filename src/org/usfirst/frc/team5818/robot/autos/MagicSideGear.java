@@ -27,24 +27,24 @@ public class MagicSideGear extends CommandGroup{
         position = pos;
         switch(position) {
             case BLUE_BOILER:
-                firstDistance = 0.0;
-                turnAngle = 0.0;
-                secondDistance = 0.0;
+                firstDistance = -69.6;
+                turnAngle = Math.toRadians(60);
+                secondDistance = -68;
                 break;
             case BLUE_OPPOSITE:
-                firstDistance = -70;
+                firstDistance = -70.4;
                 turnAngle = Math.toRadians(-60);
                 secondDistance = -67;
                 break;
             case RED_BOILER:
-                firstDistance = 0.0;
-                turnAngle = 0.0;
-                secondDistance = 0.0;
+                firstDistance = -69.6;
+                turnAngle = Math.toRadians(-60);
+                secondDistance = -68;
                 break;
             case RED_OPPOSITE:
-                firstDistance = -70;
+                firstDistance = -70.4;
                 turnAngle = Math.toRadians(60);
-                secondDistance = -70;
+                secondDistance = -67;
                 break;
         }
         
