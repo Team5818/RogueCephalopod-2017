@@ -87,6 +87,13 @@ public class Arm extends Subsystem {
     public void setPower(double x) {
         masterTal.changeControlMode(TalonControlMode.PercentVbus);
         setBrakeMode(true);
+        if (getPositionRaw() <= limitLow) {
+            x = Math.max(x, 0.0);
+            DriverStation.reportError("Below ", false);
+         } 
+        else if (getPositionRaw() >= limitHigh) {
+            x = Math.min(x, 0);
+        }
         masterTal.set(x);
         SmartDashboard.putNumber("Arm Power", x);
     }
