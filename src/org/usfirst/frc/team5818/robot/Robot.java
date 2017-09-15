@@ -106,16 +106,16 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Center Two Gear (Gear Right)", new TwoGearAutoRight());
         chooser.addObject("Center Two Gear (Gear Left)", new TwoGearAutoLeft());
 
-        /* Profiled Autos */
-        chooser.addObject("Profile Side Gear Field Left", new SideGearOppositeBoiler(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Field Right", new SideGearOppositeBoiler(Side.LEFT));
-        chooser.addObject("Profile Side Gear Boiler Field Left", new SideGearBoilerSide(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Boiler Field Right", new SideGearBoilerSide(Side.LEFT));
-        chooser.addObject("Down Field 1 Gear Right", new DownFieldOneGear(Side.RIGHT));
-        chooser.addObject("Down Field 1 Gear Left", new DownFieldOneGear(Side.LEFT));
-        chooser.addObject("Center Peg", new MagicCenter());
-        chooser.addObject("Center Peg Vision", new CenterOneGearAuto(Side.RIGHT));
+        /* Center */
+        chooser.addObject("Down Field 1 Gear Right", new CenterOneGearAuto(Side.RIGHT));
+        chooser.addObject("Down Field 1 Gear Left", new CenterOneGearAuto(Side.LEFT));
+
+        /*Side Pegs*/
         chooser.addObject("Side Gear Blue Opposite", new MagicSideGear(MagicSideGear.Position.BLUE_OPPOSITE));
+        chooser.addObject("Side Gear Blue Boiler", new MagicSideGear(MagicSideGear.Position.BLUE_BOILER));
+        chooser.addObject("Side Gear Red Opposite", new MagicSideGear(MagicSideGear.Position.RED_OPPOSITE));
+        chooser.addObject("Side Gear Red Boiler", new MagicSideGear(MagicSideGear.Position.RED_BOILER));
+
 
         SmartDashboard.putData("Auto mode", chooser);
 
