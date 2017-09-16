@@ -23,6 +23,7 @@ import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
 
 import org.usfirst.frc.team5818.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -78,6 +79,7 @@ public class VisionTracker extends Subsystem implements Runnable {
                     // Lets us know we don't have a
                     // target
                     currentAngle = Double.NaN;
+                    DriverStation.reportError("Not seein nothin", false);
                 } else {
                     // Use good-enough linear approximation to convert pixels ->
                     // angles
