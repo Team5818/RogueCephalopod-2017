@@ -48,7 +48,7 @@ public class MagicSideGear extends CommandGroup{
                 break;
         }
         
-        this.addSequential(new MagicDrive(firstDistance));
+        this.addSequential(new MagicDrive(firstDistance, 400));
         this.addSequential(new MagicSpin(turnAngle));
         this.addSequential(new TapeMode());
         //this.addSequential(new MagicSpinToVision());
