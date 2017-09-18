@@ -28,7 +28,7 @@ public class MagicSideGear extends CommandGroup{
         switch(position) {
             case BLUE_BOILER:
                 firstDistance = -69.6;
-                turnAngle = Math.toRadians(60);
+                turnAngle = Math.toRadians(57);
                 secondDistance = -68;
                 break;
             case BLUE_OPPOSITE:
@@ -38,7 +38,7 @@ public class MagicSideGear extends CommandGroup{
                 break;
             case RED_BOILER:
                 firstDistance = -69.6;
-                turnAngle = Math.toRadians(-60);
+                turnAngle = Math.toRadians(-57);
                 secondDistance = -68;
                 break;
             case RED_OPPOSITE:
