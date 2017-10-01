@@ -41,7 +41,7 @@ public class Arm extends Subsystem {
     public static final double NINETY_DEGREES = 2400;
     public static final double SLOT_COLLECT_POSITION = NINETY_DEGREES;
     public static final double TURRET_RESET_POSITION = NINETY_DEGREES;
-    public static final double LOAD_POSITION = 3200;
+    public static final double LOAD_POSITION = 3275;
 
     /* soft limits on arm position */
     private double limitLow = COLLECT_POSITION;
@@ -87,6 +87,13 @@ public class Arm extends Subsystem {
     public void setPower(double x) {
         masterTal.changeControlMode(TalonControlMode.PercentVbus);
         setBrakeMode(true);
+        if (getPositionRaw() <= limitLow) {
+            x = Math.max(x, 0.0);
+            DriverStation.reportError("Below ", false);
+         } 
+        else if (getPositionRaw() >= limitHigh) {
+            x = Math.min(x, 0);
+        }
         masterTal.set(x);
         SmartDashboard.putNumber("Arm Power", x);
     }
@@ -114,7 +121,7 @@ public class Arm extends Subsystem {
         return masterTal.getPosition();
     }
 
-    public double getVeleocity() {
+    public double getVelocity() {
         return masterTal.getSpeed();
     }
 

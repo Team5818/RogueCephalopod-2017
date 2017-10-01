@@ -19,11 +19,8 @@
  */
 package org.usfirst.frc.team5818.robot;
 
-import org.usfirst.frc.team5818.robot.autos.DownFieldOneGear;
-import org.usfirst.frc.team5818.robot.autos.DriveAuto;
-import org.usfirst.frc.team5818.robot.autos.SideGearBoilerSide;
-import org.usfirst.frc.team5818.robot.autos.SideGearOppositeBoiler;
-import org.usfirst.frc.team5818.robot.autos.SpinAuto;
+import org.usfirst.frc.team5818.robot.autos.CenterOneGearAuto;
+import org.usfirst.frc.team5818.robot.autos.MagicSideGear;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAutoLeft;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAutoRight;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
@@ -103,15 +100,16 @@ public class Robot extends IterativeRobot {
         chooser.addObject("Center Two Gear (Gear Right)", new TwoGearAutoRight());
         chooser.addObject("Center Two Gear (Gear Left)", new TwoGearAutoLeft());
 
-        /* Profiled Autos */
-        chooser.addObject("Profile Side Gear Field Left", new SideGearOppositeBoiler(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Field Right", new SideGearOppositeBoiler(Side.LEFT));
-        chooser.addObject("Profile Side Gear Boiler Field Left", new SideGearBoilerSide(Side.RIGHT));
-        chooser.addObject("Profile Side Gear Boiler Field Right", new SideGearBoilerSide(Side.LEFT));
-        chooser.addObject("Down Field 1 Gear Right", new DownFieldOneGear(Side.RIGHT));
-        chooser.addObject("Down Field 1 Gear Left", new DownFieldOneGear(Side.LEFT));
-        chooser.addObject("Just Drive", new DriveAuto());
-        chooser.addObject("spin", new SpinAuto(Math.PI / 2.0));
+        /* Center */
+        chooser.addObject("Down Field 1 Gear Right", new CenterOneGearAuto(Side.RIGHT));
+        chooser.addObject("Down Field 1 Gear Left", new CenterOneGearAuto(Side.LEFT));
+
+        /*Side Pegs*/
+        chooser.addObject("Side Gear Blue Opposite", new MagicSideGear(MagicSideGear.Position.BLUE_OPPOSITE));
+        chooser.addObject("Side Gear Blue Boiler", new MagicSideGear(MagicSideGear.Position.BLUE_BOILER));
+        chooser.addObject("Side Gear Red Opposite", new MagicSideGear(MagicSideGear.Position.RED_OPPOSITE));
+        chooser.addObject("Side Gear Red Boiler", new MagicSideGear(MagicSideGear.Position.RED_BOILER));
+
 
         SmartDashboard.putData("Auto mode", chooser);
 
@@ -243,7 +241,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Bot Current", collect.getBotCurrent());
         SmartDashboard.putNumber("Arm Pos", arm.getPosition());
         SmartDashboard.putNumber("Arm Raw", arm.getPositionRaw());
-        SmartDashboard.putNumber("Arm Vel", arm.getVeleocity());
+        SmartDashboard.putNumber("Arm Vel", arm.getVelocity());
         SmartDashboard.putNumber("Arm error", arm.getError());
         SmartDashboard.putNumber("left drive encoder", driveTrain.getLeftSide().getSidePosition());
         SmartDashboard.putNumber("right drive encoder", driveTrain.getRightSide().getSidePosition());

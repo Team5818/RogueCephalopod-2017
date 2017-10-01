@@ -53,7 +53,7 @@ public class SetArmAngle extends Command {
 
     @Override
     protected boolean isFinished() {
-        return isTimedOut();
+        return (Math.abs(arm.getPositionRaw() - targetAng) < 20 && Math.abs(arm.getVelocity()) < 2) ||  isTimedOut();
     }
 
     @Override

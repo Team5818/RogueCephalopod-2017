@@ -49,7 +49,7 @@ public class SetTurretAngle extends Command {
 
     @Override
     protected boolean isFinished() {
-        return isTimedOut();
+        return (Math.abs(turr.getPositionRaw() - targetAng) < 2 && Math.abs(turr.getVeleocity()) < 1) ||  isTimedOut();
     }
 
     @Override

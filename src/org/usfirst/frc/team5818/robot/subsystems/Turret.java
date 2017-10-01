@@ -35,7 +35,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Turret {
 
-    public static final double TURRET_CENTER_POS = 569.0;
+    public static final double TURRET_CENTER_POS = 572.0;
     public static final double TURRET_LEFT_POS = 785;
     public static final double TURRET_RIGHT_POS = 315;
     public static final double TURRET_LEFT_POS_SP = 0.0;

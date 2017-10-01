@@ -35,18 +35,24 @@ public class MagicSpin extends Command {
     private static final double INCHES_PER_ROTATION = 100.0;
     private DriveTrain dt;
     private double angle;
+    private double veloc;
 
-    public MagicSpin(double ang) {
+    public MagicSpin(double ang, double vel) {
+        veloc = vel;
+        setTimeout(3);
         dt = Robot.runningRobot.driveTrain;
         requires(dt);
         angle = ang;
+    }
+    
+    public MagicSpin(double ang) {
+        this(ang, 200);
     }
 
     @Override
     protected void initialize() {
         dt.getLeftSide().positionControl();
-        dt.getRightSide().slaveToOtherSide(true);
-        dt.resetEncs();
+        dt.getRightSide().positionControl();
     }
 
     @Override
@@ -56,14 +62,15 @@ public class MagicSpin extends Command {
         double dist = diff / (2.0 * Math.PI) * INCHES_PER_ROTATION;
         SmartDashboard.putNumber("spin dist", dist);
         DriverStation.reportError("" + dist, false);
-        dt.getLeftSide().driveDistanceNoReset(dt.getLeftSide().getSidePosition() + dist, 200, 200);
+        dt.getLeftSide().driveDistanceNoReset(dt.getLeftSide().getSidePosition() + dist, veloc, veloc);
+        dt.getRightSide().driveDistanceNoReset(dt.getRightSide().getSidePosition() - dist, veloc, veloc);
     }
 
     @Override
     protected boolean isFinished() {
         return Math.abs(MathUtil.wrapAngleRad(angle - dt.getGyroHeading())) < .03
                 && Math.abs(dt.getLeftSide().getSideVelocity()) < 2
-                && Math.abs(dt.getRightSide().getSideVelocity()) < 2;
+                && Math.abs(dt.getRightSide().getSideVelocity()) < 2 || isTimedOut();
     }
 
     @Override

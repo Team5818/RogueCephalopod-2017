@@ -151,6 +151,7 @@ public class Driver {
 
         Button coSpit = Buttons.COLLECTOR.get(6);
         coSpit.whileHeld(new SetCollectorPower(false, .4, 1));
+        
     }
 
     public void setupTestButtons() {

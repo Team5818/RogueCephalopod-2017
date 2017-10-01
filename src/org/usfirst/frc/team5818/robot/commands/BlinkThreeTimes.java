@@ -17,23 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.usfirst.frc.team5818.robot.autos;
-
-import org.usfirst.frc.team5818.robot.commands.MagicSpin;
+package org.usfirst.frc.team5818.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
 /**
- * Auto that simply spins.
+ * Blinks LEDs on an off 3 times when we get a gear.
+ * We basically just wanted to copy 254
  */
-public class SpinAuto extends CommandGroup {
+public class BlinkThreeTimes extends CommandGroup {
 
-    private MagicSpin spin;
+    public BlinkThreeTimes() {
+        for (int i = 0; i < 3; i++) {
+            this.addSequential(new TimedCommand(.04));
+            this.addSequential(new LightsOn(true));
+            this.addSequential(new TimedCommand(.07));
+            this.addSequential(new LightsOn(false));
 
-    public SpinAuto(double ang) {
-        this.setInterruptible(false);
-        spin = new MagicSpin(ang);
-        this.addSequential(spin);
+        }
     }
-
 }

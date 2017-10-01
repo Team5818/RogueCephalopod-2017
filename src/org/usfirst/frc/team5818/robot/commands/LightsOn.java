@@ -17,24 +17,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.usfirst.frc.team5818.robot.autos;
+package org.usfirst.frc.team5818.robot.commands;
 
-import org.usfirst.frc.team5818.robot.commands.MagicDrive;
+import org.usfirst.frc.team5818.robot.Robot;
+import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Auto that simply drives forwards.
+ * Turns the lights on.
  */
-public class DriveAuto extends CommandGroup {
-
-    MagicDrive drive;
-
-    public DriveAuto() {
-        drive = new MagicDrive(120);
-        this.addSequential(new TimedCommand(1.0));
-        this.addSequential(drive);
+public class LightsOn extends Command{
+    
+    private VisionTracker vis;
+    private boolean on;
+    
+    public LightsOn(boolean b) {
+        vis = Robot.runningRobot.vision;
+        on = b;
+    }
+    
+    @Override
+    protected void initialize() {
+        vis.setLightsOn(on);
+    }
+    
+    @Override
+    protected boolean isFinished() {
+        // TODO Auto-generated method stub
+        return true;
     }
 
 }

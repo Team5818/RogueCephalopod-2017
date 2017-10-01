@@ -21,6 +21,8 @@ package org.usfirst.frc.team5818.robot.autos;
 
 import org.usfirst.frc.team5818.robot.commands.DriveTrajectory;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
+import org.usfirst.frc.team5818.robot.commands.MagicDrive;
+import org.usfirst.frc.team5818.robot.commands.MagicSpin;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.SpinWithProfile;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
@@ -68,12 +70,12 @@ public class TwoGearAutoRight extends CommandGroup {
         this.addSequential(moveToPeg);
         // Drive Down the Field
         this.addSequential(new PlaceWithLimit());
-        this.addSequential(new PlaceWithLimit());
-        this.addSequential(new DriveTrajectory(40, 0.0, 0.0, 0.0, Direction.FORWARD, true));
-        this.addSequential(new SpinWithProfile(-Math.PI / 2.0, true, true));
-        this.addSequential(new DriveTrajectory(120, 0.0, 0.0, 0.0, Direction.FORWARD, true));
-        this.addSequential(new SpinWithProfile(-Math.PI / 2.0, true, true));
-        this.addSequential(new DriveTrajectory(370, 0.0, 0.0, 0.0, Direction.FORWARD, true));
+        this.addSequential(new ShiftGears(Gear.HIGH));
+        this.addSequential(new MagicDrive(40.0, 400));
+        this.addSequential(new MagicSpin(Math.PI/2, 300));
+        this.addSequential(new MagicDrive(120.0, 500));
+        this.addSequential(new MagicSpin(Math.PI, 300));
+        this.addSequential(new MagicDrive(320.0, 500));
     }
 
 }

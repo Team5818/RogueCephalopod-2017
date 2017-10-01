@@ -30,19 +30,24 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class MoveArmCollect extends CommandGroup {
 
     private CommandGroup moveArm;
-
+    private CommandGroup raiseGroup;
+    
     public MoveArmCollect() {
         moveArm = new CommandGroup();
         moveArm.addParallel(new CollectGear(.75, 1000));
         moveArm.addParallel(new SetArmAngle(Arm.COLLECT_POSITION));
+        raiseGroup = new CommandGroup();
+        raiseGroup.addParallel(new SetArmAngle(Arm.MID_POSITION));
+        raiseGroup.addParallel(new BlinkThreeTimes());
         this.addSequential(moveArm);
-        this.addSequential(new SetArmAngle(Arm.MID_POSITION));
+        this.addSequential(raiseGroup);
     }
 
     @Override
     protected void end() {
         Robot.runningRobot.collect.setBotPower(0.0);
         Robot.runningRobot.collect.setTopPower(0.0);
+        Robot.runningRobot.vision.setLightsOn(false);
     }
 
     @Override
