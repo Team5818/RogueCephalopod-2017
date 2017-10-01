@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
 
 /**
  * One gear auto routine for when the robot is placed in the center.
+ * Drives down the field one way or another
  */
 public class CenterOneGearAuto extends CommandGroup {
 

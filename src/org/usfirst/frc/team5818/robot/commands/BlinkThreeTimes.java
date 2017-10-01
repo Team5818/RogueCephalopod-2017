@@ -22,6 +22,10 @@ package org.usfirst.frc.team5818.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+/**
+ * Blinks LEDs on an off 3 times when we get a gear.
+ * We basically just wanted to copy 254
+ */
 public class BlinkThreeTimes extends CommandGroup {
 
     public BlinkThreeTimes() {

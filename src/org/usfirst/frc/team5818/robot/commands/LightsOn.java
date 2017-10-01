@@ -24,6 +24,9 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Turns the lights on.
+ */
 public class LightsOn extends Command{
     
     private VisionTracker vis;

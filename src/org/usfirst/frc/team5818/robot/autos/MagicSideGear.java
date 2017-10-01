@@ -21,7 +21,6 @@ package org.usfirst.frc.team5818.robot.autos;
 
 import org.usfirst.frc.team5818.robot.commands.MagicDrive;
 import org.usfirst.frc.team5818.robot.commands.MagicSpin;
-import org.usfirst.frc.team5818.robot.commands.MagicSpinToVision;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.TapeMode;
 import org.usfirst.frc.team5818.robot.commands.driveatratio.DriveAtRatio;
@@ -31,6 +30,9 @@ import org.usfirst.frc.team5818.robot.constants.Gear;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * Every single side gear auto in one command
+ */
 public class MagicSideGear extends CommandGroup{
     
     private Position position;
