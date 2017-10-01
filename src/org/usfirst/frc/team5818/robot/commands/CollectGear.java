@@ -6,6 +6,9 @@ import org.usfirst.frc.team5818.robot.subsystems.Collector;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+/**
+ * Routine to collect a gear.
+ */
 public class CollectGear extends CommandGroup {
 
     private final double power;

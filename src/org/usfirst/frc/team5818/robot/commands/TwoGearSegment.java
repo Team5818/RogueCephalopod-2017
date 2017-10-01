@@ -12,6 +12,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
+/**
+ * Routine for part of a two gear auto.
+ * 
+ * TODO explain this betterly
+ */
 public class TwoGearSegment extends CommandGroup {
 
     private double maxPower;

@@ -6,6 +6,9 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Picks the gear camera.
+ */
 public class GearMode extends Command {
 
     private CameraController cont;

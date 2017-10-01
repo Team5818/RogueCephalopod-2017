@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Puts the camera into low exposure mode.
+ */
 public class ExposureLow extends Command {
 
     private CameraController cont;

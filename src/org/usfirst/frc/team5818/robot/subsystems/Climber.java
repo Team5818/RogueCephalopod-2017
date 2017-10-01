@@ -7,8 +7,8 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * Simple subsystem for collector. Has a top and bottom roller, gear gets sucked
- * in between rollers
+ * Climber subsystem. Contains a talon for each side of the climbing mechanism,
+ * both controlled by one power variable.
  */
 public class Climber extends Subsystem {
 

@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Punches/un-punches the turret.
+ */
 public class SetPunchTurret extends Command {
 
     private Turret turr;

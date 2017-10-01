@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
+/**
+ * Extends/retracts the turret.
+ */
 public class SetExtendTurret extends InstantCommand {
 
     private Turret turr;

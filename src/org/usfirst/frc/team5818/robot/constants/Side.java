@@ -1,5 +1,8 @@
 package org.usfirst.frc.team5818.robot.constants;
 
+/**
+ * A side of the robot.
+ */
 public enum Side {
     LEFT, RIGHT, CENTER;
 

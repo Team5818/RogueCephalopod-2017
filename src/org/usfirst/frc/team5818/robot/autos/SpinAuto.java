@@ -4,6 +4,9 @@ import org.usfirst.frc.team5818.robot.commands.MagicSpin;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * Auto that simply spins.
+ */
 public class SpinAuto extends CommandGroup {
 
     private MagicSpin spin;

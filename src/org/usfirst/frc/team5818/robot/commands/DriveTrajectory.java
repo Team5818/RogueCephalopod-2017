@@ -14,133 +14,130 @@ import org.usfirst.frc.team5818.robot.utils.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * TrajectoryDriveController.java This controller drives the robot along a
- * specified trajectory.
- * 
- * @author jproney
+ * This controller drives the robot along a specified trajectory.
  */
 public class DriveTrajectory extends Command {
 
-    private static final double minDeltaHeading = 2;
+	private static final double minDeltaHeading = 2;
 
-    private DriveTrain driveTrain;
-    private TrajectoryFollower followerLeft;
-    private TrajectoryFollower followerRight;
-    boolean stoppingAtEnd;
-    double directionMultiplier;
-    Direction direction;
-    double distance;
-    double goalVel;
-    double goalHeading;
-    double initialVel;
-    double kTurn = .2 / Math.PI;
-    int loopCount;
+	private DriveTrain driveTrain;
+	private TrajectoryFollower followerLeft;
+	private TrajectoryFollower followerRight;
+	boolean stoppingAtEnd;
+	double directionMultiplier;
+	Direction direction;
+	double distance;
+	double goalVel;
+	double goalHeading;
+	double initialVel;
+	double kTurn = .2 / Math.PI;
+	int loopCount;
 
-    public DriveTrajectory(double dist, double head, double startVel, double endVel, Direction dir, boolean stop) {
-        distance = dist;
-        driveTrain = Robot.runningRobot.driveTrain;
-        requires(driveTrain);
-        direction = dir;
-        if (dir == Direction.FORWARD) {
-            directionMultiplier = -1.0;
-        } else {
-            directionMultiplier = 1.0;
-        }
-        goalHeading = head;
-        initialVel = startVel;
-        stoppingAtEnd = stop;
-    }
+	public DriveTrajectory(double dist, double head, double startVel, double endVel, Direction dir, boolean stop) {
+		distance = dist;
+		driveTrain = Robot.runningRobot.driveTrain;
+		requires(driveTrain);
+		direction = dir;
+		if (dir == Direction.FORWARD) {
+			directionMultiplier = -1.0;
+		} else {
+			directionMultiplier = 1.0;
+		}
+		goalHeading = head;
+		initialVel = startVel;
+		stoppingAtEnd = stop;
+	}
 
-    public DriveTrajectory(double dist, double startVel, double endVel, Direction dir, boolean stop) {
-        this(dist, Integer.MAX_VALUE, startVel, endVel, dir, stop);
-    }
+	public DriveTrajectory(double dist, double startVel, double endVel, Direction dir, boolean stop) {
+		this(dist, Integer.MAX_VALUE, startVel, endVel, dir, stop);
+	}
 
-    protected void initialize() {
-        loopCount = 0;
-        double curHeading = driveTrain.getGyroHeading();
-        if (goalHeading == Integer.MAX_VALUE) {
-            goalHeading = curHeading;
-        }
-        double deltaHeading = goalHeading - curHeading;
-        double radius = Math.abs(Math.abs(distance) / (deltaHeading));
+	protected void initialize() {
+		loopCount = 0;
+		double curHeading = driveTrain.getGyroHeading();
+		if (goalHeading == Integer.MAX_VALUE) {
+			goalHeading = curHeading;
+		}
+		double deltaHeading = goalHeading - curHeading;
+		double radius = Math.abs(Math.abs(distance) / (deltaHeading));
 
-        Trajectory leftProfile = TrajectoryGenerator.generate(.8 * Constants.Constant.maxVelocityIPS(),
-                .8 * Constants.Constant.maxAccelIPS2(), .02, initialVel, curHeading, Math.abs(distance), goalVel,
-                goalHeading);
-        Trajectory rightProfile = leftProfile.copy();
+		Trajectory leftProfile = TrajectoryGenerator.generate(.8 * Constants.Constant.maxVelocityIPS(),
+				.8 * Constants.Constant.maxAccelIPS2(), .02, initialVel, curHeading, Math.abs(distance), goalVel,
+				goalHeading);
+		Trajectory rightProfile = leftProfile.copy();
 
-        double faster = (radius + (Constants.Constant.wheelToWheelWidth() / 2.0)) / radius;
-        double slower = (radius - (Constants.Constant.wheelToWheelWidth() / 2.0)) / radius;
+		double faster = (radius + (Constants.Constant.wheelToWheelWidth() / 2.0)) / radius;
+		double slower = (radius - (Constants.Constant.wheelToWheelWidth() / 2.0)) / radius;
 
-        if (Math.abs(deltaHeading) > Math.toRadians(minDeltaHeading)) {
-            if (deltaHeading > 0) {
-                if (direction == Direction.FORWARD) {
-                    leftProfile.scale(faster);
-                    rightProfile.scale(slower);
-                } else {
-                    leftProfile.scale(slower);
-                    rightProfile.scale(faster);
-                }
-            } else if (deltaHeading <= 0) {
-                if (direction == Direction.FORWARD) {
-                    leftProfile.scale(slower);
-                    rightProfile.scale(faster);
-                } else {
-                    leftProfile.scale(faster);
-                    rightProfile.scale(slower);
-                }
-            }
-        }
+		if (Math.abs(deltaHeading) > Math.toRadians(minDeltaHeading)) {
+			if (deltaHeading > 0) {
+				if (direction == Direction.FORWARD) {
+					leftProfile.scale(faster);
+					rightProfile.scale(slower);
+				} else {
+					leftProfile.scale(slower);
+					rightProfile.scale(faster);
+				}
+			} else if (deltaHeading <= 0) {
+				if (direction == Direction.FORWARD) {
+					leftProfile.scale(slower);
+					rightProfile.scale(faster);
+				} else {
+					leftProfile.scale(faster);
+					rightProfile.scale(slower);
+				}
+			}
+		}
 
-        followerLeft = new TrajectoryFollower(.06, 1.0 / Constants.Constant.maxVelocityIPS(),
-                0.3 / Constants.Constant.maxAccelIPS2(), leftProfile, Side.LEFT);
-        followerRight = new TrajectoryFollower(.06, 1.0 / Constants.Constant.maxVelocityIPS(),
-                0.3 / Constants.Constant.maxAccelIPS2(), rightProfile, Side.RIGHT);
+		followerLeft = new TrajectoryFollower(.06, 1.0 / Constants.Constant.maxVelocityIPS(),
+				0.3 / Constants.Constant.maxAccelIPS2(), leftProfile, Side.LEFT);
+		followerRight = new TrajectoryFollower(.06, 1.0 / Constants.Constant.maxVelocityIPS(),
+				0.3 / Constants.Constant.maxAccelIPS2(), rightProfile, Side.RIGHT);
 
-        reset();
-    }
+		reset();
+	}
 
-    public void reset() {
-        followerLeft.reset();
-        followerRight.reset();
-        driveTrain.resetEncs();
-    }
+	public void reset() {
+		followerLeft.reset();
+		followerRight.reset();
+		driveTrain.resetEncs();
+	}
 
-    public int getFollowerCurrentSegment() {
-        return followerLeft.getCurrentSegment();
-    }
+	public int getFollowerCurrentSegment() {
+		return followerLeft.getCurrentSegment();
+	}
 
-    public int getNumSegments() {
-        return followerLeft.getNumSegments();
-    }
+	public int getNumSegments() {
+		return followerLeft.getNumSegments();
+	}
 
-    protected void execute() {
-        loopCount++;
-        double distanceL = Math.abs(driveTrain.getLeftSide().getSidePosition());
-        double distanceR = Math.abs(driveTrain.getRightSide().getSidePosition());
+	protected void execute() {
+		loopCount++;
+		double distanceL = Math.abs(driveTrain.getLeftSide().getSidePosition());
+		double distanceR = Math.abs(driveTrain.getRightSide().getSidePosition());
 
-        double speedLeft = directionMultiplier * followerLeft.calculate(distanceL);
-        double speedRight = directionMultiplier * followerRight.calculate(distanceR);
+		double speedLeft = directionMultiplier * followerLeft.calculate(distanceL);
+		double speedRight = directionMultiplier * followerRight.calculate(distanceR);
 
-        double goalHeading = followerLeft.getHeading();
-        double observedHeading = driveTrain.getGyroHeading();
+		double goalHeading = followerLeft.getHeading();
+		double observedHeading = driveTrain.getGyroHeading();
 
-        double angleDiffRads = MathUtil.wrapAngleRad(goalHeading - observedHeading);
+		double angleDiffRads = MathUtil.wrapAngleRad(goalHeading - observedHeading);
 
-        double turn = kTurn * angleDiffRads;
-        driveTrain.setPowerLeftRight(speedLeft + turn, speedRight - turn);
-    }
+		double turn = kTurn * angleDiffRads;
+		driveTrain.setPowerLeftRight(speedLeft + turn, speedRight - turn);
+	}
 
-    @Override
-    protected boolean isFinished() {
-        return followerLeft.isFinishedTrajectory();
-    }
+	@Override
+	protected boolean isFinished() {
+		return followerLeft.isFinishedTrajectory();
+	}
 
-    @Override
-    protected void end() {
-        if (stoppingAtEnd) {
-            driveTrain.stop();
-        }
-    }
+	@Override
+	protected void end() {
+		if (stoppingAtEnd) {
+			driveTrain.stop();
+		}
+	}
 
 }

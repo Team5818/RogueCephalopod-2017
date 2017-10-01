@@ -8,6 +8,9 @@ import org.usfirst.frc.team5818.robot.utils.MathUtil;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * Control command for climbing.
+ */
 public class ClimbControlCommand extends ControlCommand {
 
     private final Climber climb = Robot.runningRobot.climb;

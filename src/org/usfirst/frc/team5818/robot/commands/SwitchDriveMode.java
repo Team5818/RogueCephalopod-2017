@@ -6,6 +6,9 @@ import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Switches the drive mode to a different calculator.
+ */
 public class SwitchDriveMode extends Command {
 
     private Driver driver;

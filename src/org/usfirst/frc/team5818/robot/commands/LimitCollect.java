@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.Collector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Collects a gear and stops when the limit switch is triggered, or timeout occurs.
+ */
 public class LimitCollect extends Command {
 
     private double power;

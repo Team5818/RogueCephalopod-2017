@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.commands.MagicDrive;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+/**
+ * Auto that simply drives forwards.
+ */
 public class DriveAuto extends CommandGroup {
 
     MagicDrive drive;

@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.constants.Spin;
 
 import com.google.auto.value.AutoValue;
 
+/**
+ * DAR option class for dead-reckoning the routine.
+ */
 @AutoValue
 public abstract class DeadReckonOpts implements DriveAtRatioOptions {
 

@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.constants.Spin;
 
 import com.google.auto.value.AutoValue;
 
+/**
+ * DAR options for using profiles to guide the routine.
+ */
 @AutoValue
 public abstract class ProfileOpts implements DriveAtRatioOptions {
 

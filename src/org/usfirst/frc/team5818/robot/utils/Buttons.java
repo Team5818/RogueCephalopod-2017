@@ -9,6 +9,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+/**
+ * Combinator for the various buttons. We usually use six joysticks (4 normal +
+ * 2 button-Arduinos), but sometimes we just use 4, and this maps both states to
+ * a single interface.
+ */
 public class Buttons {
 
     private static final boolean USING_SIX_JOYSTICKS = true;

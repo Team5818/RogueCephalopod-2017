@@ -2,9 +2,15 @@ package org.usfirst.frc.team5818.robot.constants;
 
 import edu.wpi.first.wpilibj.Preferences;
 
+/**
+ * Constants class. Implemented by different instances for different robots.
+ */
 public abstract class Constants {
 
     private static final String COMP_BOT = "rogue-cephalopod";
+    /**
+     * The constant instance for this robot.
+     */
     public static final Constants Constant;
     static {
         String robotId = Preferences.getInstance().getString("robot-id", COMP_BOT);

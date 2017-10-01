@@ -11,6 +11,9 @@ import org.usfirst.frc.team5818.robot.utils.Vectors;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * Control command for driving.
+ */
 public class DriveControlCommand extends ControlCommand {
 
     private final DriveTrain driveTrain = Robot.runningRobot.driveTrain;

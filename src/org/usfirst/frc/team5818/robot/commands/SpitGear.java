@@ -2,6 +2,9 @@ package org.usfirst.frc.team5818.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * Spits the gear out.
+ */
 public class SpitGear extends CommandGroup {
 
     public SpitGear() {

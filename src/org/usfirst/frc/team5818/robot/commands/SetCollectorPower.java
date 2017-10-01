@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.Collector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Sets the collector power to given parameters, with timeout.
+ */
 public class SetCollectorPower extends Command {
 
     private final double power;

@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Drives, magically, with motion magic.
+ */
 public class MagicDrive extends Command {
 
     private DriveTrain dt;

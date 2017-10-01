@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 import com.ctre.CANTalon;
 
+/**
+ * A mapping from indexes to the actual talons on the robot.
+ */
 public enum TestingTalon {
     DRIVE_ONE(RobotMap.DRIVE_TALONS[0]), DRIVE_TWO(RobotMap.DRIVE_TALONS[1]), DRIVE_THREE(RobotMap.DRIVE_TALONS[2]),
     DRIVE_FOUR(RobotMap.DRIVE_TALONS[3]), DRIVE_FIVE(RobotMap.DRIVE_TALONS[4]), DRIVE_SIX(RobotMap.DRIVE_TALONS[5]),

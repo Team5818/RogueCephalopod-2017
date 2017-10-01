@@ -15,6 +15,9 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+/**
+ * A two-gear auto that is for the gear being placed on the right side.
+ */
 public class TwoGearAutoRight extends CommandGroup {
 
     private TwoGearSegment moveForward;

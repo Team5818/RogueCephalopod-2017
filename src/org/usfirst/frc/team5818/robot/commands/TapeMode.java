@@ -6,6 +6,9 @@ import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Selects the tape camera.
+ */
 public class TapeMode extends Command {
 
     private CameraController cont;

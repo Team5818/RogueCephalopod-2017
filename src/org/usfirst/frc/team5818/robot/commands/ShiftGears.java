@@ -6,6 +6,9 @@ import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Changes gear on the drive train.
+ */
 public class ShiftGears extends Command {
 
     private DriveTrain train;

@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
+/**
+ * Sets the arm limit to the climb position, so that it's easy to get there.
+ */
 public class SetClimbArmLimit extends InstantCommand {
 
     @Override

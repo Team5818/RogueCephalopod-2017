@@ -12,9 +12,7 @@ import org.usfirst.frc.team5818.robot.utils.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * SpinWithProfile.java This controller spins the drivetrain
- * 
- * @author jproney
+ * This controller spins the drive train using a profile.
  */
 public class SpinWithProfile extends Command {
 

@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Moves the arm to an angle.
+ */
 public class SetArmAngle extends Command {
 
     public static final double TOLERANCE = 50;

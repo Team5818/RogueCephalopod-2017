@@ -14,39 +14,43 @@ import org.usfirst.frc.team5818.robot.constants.Spin;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+/**
+ * Auto for placing a gear from the boiler side. Uses a side parameter to
+ * figure out where to go on each alliance side.
+ */
 public class SideGearBoilerSide extends CommandGroup {
 
-    int angleMult;
+	int angleMult;
 
-    public SideGearBoilerSide(Side turnSide) {
-        Spin s;
-        if (turnSide == Side.LEFT) {
-            s = Spin.COUNTERCW;
-            angleMult = -1;
+	public SideGearBoilerSide(Side turnSide) {
+		Spin s;
+		if (turnSide == Side.LEFT) {
+			s = Spin.COUNTERCW;
+			angleMult = -1;
 
-        } else {
-            s = Spin.CLOCKWISE;
-            angleMult = 1;
-        }
-        addSequential(new TapeMode());
-        addSequential(new DriveTrajectory(72, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
-        addSequential(new FindTarget(s, 35));
-        addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
-            b.inches(80);
-            b.maxPower(.7);
-            b.maxRatio(3.0);
-            b.stoppingAtEnd(true);
-        }));
-        addSequential(DriveAtRatio.withDeadReckon(b -> {
-            b.inches(5);
-            b.maxPower(.7);
-            b.targetRatio(1);
-            b.stoppingAtEnd(true);
-        }));
-        this.addSequential(new TimedCommand(.5));
-        addSequential(new PlaceWithLimit());
-        addSequential(new DriveTrajectory(28, angleMult * Math.toRadians(60.0), 0.0, 0.0, Direction.FORWARD, true));
-        addSequential(new SpinWithProfile(angleMult * Math.PI, true, false));
-        addSequential(new DriveTrajectory(320, angleMult * Math.PI, 0.0, 0.0, Direction.FORWARD, true));
-    }
+		} else {
+			s = Spin.CLOCKWISE;
+			angleMult = 1;
+		}
+		addSequential(new TapeMode());
+		addSequential(new DriveTrajectory(72, 0.0, 0.0, 0.0, Direction.BACKWARD, true));
+		addSequential(new FindTarget(s, 35));
+		addSequential(DriveAtRatio.withVision(Camera.CAM_TAPE, b -> {
+			b.inches(80);
+			b.maxPower(.7);
+			b.maxRatio(3.0);
+			b.stoppingAtEnd(true);
+		}));
+		addSequential(DriveAtRatio.withDeadReckon(b -> {
+			b.inches(5);
+			b.maxPower(.7);
+			b.targetRatio(1);
+			b.stoppingAtEnd(true);
+		}));
+		this.addSequential(new TimedCommand(.5));
+		addSequential(new PlaceWithLimit());
+		addSequential(new DriveTrajectory(28, angleMult * Math.toRadians(60.0), 0.0, 0.0, Direction.FORWARD, true));
+		addSequential(new SpinWithProfile(angleMult * Math.PI, true, false));
+		addSequential(new DriveTrajectory(320, angleMult * Math.PI, 0.0, 0.0, Direction.FORWARD, true));
+	}
 }

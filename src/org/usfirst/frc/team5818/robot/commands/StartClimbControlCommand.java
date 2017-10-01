@@ -4,6 +4,9 @@ import org.usfirst.frc.team5818.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Starts the {@link ClimbMode} command after stopping the turret zero command.
+ */
 public class StartClimbControlCommand extends Command {
 
     private enum State {

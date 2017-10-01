@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Spins, magically, using motion magic!
+ */
 public class MagicSpin extends Command {
 
     private static final double INCHES_PER_ROTATION = 100.0;

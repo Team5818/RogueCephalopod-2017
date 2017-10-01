@@ -7,6 +7,9 @@ import org.usfirst.frc.team5818.robot.utils.MathUtil;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * Control command for the arm.
+ */
 public class ArmControlCommand extends ControlCommand {
 
     private final Arm arm = Robot.runningRobot.arm;

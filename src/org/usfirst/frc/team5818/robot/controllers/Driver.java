@@ -6,7 +6,6 @@ import java.util.Vector;
 import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team5818.robot.TestingTalon;
-import org.usfirst.frc.team5818.robot.autos.SpinAuto;
 import org.usfirst.frc.team5818.robot.commands.ArmControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ControlMotor;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
@@ -41,6 +40,10 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.Trigger.ButtonScheduler;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+/**
+ * A collection of related constants and methods related to the primary driver
+ * command input.
+ */
 public class Driver {
 
     public static double JOYSTICK_DEADBAND = .05;

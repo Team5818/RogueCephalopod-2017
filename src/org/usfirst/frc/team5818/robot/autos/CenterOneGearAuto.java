@@ -9,6 +9,9 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+/**
+ * One gear auto routine for when the robot is placed in the center.
+ */
 public class CenterOneGearAuto extends CommandGroup {
 
     private TwoGearSegment moveForward;

@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.controllers.Driver;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.utils.MathUtil;
 
+/**
+ * Control command for the turret.
+ */
 public class TurretControlCommand extends ControlCommand {
 
     private final Turret turret = Robot.runningRobot.turret;

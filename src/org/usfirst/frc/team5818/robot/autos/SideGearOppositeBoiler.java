@@ -14,6 +14,10 @@ import org.usfirst.frc.team5818.robot.constants.Spin;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
+/**
+ * Auto for placing a gear from the collection side. Uses a side parameter to
+ * figure out where to go on each alliance side.
+ */
 public class SideGearOppositeBoiler extends CommandGroup {
 
     int angleMult;

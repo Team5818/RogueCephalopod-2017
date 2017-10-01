@@ -8,10 +8,16 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * Moves the arm to the turret and unloads the gear into the turret.
+ */
 public class PutGearInTurret extends CommandGroup {
 
     Collector collect = Robot.runningRobot.collect;
 
+    /**
+     * Delays the parent command start by one command loop due to turret-zero checks.
+     */
     public static final class Start extends Command {
 
         private PutGearInTurret delegate = new PutGearInTurret();

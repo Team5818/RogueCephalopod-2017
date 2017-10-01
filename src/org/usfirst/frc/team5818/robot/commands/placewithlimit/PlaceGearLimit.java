@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Routine that places a gear, fully.
+ */
 public class PlaceGearLimit extends CommandGroup {
 
     public PlaceGearLimit() {

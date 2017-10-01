@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.CameraController;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Puts the camera into high exposure mode.
+ */
 public class ExposureHigh extends Command {
 
     private CameraController cont;

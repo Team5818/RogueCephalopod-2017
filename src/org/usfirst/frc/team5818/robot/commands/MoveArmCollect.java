@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * Routine to move the arm to the collect position and get a gear.
+ */
 public class MoveArmCollect extends CommandGroup {
 
     private CommandGroup moveArm;

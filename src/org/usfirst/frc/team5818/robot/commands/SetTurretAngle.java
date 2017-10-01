@@ -5,6 +5,9 @@ import org.usfirst.frc.team5818.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Rotates the turret to an angle.
+ */
 public class SetTurretAngle extends Command {
 
     public static final double DEGREES_TOLERANCE = 2;

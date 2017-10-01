@@ -3,6 +3,13 @@ package org.usfirst.frc.team5818.robot.commands.debug;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * A breakpoint command is used to debug command-based routines.
+ * 
+ * <p>
+ * It logs to the dashboard the last-hit breakpoint, and allows you to stop inside of it to examine state.
+ * </p>
+ */
 public class BreakpointCommand extends Command {
 
     private final String name;

@@ -13,46 +13,50 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Routine to directly control a motor from a single stick axis. Used in testing
+ * to verify all systems are working.
+ */
 public class ControlMotor extends Command {
 
-    private static final class CMSystem extends Subsystem {
+	private static final class CMSystem extends Subsystem {
 
-        private static final CMSystem INSTANCE = new CMSystem();
+		private static final CMSystem INSTANCE = new CMSystem();
 
-        @Override
-        protected void initDefaultCommand() {
-        }
-    }
+		@Override
+		protected void initDefaultCommand() {
+		}
+	}
 
-    private final DoubleSupplier stick;
-    private final PIDOutput out;
+	private final DoubleSupplier stick;
+	private final PIDOutput out;
 
-    public ControlMotor(DoubleSupplier stick, PIDOutput out) {
-        this.stick = stick;
-        this.out = out;
-        requires(CMSystem.INSTANCE);
-    }
+	public ControlMotor(DoubleSupplier stick, PIDOutput out) {
+		this.stick = stick;
+		this.out = out;
+		requires(CMSystem.INSTANCE);
+	}
 
-    @Override
-    protected void initialize() {
-        if (out instanceof CANTalon) {
-            SmartDashboard.putString("ControlMotor", "CM on for " + ((CANTalon) out).getDeviceID());
-        }
-    }
+	@Override
+	protected void initialize() {
+		if (out instanceof CANTalon) {
+			SmartDashboard.putString("ControlMotor", "CM on for " + ((CANTalon) out).getDeviceID());
+		}
+	}
 
-    @Override
-    protected void execute() {
-        out.pidWrite(MathUtil.adjustDeadband(new Vector2d(stick.getAsDouble(), 0), Driver.DEADBAND_VEC).getX());
-    }
+	@Override
+	protected void execute() {
+		out.pidWrite(MathUtil.adjustDeadband(new Vector2d(stick.getAsDouble(), 0), Driver.DEADBAND_VEC).getX());
+	}
 
-    @Override
-    protected void end() {
-        out.pidWrite(0);
-    }
+	@Override
+	protected void end() {
+		out.pidWrite(0);
+	}
 
-    @Override
-    protected boolean isFinished() {
-        return false;
-    }
+	@Override
+	protected boolean isFinished() {
+		return false;
+	}
 
 }

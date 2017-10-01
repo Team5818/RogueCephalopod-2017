@@ -13,6 +13,9 @@ import org.usfirst.frc.team5818.robot.constants.Side;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * One gear for a specific side, that then drives down field.
+ */
 public class DownFieldOneGear extends CommandGroup {
 
     private TwoGearSegment moveForward;
