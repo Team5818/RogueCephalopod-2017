@@ -20,13 +20,7 @@
 package org.usfirst.frc.team5818.robot;
 
 import org.usfirst.frc.team5818.robot.autos.CenterOneGearAuto;
-import org.usfirst.frc.team5818.robot.autos.DownFieldOneGear;
-import org.usfirst.frc.team5818.robot.autos.DriveAuto;
-import org.usfirst.frc.team5818.robot.autos.MagicCenter;
 import org.usfirst.frc.team5818.robot.autos.MagicSideGear;
-import org.usfirst.frc.team5818.robot.autos.SideGearBoilerSide;
-import org.usfirst.frc.team5818.robot.autos.SideGearOppositeBoiler;
-import org.usfirst.frc.team5818.robot.autos.SpinAuto;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAutoLeft;
 import org.usfirst.frc.team5818.robot.autos.TwoGearAutoRight;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
