@@ -41,6 +41,7 @@ repositories {
 }
 
 dependencies {
+    // Dependencies from /libs. These are copied from the FRC installation folder in your home directory.
     compile group: 'edu.wpi', name: 'cscore', version: 'NONE'
     compile group: 'edu.wpi', name: 'CTRLib', version: 'NONE'
     compile group: 'edu.wpi', name: 'NetworkTables', version: 'NONE'
@@ -48,8 +49,10 @@ dependencies {
     compile group: 'edu.wpi', name: 'WPILib', version: 'NONE'
     compile group: 'com.kuailabs', name: 'navx_frc', version: 'NONE'
     
+    // Neat graph util
     compile group: 'org.jfree', name: 'jfreechart', version: '1.0.19'
 
+    // Auto-value!
 	compileOnly group: 'com.google.auto.value', name: 'auto-value', version: '1.4-rc2'
     apt group: 'com.google.auto.value', name: 'auto-value', version: '1.4-rc2'
 
@@ -61,9 +64,11 @@ eclipse.project.file.beforeMerged { proj ->
     proj.natures.add('edu.wpi.first.wpilib.plugins.core.nature.FRCProjectNature')
 }
 
+// Move source into src
 sourceSets.main.java.srcDirs = ['src']
 sourceSets.main.resources.srcDirs = ['src']
 
+// Setup compiling to be better.
 configure([compileJava, compileTestJava]) {
     options.compilerArgs += ['-Xlint:all', '-Xlint:-path']
     options.deprecation = true
@@ -72,6 +77,7 @@ configure([compileJava, compileTestJava]) {
     options.fork = true
 }
 
+// configurations for the ant-replacement code
 ext.packageNumber = '5818'
 ext.teamNumber = project.findProperty('teamNumber') ?: packageNumber
 apply from: 'ant-replacement.gradle', to: project
