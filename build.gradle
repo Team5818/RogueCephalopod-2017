@@ -16,7 +16,8 @@ buildscript {
     }
 }
 plugins {
-  id "net.ltgt.apt" version "0.9"
+    id "net.ltgt.apt" version "0.9"
+    id "com.github.hierynomus.license" version "0.13.1"
 }
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -75,6 +76,23 @@ configure([compileJava, compileTestJava]) {
     options.encoding = 'UTF-8'
     options.incremental = true
     options.fork = true
+}
+
+// License configuration
+
+license {
+    ext {
+        name = project.name
+        organization = project.organization
+        url = project.url
+    }
+    header = rootProject.file('HEADER.txt')
+    ignoreFailures = false
+    strictCheck = true
+    include '**/*.java'
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+    }
 }
 
 // configurations for the ant-replacement code
