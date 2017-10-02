@@ -48,10 +48,6 @@ public interface DriveAtRatioOptions {
 
 	boolean isStoppingAtEnd();
 
-	default boolean isUsingSanic() {
-		return getCamera() == Camera.ULTRASANIC;
-	}
-
 	default boolean isUsingVision() {
 		return getCamera() == Camera.CAM_TAPE || getCamera() == Camera.CAM_GEARS;
 	}

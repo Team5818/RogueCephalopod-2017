@@ -108,25 +108,23 @@ public class DriveAtRatio extends Command {
 		}
 		targetRatio = opts.getTargetRatio(); // Ratio is LEFT/RIGHT
 		maxRatio = opts.getMaxRatio();
-		if (camera.equals(Camera.NONE)) {
-			camMultiplier = 0;
-			useVision = false;
-		} else if (camera.equals(Camera.CAM_GEARS)) {
-			camMultiplier = 1;
-			maxPow = -Math.abs(maxPow);
-			useVision = true;
-		} else if (camera.equals(Camera.CAM_TAPE)) {
-			camMultiplier = -1;
-			maxPow = Math.abs(maxPow);
-			useVision = true;
-		} else if (camera.equals(Camera.ULTRASANIC)) {
-			camMultiplier = 0;
-			useVision = false;
-		} else if (useSpin) {
-			maxPow = Math.abs(maxPow);
-			camMultiplier = 0;
-			useVision = false;
-		}
+        switch (camera) {
+            case NONE:
+                maxPow = Math.abs(maxPow);
+                camMultiplier = 0;
+                useVision = false;
+                break;
+            case CAM_GEARS:
+                camMultiplier = 1;
+                maxPow = -Math.abs(maxPow);
+                useVision = true;
+                break;
+            case CAM_TAPE:
+                camMultiplier = -1;
+                maxPow = Math.abs(maxPow);
+                useVision = true;
+                break;
+        }
 
 		if (spinSide == Spin.CLOCKWISE) {
 			leftSpinMult = -1;
