@@ -33,8 +33,6 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
  * Routine for part of a two gear auto.
- * 
- * TODO explain this betterly
  */
 public class TwoGearSegment extends CommandGroup {
 
@@ -45,6 +43,14 @@ public class TwoGearSegment extends CommandGroup {
     private DriveAtRatio driveVision;
     private DriveAtRatio driveFinal;
 
+    /**
+     * Creates a new segment.
+     * 
+     * @param dir - the direction to travel in this segment
+     * @param side - the side this segment should be going towards
+     * @param extra - the extra action to take (may be null)
+     * @param maxPow - the maximum power to drive at
+     */
     public TwoGearSegment(Direction dir, Side side, AutoExtra extra, double maxPow) {
         maxPower = maxPow;
         drive = new CommandGroup();
@@ -52,6 +58,8 @@ public class TwoGearSegment extends CommandGroup {
 
         final double leftRatAdd = 1.0;
         double rat = 1.6;
+        // resolve the radius that we want
+        // for the circle we're driving on
         double radius;
         if (side.equals(Side.RIGHT)) {
             radius = rat + .5;
@@ -62,6 +70,7 @@ public class TwoGearSegment extends CommandGroup {
         }
 
         if (dir.equals(Direction.FORWARD)) {
+            // setup drive portions for going forward
             driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
                 b.inches(12);
                 b.maxPower(maxPower);
@@ -81,6 +90,7 @@ public class TwoGearSegment extends CommandGroup {
                 b.stoppingAtEnd(true);
             });
         } else {
+            // setup drive portions for going backwards
             if (side != Side.CENTER) {
                 driveOvershoot = DriveAtRatio.withDeadReckon(b -> {
                     b.inches(28);
@@ -114,21 +124,25 @@ public class TwoGearSegment extends CommandGroup {
             });
         }
 
+        // queue drive portions
         drive.addSequential(driveOvershoot);
         drive.addSequential(driveVision);
         drive.addSequential(driveFinal);
 
         if (extra == AutoExtra.COLLECT) {
+            // collection command group
             whileDriving.addSequential((new SetArmAngle(Arm.COLLECT_POSITION)));
             whileDriving.addSequential(new SetTurretAngle(Turret.TURRET_CENTER_POS));
             whileDriving.addSequential(new CollectGear(.75, 5));
         } else if (extra == AutoExtra.PLACE) {
+            // placement command group
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));
             whileDriving.addSequential(new SetArmAngle(Arm.LOAD_POSITION));
             whileDriving.addSequential(new SetCollectorPower(true, 1.0, 1.0));
             whileDriving.addSequential(new SetArmAngle(Arm.MID_POSITION));
         }
 
+        // do both while driving for MAXIMUM EFFICIENT!
         this.addParallel(drive);
         this.addParallel(whileDriving);
     }
