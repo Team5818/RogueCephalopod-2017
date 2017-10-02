@@ -121,6 +121,4 @@ public class Vector2d {
         return new Vector2d(Math.abs(x), Math.abs(y));
     }
 
-    // TODO: more vector math!
-
 }

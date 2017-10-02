@@ -112,7 +112,6 @@ public class VisionTracker extends Subsystem implements Runnable {
 
     @Override
     protected void initDefaultCommand() {
-        // TODO Auto-generated method stub
     }
 
 }
