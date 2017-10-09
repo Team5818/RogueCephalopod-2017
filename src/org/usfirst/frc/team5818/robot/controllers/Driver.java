@@ -28,7 +28,7 @@ import org.usfirst.frc.team5818.robot.TestingTalon;
 import org.usfirst.frc.team5818.robot.commands.ArmControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ControlMotor;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
-import org.usfirst.frc.team5818.robot.commands.FullExtention;
+import org.usfirst.frc.team5818.robot.commands.FullExtension;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.MoveArmCollect;
 import org.usfirst.frc.team5818.robot.commands.PutGearInTurret;
@@ -146,8 +146,8 @@ public class Driver {
         turret90.whenPressed(new SetTurretAngle(Turret.TURRET_RIGHT_POS));
 
         Button fullExtend = Buttons.COLLECTOR.get(7);
-        fullExtend.whenPressed(new FullExtention(true));
-        fullExtend.whenReleased(new FullExtention(false));
+        fullExtend.whenPressed(new FullExtension(true));
+        fullExtend.whenReleased(new FullExtension(false));
 
         Button coSpit = Buttons.COLLECTOR.get(6);
         coSpit.whileHeld(new SetCollectorPower(false, .4, 1));

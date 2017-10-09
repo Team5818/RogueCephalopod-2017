@@ -24,9 +24,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  * Routine to extend both turret parts.
  */
-public class FullExtention extends CommandGroup {
+public class FullExtension extends CommandGroup {
 
-    public FullExtention(boolean on) {
+    public FullExtension(boolean on) {
         this.addSequential(new SetExtendTurret(on));
         this.addSequential(new SetPunchTurret(on, .01));
 
