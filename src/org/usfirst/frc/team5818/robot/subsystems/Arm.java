@@ -57,9 +57,6 @@ public class Arm extends Subsystem {
         masterTal.reverseOutput(true);
         masterTal.setForwardSoftLimit(limitHigh);
         masterTal.setReverseSoftLimit(limitLow);
-        //don't enable these until I figure out how they work
-        masterTal.enableForwardSoftLimit(false);
-        masterTal.enableReverseSoftLimit(false);
         slaveTal = new CANTalon(RobotMap.ARM_TALON_L);
         slaveTal.changeControlMode(TalonControlMode.Follower);
         slaveTal.set(RobotMap.ARM_TALON_R);

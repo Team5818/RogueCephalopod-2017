@@ -75,8 +75,6 @@ public class Turret {
         motor = new CANTalon(RobotMap.TURR_MOTOR);
         motor.setInverted(true);
         motor.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
-        // motor.setReverseSoftLimit(TURRET_RIGHT_POS);
-        // motor.setForwardSoftLimit(TURRET_LEFT_POS);
 
         /* Set up motion profiling constants */
         motor.configPotentiometerTurns(1);
