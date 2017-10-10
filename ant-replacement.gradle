@@ -1,3 +1,5 @@
+// This file intends to replace the build.xml content of FRC.
+// It may need to be updated when FRC build.xml updates occur.
 buildscript {
     repositories {
         mavenCentral()
@@ -31,6 +33,7 @@ ext {
 }
 // === End B properties === //
 
+// Setup a jar
 jar {
     manifest {
         attributes(
@@ -74,7 +77,7 @@ List<String> getStaticIps() {
         return [project.staticIP]
     }
     // Try each of these -- it's cheap
-    def possibleIps = [2, 30, 91]
+    def possibleIps = [2, 25, 30, 91]
     int top = teamNumberInt / 100
     int lower = teamNumberInt % 100
     return (possibleIps.collect { lowBit -> "10.${top}.${lower}.${lowBit}" }) + project.noDnsIp
@@ -199,6 +202,7 @@ task checkRoboRIO(dependsOn: [checkSysProps, checkJRE]) {
     description 'Checks that the roboRIO is what we expect.'
 }
 
+// Defines deploy tasks for regular and debug deploys.
 void defineDeployTask(Object project, boolean debug) {
     def task = project.tasks.create(name: 'deploy' + (debug ? 'Debug' : ''),
                          dependsOn: [shadowJar, checkRoboRIO]) {
@@ -220,12 +224,12 @@ void defineDeployTask(Object project, boolean debug) {
     task.doLast {
         ssh.run {
             session(remotes.robotAdmin) {
-                println "Copying natives"
-                put from: natives, into: nativesTarget
+                //println "Copying natives"
+                //put from: natives, into: nativesTarget
                 //put from: netConsoleHost, into: "/usr/local/frc/bin/"
                 //execute 'chmod +x /usr/local/frc/bin/netconsole-host'
-                execute 'chmod -R +x /usr/local/frc/lib'
-                execute 'ldconfig', ignoreError: true
+                //execute 'chmod -R +x /usr/local/frc/lib'
+                //execute 'ldconfig', ignoreError: true
             }
             session(remotes.robot) {
                 println "Copying jar"

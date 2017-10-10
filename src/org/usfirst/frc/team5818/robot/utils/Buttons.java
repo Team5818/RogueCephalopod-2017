@@ -1,3 +1,22 @@
+/*
+ * This file is part of Rogue-Cephalopod, licensed under the GNU General Public License (GPLv3).
+ *
+ * Copyright (c) Riviera Robotics <https://github.com/Team5818>
+ * Copyright (c) contributors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.usfirst.frc.team5818.robot.utils;
 
 import java.util.Arrays;
@@ -9,6 +28,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+/**
+ * Combinator for the various buttons. We usually use six joysticks (4 normal +
+ * 2 button-Arduinos), but sometimes we just use 4, and this maps both states to
+ * a single interface.
+ */
 public class Buttons {
 
     private static final boolean USING_SIX_JOYSTICKS = true;

@@ -1,3 +1,22 @@
+/*
+ * This file is part of Rogue-Cephalopod, licensed under the GNU General Public License (GPLv3).
+ *
+ * Copyright (c) Riviera Robotics <https://github.com/Team5818>
+ * Copyright (c) contributors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.usfirst.frc.team5818.robot.controllers;
 
 import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
@@ -7,16 +26,14 @@ import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team5818.robot.TestingTalon;
 import org.usfirst.frc.team5818.robot.commands.ArmControlCommand;
-import org.usfirst.frc.team5818.robot.commands.CoRiverControlCommand;
 import org.usfirst.frc.team5818.robot.commands.ControlMotor;
 import org.usfirst.frc.team5818.robot.commands.DriveControlCommand;
-import org.usfirst.frc.team5818.robot.commands.FullExtention;
+import org.usfirst.frc.team5818.robot.commands.FullExtension;
 import org.usfirst.frc.team5818.robot.commands.GearMode;
 import org.usfirst.frc.team5818.robot.commands.MoveArmCollect;
 import org.usfirst.frc.team5818.robot.commands.PutGearInTurret;
 import org.usfirst.frc.team5818.robot.commands.SetArmAngle;
 import org.usfirst.frc.team5818.robot.commands.SetCollectorPower;
-import org.usfirst.frc.team5818.robot.commands.SetExtendTurret;
 import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.commands.ShiftGears;
 import org.usfirst.frc.team5818.robot.commands.SpitGear;
@@ -27,6 +44,7 @@ import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
 import org.usfirst.frc.team5818.robot.constants.DriveMode;
 import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.subsystems.Arm;
+import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.utils.ArcadeDriveCalculator;
 import org.usfirst.frc.team5818.robot.utils.Buttons;
 import org.usfirst.frc.team5818.robot.utils.DriveCalculator;
@@ -41,6 +59,10 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.Trigger.ButtonScheduler;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+/**
+ * A collection of related constants and methods related to the primary driver
+ * command input.
+ */
 public class Driver {
 
     public static double JOYSTICK_DEADBAND = .05;
@@ -64,6 +86,8 @@ public class Driver {
 
         dMode = DriveMode.POWER;
         driveCalc = RadiusDriveCalculator.INSTANCE;
+        // init talons in TestingTalon
+        System.err.println(TestingTalon.class.getName());
     }
 
     public void setupTeleopButtons() {
@@ -88,27 +112,8 @@ public class Driver {
         Button shiftHigh = Buttons.TURN.get(5);
         shiftHigh.whenPressed(new ShiftGears(Gear.HIGH));
 
-        // Remove After Testing Complete
-        // Button collectTest = Buttons.TURN.get(8);
-        // collectTest.whenPressed(new CollectGear());
-        //
-        // Button loadTest = Buttons.TURN.get(5);
-        // loadTest.whileHeld(new SetCollectorPower(true, .7, 1000));
-        // Remove After Testing Complete
-
         Button spitGear = Buttons.TURN.get(7);
         spitGear.whileHeld(new SpitGear());
-
-        // REMOVE AFTER TESTING COMPLETE
-        // Button armLowTest = Buttons.TURN.get(4);
-        // armLowTest.whenPressed(new SetArmAngle(Arm.COLLECT_POSITION));
-        //
-        // Button armMidTest = Buttons.TURN.get(3);
-        // armMidTest.whenPressed(new SetArmAngle(Arm.MID_POSITION));
-        //
-        // Button armHighTest = Buttons.TURN.get(6);
-        // armHighTest.whenPressed(new SetArmAngle(Arm.LOAD_POSITION));
-        // REMOVE AFTER TESTING COMPLETE
 
         Button manualArm = Buttons.TURRET.get(8);
         manualArm.whenPressed(new ArmControlCommand(JS_COLLECTOR));
@@ -121,36 +126,32 @@ public class Driver {
         Button climbMode = Buttons.TURRET.get(5);
         climbMode.whenPressed(new StartClimbControlCommand());
 
-        Button codriverControl = Buttons.TURRET.get(1);
-        codriverControl.whenPressed(new CoRiverControlCommand(JS_COLLECTOR));
+        Button deploy = Buttons.TURRET.get(2);
+        deploy.whenPressed(new PlaceWithLimit());
 
-        Button extendTurret = Buttons.TURRET.get(2);
-        extendTurret.whenPressed(new SetExtendTurret(true));
-        extendTurret.whenReleased(new FullExtention(false));
+        Button loadGear = Buttons.COLLECTOR.get(1);
+        loadGear.whenPressed(new PutGearInTurret.Start());
+        loadGear.whenReleased(new SetCollectorPower(false, 0, 0.5));
 
-        Button coDriverMidArm = Buttons.COLLECTOR.get(1);
+        Button coDriverMidArm = Buttons.COLLECTOR.get(2);
         coDriverMidArm.whenPressed(new SetArmAngle(Arm.MID_POSITION));
 
         Button turretMinus90 = Buttons.COLLECTOR.get(5);
-        turretMinus90.whenPressed(new SetTurretAngle(-75.0));
+        turretMinus90.whenPressed(new SetTurretAngle(Turret.TURRET_LEFT_POS));
 
         Button turretZero = Buttons.COLLECTOR.get(4);
-        turretZero.whenPressed(new SetTurretAngle(-0.0));
+        turretZero.whenPressed(new SetTurretAngle(Turret.TURRET_CENTER_POS));
 
         Button turret90 = Buttons.COLLECTOR.get(3);
-        turret90.whenPressed(new SetTurretAngle(75.0));
-
-        Button deploy = Buttons.COLLECTOR.get(8);
-        deploy.whenPressed(new PlaceWithLimit());
+        turret90.whenPressed(new SetTurretAngle(Turret.TURRET_RIGHT_POS));
 
         Button fullExtend = Buttons.COLLECTOR.get(7);
-        fullExtend.whenPressed(new FullExtention(true));
-        fullExtend.whenReleased(new FullExtention(false));
+        fullExtend.whenPressed(new FullExtension(true));
+        fullExtend.whenReleased(new FullExtension(false));
 
-        Button loadGear = Buttons.COLLECTOR.get(6);
-        loadGear.whenPressed(new PutGearInTurret());
-        loadGear.whenReleased(new SetCollectorPower(false, 0, 0.5));
-        // loadGear.whenReleased(new SetArmAngle(Arm.MID_POSITION));
+        Button coSpit = Buttons.COLLECTOR.get(6);
+        coSpit.whileHeld(new SetCollectorPower(false, .4, 1));
+        
     }
 
     public void setupTestButtons() {

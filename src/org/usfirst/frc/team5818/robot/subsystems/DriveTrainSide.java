@@ -1,191 +1,205 @@
+/*
+ * This file is part of Rogue-Cephalopod, licensed under the GNU General Public License (GPLv3).
+ *
+ * Copyright (c) Riviera Robotics <https://github.com/Team5818>
+ * Copyright (c) contributors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.usfirst.frc.team5818.robot.subsystems;
-
-import static org.usfirst.frc.team5818.robot.constants.Constants.Constant;
 
 import org.usfirst.frc.team5818.robot.RobotMap;
 import org.usfirst.frc.team5818.robot.constants.Side;
-import org.usfirst.frc.team5818.robot.utils.BetterPIDController;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.command.Subsystem;
+/**
+ * Subsystem representing one side of the drive base. Controlled with morbid
+ * mathematician.
+ */
+public class DriveTrainSide {
 
-public class DriveTrainSide extends Subsystem implements PIDSource, PIDOutput {
+    public static final double DIST_PER_REV = 4.0 * Math.PI;
 
-    private static final double MAX_POWER = Constant.maxPower();
-
-    public static final double L_VEL_KP = 0.015; // NEEDS TUNING
-    public static final double L_VEL_KI = 0.0; // NEEDS TUNING
-    public static final double L_VEL_KD = 0.0; // NEEDS TUNING
-    public static final double L_VEL_KF = 0.0; // NEEDS TUNING
-
-    public static final double L_DIST_KP = 0.005; // NEEDS TUNING
-    public static final double L_DIST_KI = 0.0001; // NEEDS TUNING
-    public static final double L_DIST_KD = 0.0; // NEEDS TUNING
-
-    public static final double R_VEL_KP = 0.001; // NEEDS TUNING
-    public static final double R_VEL_KI = 0.0; // NEEDS TUNING
-    public static final double R_VEL_KD = 0.0; // NEEDS TUNING
-    public static final double R_VEL_KF = 0.0; // NEEDS TUNING
-
-    public static final double R_DIST_KP = 0.005; // NEEDS TUNING
-    public static final double R_DIST_KI = 0.0001; // NEEDS TUNING
-    public static final double R_DIST_KD = 0.0; // NEEDS TUNING
-
-    public static final double LEFT_ENC_SCALE = Constant.encoderScale();
-    public static final double RIGHT_ENC_SCALE = Constant.encoderScale();
-
-    private CANTalon motorNoEnc;
-    private CANTalon motorEnc;
-    private CANTalon motor2NoEnc;
-    private Encoder enc;
-
-    public BetterPIDController distController;
-    public BetterPIDController velController;
-
-    public PIDSourceType pidType = PIDSourceType.kDisplacement;
-
-    private Side side;
+    private CANTalon slaveTalon1;
+    private CANTalon masterTalon;
+    private CANTalon slaveTalon2;
+    private Side mySide;
 
     public DriveTrainSide(Side side) {
+        /* Instantiate different components depending on side */
+        mySide = side;
         if (side == Side.CENTER) {
-            throw new IllegalArgumentException("A drive train may not be in the center");
+            throw new IllegalArgumentException("A drive side may not be in the center");
         }
-        this.side = side;
         if (side == Side.RIGHT) {
-            motorNoEnc = new CANTalon(RobotMap.L_TALON);
-            motorEnc = new CANTalon(RobotMap.L_TALON_ENC);
-            motor2NoEnc = new CANTalon(RobotMap.L_TALON_2);
-            motorNoEnc.setInverted(false);
-            motorEnc.setInverted(true);
-            motor2NoEnc.setInverted(false);
-            velController = new BetterPIDController(L_VEL_KP, L_VEL_KI, L_VEL_KD, L_VEL_KF, this, this);
-            distController = new BetterPIDController(L_DIST_KP, L_DIST_KI, L_DIST_KD, this, this);
-            enc = new Encoder(9, 8, true, Encoder.EncodingType.k4X);
-            enc.setDistancePerPulse(LEFT_ENC_SCALE);
-            enc.setMaxPeriod(0.1);
-        } else {
-            motorNoEnc = new CANTalon(RobotMap.R_TALON);
-            motorEnc = new CANTalon(RobotMap.R_TALON_ENC);
-            motor2NoEnc = new CANTalon(RobotMap.R_TALON_2);
-            motorNoEnc.setInverted(true);
-            motorEnc.setInverted(false);
-            motor2NoEnc.setInverted(true);
-            velController = new BetterPIDController(R_VEL_KP, R_VEL_KI, R_VEL_KD, R_VEL_KF, this, this);
-            distController = new BetterPIDController(R_DIST_KP, R_DIST_KI, R_DIST_KD, this, this);
-            enc = new Encoder(7, 6, false, Encoder.EncodingType.k4X);
-            enc.setDistancePerPulse(RIGHT_ENC_SCALE);
-            enc.setMaxPeriod(0.1);
-        }
-        distController.setAbsoluteTolerance(1);
+            masterTalon = new CANTalon(RobotMap.R_TALON_ENC);
+            slaveTalon1 = new CANTalon(RobotMap.R_TALON);
+            slaveTalon2 = new CANTalon(RobotMap.R_TALON_2);
 
+        } else {
+            slaveTalon1 = new CANTalon(RobotMap.L_TALON);
+            masterTalon = new CANTalon(RobotMap.L_TALON_ENC);
+            slaveTalon2 = new CANTalon(RobotMap.L_TALON_2);
+        }
+
+        configTalons();
+
+    }
+
+    public void configTalons() {
+        if (mySide == Side.RIGHT) {
+
+            masterTalon.changeControlMode(TalonControlMode.PercentVbus);
+            slaveTalon1.changeControlMode(TalonControlMode.Follower);
+            slaveTalon2.changeControlMode(TalonControlMode.Follower);
+
+            slaveTalon1.set(RobotMap.R_TALON_ENC);
+            slaveTalon2.set(RobotMap.R_TALON_ENC);
+
+            masterTalon.setInverted(true);
+            slaveTalon1.reverseOutput(true);
+            slaveTalon2.reverseOutput(true);
+
+            masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+            masterTalon.configEncoderCodesPerRev(96);
+
+            masterTalon.setF(1.07 * 1023.0 / 460.8);
+            masterTalon.setP(8.0 * 1023.0 / 1000.0);
+            masterTalon.setI(0.0);
+            masterTalon.setD(100.0 * 1023.0 / 1000.0);
+            masterTalon.setMotionMagicAcceleration(300.0);
+            masterTalon.setMotionMagicCruiseVelocity(300.0);
+            masterTalon.changeControlMode(TalonControlMode.MotionMagic);
+
+        } else {
+
+            masterTalon.changeControlMode(TalonControlMode.PercentVbus);
+            slaveTalon1.changeControlMode(TalonControlMode.Follower);
+            slaveTalon2.changeControlMode(TalonControlMode.Follower);
+
+            slaveTalon1.set(RobotMap.L_TALON_ENC);
+            slaveTalon2.set(RobotMap.L_TALON_ENC);
+
+            masterTalon.setInverted(true);
+            masterTalon.reverseSensor(true);
+            slaveTalon1.reverseOutput(true);
+            slaveTalon2.reverseOutput(false);
+
+            masterTalon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+            masterTalon.configEncoderCodesPerRev(96);
+
+            masterTalon.setF(1.05 * 1.07 * 1023.0 / 460.8);
+            masterTalon.setP(8.0 * 1023.0 / 1000.0);
+            masterTalon.setI(0.0);
+            masterTalon.setD(100.0 * 1023.0 / 1000.0);
+            masterTalon.setMotionMagicAcceleration(300.0);
+            masterTalon.setMotionMagicCruiseVelocity(300.0);
+            masterTalon.changeControlMode(TalonControlMode.MotionMagic);
+        }
+
+    }
+
+    public void slaveToOtherSide(boolean inverted) {
+        if (mySide == Side.RIGHT) {
+            masterTalon.changeControlMode(TalonControlMode.Follower);
+            masterTalon.set(RobotMap.L_TALON_ENC);
+            masterTalon.reverseOutput(inverted);
+        } else {
+            masterTalon.changeControlMode(TalonControlMode.Follower);
+            masterTalon.set(RobotMap.R_TALON_ENC);
+            masterTalon.reverseOutput(inverted);
+        }
     }
 
     public void setPower(double numIn) {
-        if (velController.isEnabled()) {
-            velController.disable();
-        }
-        if (distController.isEnabled()) {
-            distController.disable();
-        }
-        motorNoEnc.set(numIn * MAX_POWER);
-        motorEnc.set(numIn * MAX_POWER);
-        motor2NoEnc.set(numIn * MAX_POWER);
+        masterTalon.changeControlMode(TalonControlMode.PercentVbus);
+        masterTalon.set(numIn);
     }
 
-    public double getSidePosition() {
-        return enc.getDistance();
+    public double getCruiseVel() {
+        return masterTalon.getMotionMagicCruiseVelocity();
     }
 
-    public double getRawPos() {
-        return enc.getRaw();
+    public double getTargetVel() {
+        return masterTalon.getMotionMagicActTrajVelocity();
     }
 
-    public double getSideVelocity() {
-        if (enc.getStopped())
-            return 0;
-        else
-            return enc.getRate();
+    public void setCruiseVel(double vel) {
+        masterTalon.setMotionMagicCruiseVelocity(vel);
     }
 
-    @Override
-    public void pidWrite(double val) {
-        motorEnc.set(val * MAX_POWER);
-        motorNoEnc.set(val * MAX_POWER);
-        motor2NoEnc.set(val * MAX_POWER);
+    public int getSideError() {
+        return masterTalon.getClosedLoopError();
     }
 
-    @Override
-    public double pidGet() {
-        if (pidType == PIDSourceType.kDisplacement) {
-            return getSidePosition();
-        } else {
-            return motorEnc.getEncVelocity();
-        }
+    public void positionControl() {
+        masterTalon.changeControlMode(CANTalon.TalonControlMode.MotionMagic);
     }
 
-    @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
-        pidType = pidSource;
-    }
-
-    @Override
-    public PIDSourceType getPIDSourceType() {
-        return pidType;
+    public double getRevs() {
+        return masterTalon.getPosition();
     }
 
     public void driveDistance(double dist) {
-        pidType = PIDSourceType.kDisplacement;
-        velController.disable();
-        distController.disable();
+        double revs = dist / DIST_PER_REV;
         resetEnc();
-        distController.setSetpoint(dist);
-        distController.enable();
+        masterTalon.changeControlMode(TalonControlMode.MotionMagic);
+        masterTalon.set(revs);
     }
 
-    public void driveVelocity(double dist) {
-        pidType = PIDSourceType.kRate;
-        velController.disable();
-        distController.disable();
-        resetEnc();
-        velController.setSetpoint(dist);
-        velController.enable();
+    public void driveDistanceNoReset(double dist) {
+        double revs = dist / DIST_PER_REV;
+        masterTalon.set(revs);
     }
 
-    public BetterPIDController getVelController() {
-        return velController;
+    public void driveDistanceNoReset(double dist, double acc, double vel) {
+        masterTalon.setMotionMagicCruiseVelocity(vel);
+        masterTalon.setMotionMagicAcceleration(acc);
+        driveDistanceNoReset(dist);
     }
 
-    public BetterPIDController getDistController() {
-        return distController;
+    public double getSidePosition() {
+        return masterTalon.getPosition() * DIST_PER_REV;
     }
 
-    public void setMaxPower(double max) {
-        distController.setInputRange(-max, max);
+    public double getRawPos() {
+        return masterTalon.getEncPosition();
+    }
+
+    public double getRawSpeed() {
+        return masterTalon.getEncVelocity();
+    }
+
+    public double getSideVelocity() {
+        return masterTalon.getSpeed();
     }
 
     public void resetEnc() {
-        enc.reset();
+        masterTalon.setEncPosition(0);
     }
 
     public void setCoastMode() {
-        motorNoEnc.enableBrakeMode(false);
-        motorEnc.enableBrakeMode(false);
-        motor2NoEnc.enableBrakeMode(false);
+        slaveTalon1.enableBrakeMode(false);
+        masterTalon.enableBrakeMode(false);
+        slaveTalon2.enableBrakeMode(false);
     }
 
     public void setBrakeMode() {
-        motorEnc.enableBrakeMode(true);
-        motorNoEnc.enableBrakeMode(true);
-        motor2NoEnc.enableBrakeMode(true);
-    }
-
-    @Override
-    public void initDefaultCommand() {
-
+        masterTalon.enableBrakeMode(true);
+        slaveTalon1.enableBrakeMode(true);
+        slaveTalon2.enableBrakeMode(true);
     }
 }

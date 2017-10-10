@@ -10,4 +10,5 @@
                       \_/__/                                           \/_/                                    \/_/                  
 ```
                                            
-Rivera Robotics' real code for 2017.
+Riviera Robotics' code for 2017.
+![robot](https://i.imgur.com/cgTdZTO.jpg)

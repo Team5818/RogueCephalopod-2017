@@ -1,15 +1,30 @@
-
+/*
+ * This file is part of Rogue-Cephalopod, licensed under the GNU General Public License (GPLv3).
+ *
+ * Copyright (c) Riviera Robotics <https://github.com/Team5818>
+ * Copyright (c) contributors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.usfirst.frc.team5818.robot;
 
-import org.usfirst.frc.team5818.robot.autos.NotPeteyTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.OneGearAuto;
-import org.usfirst.frc.team5818.robot.autos.OneGearButFromTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.SidePegAuto;
-import org.usfirst.frc.team5818.robot.autos.SlowTwoGearAuto;
-import org.usfirst.frc.team5818.robot.autos.ThreeGearAuto;
+import org.usfirst.frc.team5818.robot.autos.CenterOneGearAuto;
+import org.usfirst.frc.team5818.robot.autos.MagicSideGear;
+import org.usfirst.frc.team5818.robot.autos.TwoGearAutoLeft;
+import org.usfirst.frc.team5818.robot.autos.TwoGearAutoRight;
 import org.usfirst.frc.team5818.robot.commands.RequireAllSubsystems;
-import org.usfirst.frc.team5818.robot.commands.TurretMoveToZero;
-import org.usfirst.frc.team5818.robot.commands.placewithlimit.PlaceWithLimit;
+import org.usfirst.frc.team5818.robot.commands.SetTurretAngle;
 import org.usfirst.frc.team5818.robot.constants.Gear;
 import org.usfirst.frc.team5818.robot.constants.Side;
 import org.usfirst.frc.team5818.robot.controllers.Driver;
@@ -21,6 +36,7 @@ import org.usfirst.frc.team5818.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5818.robot.subsystems.DriveTrainSide;
 import org.usfirst.frc.team5818.robot.subsystems.Turret;
 import org.usfirst.frc.team5818.robot.subsystems.VisionTracker;
+import org.usfirst.frc.team5818.robot.utils.MathUtil;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -49,7 +65,7 @@ public class Robot extends IterativeRobot {
     public Turret turret;
     public Climber climb;
     public CameraController camCont;
-    public TurretMoveToZero turretZero;
+    public SetTurretAngle turretZero;
     public boolean turretSafetyChecks = true;
 
     private RequireAllSubsystems requireAllSubsystems;
@@ -65,6 +81,7 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
+        /* Statically instantiate all subsystems */
         runningRobot = this;
         driveTrain = new DriveTrain();
         vision = new VisionTracker();
@@ -75,17 +92,31 @@ public class Robot extends IterativeRobot {
         chooser = new SendableChooser<>();
         camCont = new CameraController();
         driver = new Driver();
-        turretZero = new TurretMoveToZero();
+        turretZero = new SetTurretAngle(Turret.TURRET_CENTER_POS);
         requireAllSubsystems = new RequireAllSubsystems();
+
+        /* Old Autos -- Same as Ventura */
         chooser.addObject("Do Nothing Auto", new TimedCommand(15));
-        chooser.addObject("One Gear Auto From Two Gear", new OneGearButFromTwoGearAuto());
-        chooser.addObject("Three Gear Auto", new ThreeGearAuto());
-        chooser.addObject("Place With Limit", new PlaceWithLimit());
-        chooser.addObject("Two Gear (Right)", new SlowTwoGearAuto());
- //       chooser.addObject("Two Gear (Left)", new NotPeteyTwoGearAuto());
-        chooser.addObject("Side Gear Auto", new SidePegAuto(180));
+        chooser.addObject("Center Two Gear (Gear Right)", new TwoGearAutoRight());
+        chooser.addObject("Center Two Gear (Gear Left)", new TwoGearAutoLeft());
+
+        /* Center */
+        chooser.addObject("Down Field 1 Gear Right", new CenterOneGearAuto(Side.RIGHT));
+        chooser.addObject("Down Field 1 Gear Left", new CenterOneGearAuto(Side.LEFT));
+
+        /*Side Pegs*/
+        chooser.addObject("Side Gear Blue Opposite", new MagicSideGear(MagicSideGear.Position.BLUE_OPPOSITE));
+        chooser.addObject("Side Gear Blue Boiler", new MagicSideGear(MagicSideGear.Position.BLUE_BOILER));
+        chooser.addObject("Side Gear Red Opposite", new MagicSideGear(MagicSideGear.Position.RED_OPPOSITE));
+        chooser.addObject("Side Gear Red Boiler", new MagicSideGear(MagicSideGear.Position.RED_BOILER));
+
+
         SmartDashboard.putData("Auto mode", chooser);
+
+        /* Put robot in starting configuration */
         vision.start();
+        driveTrain.shiftGears(Gear.LOW);
+        driveTrain.getGyro().reset();
     }
 
     /**
@@ -104,6 +135,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        printSmartDash();
     }
 
     /**
@@ -119,17 +151,10 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousInit() {
-        autonomousCommand = new SlowTwoGearAuto();//  = chooser.getSelected();
 
-        /*
-         * String autoSelected = SmartDashboard.getString("Auto Selector",
-         * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-         * = new MyAutoCommand(); break; case "Default Auto": default:
-         * autonomousCommand = new ExampleCommand(); break; }
-         */
-
-        // schedule the autonomous command (example)
-        driveTrain.shiftGears(Gear.LOW);
+        driveTrain.getGyro().zeroYaw();
+        driveTrain.shiftGears(Gear.HIGH);
+        autonomousCommand = chooser.getSelected();
         if (autonomousCommand != null)
             autonomousCommand.start();
     }
@@ -151,11 +176,18 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null)
             autonomousCommand.cancel();
+
+        /* Put robot in starting configuration */
+        turret.extend(false);
+        turret.punch(false);
         driveTrain.getLeftSide().resetEnc();
         driveTrain.getRightSide().resetEnc();
         driveTrain.shiftGears(Gear.LOW);
-        driver.setupTeleopButtons();
         camCont.enterGearMode();
+        vision.setLightsOn(false);
+
+        /* Put buttons in teleop mode */
+        driver.setupTeleopButtons();
     }
 
     /**
@@ -184,6 +216,7 @@ public class Robot extends IterativeRobot {
         LiveWindow.run();
         LiveWindow.setEnabled(false);
         requireAllSubsystems.start();
+        /* Put buttons in testing mode */
         driver.setupTestButtons();
     }
 
@@ -197,20 +230,29 @@ public class Robot extends IterativeRobot {
     }
 
     public void printSmartDash() {
-        SmartDashboard.putBoolean("VisDrive", driveTrain.isVisionDriving());
-        SmartDashboard.putBoolean("Passed Target", driveTrain.passedTarget());
+        /* Print readings from pretty much every sensor */
         SmartDashboard.putBoolean("Turret Limit Switch", turret.getLimit());
+        SmartDashboard.putBoolean("Collector Limit Switch", collect.isLimitTriggered());
+        SmartDashboard.putNumber("Gyro heading", MathUtil.wrapAngleRad(driveTrain.getGyroHeading()));
         SmartDashboard.putNumber("Gear X:", vision.getCurrentAngle());
-        SmartDashboard.putNumber("Turret Pot:", turret.getRawCounts());
-        SmartDashboard.putNumber("Turret Angle:", turret.getAngle());
-        SmartDashboard.putNumber("Sanic Reading:", driveTrain.readSanic());
+        SmartDashboard.putNumber("Turret Pot:", turret.getPositionRaw());
+        SmartDashboard.putNumber("Turret Angle:", turret.getPosition());
+        SmartDashboard.putNumber("Turret Speed:", turret.getVeleocity());
         SmartDashboard.putNumber("Bot Current", collect.getBotCurrent());
         SmartDashboard.putNumber("Arm Pos", arm.getPosition());
+        SmartDashboard.putNumber("Arm Raw", arm.getPositionRaw());
+        SmartDashboard.putNumber("Arm Vel", arm.getVelocity());
+        SmartDashboard.putNumber("Arm error", arm.getError());
         SmartDashboard.putNumber("left drive encoder", driveTrain.getLeftSide().getSidePosition());
         SmartDashboard.putNumber("right drive encoder", driveTrain.getRightSide().getSidePosition());
         SmartDashboard.putNumber("left encoder raw", driveTrain.getLeftSide().getRawPos());
         SmartDashboard.putNumber("right encoder raw", driveTrain.getRightSide().getRawPos());
         SmartDashboard.putNumber("leftVel", driveTrain.getLeftSide().getSideVelocity());
         SmartDashboard.putNumber("rightVel", driveTrain.getRightSide().getSideVelocity());
+        SmartDashboard.putNumber("leftVelRaw", driveTrain.getLeftSide().getRawSpeed());
+        SmartDashboard.putNumber("rightVelRaw", driveTrain.getRightSide().getRawSpeed());
+        SmartDashboard.putNumber("leftErr", driveTrain.getLeftSide().getSideError());
+        SmartDashboard.putNumber("rightErr", driveTrain.getRightSide().getSideError());
+        SmartDashboard.putBoolean("GyroCalibrating", driveTrain.getGyro().isCalibrating());
     }
 }
